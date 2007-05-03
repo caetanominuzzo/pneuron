@@ -1,0 +1,56 @@
+Liberação de Faturamento 
+======================== 
+==> Erro: Está gerando a pendência "Agência Temp" para contrato sem agência, exemplo: 
+        - Atl.POA - 150 
+        - Atl.POA - 261 
+==> Erro: Está gerando a pendência "Agência Temp" para contratos de cooperado (com agência JDE), exemplo: 
+        - Atl.POA - 12 
+==> Erro: Para o contrato Rádio Gaúcha Sat - 108 como pendência "Agência Temp", contudo esse contrato possui a agência (JDE)
+
+==> Quantidade de registros da tela não bate com a quantidade de registros do bd 
+==> Erro: Para o contrato Atl.POA - 117, está listando no total 24 registros quando na verdade deveria listar 12 registros (6 parcelas * 2 cooperados)
+
+        - Desses 24 registros está listando os registros do "Cliente Novo!" sem a agência 
+        - Está mostrando os registros do "Cliente Novo!" tanto com a pendência "Agência Temp", quanto sem a pendência 
+        - Está listando registros da agência "ESCALA COMUN..." com um cliente que eu não entendi de onde veio "Reservado para RBS"
+
+==> Verificar pq.não está gerando as demais pendências 
+        - Não liberado no contrato 
+        - Cliente Temp 
+        - Representante 
+==> Como faço para identificar a pendência do contrato? 
+        - Criar campo mostre qual é pendência. 
+==> Default para tela de pesquisa está correto: 
+        - Pendentes = Não; 
+        - Veículo Origem = Rádio Gaúcha Sat (Padrão do usuário); 
+        - Situação = Aberto; 
+        - Mês/Ano = 05/2007. 
+        ==> Ajuste: Ao realizar a pesquisa, caso não tenha sido informado veículo origem, deve trazer apenas registros de veículos origens que o operador 
+
+possuir permissão. 
+==> Ao entrar na tela 
+        ==> Erro: Realizar pesquisa de acordo com os filtros padrão (acima). 
+==> Ajuste: Não está mostrando o código do contrato - criar esse campo na tela 
+==> Erro: Não está mostrando o PI 
+==> Erro: Não está mostrando nada no campo Origem 
+==> Erro: Tb.não está mostranda nada no campo Representante 
+==> Erro: Corrigir o formato do campo Data 
+==> Erro: Mostrar os campos percentual (%) bruto e líquido com máscara (0,00) 
+==> Ajuste: Renomear o label do campo "Dia" para "Dias" 
+==> Ajuste: Os campos Forma, Cobrança, Prazo e Dias devem exibir o conteúdo da Parcela (ContratoParcela) 
+==> Erro: Renomear o campo "Obervação" para "Observação" 
+==> Erro: Campo NOP/PC/CC/Rubrica está mostrando os campos na seguinte ordem: 
+        - NOP/PC/Rubrica/CC, mas deve mostrar NOP/PC/CC/Rubrica 
+==> Erro: Campo Praça: 
+        - Na grade mostra corretamente, contudo no detalhe mostra errado, 
+                exemplo Veículo Origem = Atlântida Porto Alegre e PI = "PI" (Pendente = Sim) 
+==> Ajuste: Campo Veículo / Rede Destino 
+        - Está mostrando errado (deve obter da seguinte forma: CP --> CD --> CDF1 --> CDF2, e deve dar e deve utilizar o último a ser preenchido )
+
+Pendência de Testes 
+=================== 
+==> Cooperados 
+==> Geração de registros na tabela de integração 
+==> Casos de testes 
+
+  
