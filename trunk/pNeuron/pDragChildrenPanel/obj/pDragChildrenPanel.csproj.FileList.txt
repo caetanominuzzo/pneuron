@@ -1,0 +1,9 @@
+obj\Debug\ResolveAssemblyReference.cache
+bin\Debug\pDragChildrenPanel.dll
+bin\Debug\pDragChildrenPanel.pdb
+obj\Debug\pDragChildrenPanel.dll
+obj\Debug\pDragChildrenPanel.pdb
+bin\Debug\pPanel.dll
+bin\Debug\pPanel.pdb
+bin\Debug\pLine.dll
+bin\Debug\pLine.pdb
