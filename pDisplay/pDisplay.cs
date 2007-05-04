@@ -81,10 +81,10 @@ namespace primeira.pNeuron
         public pDisplay()
         {
 
-            BackColor = Color.WhiteSmoke;
+            BackColor = Color.White;
 
-            m = Image.FromFile("ball.gif");
-            mGlow = Image.FromFile("glow.gif");
+            //m = Image.FromFile("ball.gif");
+            //mGlow = Image.FromFile("glow.gif");
 
            DoubleBuffered = true;
 
