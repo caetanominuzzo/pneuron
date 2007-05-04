@@ -301,7 +301,7 @@ namespace primeira.pNeuron
         {
             primeira.pNeuron.pPanel p = new primeira.pNeuron.pPanel();
 
-            p.Width = 50;// NextRandom(2, 5) * 15;
+            p.Width = 40;// NextRandom(2, 5) * 15;
             p.Height = p.Width;
 
             Point point;
@@ -311,6 +311,7 @@ namespace primeira.pNeuron
             } while (isUsed(point));
 
             p.Location = point;
+            p.Location = new Point(Convert.ToInt32((p.Left) / m_gridDistance) * m_gridDistance, Convert.ToInt32((p.Top) / m_gridDistance) * m_gridDistance);
 
             p.BackColor = Color.AliceBlue;
             p.Tag = n;
@@ -349,8 +350,8 @@ namespace primeira.pNeuron
 
             g.FillEllipse(new SolidBrush(Color.FromArgb(200, Color.White)), c.Bounds.Left,
                         c.Bounds.Top,
-                        c.Bounds.Width /* + GetPerspective(c.Location, c.Parent.Size).Y*/,
-                        c.Bounds.Height /*+ GetPerspective(c.Location, c.Parent.Size).Y*/);
+                        c.Bounds.Width + GetPerspective(c.Location, c.Parent.Size).Y,
+                        c.Bounds.Height + GetPerspective(c.Location, c.Parent.Size).Y);
 
 
 
@@ -359,13 +360,13 @@ namespace primeira.pNeuron
 
             g.FillEllipse(brush, c.Bounds.Left,
                            c.Bounds.Top,
-                           c.Bounds.Width /* + GetPerspective(c.Location, c.Parent.Size).Y*/,
-                           c.Bounds.Height /*+ GetPerspective(c.Location, c.Parent.Size).Y*/);
-
+                           c.Bounds.Width  + GetPerspective(c.Location, c.Parent.Size).Y,
+                           c.Bounds.Height + GetPerspective(c.Location, c.Parent.Size).Y);
+            
             g.DrawEllipse(pen, c.Bounds.Left + (pen.Width / 2),
                               c.Bounds.Top + (pen.Width / 2),
-                              c.Bounds.Width - (pen.Width ) /* + GetPerspective(c.Location, c.Parent.Size).Y*/,
-                              c.Bounds.Height - (pen.Width ) /*+ GetPerspective(c.Location, c.Parent.Size).Y*/);
+                              c.Bounds.Width - (pen.Width )  + GetPerspective(c.Location, c.Parent.Size).Y,
+                              c.Bounds.Height - (pen.Width ) + GetPerspective(c.Location, c.Parent.Size).Y);
                     
             
 
@@ -467,7 +468,7 @@ namespace primeira.pNeuron
                 dBounds.Height);
 
             Pen p = new Pen(Color.Gray, 1);
-            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 
             g.DrawLine(p,
                 new Point(c.Bounds.Left + (c.Bounds.Width / 2), c.Bounds.Top + (c.Bounds.Height / 2)),
@@ -650,8 +651,8 @@ namespace primeira.pNeuron
             int y = Math.Min(Height, AutoScrollMinSize.Height);
 
             return new Point(
-                Convert.ToInt16(((p.X - (x / 2)) * 0.02)),
-                Convert.ToInt16(((p.Y - (y / 2)) * 0.01))
+                Convert.ToInt16(((p.X - (x / 2)) * 0.02 * 1)),
+                Convert.ToInt16(((p.Y - (y / 2)) * 0.01 * 1))
                 );
         }
 
