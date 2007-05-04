@@ -1,0 +1,15 @@
+bin\Debug\pDisplay.dll
+bin\Debug\pDisplay.pdb
+obj\Debug\ResolveAssemblyReference.cache
+obj\Debug\pDisplay.dll
+obj\Debug\pDisplay.pdb
+bin\Debug\pDragChildrenPanel.dll
+bin\Debug\pDragChildrenPanel.pdb
+bin\Debug\pPanel.dll
+bin\Debug\pPanel.pdb
+bin\Debug\pNeuron.dll
+bin\Debug\pNeuron.pdb
+bin\Debug\pExternal.dll
+bin\Debug\pExternal.pdb
+bin\Debug\Resources\ball.gif
+bin\Debug\Resources\glow.gif

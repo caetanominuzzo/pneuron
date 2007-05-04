@@ -1,0 +1,7 @@
+obj\Debug\ResolveAssemblyReference.cache
+bin\Debug\pNeuron.dll
+bin\Debug\pNeuron.pdb
+obj\Debug\pNeuron.dll
+obj\Debug\pNeuron.pdb
+obj\Debug\pNeuron.csproj.GenerateResource.Cache
+obj\Debug\primeira.pNeuron.Core.fmNNDesigner.resources
