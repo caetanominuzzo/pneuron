@@ -355,7 +355,7 @@ namespace primeira.pNeuron
 
 
 
-            oi desie
+
 
 
             g.FillEllipse(brush, c.Bounds.Left,
