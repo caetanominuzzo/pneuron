@@ -72,7 +72,7 @@ namespace primeira.pNeuron
 
         private pDisplayStatus m_DisplayStatus;
 
-        private Graphics g;
+        private Graphics m_graphics;
 
         #endregion
 
@@ -145,6 +145,7 @@ namespace primeira.pNeuron
             get { return m_DisplayStatus; }
             set
             {
+                ValueType
                 m_DisplayStatus = value;
                 switch (m_DisplayStatus)
                 {
@@ -170,7 +171,7 @@ namespace primeira.pNeuron
             
             Parent.KeyUp += new KeyEventHandler(Parent_KeyUp);
             Parent.KeyDown += new KeyEventHandler(Parent_KeyDown);
-            g = CreateGraphics();
+            m_graphics = CreateGraphics();
 
         }
 
@@ -299,7 +300,7 @@ namespace primeira.pNeuron
 
         public void Add(Neuron n)
         {
-            primeira.pNeuron.pPanel p = new primeira.pNeuron.pPanel();
+            primeira.pNeuron.pPanel p = new primeira.pNeuron.pPanel(m_graphics);
 
             p.Width = 40;// NextRandom(2, 5) * 15;
             p.Height = p.Width;
@@ -309,118 +310,16 @@ namespace primeira.pNeuron
             {
                 point = new Point(NextRandom(1, this.Width), NextRandom(1, this.Height));
             } while (isUsed(point));
-
-            p.Location = point;
-            p.Location = new Point(Convert.ToInt32((p.Left) / m_gridDistance) * m_gridDistance, Convert.ToInt32((p.Top) / m_gridDistance) * m_gridDistance);
-
+            
+            p.Parent = this;
+            p.CalculatedLocation = point;
+            p.CalculatedLocation = new Point(Convert.ToInt32((p.Left) / m_gridDistance) * m_gridDistance, Convert.ToInt32((p.Top) / m_gridDistance) * m_gridDistance);
+           
             p.BackColor = Color.AliceBlue;
             p.Tag = n;
             Controls.Add(p);
             pPanels.Add(p);
             p.Visible = false;
-        }
-
-        public void DrawNeuron(pPanel c, Graphics g)
-        {
-            pColorBase p;
-    
-            
-            if(c.Groups.Count>0)
-                p = pColors.Colors[c.Groups[0]];
-            else 
-                p = pColors.Colors[0];
-
-            Pen pen = p.Pen;
-            Brush brush = p.Brush;
-
-            if (c.Selected)
-            {
-                pen = p.SelectedPen;
-            }
-            else if (c.Highlighted)
-            {
-                brush = p.SelectedBrush;
-            }
-            else
-            {
-                pen = p.Pen;
-                brush = p.Brush;
-            }
-
-
-            g.FillEllipse(new SolidBrush(Color.FromArgb(200, Color.White)), c.Bounds.Left,
-                        c.Bounds.Top,
-                        c.Bounds.Width + GetPerspective(c.Location, c.Parent.Size).Y,
-                        c.Bounds.Height + GetPerspective(c.Location, c.Parent.Size).Y);
-
-
-
-
-
-
-            g.FillEllipse(brush, c.Bounds.Left,
-                           c.Bounds.Top,
-                           c.Bounds.Width  + GetPerspective(c.Location, c.Parent.Size).Y,
-                           c.Bounds.Height + GetPerspective(c.Location, c.Parent.Size).Y);
-            
-            g.DrawEllipse(pen, c.Bounds.Left + (pen.Width / 2),
-                              c.Bounds.Top + (pen.Width / 2),
-                              c.Bounds.Width - (pen.Width )  + GetPerspective(c.Location, c.Parent.Size).Y,
-                              c.Bounds.Height - (pen.Width ) + GetPerspective(c.Location, c.Parent.Size).Y);
-                    
-            
-
-            string s = pPanels.IndexOf(c).ToString();
-            Font f = new Font("Arial", 20, FontStyle.Bold, GraphicsUnit.Pixel, 1, true);
-            g.DrawString(s, f, new SolidBrush(pen.Color) , 
-                - (g.MeasureString(s, f).Width/2) + c.Bounds.Left + c.Bounds.Width / 2,
-                -(g.MeasureString(s, f).Height / 2) + c.Bounds.Top + c.Bounds.Height / 2);
-        }
-
-        public void DrawNeuronGlow(pPanel c, Graphics g)
-        {
-            float[][] ptsArray ={
-                            new float[] {1, 0, 0, 0, 0},
-                            new float[] {0, 1, 0, 0, 0},
-                            new float[] {0, 0, 1, 0, 0},
-                            new float[] {0, 0, 0, .8f, 0},
-                            new float[] {0, 0, 0, 0, 1}};
-
-            ColorMatrix clrMatrix = new ColorMatrix(ptsArray);
-            ImageAttributes imgAttributes = new ImageAttributes();
-
-            if (c.Selected)
-            {
-                imgAttributes.SetGamma(1.5f);
-            }
-            else
-            {
-                imgAttributes.SetColorMatrix(clrMatrix,
-                ColorMatrixFlag.Default,
-                ColorAdjustType.Bitmap);
-
-            }
-
-            g.DrawImage(mGlow,
-
-
-                //new Rectangle(
-                //    c.Bounds.Left,
-                //    c.Bounds.Top,
-                //    c.Bounds.Width + GetPerspective(c.Location, c.Parent.Size).Y,
-                //    c.Bounds.Height + GetPerspective(c.Location, c.Parent.Size).Y),
-
-                       new Rectangle(c.Bounds.Left + GetPerspective(new Point(c.Bounds.Location.X, c.Bounds.Location.Y), c.Parent.Size).X,
-                                     c.Bounds.Top + c.Bounds.Height + GetPerspective(c.Bounds.Location, c.Parent.Size).Y,
-                                     c.Bounds.Width + GetPerspective(c.Bounds.Location, c.Parent.Size).Y,
-                                     mGlow.Height + GetPerspective(c.Bounds.Location, c.Parent.Size).Y),
-
-
-                           0, 0,
-                           mGlow.Width,
-                           mGlow.Height,
-                           GraphicsUnit.Pixel, imgAttributes);
-
         }
 
         public void DrawSelect(Rectangle cBounds, Graphics gg)
@@ -445,7 +344,7 @@ namespace primeira.pNeuron
 
         public void DrawSynapse(Control c, Control d)
         {
-            DrawSynapse(c, d, g);
+            DrawSynapse(c, d, m_graphics);
         }
 
         private void DrawSynapse(Control c, Control d, Graphics g)
@@ -468,7 +367,7 @@ namespace primeira.pNeuron
                 dBounds.Height);
 
             Pen p = new Pen(Color.Gray, 1);
-            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
 
             g.DrawLine(p,
                 new Point(c.Bounds.Left + (c.Bounds.Width / 2), c.Bounds.Top + (c.Bounds.Height / 2)),
@@ -643,19 +542,7 @@ namespace primeira.pNeuron
             return false;
         }
 
-        public Point GetPerspective(Point p, Size c)
-        {
-            // return new Point(0, 0);
-
-            int x = Math.Min(Width, AutoScrollMinSize.Width);
-            int y = Math.Min(Height, AutoScrollMinSize.Height);
-
-            return new Point(
-                Convert.ToInt16(((p.X - (x / 2)) * 0.02 * 1)),
-                Convert.ToInt16(((p.Y - (y / 2)) * 0.01 * 1))
-                );
-        }
-
+        
         #endregion
 
         #endregion
@@ -757,10 +644,11 @@ namespace primeira.pNeuron
                         if (m_allignToGrid)
                             iGridDistance = 1;
 
-                        foreach(pPanel pp in SelectedpPanels)
-                            pp.Location = new Point(Convert.ToInt32( Math.Round(((double)p.X - ((double)pp.MousePositionOnDown.X)) / (double)iGridDistance)) * iGridDistance, Convert.ToInt32( Math.Round (((double)p.Y - ((double)pp.MousePositionOnDown.Y)) / (double)iGridDistance)) * iGridDistance);
-
-                        Invalidate();
+                        foreach (pPanel pp in SelectedpPanels)
+                        {
+                            pp.CalculatedLocation = new Point(Convert.ToInt32(Math.Round(((double)p.X - ((double)pp.MousePositionOnDown.X)) / (double)iGridDistance)) * iGridDistance, Convert.ToInt32(Math.Round(((double)p.Y - ((double)pp.MousePositionOnDown.Y)) / (double)iGridDistance)) * iGridDistance);
+                          //  pp.Draw();
+                        }
                     }
 
                 }
@@ -959,7 +847,7 @@ namespace primeira.pNeuron
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+            e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             base.OnPaint(e);
             DrawLines(e);
 
@@ -971,42 +859,6 @@ namespace primeira.pNeuron
 
             Rectangle r = e.ClipRectangle;
 
-
-            #region GLOW
-            if(false)
-            foreach (Control c in Controls)
-            {
-               
-
-                if (Contains(r, c.Bounds, true))
-                {
-
-
-                    DrawNeuronGlow((pPanel)c, g);
-
-                    //ImageAttributes imgAttributes = new ImageAttributes();
-
-
-
-
-                    //e.Graphics.DrawImage(mGlow,
-                    //    new Rectangle(cBounds.Left + GetPerspective(new Point(cBounds.Location.X, cBounds.Location.Y), c.Parent.Size).X,
-                    //                  cBounds.Top + cBounds.Height + GetPerspective(cBounds.Location, c.Parent.Size).Y,
-                    //                  cBounds.Width + GetPerspective(cBounds.Location, c.Parent.Size).Y,
-                    //                  mGlow.Height + GetPerspective(cBounds.Location, c.Parent.Size).Y),
-
-
-                    //        0, 0,
-                    //        mGlow.Width,
-                    //        mGlow.Height,
-                    //        GraphicsUnit.Pixel, imgAttributes);
-
-
-                   
-
-                }
-            }
-            #endregion
 
             foreach (pPanel p in pPanels)
             {
@@ -1034,7 +886,7 @@ namespace primeira.pNeuron
             foreach(pPanel c in pPanels)
             {
                 if (Contains(r, c.Bounds, true))
-                    DrawNeuron((pPanel)c, e.Graphics);
+                    c.Draw(e.Graphics);
             }
 
             if (m_selectSourcePoint.HasValue)
@@ -1083,9 +935,9 @@ namespace primeira.pNeuron
 
                 for (int i = w / 2; i < w; i += m_gridDistance)
                 {
-                    g.DrawLine(p, i - (GetPerspective(new Point(i, 0), Parent.Size).X * 1), 0, i + (GetPerspective(new Point(i, 0), Parent.Size).X * 1), Height);
+//                    g.DrawLine(p, i - (GetPerspective(new Point(i, 0), Parent.Size).X * 1), 0, i + (GetPerspective(new Point(i, 0), Parent.Size).X * 1), Height);
 
-                    g.DrawLine(p, w / 2 - i + w / 2 + (GetPerspective(new Point(i, 0), Parent.Size).X * 1), 0, w / 2 - i + w / 2 - (GetPerspective(new Point(i, 0), Parent.Size).X * 1), Height);
+//                    g.DrawLine(p, w / 2 - i + w / 2 + (GetPerspective(new Point(i, 0), Parent.Size).X * 1), 0, w / 2 - i + w / 2 - (GetPerspective(new Point(i, 0), Parent.Size).X * 1), Height);
                 }
 
 

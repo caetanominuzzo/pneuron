@@ -19,7 +19,7 @@ namespace pTest
         {
             InitializeComponent();
             net = new NeuralNet();
-            net.Initialize(1, 20);
+            net.Initialize(1, 1);
 
         }
 
@@ -32,6 +32,9 @@ namespace pTest
             {
                 pDisplay1.Add(n);
             }
+
+            pDisplay1.pPanels[0].CalculatedLocation = new Point(100, 100);
+            pDisplay1.pPanels[0].CalculatedLocation = new Point(100, 500);
         }
 
         private void pictureBox1_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
