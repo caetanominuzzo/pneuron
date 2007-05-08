@@ -17,8 +17,23 @@ namespace primeira.pNeuron
 
         void Select(pPanel p)
         {
+            if(DisplayStatus != pDisplayStatus.Selecting && !ShiftKey)
+                UnSelect();
+            
             p.Selected = true;
             SelectedpPanels.Add(p);
+            if (p.Groups.Count > 0)
+            {
+                foreach (int iGroup in p.Groups)
+                {
+                    foreach (pPanel pp in m_groups[iGroup])
+                    {
+                        pp.Selected = true;
+                        SelectedpPanels.Add(pp);
+                        Invalidate(pp.Bounds);
+                    }
+                }
+            }
 
             Invalidate(p.Bounds);
         }

@@ -16,7 +16,7 @@ namespace primeira.pNeuron
     }
 
 
-    public class pPanel : PictureBox
+    public class pPanel : Control
     {
 
         private const int MAX_GROUP_NUMBER = 10; //0 -- 9
@@ -102,11 +102,11 @@ namespace primeira.pNeuron
                 Brush brush = GetBrushtyle();
                 Pen pen = GetPenStyle();
 
-                //g.FillEllipse(new SolidBrush(Color.FromArgb(200, Color.White)),
-                //            Bounds.Left,
-                //            Bounds.Top,
-                //            Bounds.Width,
-                //            Bounds.Height);
+                g.FillEllipse(new SolidBrush(Color.FromArgb(200, Color.White)),
+                            Bounds.Left,
+                            Bounds.Top,
+                            Bounds.Width,
+                            Bounds.Height);
 
                 g.FillEllipse(brush, Bounds.Left,
                                Bounds.Top,
@@ -125,58 +125,6 @@ namespace primeira.pNeuron
                     -(g.MeasureString(s, f).Height / 2) + Bounds.Top + Bounds.Height / 2);
 
                 m_drawing = false;
-            }
-        }
-
-
-        public Point Location
-        {
-            get
-            {
-                return base.Location;
-            }
-            set
-            {
-                base.Location = value;
-                base.Width += GetPerspective(Location).Y / 2;
-                base.Height += GetPerspective(Location).Y / 2;
-                base.Top -= GetPerspective(Location).Y / 2;
-                base.Left -= GetPerspective(Location).Y / 2;
-            }
-        }
-
-        public Point CalculatedLocation
-        {
-            get
-            {
-                return base.Location;
-            }
-            set
-            {
-                if (!m_moving)
-                {
-                    if (value == m_realLocation)
-                        return;
-                    m_moving = true;
-                    Rectangle r = base.Bounds;
-                    r.Inflate(1, 1);
-                    
-                    m_realLocation = value;
-
-                    base.Location = value;
-
-                    base.Width += GetPerspective().Y /2 - GetPerspective(r.Location).Y/2;
-                    base.Height += GetPerspective().Y / 2 - GetPerspective(r.Location).Y / 2;
-                    base.Top -= GetPerspective().Y / 2 + GetPerspective(r.Location).Y / 2;
-                    base.Left -= GetPerspective().Y / 2 + GetPerspective(r.Location).Y / 2;
-
-
-                    Parent.Invalidate(r);
-                    Draw();
-                    m_moving = false;
-                }
-
-                
             }
         }
 

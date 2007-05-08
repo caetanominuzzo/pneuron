@@ -53,6 +53,7 @@ namespace pTest
             this.pDisplay1.AutoScrollVerticalMaximum = 100;
             this.pDisplay1.AutoScrollVerticalMinimum = 0;
             this.pDisplay1.AutoScrollVPos = 0;
+            this.pDisplay1.BackColor = System.Drawing.Color.White;
             this.pDisplay1.CtrlKey = false;
             this.pDisplay1.Cursor = System.Windows.Forms.Cursors.Default;
             this.pDisplay1.DisplayStatus = primeira.pNeuron.pDisplay.pDisplayStatus.Idle;
