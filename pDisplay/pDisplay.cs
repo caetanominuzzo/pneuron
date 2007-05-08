@@ -83,10 +83,7 @@ namespace primeira.pNeuron
 
             BackColor = Color.White;
 
-            //m = Image.FromFile("ball.gif");
-            //mGlow = Image.FromFile("glow.gif");
-
-           DoubleBuffered = true;
+            DoubleBuffered = true;
 
             m_log.Dock = DockStyle.Bottom;
             m_log.Multiline = true;
@@ -145,7 +142,6 @@ namespace primeira.pNeuron
             get { return m_DisplayStatus; }
             set
             {
-                ValueType
                 m_DisplayStatus = value;
                 switch (m_DisplayStatus)
                 {
@@ -312,8 +308,7 @@ namespace primeira.pNeuron
             } while (isUsed(point));
             
             p.Parent = this;
-            p.CalculatedLocation = point;
-            p.CalculatedLocation = new Point(Convert.ToInt32((p.Left) / m_gridDistance) * m_gridDistance, Convert.ToInt32((p.Top) / m_gridDistance) * m_gridDistance);
+            p.Location = new Point(Convert.ToInt32((point.X) / m_gridDistance) * m_gridDistance, Convert.ToInt32((point.Y) / m_gridDistance) * m_gridDistance);
            
             p.BackColor = Color.AliceBlue;
             p.Tag = n;
@@ -646,8 +641,11 @@ namespace primeira.pNeuron
 
                         foreach (pPanel pp in SelectedpPanels)
                         {
-                            pp.CalculatedLocation = new Point(Convert.ToInt32(Math.Round(((double)p.X - ((double)pp.MousePositionOnDown.X)) / (double)iGridDistance)) * iGridDistance, Convert.ToInt32(Math.Round(((double)p.Y - ((double)pp.MousePositionOnDown.Y)) / (double)iGridDistance)) * iGridDistance);
-                          //  pp.Draw();
+                            Rectangle r = pp.Bounds;
+//                            r.Inflate(1, 1);
+                            pp.Location = new Point(Convert.ToInt32(Math.Round(((double)p.X - ((double)pp.MousePositionOnDown.X)) / (double)iGridDistance)) * iGridDistance, Convert.ToInt32(Math.Round(((double)p.Y - ((double)pp.MousePositionOnDown.Y)) / (double)iGridDistance)) * iGridDistance);
+                            Invalidate();
+                            Invalidate(pp.Bounds);
                         }
                     }
 
@@ -659,7 +657,7 @@ namespace primeira.pNeuron
 
                         UnHighLight();
 
-
+                        bool bGroupHighlight = false; 
                         foreach (List<pPanel> lp in m_groups)
                         {
                             if(lp!=null)
@@ -668,6 +666,19 @@ namespace primeira.pNeuron
                                 foreach (pPanel pp in lp)
                                 {
                                     HighLight(pp);
+                                }
+                                bGroupHighlight = true;
+                            }
+                        }
+
+                        if (!bGroupHighlight)
+                        {
+                            foreach (pPanel p in pPanels)
+                            {
+                                if(p.Bounds.Contains(DisplayMousePosition))
+                                {
+                                    HighLight(p);
+                                    break;
                                 }
                             }
                         }
@@ -691,16 +702,16 @@ namespace primeira.pNeuron
         {
             Point p = DisplayMousePosition;
 
-
             bool bFound = false;
-
-            
 
             if (DisplayStatus != pDisplayStatus.Selecting)
             {
-
                 pPanel TargetpPanel = GetpPanelAt(p);
-                
+
+                //If click out of a panel but highlithing a group get the first highlighted
+                if(TargetpPanel == null)
+                if (HighLightedpPanels.Count > 0)
+                    TargetpPanel = HighLightedpPanels[0];
 
                 if (TargetpPanel != null)
                 {
@@ -714,8 +725,6 @@ namespace primeira.pNeuron
 
                             if (ActiveControl != null)
                             {
-
-
                                 if (HighLightedpPanels.Count > 0)
                                 {
                                     foreach (pPanel pp in SelectedpPanels)
@@ -762,7 +771,11 @@ namespace primeira.pNeuron
 
 
                             }
-                            else ActiveControl = TargetpPanel;
+                            else
+                            {
+                                ActiveControl = TargetpPanel;
+                                Select(ActiveControl);
+                            }
                             
                             break;
 
@@ -802,6 +815,7 @@ namespace primeira.pNeuron
                     UnSelect();
 
                 UnHighLight();
+                Invalidate();
             }
         }
 
