@@ -28,13 +28,8 @@ namespace pTest
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pDisplay1 = new primeira.pNeuron.pDisplay();
-            this.pDisplayBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.pDisplayStatusBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            ((System.ComponentModel.ISupportInitialize)(this.pDisplayBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pDisplayStatusBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // dataGridViewTextBoxColumn1
@@ -45,11 +40,11 @@ namespace pTest
             // 
             // pDisplay1
             // 
-            this.pDisplay1.ActiveControl = null;
             this.pDisplay1.AutoScroll = true;
             this.pDisplay1.AutoScrollHorizontalMaximum = 100;
             this.pDisplay1.AutoScrollHorizontalMinimum = 0;
             this.pDisplay1.AutoScrollHPos = 0;
+            this.pDisplay1.AutoScrollMinSize = new System.Drawing.Size(500, 500);
             this.pDisplay1.AutoScrollVerticalMaximum = 100;
             this.pDisplay1.AutoScrollVerticalMinimum = 0;
             this.pDisplay1.AutoScrollVPos = 0;
@@ -68,14 +63,6 @@ namespace pTest
             this.pDisplay1.VisibleAutoScrollHorizontal = true;
             this.pDisplay1.VisibleAutoScrollVertical = true;
             // 
-            // pDisplayBindingSource
-            // 
-            this.pDisplayBindingSource.DataSource = typeof(primeira.pNeuron.pDisplay);
-            // 
-            // pDisplayStatusBindingSource
-            // 
-            this.pDisplayStatusBindingSource.DataSource = typeof(primeira.pNeuron.pDisplay.pDisplayStatus);
-            // 
             // pTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -87,8 +74,6 @@ namespace pTest
             this.Text = "pTest";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.pTest_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.pDisplayBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pDisplayStatusBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -96,8 +81,6 @@ namespace pTest
         #endregion
 
         private primeira.pNeuron.pDisplay pDisplay1;
-        private System.Windows.Forms.BindingSource pDisplayBindingSource;
-        private System.Windows.Forms.BindingSource pDisplayStatusBindingSource;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
 
        // private primeira.pNeuron.pDisplay pDisplay1;

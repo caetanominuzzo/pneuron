@@ -32,8 +32,8 @@ namespace pTest
                 pDisplay1.Add(n);
             }
 
-            pDisplay1.pPanels[0].Location = new Point(100, 100);
-            pDisplay1.pPanels[0].Location = new Point(100, 500);
+          //  pDisplay1.pPanels[0].Location = new Point(100, 100);
+          //  pDisplay1.pPanels[0].Location = new Point(100, 500);
         }
 
     }
