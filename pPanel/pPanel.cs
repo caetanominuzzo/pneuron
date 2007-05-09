@@ -22,12 +22,19 @@ namespace primeira.pNeuron
         private const int MAX_GROUP_NUMBER = 10; //0 -- 9
 
         private Point m_mousePositionOnDown;
-        public Nullable<Operation> MouseOperation = null;
         private List<int> m_groups;
         private Graphics m_graphics;
 
         private bool m_moving = false;
         private bool m_drawing = false;
+
+        private bool m_temporarySelected = false;
+
+        public bool TemporarySelected
+        {
+            get { return m_temporarySelected; }
+            set { m_temporarySelected = value; }
+        }
 
         private Point m_realLocation;
 

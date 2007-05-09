@@ -52,23 +52,18 @@ namespace primeira.pNeuron
 
         private TextBox m_log = new TextBox();
 
-        private Nullable<Point> m_selectSourcePoint;
+        private Nullable<Point> m_selectSourcePoint; //Initial point of the select rectangle
 
-        private Nullable<Rectangle> m_lastSelectRectangleDrow;
+        private Nullable<Rectangle> m_lastSelectRectangleDrow; //Used to invalidate when the select rectangle closes
 
         private List<pPanel> m_lastSelectItems;
 
         private StatusBar statusBar;
 
-        private pPanel m_activeControl = null;
-
         private Color m_gridLineColor = Color.LightGray;
 
         private bool m_gridShow = false;
 
-        Image m;
-
-        Image mGlow;
 
         private pDisplayStatus m_DisplayStatus;
 
@@ -98,20 +93,12 @@ namespace primeira.pNeuron
             DisplayStatus = pDisplayStatus.Idle;
 
             pPanels = new List<pPanel>();
-            SelectedpPanels = new List<pPanel>();
-            HighLightedpPanels = new List<pPanel>();
 
         }
 
         #endregion
 
         #region Properties
-
-        public pPanel ActiveControl
-        {
-            get { return m_activeControl; }
-            set { m_activeControl = value; }
-        }
 
         public bool ShiftKey
         {
@@ -184,14 +171,14 @@ namespace primeira.pNeuron
                     break;
                 case Keys.H:
                     if (e.Alt)
-                        foreach (pPanel p in HighLightedpPanels)
+                        foreach (pPanel p in HighlightedpPanels)
                             Log(pPanels.IndexOf(p).ToString());
                     break;
-                case Keys.K: //Log Shift
+                case Keys.K: //Log ShiftB
                     m_log.Visible = !m_log.Visible;
                     break;
                 case Keys.Escape:
-                    ActiveControl = null;
+                    UnSelect();
                     DisplayStatus = pDisplayStatus.Idle;
                     break;
                 case Keys.L: //Link Mode
@@ -226,7 +213,7 @@ namespace primeira.pNeuron
 
                     if (CtrlKey) //Create
                     {
-                        if (SelectedpPanels.Count == 0)
+                        if (SelectedpPanels.Length == 0)
                             m_groups[iKey] = null;
 
                         if(m_groups[iKey] == null)
@@ -548,6 +535,7 @@ namespace primeira.pNeuron
         protected override void OnMouseMove(MouseEventArgs e)
         {
 
+            RefreshHighlight();
 
             if (DisplayStatus == pDisplayStatus.Selecting)
             {
@@ -561,6 +549,9 @@ namespace primeira.pNeuron
                             if (m_lastSelectItems.Contains(p))
                                 continue;
 
+                            if (p.Selected)
+                                continue;
+
                             if (Contains(MakeRectanglePossible(new Rectangle(m_selectSourcePoint.Value,
                                 new Size(
                                 DisplayMousePosition.X - m_selectSourcePoint.Value.X,
@@ -570,7 +561,6 @@ namespace primeira.pNeuron
                             {
 
                                 Select(p);
-                                m_lastSelectItems.Add(p);
                             }
                     }
                 }
@@ -578,7 +568,7 @@ namespace primeira.pNeuron
                 if (m_lastSelectItems.Count > 0)
                 {
                     //To remove just the pPanels was selected in m_lastSelectItems
-                    //we need a auxiliar(?) List pToRemove.
+                    //we need a auxiliar List pToRemove
 
                     List<pPanel> pToRemove = new List<pPanel>(m_lastSelectItems.Count - 1);
 
@@ -626,14 +616,9 @@ namespace primeira.pNeuron
                 {
                     Point p = DisplayMousePosition;
 
-                    if (ActiveControl != null)
+                    if (SelectedpPanels.Length>0)
                     {
 
-                        pPanel c = (pPanel)ActiveControl;
-                        if (c.MouseOperation == null)
-                            c.MouseOperation = Operation.Move;
-
-                        
                         int iGridDistance = m_gridDistance;
 
                         if (m_allignToGrid)
@@ -652,50 +637,59 @@ namespace primeira.pNeuron
                 }
                 else if (DisplayStatus == pDisplayStatus.Linking || DisplayStatus == pDisplayStatus.Linking_Paused)
                 {
-                    if (ActiveControl != null)
+                    if (SelectedpPanels.Length>0)
                     {
-
-                        UnHighLight();
-
-                        bool bGroupHighlight = false; 
-                        foreach (List<pPanel> lp in m_groups)
-                        {
-                            if(lp!=null)
-                            if (GetGroupRectangle(lp).Contains(DisplayMousePosition))
-                            {
-                                foreach (pPanel pp in lp)
-                                {
-                                    HighLight(pp);
-                                }
-                                bGroupHighlight = true;
-                            }
-                        }
-
-                        if (!bGroupHighlight)
-                        {
-                            foreach (pPanel p in pPanels)
-                            {
-                                if(p.Bounds.Contains(DisplayMousePosition))
-                                {
-                                    HighLight(p);
-                                    break;
-                                }
-                            }
-                        }
-
-                        Invalidate();
+                        
                         DisplayStatus = pDisplayStatus.Linking;
                     }
                 }
                 else if (DisplayStatus == pDisplayStatus.Idle)
                 {
-                    if (MouseButtons == MouseButtons.Left && ActiveControl != null)
+                    if (MouseButtons == MouseButtons.Left && SelectedpPanels.Length > 0)
                     {
                         DisplayStatus = pDisplayStatus.Moving;
+                    }
+                    else
+                    {
+
+                        RefreshHighlight();
                     }
 
                 }
 
+        }
+
+        private void RefreshHighlight()
+        {
+            UnHighLight();
+
+            bool bGroupHighlight = false;
+            foreach (List<pPanel> lp in m_groups)
+            {
+                if (lp != null)
+                    if (GetGroupRectangle(lp).Contains(DisplayMousePosition))
+                    {
+                        foreach (pPanel pp in lp)
+                        {
+                            HighLight(pp);
+                        }
+                        bGroupHighlight = true;
+                    }
+            }
+
+            if (!bGroupHighlight)
+            {
+                foreach (pPanel p in pPanels)
+                {
+                    if (p.Bounds.Contains(DisplayMousePosition))
+                    {
+                        HighLight(p);
+                        break;
+                    }
+                }
+            }
+
+            Invalidate();
         }
 
         protected override void OnMouseDown(MouseEventArgs e)
@@ -706,32 +700,34 @@ namespace primeira.pNeuron
 
             if (DisplayStatus != pDisplayStatus.Selecting)
             {
-                pPanel TargetpPanel = GetpPanelAt(p);
-
-                //If click out of a panel but highlithing a group get the first highlighted
-                if(TargetpPanel == null)
-                if (HighLightedpPanels.Count > 0)
-                    TargetpPanel = HighLightedpPanels[0];
-
-                if (TargetpPanel != null)
+                if (HighlightedpPanels.Length > 0)
                 {
-                    TargetpPanel.BringToFront();
+
+                    //TODO:TargetpPanel.BringToFront();
                     bFound = true;
+                    
 
                     switch (DisplayStatus)
                     {
+
                         case pDisplayStatus.Linking_Paused:
                         case pDisplayStatus.Linking:
 
-                            if (ActiveControl != null)
+                            if (DisplayStatus == pDisplayStatus.Linking_Paused)
                             {
-                                if (HighLightedpPanels.Count > 0)
+                                Select(HighlightedpPanels);
+                            }
+
+
+                            if (SelectedpPanels.Length > 0)
+                            {
+                                if (HighlightedpPanels.Length > 0)
                                 {
                                     foreach (pPanel pp in SelectedpPanels)
                                     {
                                         Neuron n = (Neuron)pp.Tag;
 
-                                        foreach (pPanel ppp in HighLightedpPanels)
+                                        foreach (pPanel ppp in HighlightedpPanels)
                                         {
 
                                             Neuron target = (Neuron)ppp.Tag;
@@ -751,46 +747,20 @@ namespace primeira.pNeuron
                                         }
                                     }
                                 }
-                                else
-                                {
-                                    Neuron n = (Neuron)ActiveControl.Tag;
-                                    Neuron target = (Neuron)TargetpPanel.Tag;
-
-                                    if (!n.Input.ContainsKey(target))
-                                    {
-                                        n.Input.Add(target, new NeuralFactor(new Random(1).NextDouble()));
-                                        target.Output.Add(n);
-                                        DrawSynapse(ActiveControl, TargetpPanel);
-                                    }
-                                    else
-                                    {
-                                        n.Input.Remove(target);
-                                        target.Output.Remove(n);
-                                    }
-                                }
-
-
-                            }
-                            else
-                            {
-                                ActiveControl = TargetpPanel;
-                                Select(ActiveControl);
                             }
                             
                             break;
 
                         case pDisplayStatus.Idle:
 
-                            if (!ShiftKey && !TargetpPanel.Selected)
+                            if (!ShiftKey)
                                 UnSelect();
 
-                            Select(TargetpPanel);
+                            Select(HighlightedpPanels);
 
                             foreach (pPanel pp in SelectedpPanels)
                                 pp.MousePositionOnDown = DisplayMousePosition;
 
-                            ActiveControl = TargetpPanel;
-                            
                             break;
 
                     }
@@ -800,8 +770,6 @@ namespace primeira.pNeuron
             
             if(!bFound)
             {
-                ActiveControl = null;
-
                 if (DisplayStatus == pDisplayStatus.Linking)
                     DisplayStatus = pDisplayStatus.Linking_Paused;
 
@@ -822,12 +790,10 @@ namespace primeira.pNeuron
         protected override void OnMouseUp(MouseEventArgs e)
         {
             if (DisplayStatus == pDisplayStatus.Moving)
-                if (ActiveControl != null)
-                {
-                    DisplayStatus = pDisplayStatus.Idle;
-                    ActiveControl.MouseOperation = null;
-                    ActiveControl = null;
-                }
+            {
+                DisplayStatus = pDisplayStatus.Idle;
+            }
+
             if (DisplayStatus == pDisplayStatus.Selecting)
             {
 
@@ -865,6 +831,9 @@ namespace primeira.pNeuron
             base.OnPaint(e);
             DrawLines(e);
 
+
+
+            
             //g.FillRectangle(Brushes.White, 0, 0, 200, 30);
 
             //g.DrawString(DisplayMousePosition.X.ToString() + ":" + DisplayMousePosition.Y.ToString(), SystemFonts.DefaultFont, Brushes.Black, 0, 0);
@@ -893,7 +862,10 @@ namespace primeira.pNeuron
 
             if (DisplayStatus == pDisplayStatus.Linking)
             {
-                DrawSynapse(ActiveControl, DisplayMousePosition, e.Graphics);
+                foreach (pPanel p in SelectedpPanels)
+                {
+                    DrawSynapse(p, DisplayMousePosition, e.Graphics);
+                }
             }
 
 
@@ -917,10 +889,12 @@ namespace primeira.pNeuron
                 {
 
                     Rectangle rr = m_lastSelectRectangleDrow.Value;
+ 
                     Point pp = m_selectSourcePoint.Value;
                     m_selectSourcePoint = null;
                     m_lastSelectRectangleDrow = null;
-                    Invalidate(); //TODO:BOUNDS
+                    rr.Inflate(5, 5);
+                    Invalidate(rr);
                     m_selectSourcePoint = pp;
                 }
 
