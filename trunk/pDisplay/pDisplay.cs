@@ -953,8 +953,8 @@ namespace primeira.pNeuron
 
         protected override void OnResize(EventArgs eventargs)
         {
-            base.OnResize(eventargs);
-            Invalidate();
+            //base.OnResize(eventargs);
+            //Invalidate();
         }
 
         #endregion
