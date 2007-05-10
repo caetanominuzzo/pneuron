@@ -214,7 +214,17 @@ namespace primeira.pNeuron
                     if (CtrlKey) //Create
                     {
                         if (SelectedpPanels.Length == 0)
-                            m_groups[iKey] = null;
+                        {
+                            if (m_groups[iKey] != null)
+                            {
+                                foreach (pPanel p in m_groups[iKey])
+                                {
+                                    p.Groups.Remove(iKey);
+                                    Invalidate(p.Bounds);
+                                }
+                                m_groups[iKey] = null;
+                            }
+                        }
 
                         if(m_groups[iKey] == null)
                             m_groups[iKey] = new List<pPanel>();
@@ -667,14 +677,15 @@ namespace primeira.pNeuron
             foreach (List<pPanel> lp in m_groups)
             {
                 if (lp != null)
-                    if (GetGroupRectangle(lp).Contains(DisplayMousePosition))
-                    {
-                        foreach (pPanel pp in lp)
+                    if(lp.Count > 0)
+                        if (GetGroupRectangle(lp).Contains(DisplayMousePosition))
                         {
-                            HighLight(pp);
+                            foreach (pPanel pp in lp)
+                            {
+                                HighLight(pp);
+                            }
+                            bGroupHighlight = true;
                         }
-                        bGroupHighlight = true;
-                    }
             }
 
             if (!bGroupHighlight)
@@ -827,7 +838,7 @@ namespace primeira.pNeuron
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
             base.OnPaint(e);
             DrawLines(e);
 
@@ -862,9 +873,19 @@ namespace primeira.pNeuron
 
             if (DisplayStatus == pDisplayStatus.Linking)
             {
+
                 foreach (pPanel p in SelectedpPanels)
                 {
-                    DrawSynapse(p, DisplayMousePosition, e.Graphics);
+                    
+                    if (HighlightedpPanels.Length > 0)
+                    {
+                        foreach (pPanel pp in HighlightedpPanels)
+                        {
+                            DrawSynapse(p, pp, e.Graphics);
+                        }
+                    }
+                    else
+                        DrawSynapse(p, DisplayMousePosition, e.Graphics);
                 }
             }
 
