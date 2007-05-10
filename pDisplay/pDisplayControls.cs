@@ -38,15 +38,6 @@ namespace primeira.pNeuron
             }
         }
 
-        void TempSelect(pPanel p)
-        {
-            if (p.Selected)
-                throw new Exception("You cannot temporary select a selected pPanel.");
-
-            Select(p);
-            p.TemporarySelected = true;
-        }
-
         void Select(pPanel[] t)
         {
             foreach (pPanel p in t)
