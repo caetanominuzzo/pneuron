@@ -25,8 +25,6 @@ namespace primeira.pNeuron
         private List<int> m_groups;
         private Graphics m_graphics;
 
-        private bool m_moving = false;
-        private bool m_drawing = false;
 
         private bool m_temporarySelected = false;
 
@@ -35,8 +33,6 @@ namespace primeira.pNeuron
             get { return m_temporarySelected; }
             set { m_temporarySelected = value; }
         }
-
-        private Point m_realLocation;
 
         public pPanel(Graphics g)
         {
@@ -103,9 +99,7 @@ namespace primeira.pNeuron
 
         public void Draw(Graphics g)
         {
-            if (!m_drawing)
-            {
-                m_drawing = true;
+
                 Brush brush = GetBrushtyle();
                 Pen pen = GetPenStyle();
 
@@ -120,10 +114,10 @@ namespace primeira.pNeuron
                                Bounds.Width,
                                Bounds.Height);
 
-                g.DrawEllipse(pen, Bounds.Left + (pen.Width / 2),
-                                   Bounds.Top + (pen.Width / 2),
-                                   Bounds.Width - (pen.Width),
-                                   Bounds.Height - (pen.Width));
+                g.DrawEllipse(pen, Bounds.Left + (pen.Width ),
+                                   Bounds.Top + (pen.Width ),
+                                   Bounds.Width - (pen.Width * 2),
+                                   Bounds.Height - (pen.Width * 2));
 
                 string s = "{}";
                 Font f = new Font("Arial", 20, FontStyle.Bold, GraphicsUnit.Pixel, 1, true);
@@ -131,8 +125,7 @@ namespace primeira.pNeuron
                     -(g.MeasureString(s, f).Width / 2) + Bounds.Left + Bounds.Width / 2,
                     -(g.MeasureString(s, f).Height / 2) + Bounds.Top + Bounds.Height / 2);
 
-                m_drawing = false;
-            }
+
         }
 
         public Point GetPerspective(Point p)
@@ -148,7 +141,7 @@ namespace primeira.pNeuron
 
         public Point GetPerspective()
         {
-           return GetPerspective(m_realLocation);
+           return GetPerspective(Location);
         }
 
         
