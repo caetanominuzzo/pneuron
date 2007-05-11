@@ -33,9 +33,26 @@ namespace primeira.pNeuron
                 foreach (pPanel p in pPanels)
                     if (p.Highlighted)
                         t.Add(p);
-
+                if (t.Count == 2)
+                {
+                    System.Diagnostics.Debug.Assert(t.Count == 2, "break");
+                }
+                    
                 return t.ToArray();
             }
+        }
+
+        private void SelectCore(pPanel[] t)
+        {
+            foreach (pPanel p in t)
+                SelectCore(p);
+        }
+
+        private void SelectCore(pPanel p)
+        {
+            if (!ShiftKey)
+                p.Selected = true;
+            else p.Selected = !p.Selected;
         }
 
         void Select(pPanel[] t)
@@ -48,23 +65,27 @@ namespace primeira.pNeuron
         {
 //            if(DisplayStatus != pDisplayStatus.Selecting && !ShiftKey)
 //                UnSelect();
-            
-            p.Selected = true;
-            if (p.Groups.Count > 0)
-            {
-                foreach (int iGroup in p.Groups)
-                {
-                    foreach (pPanel pp in m_groups[iGroup])
-                    {
-                        if (DisplayStatus == pDisplayStatus.Selecting)
-                            m_lastSelectItems.Add(p);
 
-                        pp.Selected = true;
-                        Invalidate(pp.Bounds);
+            SelectCore(p);
+
+            if (!CtrlKey)
+            {
+                if (p.Groups.Count > 0)
+                {
+                    foreach (int iGroup in p.Groups)
+                    {
+                        foreach (pPanel pp in m_groups[iGroup])
+                        {
+//                            if (DisplayStatus == pDisplayStatus.Selecting)
+//                                m_lastSelectItems.Add(p);
+                            if (pp == p)
+                                continue;
+                            SelectCore(pp);
+                            Invalidate(pp.Bounds);
+                        }
                     }
                 }
             }
-
             if (DisplayStatus == pDisplayStatus.Selecting)
                 m_lastSelectItems.Add(p);
             Invalidate(p.Bounds);
@@ -80,8 +101,25 @@ namespace primeira.pNeuron
 
         void UnSelect(pPanel p)
         {
-            p.Selected = false;
 
+            if (!CtrlKey)
+            {
+                if (p.Groups.Count > 0)
+                {
+                    foreach (int iGroup in p.Groups)
+                    {
+                        foreach (pPanel pp in m_groups[iGroup])
+                        {
+                            if (pp == p)
+                                continue;
+                            pp.Selected = false;
+                            Invalidate(pp.Bounds);
+                        }
+                    }
+                }
+            }
+
+            p.Selected = false;
             Invalidate(p.Bounds);
         }
 
