@@ -83,6 +83,7 @@ namespace primeira.pNeuron
             m_log.Dock = DockStyle.Bottom;
             m_log.Multiline = true;
             m_log.Height = 100;
+            m_log.Visible = false;
             Controls.Add(m_log);
 
             statusBar = new StatusBar();
@@ -113,6 +114,7 @@ namespace primeira.pNeuron
             {
                 m_ctrlKey = value;
                 RefreshHighlight();
+                Invalidate();
             }
         }
 
