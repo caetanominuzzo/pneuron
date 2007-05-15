@@ -103,11 +103,11 @@ namespace primeira.pNeuron
                 Brush brush = GetBrushtyle();
                 Pen pen = GetPenStyle();
 
-                g.FillEllipse(new SolidBrush(Color.FromArgb(200, Color.White)),
-                            Bounds.Left,
-                            Bounds.Top,
-                            Bounds.Width,
-                            Bounds.Height);
+                //g.FillEllipse(new SolidBrush(Color.FromArgb(200, Color.White)),
+                //            Bounds.Left,
+                //            Bounds.Top,
+                //            Bounds.Width,
+                //            Bounds.Height);
 
                 g.FillEllipse(brush, Bounds.Left,
                                Bounds.Top,
@@ -119,11 +119,11 @@ namespace primeira.pNeuron
                                    Bounds.Width - (pen.Width * 2),
                                    Bounds.Height - (pen.Width * 2));
 
-                string s = "{}";
-                Font f = new Font("Arial", 20, FontStyle.Bold, GraphicsUnit.Pixel, 1, true);
-                g.DrawString(s, f, new SolidBrush(pen.Color),
-                    -(g.MeasureString(s, f).Width / 2) + Bounds.Left + Bounds.Width / 2,
-                    -(g.MeasureString(s, f).Height / 2) + Bounds.Top + Bounds.Height / 2);
+                //string s = "{}";
+                //Font f = new Font("Arial", 20, FontStyle.Bold, GraphicsUnit.Pixel, 1, true);
+                //g.DrawString(s, f, new SolidBrush(pen.Color),
+                //    -(g.MeasureString(s, f).Width / 2) + Bounds.Left + Bounds.Width / 2,
+                //    -(g.MeasureString(s, f).Height / 2) + Bounds.Top + Bounds.Height / 2);
 
 
         }
