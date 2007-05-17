@@ -186,5 +186,23 @@ namespace primeira.pNeuron
             return r;
         }
 
+        int Contains(pPanel[] p1, pPanel[] p2)
+        {
+            int Has = 0;
+            foreach (pPanel p in p1)
+            {
+                foreach (pPanel pp in p2)
+                {
+                    if (p == pp)
+                    {
+                        Has++;
+                    }
+                }
+            }
+
+            return Has;
+
+        }
+
     }
 }
