@@ -58,8 +58,6 @@ namespace primeira.pNeuron
 
         private List<pPanel> m_lastSelectItems;
 
-        private StatusBar statusBar;
-
         private Color m_gridLineColor = Color.LightGray;
 
         private bool m_gridShow = false;
@@ -87,8 +85,6 @@ namespace primeira.pNeuron
             m_log.Visible = false;
             Controls.Add(m_log);
 
-            statusBar = new StatusBar();
-            Controls.Add(statusBar);
 
             m_lastSelectItems = new List<pPanel>();
             m_groups = new List<pPanel>[10];
@@ -125,9 +121,9 @@ namespace primeira.pNeuron
             {
                 return new Point(
                     PointToClient(
-                        MousePosition).X + AutoScrollPosition.X,
+                        MousePosition).X,
                     PointToClient(
-                        MousePosition).Y + AutoScrollPosition.Y);
+                        MousePosition).Y);
             }
         }
 
@@ -146,9 +142,6 @@ namespace primeira.pNeuron
                     default: Cursor = Cursors.Default;
                         break;
                 }
-
-                statusBar.Text = "Status: " + DisplayStatus.ToString().Replace('_', ' ');
-
             }
         }
 
@@ -171,6 +164,9 @@ namespace primeira.pNeuron
 
             switch (e.KeyCode)
             {
+                case Keys.B: m_bezier = !m_bezier;
+                    Invalidate();
+                    break;
                 case Keys.S:
                     if (e.Alt)
                         foreach (pPanel p in SelectedpPanels)
@@ -377,7 +373,7 @@ namespace primeira.pNeuron
                 dBounds.Width,
                 dBounds.Height);
 
-            Pen p = ((pPanel)c).GetPenStyle();
+            Pen p = ((pPanel)c).GetPenStyle()[0];
             p.Width = 1;
             SolidBrush b = new SolidBrush(Color.Red);
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
@@ -411,7 +407,7 @@ namespace primeira.pNeuron
 
 
                 g.DrawBezier(p,
-                    new Point((int)radXC + (-2 * signX), (int)radYC + (-2 * signY)),
+                    new Point((int)radXC + (-1 * signX), (int)radYC + (-1 * signY)),
                     new Point(c.Bounds.Left + (c.Bounds.Width) * signX , c.Bounds.Top + (c.Bounds.Height) * signY),
 
                     new Point(d.Bounds.Left + (d.Bounds.Width / 2) * -signX, d.Bounds.Top + (d.Bounds.Height / 2) * -signY),
@@ -448,6 +444,10 @@ namespace primeira.pNeuron
             //            new Point((int)radXD, (int)radYD),
             //            new Point((int)ArrowBaseX + i, (int)ArrowBaseY + j));
             //    }
+
+
+//            g.RotateTransform(50);
+//            g.DrawLine(p, new Point(10,10), new Point(100,100));
 
         }
 
@@ -830,7 +830,6 @@ namespace primeira.pNeuron
                                                 n.Input.Remove(target);
                                                 target.Output.Remove(n);
                                             }
-
                                         }
                                     }
                                 }
@@ -840,7 +839,10 @@ namespace primeira.pNeuron
 
                         case pDisplayStatus.Idle:
 
+                            if (!ShiftKey && Contains(HighlightedpPanels, SelectedpPanels)!=HighlightedpPanels.Length)
+                                UnSelect();
 
+                            Select(HighlightedpPanels); 
 
                             foreach (pPanel pp in SelectedpPanels)
                                 pp.MousePositionOnDown = DisplayMousePosition;
@@ -902,10 +904,10 @@ namespace primeira.pNeuron
                 else
                     if (DisplayStatus == pDisplayStatus.Idle)
                     {
-                        if (!ShiftKey)
-                            UnSelect();
+//                        if (!ShiftKey)
+//                            UnSelect();
 
-                        Select(HighlightedpPanels);
+//                        Select(HighlightedpPanels);
                     }
 
         }
@@ -923,7 +925,6 @@ namespace primeira.pNeuron
             e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
             base.OnPaint(e);
             DrawLines(e);
-
 
 
 
