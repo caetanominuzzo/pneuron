@@ -64,7 +64,7 @@ namespace primeira.pNeuron
 
         private bool m_gridShow = false;
 
-        private bool m_bezier = false;
+        private bool m_bezier = true;
 
         private pDisplayStatus m_DisplayStatus;
 
@@ -141,7 +141,7 @@ namespace primeira.pNeuron
                 {
                     case pDisplayStatus.Moving: Cursor = Cursors.SizeAll;
                         break;
-                    case pDisplayStatus.Linking: Cursor = Cursors.PanNW;
+                    case pDisplayStatus.Linking: Cursor = Cursors.Cross;
                         break;
                     default: Cursor = Cursors.Default;
                         break;
@@ -314,14 +314,14 @@ namespace primeira.pNeuron
                 p.Top = 100;
             }
 
-            //Point point;
-            //do
-            //{
-            //    point = new Point(NextRandom(1, this.Width), NextRandom(1, this.Height));
-            //} while (isUsed(point));
-
+            Point point;
+            do
+            {
+                point = new Point(NextRandom(1, this.Width), NextRandom(1, this.Height));
+            } while (isUsed(point));
+            p.Location = new Point(Convert.ToInt32((point.X) / m_gridDistance) * m_gridDistance, Convert.ToInt32((point.Y) / m_gridDistance) * m_gridDistance);
             p.Parent = this;
-      //      p.Location = new Point(Convert.ToInt32((point.X) / m_gridDistance) * m_gridDistance, Convert.ToInt32((point.Y) / m_gridDistance) * m_gridDistance);
+      
 
             p.BackColor = Color.AliceBlue;
             p.Tag = n;
@@ -377,7 +377,8 @@ namespace primeira.pNeuron
                 dBounds.Width,
                 dBounds.Height);
 
-            Pen p = new Pen(Color.Gray, 1);
+            Pen p = ((pPanel)c).GetPenStyle();
+            p.Width = 1;
             SolidBrush b = new SolidBrush(Color.Red);
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
 
@@ -397,10 +398,12 @@ namespace primeira.pNeuron
             double cos = -catA / hyp;
             double sen = -catB / hyp;
 
-            double radX = c.Bounds.Left + (c.Bounds.Width / 2) + (sen * c.Width / 2);
-            double radY = c.Bounds.Top + (c.Bounds.Height / 2) + (cos * c.Width / 2);
-           
-    
+            double radXC = c.Bounds.Left + (c.Bounds.Width / 2) + (sen * c.Width / 2);
+            double radYC = c.Bounds.Top + (c.Bounds.Height / 2) + (cos * c.Width / 2);
+
+            double radXD = d.Bounds.Left + (d.Bounds.Width / 2) + (sen * d.Width / 2);
+            double radYD = d.Bounds.Top + (d.Bounds.Height / 2) + (cos * d.Width / 2);
+
             if (m_bezier)
             {
 
@@ -408,8 +411,8 @@ namespace primeira.pNeuron
 
 
                 g.DrawBezier(p,
-                    new Point((int)radX, (int)radY),
-                    new Point(c.Bounds.Left + (c.Bounds.Width) * signX, c.Bounds.Top + (c.Bounds.Height) * signY),
+                    new Point((int)radXC + (-2 * signX), (int)radYC + (-2 * signY)),
+                    new Point(c.Bounds.Left + (c.Bounds.Width) * signX , c.Bounds.Top + (c.Bounds.Height) * signY),
 
                     new Point(d.Bounds.Left + (d.Bounds.Width / 2) * -signX, d.Bounds.Top + (d.Bounds.Height / 2) * -signY),
                     new Point(d.Bounds.Left + (d.Bounds.Width / 2), d.Bounds.Top + (d.Bounds.Height / 2))
@@ -419,7 +422,7 @@ namespace primeira.pNeuron
             else
             {
                 g.DrawLine(p,
-                    new Point((int)radX, (int)radY),
+                    new Point((int)radXC, (int)radYC),
                     new Point(d.Bounds.Left + (d.Bounds.Width / 2), d.Bounds.Top + (d.Bounds.Height / 2))
                     );
             }
@@ -435,16 +438,16 @@ namespace primeira.pNeuron
             //        new Point((int)radX - (signX * 4), (int)radY - (signY * 4)),
             //        new Size(signX*4, signY*4)));
 
-            double ArrowBaseX = c.Bounds.Left + (c.Bounds.Width / 2) + (sen * (c.Width - 15));
-            double ArrowBaseY = c.Bounds.Top + (c.Bounds.Height / 2) + (cos * (c.Width - 15));
+            //double ArrowBaseX = d.Bounds.Left + (d.Bounds.Width / 2) + (sen * (d.Width - 15));
+            //double ArrowBaseY = d.Bounds.Top + (d.Bounds.Height / 2) + (cos * (d.Width - 15));
 
-            for (int i = -2; i < 3; i++)
-                for (int j = -2; j < 3; j++)
-                {
-                    g.DrawLine(p,
-                        new Point((int)radX, (int)radY),
-                        new Point((int)ArrowBaseX + i, (int)ArrowBaseY + j));
-                }
+            //for (int i = -2; i < 3; i++)
+            //    for (int j = -2; j < 3; j++)
+            //    {
+            //        g.DrawLine(p,
+            //            new Point((int)radXD, (int)radYD),
+            //            new Point((int)ArrowBaseX + i, (int)ArrowBaseY + j));
+            //    }
 
         }
 
