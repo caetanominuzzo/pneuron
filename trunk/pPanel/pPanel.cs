@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using primeira.pNeuron;
+using System.ComponentModel;
 
 namespace primeira.pNeuron
 {
@@ -20,19 +21,9 @@ namespace primeira.pNeuron
     {
 
         private const int MAX_GROUP_NUMBER = 10; //0 -- 9
-
         private Point m_mousePositionOnDown;
         private List<int> m_groups;
         private Graphics m_graphics;
-
-
-        private bool m_temporarySelected = false;
-
-        public bool TemporarySelected
-        {
-            get { return m_temporarySelected; }
-            set { m_temporarySelected = value; }
-        }
 
         public pPanel(Graphics g)
         {
@@ -59,7 +50,7 @@ namespace primeira.pNeuron
                 lpp.Add(pColors.Colors[0].Pen);
             }
 
-            for(int i = 0; i <lp.Count-1; i++)
+            for(int i = 0; i <lp.Count; i++)
             {
                 if (Selected)
                 {
@@ -93,9 +84,9 @@ namespace primeira.pNeuron
                 lpp.Add(pColors.Colors[0].Brush);
             }
 
-            for (int i = 0; i < lp.Count - 1; i++)
+            for (int i = 0; i < lp.Count; i++)
             {
-                if (Selected)
+                if (Highlighted)
                 {
                     lpp[i] = lp[i].SelectedBrush;
                 }
@@ -108,12 +99,6 @@ namespace primeira.pNeuron
             return lpp.ToArray();
         }
 
-        //This method Clean the previous Location
-        //Set the new Location thus calls Draw()
-        public void MoveAndDraw(Point p)
-        {
-        }
-        
         public void Draw()
         {
             Draw(m_graphics);
@@ -203,7 +188,6 @@ namespace primeira.pNeuron
         {
            return GetPerspective(Location);
         }
-
         
         public List<int> Groups
         {

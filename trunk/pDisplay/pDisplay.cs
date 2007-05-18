@@ -23,6 +23,16 @@ namespace primeira.pNeuron
 
         #endregion
 
+        #region events
+
+        public delegate void SelectedPanelsChangeDelegate();
+        public event SelectedPanelsChangeDelegate OnSelectedPanelsChange;
+
+        public delegate void DisplayStatusChangeDelegate();
+        public event DisplayStatusChangeDelegate OnDisplayStatusChange;
+
+        #endregion
+
         #region Enums
 
         public enum pDisplayStatus
@@ -31,7 +41,8 @@ namespace primeira.pNeuron
             Moving,
             Linking,
             Linking_Paused,
-            Selecting
+            Selecting,
+            AddNeuron
         }
 
         #endregion
@@ -132,6 +143,7 @@ namespace primeira.pNeuron
             get { return m_DisplayStatus; }
             set
             {
+                pDisplayStatus old = m_DisplayStatus;
                 m_DisplayStatus = value;
                 switch (m_DisplayStatus)
                 {
@@ -142,6 +154,8 @@ namespace primeira.pNeuron
                     default: Cursor = Cursors.Default;
                         break;
                 }
+                if (old != m_DisplayStatus && OnDisplayStatusChange!=null)
+                    OnDisplayStatusChange();
             }
         }
 
@@ -152,8 +166,8 @@ namespace primeira.pNeuron
         {
 
 
-            Parent.KeyUp += new KeyEventHandler(Parent_KeyUp);
-            Parent.KeyDown += new KeyEventHandler(Parent_KeyDown);
+            Parent.Parent.Parent.Parent.KeyUp += new KeyEventHandler(Parent_KeyUp);
+            Parent.Parent.Parent.Parent.KeyDown += new KeyEventHandler(Parent_KeyDown);
             m_graphics = CreateGraphics();
 
         }
@@ -782,6 +796,16 @@ namespace primeira.pNeuron
         protected override void OnMouseDown(MouseEventArgs e)
         {
             Point p = DisplayMousePosition;
+
+            #region Add Neuron
+
+            if (DisplayStatus == pDisplayStatus.AddNeuron)
+            {
+                this.Add(new Neuron(0));
+                return;
+            }
+                        
+            #endregion
 
             bool bFound = false;
 
