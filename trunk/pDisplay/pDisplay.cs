@@ -88,7 +88,7 @@ namespace primeira.pNeuron
 
             BackColor = Color.White;
 
-            DoubleBuffered = true;
+  //          DoubleBuffered = true;
 
             m_log.Dock = DockStyle.Bottom;
             m_log.Multiline = true;
@@ -102,6 +102,7 @@ namespace primeira.pNeuron
             DisplayStatus = pDisplayStatus.Idle;
 
             pPanels = new List<pPanel>();
+            m_graphics = CreateGraphics();
 
         }
 
