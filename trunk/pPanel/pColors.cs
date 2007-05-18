@@ -84,8 +84,8 @@ namespace primeira.pNeuron
 
         public static pColorBase[] Colors = new pColorBase[9] { 
            
-            Silver,
-            Green, 
+           Silver,
+           Green, 
            Blue,
            Red,  
            Yellow,

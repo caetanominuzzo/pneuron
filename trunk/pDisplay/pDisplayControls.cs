@@ -50,9 +50,13 @@ namespace primeira.pNeuron
 
         private void SelectCore(pPanel p)
         {
+            bool old = p.Selected;
             if (!ShiftKey)
                 p.Selected = true;
             else p.Selected = !p.Selected;
+
+            if (old != p.Selected && OnSelectedPanelsChange!=null)
+                OnSelectedPanelsChange();
         }
 
         void Select(pPanel[] t)

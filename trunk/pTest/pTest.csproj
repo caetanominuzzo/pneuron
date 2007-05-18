@@ -36,6 +36,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="pNeuronIDE.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="pNeuronIDE.Designer.cs">
+      <DependentUpon>pNeuronIDE.cs</DependentUpon>
+    </Compile>
     <Compile Include="pTest.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -44,6 +50,10 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="pNeuronIDE.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>pNeuronIDE.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="pTest.resx">
       <SubType>Designer</SubType>
       <DependentUpon>pTest.cs</DependentUpon>
@@ -95,8 +105,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Properties\DataSources\primeira.pNeuron.pDisplay+pDisplayStatus.datasource" />
-    <None Include="Properties\DataSources\primeira.pNeuron.pDisplay.datasource" />
     <None Include="Resources\t4.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
