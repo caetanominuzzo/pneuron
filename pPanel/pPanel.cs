@@ -49,8 +49,8 @@ namespace primeira.pNeuron
 
             foreach (int i in Groups)
             {
-                lp.Add(pColors.Colors[Groups[i]]);
-                lpp.Add(pColors.Colors[Groups[i]].Pen);
+                lp.Add(pColors.Colors[i]);
+                lpp.Add(pColors.Colors[i].Pen);
             }
 
             if (lp.Count == 0)
@@ -83,8 +83,8 @@ namespace primeira.pNeuron
 
             foreach (int i in Groups)
             {
-                lp.Add(pColors.Colors[Groups[i]]);
-                lpp.Add(pColors.Colors[Groups[i]].Brush);
+                lp.Add(pColors.Colors[i]);
+                lpp.Add(pColors.Colors[i].Brush);
             }
 
             if (lp.Count == 0)
@@ -125,11 +125,7 @@ namespace primeira.pNeuron
                 Brush[] brush = GetBrushtyle();
                 Pen[] pen = GetPenStyle();
 
-                //g.FillEllipse(new SolidBrush(Color.FromArgb(200, Color.White)),
-                //            Bounds.Left,
-                //            Bounds.Top,
-                //            Bounds.Width,
-                //            Bounds.Height);
+
 
                 int iCount = pen.Length;
 
@@ -137,31 +133,51 @@ namespace primeira.pNeuron
 
                 int iStart = 0;
 
-                g.FillEllipse(brush[0],
-                                   Bounds.Left,
-                                   Bounds.Top,
-                                   Bounds.Width,
-                                   Bounds.Height);
-                             //      10,
-                               //    160);
-                return;
+                //g.FillEllipse(brush[0],
+                //                   Bounds.Left,
+                //                   Bounds.Top,
+                //                   Bounds.Width,
+                //                   Bounds.Height);
+                //             //      10,
+                //               //    160);
+
+                //g.DrawEllipse(pen[0], Bounds.Left + (pen[0].Width),
+                //                   Bounds.Top + (pen[0].Width),
+                //                   Bounds.Width - (pen[0].Width * 2),
+                //                   Bounds.Height - (pen[0].Width * 2));
+
+
+                //return;
                 for (int i = 0; i < pen.Length; i++)
                 {
+                    g.DrawPie(pen[i], Bounds.Left + (pen[i].Width),
+                                     Bounds.Top + (pen[i].Width),
+                                     Bounds.Width - (pen[i].Width * 2),
+                                     Bounds.Height - (pen[i].Width * 2),
+                                                                 iStart,
+                             iRad);   
+
+
+
+                    //g.FillEllipse(new SolidBrush(Color.FromArgb(200, Color.White)),
+                    //        Bounds.Left + 4,
+                    //        Bounds.Top + 4,
+                    //        Bounds.Width - 8,
+                    //        Bounds.Height - 8);
+
 
                     g.FillPie(brush[i],
                                Bounds.Left,
                                Bounds.Top,
                                Bounds.Width,
                                Bounds.Height,
-                               10,
-                               160);
+                               iStart,
+                               iRad);
 
+
+
+                  
                     iStart += iRad;
-
-                    //g.DrawEllipse(pen, Bounds.Left + (pen.Width),
-                    //                   Bounds.Top + (pen.Width),
-                    //                   Bounds.Width - (pen.Width * 2),
-                    //                   Bounds.Height - (pen.Width * 2));
                 }
                 //string s = "{}";
                 //Font f = new Font("Arial", 20, FontStyle.Bold, GraphicsUnit.Pixel, 1, true);
