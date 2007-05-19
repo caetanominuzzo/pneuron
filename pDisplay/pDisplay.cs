@@ -88,7 +88,7 @@ namespace primeira.pNeuron
 
             BackColor = Color.White;
 
-  //          DoubleBuffered = true;
+            DoubleBuffered = true;
 
             m_log.Dock = DockStyle.Bottom;
             m_log.Multiline = true;
@@ -169,8 +169,6 @@ namespace primeira.pNeuron
 
             Parent.Parent.Parent.Parent.KeyUp += new KeyEventHandler(Parent_KeyUp);
             Parent.Parent.Parent.Parent.KeyDown += new KeyEventHandler(Parent_KeyDown);
-            m_graphics = CreateGraphics();
-
         }
 
         void Parent_KeyUp(object sender, KeyEventArgs e)
