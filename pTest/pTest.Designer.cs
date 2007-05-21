@@ -38,6 +38,7 @@ namespace pTest
             this.pNeuronIDE1.Name = "pNeuronIDE1";
             this.pNeuronIDE1.Size = new System.Drawing.Size(585, 408);
             this.pNeuronIDE1.TabIndex = 0;
+            this.pNeuronIDE1.Parent = this;
             // 
             // pTest
             // 
