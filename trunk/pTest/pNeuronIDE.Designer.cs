@@ -29,6 +29,7 @@ namespace primeira.pNeuron
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(pNeuronIDE));
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -38,6 +39,7 @@ namespace primeira.pNeuron
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.toolBox1 = new Silver.UI.ToolBox();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.pDisplay1 = new primeira.pNeuron.pDisplay();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -105,8 +107,12 @@ namespace primeira.pNeuron
             // treeView1
             // 
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeView1.ImageIndex = 0;
+            this.treeView1.ImageList = this.imageList1;
+            this.treeView1.ItemHeight = 18;
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Name = "treeView1";
+            this.treeView1.SelectedImageIndex = 0;
             this.treeView1.Size = new System.Drawing.Size(158, 177);
             this.treeView1.TabIndex = 0;
             // 
@@ -115,8 +121,10 @@ namespace primeira.pNeuron
             this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.propertyGrid1.Location = new System.Drawing.Point(0, 2);
             this.propertyGrid1.Name = "propertyGrid1";
+            this.propertyGrid1.PropertySort = System.Windows.Forms.PropertySort.Alphabetical;
             this.propertyGrid1.Size = new System.Drawing.Size(158, 229);
             this.propertyGrid1.TabIndex = 0;
+            this.propertyGrid1.ToolbarVisible = false;
             // 
             // statusStrip1
             // 
@@ -181,17 +189,34 @@ namespace primeira.pNeuron
             this.toolBox1.UseItemColorInRename = false;
             this.toolBox1.Click += new System.EventHandler(this.toolBox1_Click);
             // 
+            // imageList1
+            // 
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "0.gif");
+            this.imageList1.Images.SetKeyName(1, "1.gif");
+            this.imageList1.Images.SetKeyName(2, "2.gif");
+            this.imageList1.Images.SetKeyName(3, "3.gif");
+            this.imageList1.Images.SetKeyName(4, "4.gif");
+            this.imageList1.Images.SetKeyName(5, "5.gif");
+            this.imageList1.Images.SetKeyName(6, "6.gif");
+            this.imageList1.Images.SetKeyName(7, "7.gif");
+            this.imageList1.Images.SetKeyName(8, "8.gif");
+            this.imageList1.Images.SetKeyName(9, "9.gif");
+            this.imageList1.Images.SetKeyName(10, "10.gif");
+            // 
             // pDisplay1
             // 
             this.pDisplay1.AutoScroll = true;
             this.pDisplay1.AutoScrollHorizontalMaximum = 100;
             this.pDisplay1.AutoScrollHorizontalMinimum = 0;
             this.pDisplay1.AutoScrollHPos = 0;
-            this.pDisplay1.AutoScrollMinSize = new System.Drawing.Size(500, 500);
             this.pDisplay1.AutoScrollVerticalMaximum = 100;
             this.pDisplay1.AutoScrollVerticalMinimum = 0;
             this.pDisplay1.AutoScrollVPos = 0;
+            this.pDisplay1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.pDisplay1.BackColor = System.Drawing.Color.White;
+            this.pDisplay1.Bezier = true;
             this.pDisplay1.CtrlKey = false;
             this.pDisplay1.Cursor = System.Windows.Forms.Cursors.Default;
             this.pDisplay1.DisplayStatus = primeira.pNeuron.pDisplay.pDisplayStatus.Idle;
@@ -202,11 +227,12 @@ namespace primeira.pNeuron
             this.pDisplay1.Name = "pDisplay1";
             this.pDisplay1.ShiftKey = false;
             this.pDisplay1.Size = new System.Drawing.Size(414, 414);
-            this.pDisplay1.TabIndex = 3;
+            this.pDisplay1.TabIndex = 0;
             this.pDisplay1.VisibleAutoScrollHorizontal = true;
             this.pDisplay1.VisibleAutoScrollVertical = true;
             this.pDisplay1.OnDisplayStatusChange += new primeira.pNeuron.pDisplay.DisplayStatusChangeDelegate(this.pDisplay1_OnDisplayStatusChange);
             this.pDisplay1.OnSelectedPanelsChange += new primeira.pNeuron.pDisplay.SelectedPanelsChangeDelegate(this.pDisplay1_OnSelectedPanelsChange);
+            this.pDisplay1.OnTreeViewChange += new primeira.pNeuron.pDisplay.TreeViewChangeDelegate(this.pDisplay1_OnTreeViewChange);
             // 
             // pNeuronIDE
             // 
@@ -237,12 +263,14 @@ namespace primeira.pNeuron
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private primeira.pNeuron.pDisplay pDisplay1;
+//        private primeira.pNeuron.pDisplay pDisplay1;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.TreeView treeView1;
         private System.Windows.Forms.PropertyGrid propertyGrid1;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.SplitContainer splitContainer3;
         private Silver.UI.ToolBox toolBox1;
+        private pDisplay pDisplay1;
+        private System.Windows.Forms.ImageList imageList1;
     }
 }
