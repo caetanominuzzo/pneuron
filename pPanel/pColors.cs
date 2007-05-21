@@ -81,10 +81,12 @@ namespace primeira.pNeuron
         public static pColorBase Orange = new pColorBase(Color.Orange);
         public static pColorBase Purple = new pColorBase(Color.Purple);
         public static pColorBase Silver = new pColorBase(Color.Silver);
+        public static pColorBase Black = new pColorBase(Color.Black);
+        public static pColorBase RosyBrown = new pColorBase(Color.RosyBrown);
 
-        public static pColorBase[] Colors = new pColorBase[9] { 
+
+        public static pColorBase[] Colors = new pColorBase[10] { 
            
-           Silver,
            Green, 
            Blue,
            Red,  
@@ -92,7 +94,9 @@ namespace primeira.pNeuron
            Pink, 
            Brown, 
            Orange,
-           Purple
+           Purple,
+           Black,
+           RosyBrown
            
         };
  
