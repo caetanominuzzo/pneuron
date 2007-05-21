@@ -36,8 +36,37 @@ namespace primeira.pNeuron
         public Dictionary<INeuron, NeuralFactor> Input { get { return ((pNeuron.Core.Neuron)Tag).Input; } } 
 
         [Browsable(true)]
-        public List<Neuron> Output { get { return ((pNeuron.Core.Neuron)Tag).Output; } } 
+        public List<Neuron> Output { get { return ((pNeuron.Core.Neuron)Tag).Output; } }
 
+        [Browsable(true)]
+        public double[] SynapseIN
+        {
+            get
+            {
+                List<double> d = new List<double>();
+                foreach (Neuron n in ((pNeuron.Core.Neuron)Tag).Input.Keys)
+                {
+                    d.Add(((pNeuron.Core.Neuron)Tag).Input[n].Weight);
+                }
+
+                return d.ToArray();
+            }
+        }
+
+        [Browsable(true)]
+        public double[] SynapseOUT
+        {
+            get
+            {
+                List<double> d = new List<double>();
+                foreach (Neuron n in ((pNeuron.Core.Neuron)Tag).Output)
+                {
+                    d.Add(n.Input[((pNeuron.Core.Neuron)Tag)].Weight);
+                }
+
+                return d.ToArray();
+            }
+        }
         
         #region Fuck!
 
