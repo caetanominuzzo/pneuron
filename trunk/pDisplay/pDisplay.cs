@@ -200,7 +200,7 @@ namespace primeira.pNeuron
         {
             primeira.pNeuron.pPanel p = new primeira.pNeuron.pPanel(m_graphics);
 
-            p.Width = 40;// NextRandom(2, 5) * 15;
+            p.Width = 25;// NextRandom(2, 5) * 15;
             p.Height = p.Width;
 
             //if (pPanels.Count == 0)
