@@ -10,7 +10,8 @@ namespace primeira.pNeuron
         private Color Color;
 
         public const byte COLOR_RGB_MARGIN = 10; //0 - 255
-        public const byte SELECTED_PEN_WIDTH = 4;
+        public const byte SELECTED_PEN_WIDTH = 2;
+
 
         public pColorBase(Color c)
         {
@@ -49,7 +50,7 @@ namespace primeira.pNeuron
 
         public Pen Pen
         {
-            get { return new Pen(SetAlpha(AddRGB(Color, -20), 100), 2); }
+            get { return new Pen(SetAlpha(AddRGB(Color, -20), 100), 1); }
         }
 
         public Pen SelectedPen
@@ -72,6 +73,10 @@ namespace primeira.pNeuron
 
     public static class pColors
     {
+
+
+
+
         public static pColorBase Blue = new pColorBase(Color.Blue);
         public static pColorBase Red = new pColorBase(Color.Red);
         public static pColorBase Green = new pColorBase(Color.Green);
@@ -83,20 +88,32 @@ namespace primeira.pNeuron
         public static pColorBase Silver = new pColorBase(Color.Silver);
         public static pColorBase Black = new pColorBase(Color.Black);
         public static pColorBase RosyBrown = new pColorBase(Color.RosyBrown);
+        public static pColorBase Cyan = new pColorBase(Color.Cyan);
 
 
         public static pColorBase[] Colors = new pColorBase[10] { 
            
-           Green, 
-           Blue,
-           Red,  
-           Yellow,
-           Pink, 
-           Brown, 
-           Orange,
-           Purple,
-           Black,
-           RosyBrown
+            Red,
+            Orange,
+            Yellow,
+            Green,
+            Cyan,
+            Blue,
+            Purple,
+            Pink,
+            Red,
+            Black
+
+           //Green, 
+           //Blue,
+           //Red,  
+           //Yellow,
+           //Pink, 
+           //Brown, 
+           //Orange,
+           //Purple,
+           //Black,
+           //RosyBrown
            
         };
  
