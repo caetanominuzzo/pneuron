@@ -246,9 +246,9 @@ namespace primeira.pNeuron
 
         public void DrawSynapse(Control c, Point d, Graphics g)
         {
-            Control dd = new Control();
+            pPanel dd = new pPanel(g);
             dd.Location = new Point(d.X - AutoScrollPosition.X, d.Y - AutoScrollPosition.Y);
-            DrawSynapse(c, dd, g);
+            DrawSynapse(dd, c, g);
         }
 
         public void DrawSynapse(Control c, Control d)
@@ -256,7 +256,7 @@ namespace primeira.pNeuron
             DrawSynapse(c, d, m_graphics);
         }
 
-        private void DrawSynapse(Control c, Control d, Graphics g)
+        private void DrawSynapse(Control d, Control c, Graphics g)
         {
 
             if (c.Location == d.Location)
@@ -749,16 +749,16 @@ namespace primeira.pNeuron
 
                                             Neuron target = (Neuron)ppp.Tag;
 
-                                            if (!n.Input.ContainsKey(target))
+                                            if (!target.Input.ContainsKey(n))
                                             {
-                                                n.Input.Add(target, new NeuralFactor(new Random(1).NextDouble()));
-                                                target.Output.Add(n);
+                                                n.Output.Add(target);// .Input.Add(target, new NeuralFactor(new Random(1).NextDouble()));
+                                                target.Input.Add(n, new NeuralFactor(m_random.NextDouble())); //Output.Add(n);
                                                 DrawSynapse(pp, ppp);
                                             }
                                             else
                                             {
-                                                n.Input.Remove(target);
-                                                target.Output.Remove(n);
+                                                target.Input.Remove(n);
+                                                n.Output.Remove(target);
                                             }
                                         }
                                     }
@@ -894,7 +894,7 @@ namespace primeira.pNeuron
                     {
                         foreach (pPanel pp in HighlightedpPanels)
                         {
-                            DrawSynapse(p, pp, e.Graphics);
+                            DrawSynapse(pp, p, e.Graphics);
                         }
                     }
                     else
