@@ -31,6 +31,9 @@ namespace primeira.pNeuron
         public delegate void DisplayStatusChangeDelegate();
         public event DisplayStatusChangeDelegate OnDisplayStatusChange;
 
+        public delegate void TreeViewChangeDelegate(int iKey);
+        public event TreeViewChangeDelegate OnTreeViewChange;
+
         #endregion
 
         #region Enums
@@ -61,7 +64,7 @@ namespace primeira.pNeuron
 
         private bool m_ctrlKey = false;
 
-        private TextBox m_log = new TextBox();
+        public TextBox Logger = new TextBox();
 
         private Nullable<Point> m_selectSourcePoint; //Initial point of the select rectangle
 
@@ -74,6 +77,12 @@ namespace primeira.pNeuron
         private bool m_gridShow = false;
 
         private bool m_bezier = true;
+
+        public bool Bezier
+        {
+            get { return m_bezier; }
+            set { m_bezier = value; }
+        }
 
         private pDisplayStatus m_DisplayStatus;
 
@@ -90,11 +99,11 @@ namespace primeira.pNeuron
 
             DoubleBuffered = true;
 
-            m_log.Dock = DockStyle.Bottom;
-            m_log.Multiline = true;
-            m_log.Height = 100;
-            m_log.Visible = false;
-            Controls.Add(m_log);
+            Logger.Dock = DockStyle.Bottom;
+            Logger.Multiline = true;
+            Logger.Height = 100;
+            Logger.Visible = false;
+            Controls.Add(Logger);
 
 
             m_lastSelectItems = new List<pPanel>();
@@ -103,6 +112,9 @@ namespace primeira.pNeuron
 
             pPanels = new List<pPanel>();
             m_graphics = CreateGraphics();
+
+            for(int i=0;i<m_groups.Length;i++)
+                m_groups[i] = new List<pPanel>();
 
         }
 
@@ -166,130 +178,9 @@ namespace primeira.pNeuron
         public void Initialize()
         {
 
-
-            Parent.Parent.Parent.Parent.KeyUp += new KeyEventHandler(Parent_KeyUp);
-            Parent.Parent.Parent.Parent.KeyDown += new KeyEventHandler(Parent_KeyDown);
         }
 
-        void Parent_KeyUp(object sender, KeyEventArgs e)
-        {
 
-
-            switch (e.KeyCode)
-            {
-                case Keys.B: m_bezier = !m_bezier;
-                    Invalidate();
-                    break;
-                case Keys.S:
-                    if (e.Alt)
-                        foreach (pPanel p in SelectedpPanels)
-                            Log(pPanels.IndexOf(p).ToString());
-                    break;
-                case Keys.H:
-                    if (e.Alt)
-                        foreach (pPanel p in HighlightedpPanels)
-                            Log(pPanels.IndexOf(p).ToString());
-                    break;
-                case Keys.K: //Log ShiftB
-                    m_log.Visible = !m_log.Visible;
-                    break;
-                case Keys.Escape:
-                    UnSelect();
-                    DisplayStatus = pDisplayStatus.Idle;
-                    break;
-                case Keys.L: //Link Mode
-                    DisplayStatus = pDisplayStatus.Linking_Paused;
-                    break;
-                case Keys.G: //Show Grid
-                    m_gridShow = !m_gridShow;
-                    break;
-                case Keys.A:
-                    if (ShiftKey)
-                    {
-                        foreach (pPanel p in pPanels)
-                            p.Location = new Point(Convert.ToInt32((p.Left) / m_gridDistance) * m_gridDistance, Convert.ToInt32((p.Top) / m_gridDistance) * m_gridDistance);
-                    }
-                    else
-                        m_allignToGrid = !m_allignToGrid;
-                    break;
-                case Keys.D1:
-                case Keys.D2:
-                case Keys.D3:
-                case Keys.D4:
-                case Keys.D5:
-                case Keys.D6:
-                case Keys.D7:
-                case Keys.D8:
-                case Keys.D9:
-                case Keys.D0:
-
-                    int iKey = Convert.ToInt16(e.KeyCode.ToString().Replace("D", ""));
-
-                    if (CtrlKey) //Create
-                    {
-                        if (SelectedpPanels.Length == 0)
-                        {
-                            if (m_groups[iKey] != null)
-                            {
-                                foreach (pPanel p in m_groups[iKey])
-                                {
-                                    p.Groups.Remove(iKey);
-                                    Invalidate(p.Bounds);
-                                }
-                                m_groups[iKey] = null;
-                            }
-                        }
-
-                        if (m_groups[iKey] == null)
-                            m_groups[iKey] = new List<pPanel>();
-                        else if (!ShiftKey)
-                            m_groups[iKey].Clear();
-
-                        foreach (pPanel p in SelectedpPanels)
-                        {
-                            m_groups[iKey].Add(p);
-                            if (p.Groups.IndexOf(iKey) == -1)
-                                p.Groups.Add(iKey);
-
-                            Invalidate(p.Bounds);
-
-                        }
-
-                    }
-                    else
-                    {
-
-                        if (!ShiftKey)
-                            UnSelect();
-
-                        if (m_groups[iKey] != null)
-                            foreach (pPanel p in m_groups[iKey])
-                                Select(p);
-                    }
-
-                    break;
-            }
-
-            if (!e.Shift)
-                ShiftKey = false;
-
-            if (!e.Control)
-                CtrlKey = false;
-        }
-
-        void Parent_KeyDown(object sender, KeyEventArgs e)
-        {
-
-            if (e.KeyCode == Keys.ShiftKey)
-            {
-                ShiftKey = true;
-            }
-
-            if (e.KeyCode == Keys.ControlKey)
-            {
-                CtrlKey = true;
-            }
-        }
 
         #endregion
 
@@ -302,34 +193,34 @@ namespace primeira.pNeuron
 
         public void Log(string s)
         {
-            m_log.Text = s + "\r\n" + m_log.Text;
+            Logger.Text = s + "\r\n" + Logger.Text;
         }
 
-        public void Add(Neuron n)
+        public pPanel Add(Neuron n)
         {
             primeira.pNeuron.pPanel p = new primeira.pNeuron.pPanel(m_graphics);
 
             p.Width = 40;// NextRandom(2, 5) * 15;
             p.Height = p.Width;
 
-            if (pPanels.Count == 0)
-            {
-                p.Left = 100;
-                p.Top = 400;
-            }
-            else
-            {
-                p.Left = 500;
-                p.Top = 100;
-            }
+            //if (pPanels.Count == 0)
+            //{
+            //    p.Left = 100;
+            //    p.Top = 400;
+            //}
+            //else
+            //{
+            //    p.Left = 500;
+            //    p.Top = 100;
+            //}
 
-            Point point;
-            do
-            {
-                point = new Point(NextRandom(1, this.Width), NextRandom(1, this.Height));
-            } while (isUsed(point));
-            p.Location = new Point(Convert.ToInt32((point.X) / m_gridDistance) * m_gridDistance, Convert.ToInt32((point.Y) / m_gridDistance) * m_gridDistance);
-            p.Parent = this;
+            //Point point;
+            //do
+            //{
+            //    point = new Point(NextRandom(1, this.Width), NextRandom(1, this.Height));
+            //} while (isUsed(point));
+            //p.Location = new Point(Convert.ToInt32((point.X) / m_gridDistance) * m_gridDistance, Convert.ToInt32((point.Y) / m_gridDistance) * m_gridDistance);
+            //p.Parent = this;
       
 
             p.BackColor = Color.AliceBlue;
@@ -337,6 +228,7 @@ namespace primeira.pNeuron
             Controls.Add(p);
             pPanels.Add(p);
             p.Visible = false;
+            return p;
         }
 
         public void DrawSelect(Rectangle cBounds, Graphics gg)
@@ -725,6 +617,18 @@ namespace primeira.pNeuron
                             pp.Location = new Point(Convert.ToInt32(Math.Round(((double)p.X - ((double)pp.MousePositionOnDown.X)) / (double)iGridDistance)) * iGridDistance, Convert.ToInt32(Math.Round(((double)p.Y - ((double)pp.MousePositionOnDown.Y)) / (double)iGridDistance)) * iGridDistance);
 
                         }
+
+                        Rectangle rArea = pPanels[0].Bounds;
+
+                        foreach (pPanel pp in pPanels)
+                        {
+                            rArea = ExpandRectangle(rArea, pp.Bounds);
+                        }
+
+                        AutoScrollMinSize = new Size(
+                            rArea.Left + rArea.Width,
+                            rArea.Top + rArea.Height);
+                        
                     }
 
                     Invalidate();
@@ -800,7 +704,10 @@ namespace primeira.pNeuron
 
             if (DisplayStatus == pDisplayStatus.AddNeuron)
             {
-                this.Add(new Neuron(0));
+                pPanel pp = this.Add(new Neuron(0));
+                pp.Location = new Point(DisplayMousePosition.X - pp.Width / 2,
+                                        DisplayMousePosition.Y - pp.Height / 2);
+                Invalidate(pp.Bounds);
                 return;
             }
                         
