@@ -59,13 +59,13 @@ namespace primeira.pNeuron
                 OnSelectedPanelsChange();
         }
 
-        void Select(pPanel[] t)
+        public void Select(pPanel[] t)
         {
             foreach (pPanel p in t)
                 Select(p);
         }
 
-        void Select(pPanel p)
+        public void Select(pPanel p)
         {
 //            if(DisplayStatus != pDisplayStatus.Selecting && !ShiftKey)
 //                UnSelect();
@@ -95,7 +95,7 @@ namespace primeira.pNeuron
             Invalidate(p.Bounds);
         }
 
-        void UnSelect()
+        public void UnSelect()
         {
             while (SelectedpPanels.Length > 0)
             {
@@ -103,7 +103,7 @@ namespace primeira.pNeuron
             }
         }
 
-        void UnSelect(pPanel p)
+        public void UnSelect(pPanel p)
         {
 
             if (!CtrlKey)
@@ -127,7 +127,7 @@ namespace primeira.pNeuron
             Invalidate(p.Bounds);
         }
 
-        void Shift(pPanel p)
+        public void Shift(pPanel p)
         {
             p.Selected = !p.Selected;
             Invalidate(p.Bounds);
@@ -157,14 +157,14 @@ namespace primeira.pNeuron
         }
 
 
-        void HighLight(pPanel p)
+        public void HighLight(pPanel p)
         {
             p.Highlighted = true;
 
             Invalidate(p.Bounds);
         }
 
-        void UnHighLight()
+        public void UnHighLight()
         {
             while (HighlightedpPanels.Length > 0)
             {
@@ -172,7 +172,7 @@ namespace primeira.pNeuron
             }
         }
 
-        void UnHighLight(pPanel p)
+        public void UnHighLight(pPanel p)
         {
             p.Highlighted = false;
             Invalidate(p.Bounds);
@@ -207,6 +207,73 @@ namespace primeira.pNeuron
             return Has;
 
         }
+
+        #region Groups
+
+        public void Add(pPanel p, int GroupIndex)
+        {
+            m_groups[GroupIndex].Add(p);
+            if(!p.Groups.Contains(GroupIndex))
+                p.Groups.Add(GroupIndex);
+            Invalidate(p.Bounds);
+
+            if (OnTreeViewChange != null)
+                OnTreeViewChange(GroupIndex);
+        }
+
+        public bool GroupIsSet(int i)
+        {
+            return m_groups[i] != null;
+        }
+
+        public pPanel[] GroupGetPanel(int i)
+        {
+            return m_groups[i].ToArray();
+        }
+
+        public void GroupFree(int iKey)
+        {
+            foreach (pPanel p in GroupGetPanel(iKey))
+            {
+                p.Groups.Remove(iKey);
+                Invalidate(p.Bounds);
+            }
+
+            m_groups[iKey].Clear();
+
+            if(OnTreeViewChange!=null)
+                OnTreeViewChange(iKey);
+        }
+
+        public void GroupSelect(int i)
+        {
+            foreach (pPanel p in GroupGetPanel(i))
+                Select(p);
+        }
+
+        public List<pPanel>[] Groups()
+        {
+            List<pPanel>[] d = new List<pPanel>[11];
+
+            int i = 0;
+            d[i] = new List<pPanel>();
+            foreach (pPanel p in pPanels)
+                if (p.Groups.Count == 0)
+                    d[0].Add(p);
+
+
+            foreach (List<pPanel> l in m_groups)
+            {
+                i++;
+                d[i] = new List<pPanel>();
+                foreach (pPanel p in l)
+                    d[i].Add(p);
+            }
+
+            return d;
+        }
+
+        #endregion
 
     }
 }
