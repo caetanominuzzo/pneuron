@@ -33,11 +33,6 @@ namespace primeira.pNeuron
                 foreach (pPanel p in pPanels)
                     if (p.Highlighted)
                         t.Add(p);
-                if (t.Count == 2)
-                {
-                    System.Diagnostics.Debug.Assert(t.Count == 2, "break");
-                }
-                    
                 return t.ToArray();
             }
         }
@@ -207,6 +202,12 @@ namespace primeira.pNeuron
             return Has;
 
         }
+
+        #region Utils
+
+      
+
+        #endregion
 
         #region Groups
 

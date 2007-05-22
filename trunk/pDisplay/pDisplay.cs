@@ -6,11 +6,16 @@ using System.Drawing;
 using primeira.pNeuron.Core;
 using System.Drawing.Imaging;
 using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace primeira.pNeuron
 {
     public partial class pDisplay : primeira.pExternal.CustomAutoScrollPanel.ScrollablePanel
     {
+
+        [DllImport("Kernel32.dll")]
+        public static extern bool Beep(UInt32 frequency, UInt32 duration);
+
 
         #region Temp
 
@@ -31,7 +36,7 @@ namespace primeira.pNeuron
         public delegate void DisplayStatusChangeDelegate();
         public event DisplayStatusChangeDelegate OnDisplayStatusChange;
 
-        public delegate void TreeViewChangeDelegate(int iKey);
+        public delegate void TreeViewChangeDelegate(int iGroup);
         public event TreeViewChangeDelegate OnTreeViewChange;
 
         #endregion
@@ -228,6 +233,8 @@ namespace primeira.pNeuron
             Controls.Add(p);
             pPanels.Add(p);
             p.Visible = false;
+            int i = pPanels.Count -1;
+            p.Text = "n" + i.ToString();
             return p;
         }
 
@@ -631,15 +638,21 @@ namespace primeira.pNeuron
                         
                     }
 
-                    Invalidate();
+                    //Invalidate();
 
                 }
                 else if (DisplayStatus == pDisplayStatus.Linking || DisplayStatus == pDisplayStatus.Linking_Paused)
                 {
                     if (SelectedpPanels.Length > 0)
                     {
-                        Invalidate();
                         DisplayStatus = pDisplayStatus.Linking;
+                        if (Contains(HighlightedpPanels, SelectedpPanels)>0)
+                        {
+                            Cursor = Cursors.No;
+                        }
+
+                        Invalidate();
+                        
                     }
                 }
                 else if (DisplayStatus == pDisplayStatus.Idle)
@@ -660,7 +673,8 @@ namespace primeira.pNeuron
 
         private void RefreshHighlight()
         {
-            UnHighLight();
+
+            List<pPanel> toHighlight = new List<pPanel>();
 
             bool bGroupHighlight = false;
             if (!CtrlKey)
@@ -673,25 +687,45 @@ namespace primeira.pNeuron
                             {
                                 foreach (pPanel pp in lp)
                                 {
-                                    HighLight(pp);
-                                    Invalidate(pp.Bounds);
+                                    toHighlight.Add(pp);
                                 }
                                 bGroupHighlight = true;
                             }
                 }
             }
+
             if (!bGroupHighlight)
             {
                 foreach (pPanel p in pPanels)
                 {
                     if (p.Bounds.Contains(DisplayMousePosition))
                     {
-                        HighLight(p);
-                        Invalidate(p.Bounds);
+                        toHighlight.Add(p);
                         break;
                     }
                 }
             }
+
+
+                foreach (pPanel p in pPanels)
+                {
+                    if (toHighlight.Contains(p))
+                    {
+                        if (!p.Highlighted)
+                        {
+                            HighLight(p);
+                            Invalidate(p.Bounds);
+                        }
+                    }
+                    else
+                    {
+                        if (p.Highlighted)
+                        {
+                            UnHighLight(p);
+                            Invalidate(p.Bounds);
+                        }
+                    }
+                }
 
 
         }
@@ -699,6 +733,12 @@ namespace primeira.pNeuron
         protected override void OnMouseDown(MouseEventArgs e)
         {
             Point p = DisplayMousePosition;
+
+            if (Cursor == Cursors.No)
+            {
+                Beep(456, 100);
+                return;
+            }
 
             #region Add Neuron
 
@@ -708,6 +748,8 @@ namespace primeira.pNeuron
                 pp.Location = new Point(DisplayMousePosition.X - pp.Width / 2,
                                         DisplayMousePosition.Y - pp.Height / 2);
                 Invalidate(pp.Bounds);
+                if (OnTreeViewChange != null)
+                    OnTreeViewChange(0);
                 return;
             }
                         
@@ -733,8 +775,10 @@ namespace primeira.pNeuron
                             if (DisplayStatus == pDisplayStatus.Linking_Paused)
                             {
                                 Select(HighlightedpPanels);
+                                return;
                             }
 
+                            
 
                             if (SelectedpPanels.Length > 0)
                             {
@@ -753,7 +797,7 @@ namespace primeira.pNeuron
                                             {
                                                 n.Output.Add(target);// .Input.Add(target, new NeuralFactor(new Random(1).NextDouble()));
                                                 target.Input.Add(n, new NeuralFactor(m_random.NextDouble())); //Output.Add(n);
-                                                DrawSynapse(pp, ppp);
+                                                Invalidate();
                                             }
                                             else
                                             {
