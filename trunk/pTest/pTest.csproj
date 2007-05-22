@@ -36,6 +36,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="pLayout.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="pLayout.Designer.cs">
+      <DependentUpon>pLayout.cs</DependentUpon>
+    </Compile>
     <Compile Include="pNeuronIDE.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -50,6 +56,10 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="pLayout.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>pLayout.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="pNeuronIDE.resx">
       <SubType>Designer</SubType>
       <DependentUpon>pNeuronIDE.cs</DependentUpon>
