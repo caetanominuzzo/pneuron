@@ -39,6 +39,13 @@ namespace primeira.pNeuron
         public List<Neuron> Output { get { return ((pNeuron.Core.Neuron)Tag).Output; } }
 
         [Browsable(true)]
+        public String Name { get { return Text; } set { Text = value; } }
+
+        [Browsable(false)]
+        public String Text { get { return base.Text; } set { base.Text = value; } }
+
+
+        [Browsable(true)]
         public double[] SynapseIN
         {
             get
@@ -375,11 +382,13 @@ namespace primeira.pNeuron
 
                 iStart += iRad;
             }
-            //string s = "{}";
-            //Font f = new Font("Arial", 20, FontStyle.Bold, GraphicsUnit.Pixel, 1, true);
-            //g.DrawString(s, f, new SolidBrush(pen.Color),
-            //    -(g.MeasureString(s, f).Width / 2) + Bounds.Left + Bounds.Width / 2,
-            //    -(g.MeasureString(s, f).Height / 2) + Bounds.Top + Bounds.Height / 2);
+            string s = Text;
+            Font f = new Font(SystemFonts.MenuFont.SystemFontName, 10, FontStyle.Regular, GraphicsUnit.Pixel, 1, true);
+
+            //g.TextContrast = 5;
+            g.DrawString(s, f, new SolidBrush(Color.Black),
+                -(g.MeasureString(s, f).Width / 2) + Bounds.Left + Bounds.Width / 2 + 2,
+                -(g.MeasureString(s, f).Height / 2) + Bounds.Top + Bounds.Height / 2);
 
 
         }
@@ -434,62 +443,6 @@ namespace primeira.pNeuron
 
 
 
-        /*
-                protected override void OnPaint(PaintEventArgs e)
-                {
-                     base.OnPaint(e);
-                     return;
-                    Graphics g = e.Graphics;
-                //    m_graphics.FillRectangle(new SolidBrush(Color.Yellow), Bounds); 
 
-
-                    string sPath= @"C:\Documents and Settings\Caetano\My Documents\Visual Studio 2005\Projects\Primeira\pNeuron\pImages\pPanel\";
-            
-                    m_graphics.DrawImage(Image.FromFile(sPath + "leftTop.gif"), 0, 0);
-                    m_graphics.DrawImage(Image.FromFile(sPath + "rightTop.gif"), Width - 10, 0);
-
-                    m_graphics.DrawImage(Image.FromFile(sPath + "leftBottom.gif"), 0, Height - 25);
-                    m_graphics.DrawImage(Image.FromFile(sPath + "rightBottom.gif"), Width - 10, Height - 25);
-
-
-                    Image m = Image.FromFile(sPath + "Top.gif");
-
-                    m_graphics.DrawImage(m, new Rectangle(new Point(m.Width, 0),
-                  new Size(Width, m.Height)));
-
-                    m = Image.FromFile(sPath + "Bottom.gif");
-
-                    m_graphics.DrawImage(m, new Rectangle(new Point(m.Width, Height-m.Height),
-                  new Size(Width, m.Height)));
-
-                    m = Image.FromFile(sPath + "left.gif");
-
-                    m_graphics.DrawImage(m, new Rectangle(new Point(0, m.Height),
-                  new Size(m.Width, Height - m.Height * 2)));
-
-                    m = Image.FromFile(sPath + "right.gif");
-
-                    m_graphics.DrawImage(m, new Rectangle(new Point(Width - m.Width , m.Height),
-                  new Size(10, Height - m.Height * 2)));
-
-
-                    if (m_displayName != "")
-                    {
-                        Size s = new Size(pUtils.MeasureDisplayString(g, m_displayName, SystemFonts.MenuFont));
-                        m_graphics.DrawString(m_displayName, SystemFonts.MenuFont,
-                      new LinearGradientBrush(
-                 new Rectangle(new Point(10, 7), s),
-                 Color.DarkGray, Color.Gray, 90),
-                      10, 7);
-                    }
-    
-                 }
-
-                protected override void OnResize(EventArgs eventargs)
-                {
-                    base.OnResize(eventargs);
-                    Invalidate();
-                }
-        */
     }
 }

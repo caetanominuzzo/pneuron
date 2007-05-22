@@ -16,10 +16,15 @@ namespace primeira.pNeuron
         public pNeuronIDE()
         {
             InitializeComponent();
-            toolBox1.AddTab("Neuron");
-            toolBox1[0].AddItem("Cursor");
-            toolBox1[0].AddItem("Neuron");
-            toolBox1[0].AddItem("Synapse");
+
+            propertyGrid1.SelectedObject = pDisplay1;
+            int i = 0;
+            foreach (List<pPanel> l in pDisplay1.Groups())
+            {
+                treeView1.Nodes.Add("Group " + i.ToString() + " ["+l.Count.ToString()+"]");
+                treeView1.Nodes[i].ImageIndex = i;
+                i++;
+            }
         }
 
         private void pDisplay1_OnDisplayStatusChange()
@@ -40,20 +45,6 @@ namespace primeira.pNeuron
             }
 
 
-        }
-
-        private void toolBox1_Click(object sender, EventArgs e)
-        {
-            switch (toolBox1.SelectedTab.SelectedItem.Caption)
-            {
-                case "Neuron": pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.AddNeuron;
-                    break;
-                case "Cursor": pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.Idle;
-                    break;
-                case "Synapse": pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.Linking_Paused;
-                    break;
-                    
-            }
         }
 
         protected override void OnLoad(EventArgs e)
@@ -151,22 +142,41 @@ namespace primeira.pNeuron
 
         private void pDisplay1_OnTreeViewChange(int iKey)
         {
-            treeView1.Nodes.Clear();
 
             int i=0;
             int j = 0;
+
             foreach (List<pPanel> l in pDisplay1.Groups())
             {
-                treeView1.Nodes.Add("Group " + i.ToString() + "["+l.Count.ToString());
-                treeView1.Nodes[i].ImageIndex = i;
+                treeView1.Nodes[i].Text = "Group " + i.ToString() + " [" + l.Count.ToString() + "]";
+                treeView1.Nodes[i].Nodes.Clear();
+
                 foreach (pPanel p in l)
                 {
-                    treeView1.Nodes[i].Nodes.Add("Neuron " + j.ToString());
+                    treeView1.Nodes[i].Nodes.Add(p.Name);
                     j++;
                 }
 
                 i++;
             }
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            if(radioButton1.Checked)
+                pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.Idle;
+        }
+
+        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton2.Checked)
+                pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.AddNeuron;
+        }
+
+        private void radioButton3_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton3.Checked)
+                pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.Linking_Paused;
         }
 
 
