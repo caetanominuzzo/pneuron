@@ -9,9 +9,15 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace primeira.pNeuron
 {
-    class pProperty : DockContent
+    public class pProperty : DockContent
     {
         public PropertyGrid propertyGrid1;
+
+        public pProperty()
+        {
+
+            InitializeComponent();
+        }
 
         private void InitializeComponent()
         {
@@ -29,8 +35,10 @@ namespace primeira.pNeuron
             // pProperty
             // 
             this.ClientSize = new System.Drawing.Size(292, 273);
-            this.Controls.Add(this.propertyGrid1);
             this.Name = "pProperty";
+            this.TabText = "Properties";
+            this.Text = "Properties";
+            this.Controls.Add(this.propertyGrid1);
             this.ResumeLayout(false);
 
         }
