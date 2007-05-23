@@ -2,7 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace pTest
+
+namespace primeira.pNeuron
 {
     static class Program
     {
@@ -14,7 +15,7 @@ namespace pTest
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new pTest());
+            Application.Run(new pNeuronIDE());
         }
     }
 }
