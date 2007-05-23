@@ -21,10 +21,11 @@ namespace primeira.pNeuron
         public pNeuronIDE()
         {
             InitializeComponent();
-            
-            
-            treeview.Show(dockPanel, DockState.DockRight);
+
             toolbox.Show(dockPanel, DockState.DockLeft);
+
+            treeview.Show(dockPanel, DockState.DockRight);
+            
 
             property.Show(dockPanel, DockState.DockRight);
             property.DockTo(treeview.Pane, DockStyle.Bottom, 0);
