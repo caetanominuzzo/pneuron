@@ -35,7 +35,7 @@ namespace primeira.pNeuron
             this.rCursor.AutoEllipsis = true;
             this.rCursor.Location = new System.Drawing.Point(0, 4);
             this.rCursor.Name = "rCursor";
-            this.rCursor.Size = new System.Drawing.Size(127, 22);
+            this.rCursor.Size = new System.Drawing.Size(192, 22);
             this.rCursor.TabIndex = 0;
             this.rCursor.TabStop = true;
             this.rCursor.Text = "Cursor";
@@ -50,7 +50,7 @@ namespace primeira.pNeuron
             this.rSynapse.AutoEllipsis = true;
             this.rSynapse.Location = new System.Drawing.Point(0, 28);
             this.rSynapse.Name = "rSynapse";
-            this.rSynapse.Size = new System.Drawing.Size(127, 22);
+            this.rSynapse.Size = new System.Drawing.Size(192, 22);
             this.rSynapse.TabIndex = 1;
             this.rSynapse.TabStop = true;
             this.rSynapse.Text = "Add Synapse";
@@ -65,7 +65,7 @@ namespace primeira.pNeuron
             this.rNeuron.AutoEllipsis = true;
             this.rNeuron.Location = new System.Drawing.Point(0, 52);
             this.rNeuron.Name = "rNeuron";
-            this.rNeuron.Size = new System.Drawing.Size(127, 22);
+            this.rNeuron.Size = new System.Drawing.Size(192, 22);
             this.rNeuron.TabIndex = 2;
             this.rNeuron.TabStop = true;
             this.rNeuron.Text = "Add Neuron";
@@ -74,7 +74,7 @@ namespace primeira.pNeuron
             // 
             // pToolbox
             // 
-            this.ClientSize = new System.Drawing.Size(127, 273);
+            this.ClientSize = new System.Drawing.Size(192, 581);
             this.Controls.Add(this.rNeuron);
             this.Controls.Add(this.rSynapse);
             this.Controls.Add(this.rCursor);
