@@ -18,6 +18,7 @@ namespace pTest
         public pTest()
         {
             InitializeComponent();
+            IsMdiContainer = true;
             
         }
 

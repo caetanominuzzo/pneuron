@@ -36,17 +36,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="pDocument.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="pLayout.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="pLayout.Designer.cs">
       <DependentUpon>pLayout.cs</DependentUpon>
     </Compile>
-    <Compile Include="pNeuronIDE.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="pNeuronIDE.Designer.cs">
-      <DependentUpon>pNeuronIDE.cs</DependentUpon>
+    <Compile Include="pProperty.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="pTest.cs">
       <SubType>Form</SubType>
@@ -56,13 +56,17 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="pDocument.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>pDocument.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="pLayout.resx">
       <SubType>Designer</SubType>
       <DependentUpon>pLayout.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="pNeuronIDE.resx">
+    <EmbeddedResource Include="pProperty.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>pNeuronIDE.cs</DependentUpon>
+      <DependentUpon>pProperty.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="pTest.resx">
       <SubType>Designer</SubType>
@@ -72,6 +76,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pTreeview.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>pTreeview.cs</DependentUpon>
     </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -86,6 +94,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="pToolbox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="pTreeview.cs">
+      <SubType>Form</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -112,6 +126,10 @@
     <ProjectReference Include="..\pPanel\pPanel.csproj">
       <Project>{D3847E8B-A4C3-49BB-B119-3F2B981C9154}</Project>
       <Name>pPanel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WinFormsUI\WinFormsUI.csproj">
+      <Project>{C75532C4-765B-418E-B09B-46D36B2ABDB1}</Project>
+      <Name>WinFormsUI</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
