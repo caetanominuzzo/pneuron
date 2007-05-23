@@ -48,14 +48,7 @@ namespace primeira.pNeuron
         {
             base.OnShown(e);
 
-            ((pNeuronIDE)DockPanel.Parent).property.propertyGrid1.SelectedObject = ((pNeuronIDE)DockPanel.Parent).document.pDisplay1;
-            int i = 0;
-            foreach (List<pPanel> l in ((pNeuronIDE)DockPanel.Parent).document.pDisplay1.Groups())
-            {
-                treeView1.Nodes.Add("Group " + i.ToString() + " [" + l.Count.ToString() + "]");
-                treeView1.Nodes[i].ImageIndex = i;
-                i++;
-            }
+            
 
         }
     }
