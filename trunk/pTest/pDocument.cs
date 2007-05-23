@@ -64,6 +64,7 @@ namespace primeira.pNeuron
             this.Name = "pDocument";
             this.TabText = "[NeuralNetwork1]";
             this.Text = "[NeuralNetwork1]";
+            this.Activated += new System.EventHandler(this.pDocument_Activated);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.pDocument_KeyUp);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.pDocument_KeyDown);
             this.ResumeLayout(false);
@@ -188,5 +189,38 @@ namespace primeira.pNeuron
                 i++;
             }
         }
+
+        private void pDocument_Activated(object sender, EventArgs e)
+        {
+            ((pNeuronIDE)DockPanel.Parent).ActiveDocument = this;
+
+            switch(pDisplay1.DisplayStatus)
+            {
+                case pDisplay.pDisplayStatus.AddNeuron:
+                    ((pNeuronIDE)DockPanel.Parent).toolbox.rNeuron.Checked = true;
+                    break;
+                case pDisplay.pDisplayStatus.Linking_Paused:
+                case pDisplay.pDisplayStatus.Linking:
+                    ((pNeuronIDE)DockPanel.Parent).toolbox.rSynapse.Checked = true;
+                    break;
+                default :
+                    ((pNeuronIDE)DockPanel.Parent).toolbox.rCursor.Checked = true;
+                    break;
+
+            }
+
+            ((pNeuronIDE)DockPanel.Parent).treeview.treeView1.Nodes.Clear();
+
+                ((pNeuronIDE)DockPanel.Parent).property.propertyGrid1.SelectedObject = ((pNeuronIDE)DockPanel.Parent).ActiveDocument.pDisplay1;
+                int i = 0;
+                foreach (List<pPanel> l in ((pNeuronIDE)DockPanel.Parent).ActiveDocument.pDisplay1.Groups())
+                {
+                    ((pNeuronIDE)DockPanel.Parent).treeview.treeView1.Nodes.Add("Group " + i.ToString() + " [" + l.Count.ToString() + "]");
+                    ((pNeuronIDE)DockPanel.Parent).treeview.treeView1.Nodes[i].ImageIndex = i;
+                    i++;
+                }
+            }
+
+
     }
 }

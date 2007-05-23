@@ -14,12 +14,14 @@ namespace primeira.pNeuron
         public pProperty property = new pProperty();
         public pToolbox toolbox = new pToolbox();
         public pTreeview treeview = new pTreeview();
-        public pDocument document = new pDocument();
+        public List<pDocument> documents = new List<pDocument>();
+        public pDocument ActiveDocument;
+
 
         public pNeuronIDE()
         {
             InitializeComponent();
-            document.Show(dockPanel, DockState.Document);
+            
             
             treeview.Show(dockPanel, DockState.DockRight);
             toolbox.Show(dockPanel, DockState.DockLeft);
@@ -27,6 +29,13 @@ namespace primeira.pNeuron
             property.Show(dockPanel, DockState.DockRight);
             property.DockTo(treeview.Pane, DockStyle.Bottom, 0);
            
+        }
+
+        private void newNeuralNetworkToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            documents.Add(new pDocument());
+            ActiveDocument = documents[documents.Count - 1];
+            ActiveDocument.Show(dockPanel, DockState.Document);
         }
     }
 }

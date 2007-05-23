@@ -11,9 +11,9 @@ namespace primeira.pNeuron
 {
     public class pToolbox : DockContent
     {
-        private RadioButton rCursor;
-        private RadioButton rSynapse;
-        private RadioButton rNeuron;
+        public RadioButton rCursor;
+        public RadioButton rSynapse;
+        public RadioButton rNeuron;
     
         public pToolbox()
         {
@@ -89,13 +89,13 @@ namespace primeira.pNeuron
         {
 
             if (rCursor.Checked)
-                ((pNeuronIDE)DockPanel.Parent).document.pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.Idle;
+                ((pNeuronIDE)DockPanel.Parent).ActiveDocument.pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.Idle;
 
             if (rSynapse.Checked)
-                ((pNeuronIDE)DockPanel.Parent).document.pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.Linking_Paused;
+                ((pNeuronIDE)DockPanel.Parent).ActiveDocument.pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.Linking_Paused;
 
             if (rNeuron.Checked)
-                ((pNeuronIDE)DockPanel.Parent).document.pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.AddNeuron;
+                ((pNeuronIDE)DockPanel.Parent).ActiveDocument.pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.AddNeuron;
 
         }
     }
