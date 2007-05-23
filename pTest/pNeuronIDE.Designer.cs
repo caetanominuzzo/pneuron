@@ -46,19 +46,21 @@ namespace primeira.pNeuron
             // 
             this.dockPanel.ActiveAutoHideContent = null;
             this.dockPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dockPanel.DockLeftPortion = 0.1;
+            this.dockPanel.DockRightPortion = 0.2;
             this.dockPanel.Font = new System.Drawing.Font("Tahoma", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
             this.dockPanel.Location = new System.Drawing.Point(0, 24);
             this.dockPanel.Name = "dockPanel";
-            this.dockPanel.Size = new System.Drawing.Size(602, 301);
+            this.dockPanel.Size = new System.Drawing.Size(767, 266);
             this.dockPanel.TabIndex = 0;
             // 
             // status
             // 
             this.status.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
-            this.status.Location = new System.Drawing.Point(0, 325);
+            this.status.Location = new System.Drawing.Point(0, 290);
             this.status.Name = "status";
-            this.status.Size = new System.Drawing.Size(602, 22);
+            this.status.Size = new System.Drawing.Size(767, 22);
             this.status.TabIndex = 3;
             this.status.Text = "statusStrip1";
             // 
@@ -75,7 +77,7 @@ namespace primeira.pNeuron
             this.viewToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(602, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(767, 24);
             this.menuStrip1.TabIndex = 5;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -126,7 +128,7 @@ namespace primeira.pNeuron
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(602, 347);
+            this.ClientSize = new System.Drawing.Size(767, 312);
             this.Controls.Add(this.dockPanel);
             this.Controls.Add(this.status);
             this.Controls.Add(this.menuStrip1);
