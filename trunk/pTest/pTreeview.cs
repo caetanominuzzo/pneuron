@@ -9,9 +9,17 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace primeira.pNeuron
 {
-    class pTreeview : DockContent
+    public class pTreeview : DockContent
     {
         public TreeView treeView1;
+
+        public pTreeview()
+        {
+
+            InitializeComponent();
+            
+
+        }
 
         private void InitializeComponent()
         {
@@ -31,7 +39,23 @@ namespace primeira.pNeuron
             this.ClientSize = new System.Drawing.Size(292, 273);
             this.Controls.Add(this.treeView1);
             this.Name = "pTreeview";
+            this.TabText = "Network Explorer";
+            this.Text = "Network Explorer";
             this.ResumeLayout(false);
+        }
+
+        protected override void OnShown(EventArgs e)
+        {
+            base.OnShown(e);
+
+            ((pNeuronIDE)DockPanel.Parent).property.propertyGrid1.SelectedObject = ((pNeuronIDE)DockPanel.Parent).document.pDisplay1;
+            int i = 0;
+            foreach (List<pPanel> l in ((pNeuronIDE)DockPanel.Parent).document.pDisplay1.Groups())
+            {
+                treeView1.Nodes.Add("Group " + i.ToString() + " [" + l.Count.ToString() + "]");
+                treeView1.Nodes[i].ImageIndex = i;
+                i++;
+            }
 
         }
     }
