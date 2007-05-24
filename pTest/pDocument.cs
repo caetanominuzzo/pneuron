@@ -12,6 +12,22 @@ namespace primeira.pNeuron
     public class pDocument : DockContent
     {
         public pDisplay pDisplay1;
+        private string m_File;
+
+        public string File
+        {
+            get { return m_File; }
+            set { 
+                m_File = value;
+                this.TabText = "[" + value + "]";
+            }
+        }
+
+        public pDocument(String sFilename)
+        {
+            InitializeComponent();
+            this.File = sFilename;
+        }
 
         public pDocument()
         {

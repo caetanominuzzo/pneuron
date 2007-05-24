@@ -34,7 +34,8 @@ namespace primeira.pNeuron
 
         private void newNeuralNetworkToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            documents.Add(new pDocument());
+            int i = documents.Count+1;
+            documents.Add(new pDocument("NeuralNetwork " + i.ToString()));
             ActiveDocument = documents[documents.Count - 1];
             ActiveDocument.Show(dockPanel, DockState.Document);
         }
