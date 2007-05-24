@@ -213,6 +213,13 @@ namespace primeira.pNeuron
 
         public void Add(pPanel p, int GroupIndex)
         {
+
+            if (p.Groups.Count > 0)
+            {
+                m_groups[p.Groups[0]].Remove(p);
+            }
+            p.Groups.Clear();
+
             m_groups[GroupIndex].Add(p);
             if(!p.Groups.Contains(GroupIndex))
                 p.Groups.Add(GroupIndex);
