@@ -31,16 +31,27 @@ namespace primeira.pNeuron
             this.propertyGrid1.Name = "propertyGrid1";
             this.propertyGrid1.Size = new System.Drawing.Size(292, 273);
             this.propertyGrid1.TabIndex = 0;
+            this.propertyGrid1.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGrid1_PropertyValueChanged);
             // 
             // pProperty
             // 
             this.ClientSize = new System.Drawing.Size(292, 273);
+            this.Controls.Add(this.propertyGrid1);
             this.Name = "pProperty";
             this.TabText = "Properties";
             this.Text = "Properties";
-            this.Controls.Add(this.propertyGrid1);
             this.ResumeLayout(false);
 
+        }
+
+        private void propertyGrid1_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+        {
+
+            ((pNeuronIDE)DockPanel.Parent).ActiveDocument.pDisplay1_OnTreeViewChange(0);
+            ((pNeuronIDE)DockPanel.Parent).ActiveDocument.pDisplay1.Invalidate(((pPanel)propertyGrid1.SelectedObject).Bounds);
+
+//            if (OnTreeViewChange != null)
+  //              OnTreeViewChange(0);
         }
     }
 }
