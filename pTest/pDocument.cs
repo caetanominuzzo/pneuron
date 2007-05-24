@@ -12,22 +12,6 @@ namespace primeira.pNeuron
     public class pDocument : DockContent
     {
         public pDisplay pDisplay1;
-        private string m_File;
-
-        public string File
-        {
-            get { return m_File; }
-            set { 
-                m_File = value;
-                this.TabText = "[" + value + "]";
-            }
-        }
-
-        public pDocument(String sFilename)
-        {
-            InitializeComponent();
-            this.File = sFilename;
-        }
 
         public pDocument()
         {
@@ -90,9 +74,24 @@ namespace primeira.pNeuron
         private void pDisplay1_OnDisplayStatusChange()
         {
             ((pNeuronIDE)DockPanel.Parent).status.Items[0].Text = "Status: " + pDisplay1.DisplayStatus.ToString().Replace("_", " ");
+
+            switch (pDisplay1.DisplayStatus)
+            {
+                case pDisplay.pDisplayStatus.AddNeuron:
+                    ((pNeuronIDE)DockPanel.Parent).toolbox.rNeuron.Checked = true;
+                    break;
+                case pDisplay.pDisplayStatus.Linking:
+                case pDisplay.pDisplayStatus.Linking_Paused:
+                    ((pNeuronIDE)DockPanel.Parent).toolbox.rSynapse.Checked = true;
+                    break;
+                default:
+                    ((pNeuronIDE)DockPanel.Parent).toolbox.rCursor.Checked = true;
+                    break;
+            }
+
         }
 
-        private void pDocument_KeyUp(object sender, KeyEventArgs e)
+        public void pDocument_KeyUp(object sender, KeyEventArgs e)
         {
             switch (e.KeyCode)
             {
@@ -160,7 +159,7 @@ namespace primeira.pNeuron
                 pDisplay1.CtrlKey = false;
         }
 
-        private void pDocument_KeyDown(object sender, KeyEventArgs e)
+        public void pDocument_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.ShiftKey)
             {
@@ -183,22 +182,52 @@ namespace primeira.pNeuron
             {
                 ((pNeuronIDE)DockPanel.Parent).property.propertyGrid1.SelectedObjects = pDisplay1.SelectedpPanels;
             }
+
+
         }
 
-        private void pDisplay1_OnTreeViewChange(int iGroup)
+        public void pDisplay1_OnTreeViewChange(int iGroup)
         {
 
             int i = 0;
             int j = 0;
 
+            //            ((pNeuonIDE)DockPanel.Parent).treeview.treeView1.Items.Clear();
+
+            List<ListViewItem> lToDelete = new List<ListViewItem>();
+
             foreach (List<pPanel> l in pDisplay1.Groups())
             {
-                ((pNeuronIDE)DockPanel.Parent).treeview.treeView1.Nodes[i].Text = "Group " + i.ToString() + " [" + l.Count.ToString() + "]";
-                ((pNeuronIDE)DockPanel.Parent).treeview.treeView1.Nodes[i].Nodes.Clear();
+
+                lToDelete.Clear();
+
+                foreach (ListViewItem lv in ((pNeuronIDE)DockPanel.Parent).treeview.treeView1.Groups[i].Items)
+                {
+                    if (!((pPanel)lv.Tag).Groups.Contains(i) && (i != 0))
+                    {
+                        lToDelete.Add(lv);
+                    }
+                }
+
+                foreach (ListViewItem lv in lToDelete)
+                    ((pNeuronIDE)DockPanel.Parent).treeview.treeView1.Groups[i].Items.RemoveByKey(lv.Text);
 
                 foreach (pPanel p in l)
                 {
-                    ((pNeuronIDE)DockPanel.Parent).treeview.treeView1.Nodes[i].Nodes.Add(p.Name);
+                    if (
+                        !((pNeuronIDE)DockPanel.Parent).treeview.Contains(
+                            ((pNeuronIDE)DockPanel.Parent).treeview.treeView1.Groups[i],
+                            p))
+                    {
+                        ListViewItem lvi = new ListViewItem(p.Name, (((pNeuronIDE)DockPanel.Parent).treeview.treeView1.Groups[i]));
+
+                        ((pNeuronIDE)DockPanel.Parent).treeview.treeView1.Items.Add(lvi);
+
+                        int k = ((pNeuronIDE)DockPanel.Parent).treeview.treeView1.Groups[i].Items.Count - 1;
+
+                        ((pNeuronIDE)DockPanel.Parent).treeview.treeView1.Groups[i].Items[k].Tag = p;
+                    }
+
                     j++;
                 }
 
@@ -210,7 +239,7 @@ namespace primeira.pNeuron
         {
             ((pNeuronIDE)DockPanel.Parent).ActiveDocument = this;
 
-            switch(pDisplay1.DisplayStatus)
+            switch (pDisplay1.DisplayStatus)
             {
                 case pDisplay.pDisplayStatus.AddNeuron:
                     ((pNeuronIDE)DockPanel.Parent).toolbox.rNeuron.Checked = true;
@@ -219,23 +248,16 @@ namespace primeira.pNeuron
                 case pDisplay.pDisplayStatus.Linking:
                     ((pNeuronIDE)DockPanel.Parent).toolbox.rSynapse.Checked = true;
                     break;
-                default :
+                default:
                     ((pNeuronIDE)DockPanel.Parent).toolbox.rCursor.Checked = true;
                     break;
 
             }
 
-            ((pNeuronIDE)DockPanel.Parent).treeview.treeView1.Nodes.Clear();
+            ((pNeuronIDE)DockPanel.Parent).treeview.treeView1.Items.Clear();
 
-                ((pNeuronIDE)DockPanel.Parent).property.propertyGrid1.SelectedObject = ((pNeuronIDE)DockPanel.Parent).ActiveDocument.pDisplay1;
-                int i = 0;
-                foreach (List<pPanel> l in ((pNeuronIDE)DockPanel.Parent).ActiveDocument.pDisplay1.Groups())
-                {
-                    ((pNeuronIDE)DockPanel.Parent).treeview.treeView1.Nodes.Add("Group " + i.ToString() + " [" + l.Count.ToString() + "]");
-                    ((pNeuronIDE)DockPanel.Parent).treeview.treeView1.Nodes[i].ImageIndex = i;
-                    i++;
-                }
-            }
+
+        }
 
 
     }
