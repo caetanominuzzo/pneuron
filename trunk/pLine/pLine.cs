@@ -10,38 +10,10 @@ using primeira.pNeuron;
 
 namespace primeira.pNeuron
 {
-    public class pLine : PictureBox
+    public class pLine : Control
     {
         private pPanel m_inputPanel;
         private pPanel m_outputPanel;
-
-        horizontal h;
-        vertical v;
-
-        private enum directions
-        {
-            left = 1,
-            right = 2,
-            top =3,
-            bottom = 4
-        }
-
-        private enum vertical
-        {
-            top = 0,
-            middle = 25,
-            bottom = 50
-        }
-
-        private enum horizontal
-        {
-            left = 0,
-            middle = 25,
-            right = 50
-        }
-
-        const int MINWIDTH = 30;
-        const int MINHEIGHT = 30;
 
         public pLine(pPanel input, pPanel output)
         {
@@ -52,13 +24,6 @@ namespace primeira.pNeuron
             this.BackColor = Color.Transparent;
             SetBounds();
             BackColor = Color.Tomato;
-
-            /*
-            Bitmap b = CreateBitmap(30, 30, Color.Violet);
-            b.MakeTransparent(Color.White);
-            BackgroundImageLayout = ImageLayout.Stretch;
-            this.BackgroundImage = b;
-             */
 
         }
 
@@ -72,159 +37,116 @@ namespace primeira.pNeuron
             get { return m_outputPanel; }
         }
 
-        protected override void OnPaint(PaintEventArgs e)
+        public void DrawSynapse(Control c, Point d, Graphics g)
         {
-            return;
-            Graphics g = e.Graphics;
-            base.OnPaint(e);
-
-            Point p1 = new Point();
-            Point p2 = new Point();
-
-            if (h == horizontal.left)
-            {
-                p1.X = this.Width;
-                p2.X = 0;
-
-            }
-            else if(h == horizontal.middle)
-            {
-                p1.X = 2;
-                p2.X = 2;
-            }
-            else if (h == horizontal.right)
-            {
-                p1.X = 0;
-                p2.X = Width;
-            }
-
-
-            if (v == vertical.top)
-            {
-                p1.Y = this.Height;
-                p2.Y = 0;
-
-            }
-            else if (v == vertical.middle)
-            {
-                p1.Y = 2;
-                p2.Y = 2;
-            }
-            else if (v == vertical.bottom)
-            {
-                p1.Y = 0;
-                p2.Y = Height;
-            }
-
-
-
+            pPanel dd = new pPanel(g);
+            dd.Location = new Point(d.X - AutoScrollPosition.X, d.Y - AutoScrollPosition.Y);
+            DrawSynapse(dd, c, g);
         }
 
-        public  void SetBounds()
+        public void DrawSynapse(Control c, Control d)
+        {
+            DrawSynapse(c, d, m_graphics);
+        }
+
+        private void DrawSynapse(Control d, Control c, Graphics g)
         {
 
-                
-                
-            if (InputPanel.Top > OutputPanel.Top + OutputPanel.Height/2)
+            if (c.Location == d.Location)
+                return;
+
+            Rectangle cBounds = c.Bounds;
+
+            cBounds = new Rectangle(cBounds.X + AutoScrollPosition.X,
+                cBounds.Y + AutoScrollPosition.Y,
+                cBounds.Width,
+                cBounds.Height);
+
+
+            Rectangle dBounds = d.Bounds;
+
+
+            dBounds = new Rectangle(dBounds.X + AutoScrollPosition.X,
+                dBounds.Y + AutoScrollPosition.Y,
+                dBounds.Width,
+                dBounds.Height);
+
+            Pen p = ((pPanel)c).GetPenStyle()[0];
+            p.Width = 1;
+            SolidBrush b = new SolidBrush(Color.Red);
+            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+
+
+            //hipotenusa
+            double catA;
+            double catB;
+            double hyp;
+
+            int signX = d.Bounds.Left + (d.Bounds.Width / 2) > c.Bounds.Left + (c.Bounds.Width / 2) ? 1 : -1;
+            int signY = d.Bounds.Top + (d.Bounds.Height / 2) > c.Bounds.Top + (c.Bounds.Height / 2) ? 1 : -1;
+
+            catA = c.Top - d.Top;
+            catB = c.Left - d.Left;
+            hyp = Convert.ToInt32(Math.Sqrt(Math.Pow(catA, 2) + Math.Pow(catB, 2)));
+
+            double cos = -catA / hyp;
+            double sen = -catB / hyp;
+
+            double radXC = c.Bounds.Left + (c.Bounds.Width / 2) + (sen * c.Width / 2);
+            double radYC = c.Bounds.Top + (c.Bounds.Height / 2) + (cos * c.Width / 2);
+
+            double radXD = d.Bounds.Left + (d.Bounds.Width / 2) + (sen * d.Width / 2);
+            double radYD = d.Bounds.Top + (d.Bounds.Height / 2) + (cos * d.Width / 2);
+
+            if (m_bezier)
             {
-                v = vertical.top;
+
+
+
+
+                g.DrawBezier(p,
+                    new Point((int)radXC + (-1 * signX), (int)radYC + (-1 * signY)),
+                    new Point(c.Bounds.Left + (c.Bounds.Width) * signX, c.Bounds.Top + (c.Bounds.Height) * signY),
+
+                    new Point(d.Bounds.Left + (d.Bounds.Width / 2) * -signX, d.Bounds.Top + (d.Bounds.Height / 2) * -signY),
+                    new Point(d.Bounds.Left + (d.Bounds.Width / 2), d.Bounds.Top + (d.Bounds.Height / 2))
+
+                    );
             }
             else
-                if (InputPanel.Top < OutputPanel.Top - OutputPanel.Height)
-                {
-                    v = vertical.bottom;
-                }
-                else
-                {
-                    v = vertical.middle;
-                }
-
-
-                if (InputPanel.Left > OutputPanel.Left + OutputPanel.Width /2)
-                {
-                    h = horizontal.left;
-                }
-                else
-                    if (InputPanel.Left < OutputPanel.Left - OutputPanel.Width / 2)
-                    {
-                        h = horizontal.right;
-                    }
-                    else
-                    {
-                        h = horizontal.middle;
-                    }
-
-
-            switch (h)
             {
-                case horizontal.middle:
-                    {
-                        this.Width = MINWIDTH;
-                        this.Left = m_inputPanel.Left + (m_inputPanel.Width / 2);
-                        break;
-                    }
-                case horizontal.left:
-                    {
-                        this.Width = (m_inputPanel.Left - m_inputPanel.Width/2) - (m_outputPanel.Left + m_outputPanel.Width);
-                        this.Left = m_outputPanel.Left - m_outputPanel.Width/2;
-                        break;
-                    }
-                case horizontal.right:
-                    {
-                        this.Width = (m_outputPanel.Left + m_outputPanel.Width / 2) - (m_inputPanel.Left + m_inputPanel.Width);
-                        this.Left = m_inputPanel.Left + m_inputPanel.Width/2;
-                        break;
-                    }
+                g.DrawLine(p,
+                    new Point((int)radXC, (int)radYC),
+                    new Point(d.Bounds.Left + (d.Bounds.Width / 2), d.Bounds.Top + (d.Bounds.Height / 2))
+                    );
             }
 
-            switch (v)
-            {
-                case vertical.middle:
-                    {
-                        this.Height = MINHEIGHT;
-                        this.Top = m_inputPanel.Top + (m_inputPanel.Height / 2);
-                        break;
-                    }
-                case vertical.top:
-                    {
-                        this.Height = m_inputPanel.Top - (m_outputPanel.Top + m_outputPanel.Height);
-                        this.Top = m_outputPanel.Top - m_outputPanel.Height/2;
-                        break;
-                    }
-                case vertical.bottom:
-                    {
-                        this.Height = m_outputPanel.Top - (m_inputPanel.Top + m_inputPanel.Height);
-                        this.Top = m_inputPanel.Top + m_inputPanel.Height/2;
-                        break;
-                    }
-            }
-        }
-
-        protected override void OnResize(EventArgs eventargs)
-        {
-            base.OnResize(eventargs);
-            SetBounds();
-            
-        }
 
 
-        public Bitmap CreateBitmap(int width, int height, Color clr)
-        {
-            try
-            {
-                Bitmap bmp = new Bitmap(width, height);
+            //g.DrawLine(new Pen(Color.Red, 5), 
+            //    new Point(c.Bounds.Left + (c.Bounds.Width / 2), c.Bounds.Top + (c.Bounds.Height / 2)),
+            //    new Point((int)sen, (int)cos));
 
-                    for (int x = 0; x < bmp.Width; x++)
-                    {
-                        bmp.SetPixel(x, 15, clr);
-                    }
+            //g.FillEllipse(b,
+            //    new Rectangle(
+            //        new Point((int)radX - (signX * 4), (int)radY - (signY * 4)),
+            //        new Size(signX*4, signY*4)));
 
-                return bmp;
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
+            //double ArrowBaseX = d.Bounds.Left + (d.Bounds.Width / 2) + (sen * (d.Width - 15));
+            //double ArrowBaseY = d.Bounds.Top + (d.Bounds.Height / 2) + (cos * (d.Width - 15));
+
+            //for (int i = -2; i < 3; i++)
+            //    for (int j = -2; j < 3; j++)
+            //    {
+            //        g.DrawLine(p,
+            //            new Point((int)radXD, (int)radYD),
+            //            new Point((int)ArrowBaseX + i, (int)ArrowBaseY + j));
+            //    }
+
+
+            //            g.RotateTransform(50);
+            //            g.DrawLine(p, new Point(10,10), new Point(100,100));
+
         }
     }
 }
