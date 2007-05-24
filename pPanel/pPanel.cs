@@ -31,6 +31,7 @@ namespace primeira.pNeuron
     public class pPanel : Control
     {
 
+        #region Browsable
 
         [Browsable(true)]
         public Dictionary<INeuron, NeuralFactor> Input { get { return ((pNeuron.Core.Neuron)Tag).Input; } } 
@@ -74,7 +75,9 @@ namespace primeira.pNeuron
                 return d.ToArray();
             }
         }
-        
+
+        #endregion
+
         #region Fuck!
 
         [Browsable(false)]
@@ -242,11 +245,15 @@ namespace primeira.pNeuron
         private Point m_mousePositionOnDown;
         private List<int> m_groups;
         private Graphics m_graphics;
+        private bool m_highlighed = false;
+        private bool m_selected;
+        private List<pLine> m_synapses;
 
         public pPanel(Graphics g)
         {
             m_groups = new List<int>(MAX_GROUP_NUMBER);
             m_graphics = g;
+            m_synapses = new List<pLine>();
         }
 
         public Pen[] GetPenStyle()
@@ -416,16 +423,12 @@ namespace primeira.pNeuron
             set { m_groups = value; }
         }
 
-        private bool m_highlighed = false;
-
         [Browsable(false)]
         public bool Highlighted
         {
             get { return m_highlighed; }
             set { m_highlighed = value; }
         }
-
-        private bool m_selected;
 
         [Browsable(false)]
         public bool Selected
@@ -440,9 +443,6 @@ namespace primeira.pNeuron
             get { return m_mousePositionOnDown; }
             set { m_mousePositionOnDown = PointToClient(Parent.PointToScreen(value)); }
         }
-
-
-
 
     }
 }
