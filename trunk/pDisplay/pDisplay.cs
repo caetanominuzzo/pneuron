@@ -51,7 +51,8 @@ namespace primeira.pNeuron
             Linking,
             Linking_Paused,
             Selecting,
-            AddNeuron
+            Add_Neuron,
+            Remove_Neuron
         }
 
         #endregion
@@ -60,7 +61,7 @@ namespace primeira.pNeuron
 
         private Random m_random = new Random(1);
 
-        private Has[] m_groups;
+        private List<pPanel>[] m_groups;
 
         private int m_gridDistance = 25;
 
@@ -221,6 +222,21 @@ namespace primeira.pNeuron
                 OnTreeViewChange(0);
 
             return p;
+        }
+
+        public void Remove(pPanel p)
+        {
+            pPanels.Remove(p);
+            Controls.Remove(p);
+
+            if (OnTreeViewChange != null)
+                OnTreeViewChange(0);
+        }
+
+        public void Remove(pPanel[] p)
+        {
+            foreach (pPanel pp in p)
+                Remove(pp);
         }
 
         public void DrawSelect(Rectangle cBounds, Graphics gg)
@@ -727,7 +743,7 @@ namespace primeira.pNeuron
 
             #region Add Neuron
 
-            if (DisplayStatus == pDisplayStatus.AddNeuron)
+            if (DisplayStatus == pDisplayStatus.Add_Neuron)
             {
                 pPanel pp = this.Add(new Neuron(0));
                 pp.Location = new Point(DisplayMousePosition.X - pp.Width / 2,
@@ -738,6 +754,9 @@ namespace primeira.pNeuron
             }
 
             #endregion
+
+
+
 
             bool bFound = false;
 
@@ -806,9 +825,17 @@ namespace primeira.pNeuron
                                 pp.MousePositionOnDown = DisplayMousePosition;
 
                             break;
+                        case pDisplayStatus.Remove_Neuron:
+                                if (HighlightedpPanels.Length > 0)
+                                {
+                                    Remove(HighlightedpPanels);
+                                }
+                                break;
 
                     }
                 }
+
+
 
             }
 
