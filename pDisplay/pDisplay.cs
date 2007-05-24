@@ -7,6 +7,7 @@ using primeira.pNeuron.Core;
 using System.Drawing.Imaging;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Collections;
 
 namespace primeira.pNeuron
 {
@@ -59,7 +60,7 @@ namespace primeira.pNeuron
 
         private Random m_random = new Random(1);
 
-        private List<pPanel>[] m_groups;
+        private Has[] m_groups;
 
         private int m_gridDistance = 25;
 
@@ -118,7 +119,7 @@ namespace primeira.pNeuron
             pPanels = new List<pPanel>();
             m_graphics = CreateGraphics();
 
-            for(int i=0;i<m_groups.Length;i++)
+            for (int i = 0; i < m_groups.Length; i++)
                 m_groups[i] = new List<pPanel>();
 
         }
@@ -172,7 +173,7 @@ namespace primeira.pNeuron
                     default: Cursor = Cursors.Default;
                         break;
                 }
-                if (old != m_DisplayStatus && OnDisplayStatusChange!=null)
+                if (old != m_DisplayStatus && OnDisplayStatusChange != null)
                     OnDisplayStatusChange();
             }
         }
@@ -208,33 +209,17 @@ namespace primeira.pNeuron
             p.Width = 25;// NextRandom(2, 5) * 15;
             p.Height = p.Width;
 
-            //if (pPanels.Count == 0)
-            //{
-            //    p.Left = 100;
-            //    p.Top = 400;
-            //}
-            //else
-            //{
-            //    p.Left = 500;
-            //    p.Top = 100;
-            //}
-
-            //Point point;
-            //do
-            //{
-            //    point = new Point(NextRandom(1, this.Width), NextRandom(1, this.Height));
-            //} while (isUsed(point));
-            //p.Location = new Point(Convert.ToInt32((point.X) / m_gridDistance) * m_gridDistance, Convert.ToInt32((point.Y) / m_gridDistance) * m_gridDistance);
-            //p.Parent = this;
-      
-
             p.BackColor = Color.AliceBlue;
             p.Tag = n;
             Controls.Add(p);
             pPanels.Add(p);
             p.Visible = false;
-            int i = pPanels.Count -1;
-            p.Text = "n" + i.ToString();
+            int i = pPanels.Count - 1;
+            p.Text = i.ToString();
+
+            if (OnTreeViewChange != null)
+                OnTreeViewChange(0);
+
             return p;
         }
 
@@ -290,7 +275,7 @@ namespace primeira.pNeuron
             SolidBrush b = new SolidBrush(Color.Red);
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
 
-            
+
             //hipotenusa
             double catA;
             double catB;
@@ -319,8 +304,8 @@ namespace primeira.pNeuron
 
 
                 g.DrawBezier(p,
-                    new Point((int)radXC + 1, (int)radYC + 1),
-                    new Point(c.Bounds.Left + (c.Bounds.Width) * signX , c.Bounds.Top + (c.Bounds.Height) * signY),
+                    new Point((int)radXC + (-1 * signX), (int)radYC + (-1 * signY)),
+                    new Point(c.Bounds.Left + (c.Bounds.Width) * signX, c.Bounds.Top + (c.Bounds.Height) * signY),
 
                     new Point(d.Bounds.Left + (d.Bounds.Width / 2) * -signX, d.Bounds.Top + (d.Bounds.Height / 2) * -signY),
                     new Point(d.Bounds.Left + (d.Bounds.Width / 2), d.Bounds.Top + (d.Bounds.Height / 2))
@@ -358,8 +343,8 @@ namespace primeira.pNeuron
             //    }
 
 
-//            g.RotateTransform(50);
-//            g.DrawLine(p, new Point(10,10), new Point(100,100));
+            //            g.RotateTransform(50);
+            //            g.DrawLine(p, new Point(10,10), new Point(100,100));
 
         }
 
@@ -635,10 +620,10 @@ namespace primeira.pNeuron
                         AutoScrollMinSize = new Size(
                             rArea.Left + rArea.Width,
                             rArea.Top + rArea.Height);
-                        
+
                     }
 
-                    //Invalidate();
+                    Invalidate();
 
                 }
                 else if (DisplayStatus == pDisplayStatus.Linking || DisplayStatus == pDisplayStatus.Linking_Paused)
@@ -646,13 +631,13 @@ namespace primeira.pNeuron
                     if (SelectedpPanels.Length > 0)
                     {
                         DisplayStatus = pDisplayStatus.Linking;
-                        if (Contains(HighlightedpPanels, SelectedpPanels)>0)
+                        if (Contains(HighlightedpPanels, SelectedpPanels) > 0)
                         {
                             Cursor = Cursors.No;
                         }
 
                         Invalidate();
-                        
+
                     }
                 }
                 else if (DisplayStatus == pDisplayStatus.Idle)
@@ -707,25 +692,25 @@ namespace primeira.pNeuron
             }
 
 
-                foreach (pPanel p in pPanels)
+            foreach (pPanel p in pPanels)
+            {
+                if (toHighlight.Contains(p))
                 {
-                    if (toHighlight.Contains(p))
+                    if (!p.Highlighted)
                     {
-                        if (!p.Highlighted)
-                        {
-                            HighLight(p);
-                            Invalidate(p.Bounds);
-                        }
-                    }
-                    else
-                    {
-                        if (p.Highlighted)
-                        {
-                            UnHighLight(p);
-                            Invalidate(p.Bounds);
-                        }
+                        HighLight(p);
+                        Invalidate(p.Bounds);
                     }
                 }
+                else
+                {
+                    if (p.Highlighted)
+                    {
+                        UnHighLight(p);
+                        Invalidate(p.Bounds);
+                    }
+                }
+            }
 
 
         }
@@ -748,11 +733,10 @@ namespace primeira.pNeuron
                 pp.Location = new Point(DisplayMousePosition.X - pp.Width / 2,
                                         DisplayMousePosition.Y - pp.Height / 2);
                 Invalidate(pp.Bounds);
-                if (OnTreeViewChange != null)
-                    OnTreeViewChange(0);
+
                 return;
             }
-                        
+
             #endregion
 
             bool bFound = false;
@@ -778,7 +762,7 @@ namespace primeira.pNeuron
                                 return;
                             }
 
-                            
+
 
                             if (SelectedpPanels.Length > 0)
                             {
@@ -813,10 +797,10 @@ namespace primeira.pNeuron
 
                         case pDisplayStatus.Idle:
 
-                            if (!ShiftKey && Contains(HighlightedpPanels, SelectedpPanels)!=HighlightedpPanels.Length)
+                            if (!ShiftKey && Contains(HighlightedpPanels, SelectedpPanels) != HighlightedpPanels.Length)
                                 UnSelect();
 
-                            Select(HighlightedpPanels); 
+                            Select(HighlightedpPanels);
 
                             foreach (pPanel pp in SelectedpPanels)
                                 pp.MousePositionOnDown = DisplayMousePosition;
@@ -878,10 +862,10 @@ namespace primeira.pNeuron
                 else
                     if (DisplayStatus == pDisplayStatus.Idle)
                     {
-//                        if (!ShiftKey)
-//                            UnSelect();
+                        //                        if (!ShiftKey)
+                        //                            UnSelect();
 
-//                        Select(HighlightedpPanels);
+                        //                        Select(HighlightedpPanels);
                     }
 
         }
