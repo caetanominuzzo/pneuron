@@ -43,6 +43,10 @@
     <Compile Include="pUtils.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\pLine\pLine.csproj">
+      <Project>{845D4008-E0BF-4AC9-826D-E11D8E4C825F}</Project>
+      <Name>pLine</Name>
+    </ProjectReference>
     <ProjectReference Include="..\pNeuron\pNeuron.csproj">
       <Project>{464378C1-CF56-486D-84F0-DC564A99901D}</Project>
       <Name>pNeuron</Name>
