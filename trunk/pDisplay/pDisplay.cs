@@ -319,7 +319,7 @@ namespace primeira.pNeuron
 
 
                 g.DrawBezier(p,
-                    new Point((int)radXC + (-1 * signX), (int)radYC + (-1 * signY)),
+                    new Point((int)radXC + 1, (int)radYC + 1),
                     new Point(c.Bounds.Left + (c.Bounds.Width) * signX , c.Bounds.Top + (c.Bounds.Height) * signY),
 
                     new Point(d.Bounds.Left + (d.Bounds.Width / 2) * -signX, d.Bounds.Top + (d.Bounds.Height / 2) * -signY),
