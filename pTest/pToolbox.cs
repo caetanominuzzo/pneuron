@@ -13,6 +13,7 @@ namespace primeira.pNeuron
     {
         public RadioButton rCursor;
         public RadioButton rSynapse;
+        public RadioButton rRemove;
         public RadioButton rNeuron;
     
         public pToolbox()
@@ -25,6 +26,7 @@ namespace primeira.pNeuron
             this.rCursor = new System.Windows.Forms.RadioButton();
             this.rSynapse = new System.Windows.Forms.RadioButton();
             this.rNeuron = new System.Windows.Forms.RadioButton();
+            this.rRemove = new System.Windows.Forms.RadioButton();
             this.SuspendLayout();
             // 
             // rCursor
@@ -72,9 +74,25 @@ namespace primeira.pNeuron
             this.rNeuron.UseVisualStyleBackColor = true;
             this.rNeuron.CheckedChanged += new System.EventHandler(this.rCursor_CheckedChanged);
             // 
+            // rRemove
+            // 
+            this.rRemove.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.rRemove.Appearance = System.Windows.Forms.Appearance.Button;
+            this.rRemove.AutoEllipsis = true;
+            this.rRemove.Location = new System.Drawing.Point(0, 77);
+            this.rRemove.Name = "rRemove";
+            this.rRemove.Size = new System.Drawing.Size(192, 22);
+            this.rRemove.TabIndex = 3;
+            this.rRemove.TabStop = true;
+            this.rRemove.Text = "Remove Neuron";
+            this.rRemove.UseVisualStyleBackColor = true;
+            this.rRemove.CheckedChanged += new System.EventHandler(this.rCursor_CheckedChanged);
+            // 
             // pToolbox
             // 
             this.ClientSize = new System.Drawing.Size(192, 581);
+            this.Controls.Add(this.rRemove);
             this.Controls.Add(this.rNeuron);
             this.Controls.Add(this.rSynapse);
             this.Controls.Add(this.rCursor);
@@ -95,7 +113,12 @@ namespace primeira.pNeuron
                 ((pNeuronIDE)DockPanel.Parent).ActiveDocument.pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.Linking_Paused;
 
             if (rNeuron.Checked)
-                ((pNeuronIDE)DockPanel.Parent).ActiveDocument.pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.AddNeuron;
+                ((pNeuronIDE)DockPanel.Parent).ActiveDocument.pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.Add_Neuron;
+
+            if (rRemove.Checked)
+                ((pNeuronIDE)DockPanel.Parent).ActiveDocument.pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.Remove_Neuron;
+
+            ((pNeuronIDE)DockPanel.Parent).ActiveDocument.pDisplay1.Focus();// Select();
 
         }
     }

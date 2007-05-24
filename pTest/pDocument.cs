@@ -13,9 +13,10 @@ namespace primeira.pNeuron
     {
         public pDisplay pDisplay1;
 
-        public pDocument()
+        public pDocument(string sFileName)
         {
             InitializeComponent();
+            this.TabText = "[" + sFileName + "]";
         }
 
         protected override void OnShown(EventArgs e)
@@ -77,12 +78,15 @@ namespace primeira.pNeuron
 
             switch (pDisplay1.DisplayStatus)
             {
-                case pDisplay.pDisplayStatus.AddNeuron:
+                case pDisplay.pDisplayStatus.Add_Neuron:
                     ((pNeuronIDE)DockPanel.Parent).toolbox.rNeuron.Checked = true;
                     break;
                 case pDisplay.pDisplayStatus.Linking:
                 case pDisplay.pDisplayStatus.Linking_Paused:
                     ((pNeuronIDE)DockPanel.Parent).toolbox.rSynapse.Checked = true;
+                    break;
+                case pDisplay.pDisplayStatus.Remove_Neuron:
+                    ((pNeuronIDE)DockPanel.Parent).toolbox.rRemove.Checked = true;
                     break;
                 default:
                     ((pNeuronIDE)DockPanel.Parent).toolbox.rCursor.Checked = true;
@@ -95,6 +99,9 @@ namespace primeira.pNeuron
         {
             switch (e.KeyCode)
             {
+                case Keys.Delete:
+                    pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.Remove_Neuron;
+                    break;
                 case Keys.B: pDisplay1.Bezier = !pDisplay1.Bezier;
                     Invalidate();
                     break;
@@ -194,7 +201,7 @@ namespace primeira.pNeuron
 
             //            ((pNeuonIDE)DockPanel.Parent).treeview.treeView1.Items.Clear();
 
-            List<ListViewItem> lToDelete = new List<ListViewItem>();
+            List<int> lToDelete = new List<int>();
 
             foreach (List<pPanel> l in pDisplay1.Groups())
             {
@@ -203,14 +210,21 @@ namespace primeira.pNeuron
 
                 foreach (ListViewItem lv in ((pNeuronIDE)DockPanel.Parent).treeview.treeView1.Groups[i].Items)
                 {
+
+                    if(!pDisplay1.pPanels.Contains( ((pPanel)lv.Tag)))
+                    {
+                        lToDelete.Add(lv.Index);
+                    } else
+
                     if (!((pPanel)lv.Tag).Groups.Contains(i) && (i != 0))
                     {
-                        lToDelete.Add(lv);
+                        lToDelete.Add(lv.Index);
                     }
                 }
 
-                foreach (ListViewItem lv in lToDelete)
-                    ((pNeuronIDE)DockPanel.Parent).treeview.treeView1.Groups[i].Items.RemoveByKey(lv.Text);
+                int y = 0;
+                foreach (int lv in lToDelete)
+                    ((pNeuronIDE)DockPanel.Parent).treeview.treeView1.Groups[i].Items.RemoveAt(lv - y++);
 
                 foreach (pPanel p in l)
                 {
@@ -241,7 +255,7 @@ namespace primeira.pNeuron
 
             switch (pDisplay1.DisplayStatus)
             {
-                case pDisplay.pDisplayStatus.AddNeuron:
+                case pDisplay.pDisplayStatus.Add_Neuron:
                     ((pNeuronIDE)DockPanel.Parent).toolbox.rNeuron.Checked = true;
                     break;
                 case pDisplay.pDisplayStatus.Linking_Paused:
