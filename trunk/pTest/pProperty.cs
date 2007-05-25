@@ -47,7 +47,7 @@ namespace primeira.pNeuron
         private void propertyGrid1_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
 
-            ((pNeuronIDE)DockPanel.Parent).ActiveDocument.pDisplay1_OnTreeViewChange(0);
+            ((pNeuronIDE)DockPanel.Parent).ActiveDocument.pDisplay1_OnTreeViewChange(null, pTreeviewRefresh.pFullRefreh  );
             ((pNeuronIDE)DockPanel.Parent).ActiveDocument.pDisplay1.Invalidate(((pPanel)propertyGrid1.SelectedObject).Bounds);
 
 //            if (OnTreeViewChange != null)

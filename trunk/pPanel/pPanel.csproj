@@ -35,6 +35,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IpPanels.cs" />
     <Compile Include="pColors.cs" />
     <Compile Include="pPanel.cs">
       <SubType>Component</SubType>

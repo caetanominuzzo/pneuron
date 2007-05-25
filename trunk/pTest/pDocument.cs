@@ -193,9 +193,64 @@ namespace primeira.pNeuron
 
         }
 
-        public void pDisplay1_OnTreeViewChange(int iGroup)
+        public void pDisplay1_OnTreeViewChange(object o, pTreeviewRefresh mode)
         {
 
+
+            if (mode == pTreeviewRefresh.pPanelAdd)
+            {
+                pPanel p = (pPanel)o;
+
+                int iGroup = p.Groups.Count == 0 ? 0 : p.Groups[0];
+
+                ListViewItem lvi = new ListViewItem(p.Name, (((pNeuronIDE)DockPanel.Parent).treeview.treeView1.Groups[iGroup]));
+
+                ((pNeuronIDE)DockPanel.Parent).treeview.treeView1.Items.Add(lvi);
+
+                int k = ((pNeuronIDE)DockPanel.Parent).treeview.treeView1.Groups[iGroup].Items.Count - 1;
+
+                ((pNeuronIDE)DockPanel.Parent).treeview.treeView1.Groups[iGroup].Items[k].Tag = p;
+            }
+            else if (mode == pTreeviewRefresh.pPanelRemove)
+            {
+                pPanel p = (pPanel)o;
+                ListViewItem toDelete = null;
+                foreach (ListViewGroup lg in ((pNeuronIDE)DockPanel.Parent).treeview.treeView1.Groups)
+                    foreach (ListViewItem lv in lg.Items)
+                    {
+                        if (((pPanel)lv.Tag) == p)
+                        {
+                            toDelete = lv;
+                            
+                        }
+                    }
+                if (toDelete != null)
+                {
+                    toDelete.Group = null;
+                    ((pNeuronIDE)DockPanel.Parent).treeview.treeView1.Items.Remove(toDelete);
+                }
+            }
+            else if(mode == pTreeviewRefresh.pGroupClear)
+            {
+                List<ListViewItem> toDelete = new List<ListViewItem>();
+
+                foreach (ListViewItem lv in ((pNeuronIDE)DockPanel.Parent).treeview.treeView1.Groups[(int)o].Items)
+                {
+                    toDelete.Add(lv);
+                }
+
+                foreach (ListViewItem lv in toDelete)
+                {
+                    lv.Group = null;
+                    ((pNeuronIDE)DockPanel.Parent).treeview.treeView1.Items.Remove(lv);
+                }
+            }
+            else if (mode == pTreeviewRefresh.pFullRefreh)
+            {
+                ((pNeuronIDE)DockPanel.Parent).treeview.treeView1.Focus();
+            }
+            return;
+            /*
             int i = 0;
             int j = 0;
 
@@ -222,9 +277,14 @@ namespace primeira.pNeuron
                     }
                 }
 
+                lToDelete.Sort();
+
                 int y = 0;
                 foreach (int lv in lToDelete)
-                    ((pNeuronIDE)DockPanel.Parent).treeview.treeView1.Groups[i].Items.RemoveAt(lv - y++);
+                {
+                    ((pNeuronIDE)DockPanel.Parent).treeview.treeView1.Groups[i].Items.RemoveAt(lv - y);
+                    y++;
+                }
 
                 foreach (pPanel p in l)
                 {
@@ -247,6 +307,7 @@ namespace primeira.pNeuron
 
                 i++;
             }
+             * */
         }
 
         private void pDocument_Activated(object sender, EventArgs e)
