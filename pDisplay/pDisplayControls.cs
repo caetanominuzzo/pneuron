@@ -9,15 +9,26 @@ using System.Reflection;
 
 namespace primeira.pNeuron
 {
+
+    public enum pTreeviewRefresh
+    {
+        pPanelAdd,
+        pPanelRemove,
+        pGroupClear,
+        pFullRefreh
+    }
+
     partial class  pDisplay
     {
-        public List<pPanel> pPanels;
+
+
+        private List<pPanel> m_pPanels;
         public pPanel[] SelectedpPanels
         {
             get
             {
                 List<pPanel> t = new List<pPanel>();
-                foreach (pPanel p in pPanels)
+                foreach (pPanel p in m_pPanels)
                     if(p.Selected)
                         t.Add(p);
 
@@ -30,7 +41,7 @@ namespace primeira.pNeuron
             get
             {
                 List<pPanel> t = new List<pPanel>();
-                foreach (pPanel p in pPanels)
+                foreach (pPanel p in m_pPanels)
                     if (p.Highlighted)
                         t.Add(p);
                 return t.ToArray();
@@ -132,7 +143,7 @@ namespace primeira.pNeuron
         {
             Rectangle pBounds = new Rectangle();
 
-            foreach (pPanel pp in pPanels)
+            foreach (pPanel pp in m_pPanels)
             {
 
                 pBounds = pp.Bounds;
@@ -226,7 +237,7 @@ namespace primeira.pNeuron
             Invalidate(p.Bounds);
 
             if (OnTreeViewChange != null)
-                OnTreeViewChange(GroupIndex);
+                OnTreeViewChange(p, pTreeviewRefresh.pPanelAdd);
         }
 
         public bool GroupIsSet(int i)
@@ -250,7 +261,7 @@ namespace primeira.pNeuron
             m_groups[iKey].Clear();
 
             if(OnTreeViewChange!=null)
-                OnTreeViewChange(iKey);
+                OnTreeViewChange(iKey, pTreeviewRefresh.pGroupClear);
         }
 
         public void GroupSelect(int i)
@@ -265,7 +276,7 @@ namespace primeira.pNeuron
 
             int i = 0;
             d[i] = new List<pPanel>();
-            foreach (pPanel p in pPanels)
+            foreach (pPanel p in m_pPanels)
                 if (p.Groups.Count == 0)
                     d[0].Add(p);
 

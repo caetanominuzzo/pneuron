@@ -40,7 +40,16 @@ namespace primeira.pNeuron
         public List<Neuron> Output { get { return ((pNeuron.Core.Neuron)Tag).Output; } }
 
         [Browsable(true)]
-        public String Name { get { return Text; } set { Text = value; } }
+        public String Name { get { return Text; } set {
+
+                foreach (pPanel p in ((IpPanels)Parent).pPanels)
+                {
+                    if (p.Name == value)
+                        throw new Exception("Names must be unique.");
+                }
+
+            Text = value;
+        } }
 
         [Browsable(false)]
         public String Text { get { return base.Text; } set { base.Text = value; } }
