@@ -11,7 +11,7 @@ using System.Collections;
 
 namespace primeira.pNeuron
 {
-    public partial class pDisplay : primeira.pExternal.CustomAutoScrollPanel.ScrollablePanel
+    public partial class pDisplay : primeira.pExternal.CustomAutoScrollPanel.ScrollablePanel, primeira.pNeuron.IpPanels
     {
 
         [DllImport("Kernel32.dll")]
@@ -37,7 +37,7 @@ namespace primeira.pNeuron
         public delegate void DisplayStatusChangeDelegate();
         public event DisplayStatusChangeDelegate OnDisplayStatusChange;
 
-        public delegate void TreeViewChangeDelegate(int iGroup);
+        public delegate void TreeViewChangeDelegate(object o, pTreeviewRefresh mode);
         public event TreeViewChangeDelegate OnTreeViewChange;
 
         #endregion
@@ -117,7 +117,7 @@ namespace primeira.pNeuron
             m_groups = new List<pPanel>[10];
             DisplayStatus = pDisplayStatus.Idle;
 
-            pPanels = new List<pPanel>();
+            m_pPanels = new List<pPanel>();
             m_graphics = CreateGraphics();
 
             for (int i = 0; i < m_groups.Length; i++)
@@ -213,24 +213,24 @@ namespace primeira.pNeuron
             p.BackColor = Color.AliceBlue;
             p.Tag = n;
             Controls.Add(p);
-            pPanels.Add(p);
+            m_pPanels.Add(p);
             p.Visible = false;
-            int i = pPanels.Count - 1;
+            int i = m_pPanels.Count - 1;
             p.Text = i.ToString();
 
             if (OnTreeViewChange != null)
-                OnTreeViewChange(0);
+                OnTreeViewChange(p, pTreeviewRefresh.pPanelAdd);
 
             return p;
         }
 
         public void Remove(pPanel p)
         {
-            pPanels.Remove(p);
+            m_pPanels.Remove(p);
             Controls.Remove(p);
 
             if (OnTreeViewChange != null)
-                OnTreeViewChange(0);
+                OnTreeViewChange(p, pTreeviewRefresh.pPanelRemove);
         }
 
         public void Remove(pPanel[] p)
@@ -549,7 +549,7 @@ namespace primeira.pNeuron
                 if (m_selectSourcePoint.HasValue)
                 {
 
-                    foreach (pPanel p in pPanels)
+                    foreach (pPanel p in m_pPanels)
                     {
 
                         if (m_lastSelectItems.Contains(p))
@@ -573,7 +573,7 @@ namespace primeira.pNeuron
 
                 if (m_lastSelectItems.Count > 0)
                 {
-                    foreach (pPanel p in pPanels)
+                    foreach (pPanel p in m_pPanels)
                     {
                         if (!Contains(MakeRectanglePossible(new Rectangle(m_selectSourcePoint.Value,
                                     new Size(
@@ -626,9 +626,9 @@ namespace primeira.pNeuron
 
                         }
 
-                        Rectangle rArea = pPanels[0].Bounds;
+                        Rectangle rArea = m_pPanels[0].Bounds;
 
-                        foreach (pPanel pp in pPanels)
+                        foreach (pPanel pp in m_pPanels)
                         {
                             rArea = ExpandRectangle(rArea, pp.Bounds);
                         }
@@ -697,7 +697,7 @@ namespace primeira.pNeuron
 
             if (!bGroupHighlight)
             {
-                foreach (pPanel p in pPanels)
+                foreach (pPanel p in m_pPanels)
                 {
                     if (p.Bounds.Contains(DisplayMousePosition))
                     {
@@ -708,7 +708,7 @@ namespace primeira.pNeuron
             }
 
 
-            foreach (pPanel p in pPanels)
+            foreach (pPanel p in m_pPanels)
             {
                 if (toHighlight.Contains(p))
                 {
@@ -922,11 +922,11 @@ namespace primeira.pNeuron
             Rectangle r = e.ClipRectangle;
 
 
-            foreach (pPanel p in pPanels)
+            foreach (pPanel p in m_pPanels)
             {
                 foreach (Neuron n in ((Neuron)p.Tag).Input.Keys)
                 {
-                    foreach (pPanel pp in pPanels)
+                    foreach (pPanel pp in m_pPanels)
                     {
                         if (n == ((Neuron)pp.Tag))
                         {
@@ -958,7 +958,7 @@ namespace primeira.pNeuron
             }
 
 
-            foreach (pPanel c in pPanels)
+            foreach (pPanel c in m_pPanels)
             {
                 if (Contains(r, c.Bounds, true))
                     c.Draw(e.Graphics);
@@ -1043,6 +1043,18 @@ namespace primeira.pNeuron
 
 
         #endregion
-    }
+
+       
+
+    
+#region IpPanels Members
+
+        List<pPanel> IpPanels.pPanels
+        {
+            get { return m_pPanels; }
+        }
+
+#endregion
+}
 }
 

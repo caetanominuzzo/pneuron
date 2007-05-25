@@ -35,6 +35,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interface1.cs" />
     <Compile Include="pDisplay.cs">
       <SubType>Component</SubType>
     </Compile>
