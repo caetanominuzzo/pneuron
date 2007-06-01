@@ -14,6 +14,7 @@ namespace primeira.pNeuron
     {
         pPanelAdd,
         pPanelRemove,
+        pPanelGroupRemove,
         pGroupClear,
         pFullRefreh
     }
@@ -80,11 +81,9 @@ namespace primeira.pNeuron
 
             if (!CtrlKey)
             {
-                if (p.Groups.Count > 0)
+                if (p.Groups != 0)
                 {
-                    foreach (int iGroup in p.Groups)
-                    {
-                        foreach (pPanel pp in m_groups[iGroup])
+                    foreach (pPanel pp in m_groups[p.Groups])
                         {
 //                            if (DisplayStatus == pDisplayStatus.Selecting)
 //                                m_lastSelectItems.Add(p);
@@ -93,7 +92,6 @@ namespace primeira.pNeuron
                             SelectCore(pp);
                             Invalidate(pp.Bounds);
                         }
-                    }
                 }
             }
             if (DisplayStatus == pDisplayStatus.Selecting)
@@ -114,18 +112,15 @@ namespace primeira.pNeuron
 
             if (!CtrlKey)
             {
-                if (p.Groups.Count > 0)
+                if (p.Groups != 0)
                 {
-                    foreach (int iGroup in p.Groups)
-                    {
-                        foreach (pPanel pp in m_groups[iGroup])
+                    foreach (pPanel pp in m_groups[p.Groups])
                         {
                             if (pp == p)
                                 continue;
                             pp.Selected = false;
                             Invalidate(pp.Bounds);
                         }
-                    }
                 }
             }
 
@@ -225,19 +220,22 @@ namespace primeira.pNeuron
         public void Add(pPanel p, int GroupIndex)
         {
 
-            if (p.Groups.Count > 0)
+            if (p.Groups != 0)
             {
-                m_groups[p.Groups[0]].Remove(p);
+                m_groups[p.Groups].Remove(p);
+                if (OnTreeViewChange != null)
+                    OnTreeViewChange(p, pTreeviewRefresh.pPanelRemove);
             }
-            p.Groups.Clear();
 
             m_groups[GroupIndex].Add(p);
-            if(!p.Groups.Contains(GroupIndex))
-                p.Groups.Add(GroupIndex);
-            Invalidate(p.Bounds);
+            if (p.Groups != GroupIndex)
+            {
+                p.Groups = GroupIndex;
+                Invalidate(p.Bounds);
 
-            if (OnTreeViewChange != null)
-                OnTreeViewChange(p, pTreeviewRefresh.pPanelAdd);
+                if (OnTreeViewChange != null)
+                    OnTreeViewChange(p, pTreeviewRefresh.pPanelAdd);
+            }
         }
 
         public bool GroupIsSet(int i)
@@ -254,7 +252,7 @@ namespace primeira.pNeuron
         {
             foreach (pPanel p in GroupGetPanel(iKey))
             {
-                p.Groups.Remove(iKey);
+                p.Groups = 0;
                 Invalidate(p.Bounds);
             }
 
@@ -277,7 +275,7 @@ namespace primeira.pNeuron
             int i = 0;
             d[i] = new List<pPanel>();
             foreach (pPanel p in m_pPanels)
-                if (p.Groups.Count == 0)
+                if (p.Groups != 0)
                     d[0].Add(p);
 
 
