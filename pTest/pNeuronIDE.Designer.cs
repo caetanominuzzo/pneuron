@@ -112,18 +112,21 @@ namespace primeira.pNeuron
             this.toolBoxToolStripMenuItem.Name = "toolBoxToolStripMenuItem";
             this.toolBoxToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.toolBoxToolStripMenuItem.Text = "ToolBox";
+            this.toolBoxToolStripMenuItem.Click += new System.EventHandler(this.toolBoxToolStripMenuItem_Click);
             // 
             // networkExplorerToolStripMenuItem
             // 
             this.networkExplorerToolStripMenuItem.Name = "networkExplorerToolStripMenuItem";
             this.networkExplorerToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.networkExplorerToolStripMenuItem.Text = "Network Explorer";
+            this.networkExplorerToolStripMenuItem.Click += new System.EventHandler(this.networkExplorerToolStripMenuItem_Click);
             // 
             // propertyWindowToolStripMenuItem
             // 
             this.propertyWindowToolStripMenuItem.Name = "propertyWindowToolStripMenuItem";
             this.propertyWindowToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.propertyWindowToolStripMenuItem.Text = "Property Window";
+            this.propertyWindowToolStripMenuItem.Click += new System.EventHandler(this.propertyWindowToolStripMenuItem_Click);
             // 
             // pNeuronIDE
             // 

@@ -36,6 +36,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IpDocks.cs" />
     <Compile Include="pDocument.cs">
       <SubType>Form</SubType>
     </Compile>

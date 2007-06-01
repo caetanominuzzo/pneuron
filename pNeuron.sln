@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual Studio 2005
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pDisplay", "pDisplay\pDisplay.csproj", "{35DD3087-E395-4D33-950F-F807AE4BDED0}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pNeuronIDE", "pTest\pNeuronIDE.csproj", "{EFBE0B77-0E3D-42CF-9D09-97998BB45A5D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pPanel", "pPanel\pPanel.csproj", "{D3847E8B-A4C3-49BB-B119-3F2B981C9154}"
@@ -17,16 +15,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pExternal", "pExternal\pExt
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinFormsUI", "WinFormsUI\WinFormsUI.csproj", "{C75532C4-765B-418E-B09B-46D36B2ABDB1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pDisplay", "pDisplay\pDisplay.csproj", "{35DD3087-E395-4D33-950F-F807AE4BDED0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{35DD3087-E395-4D33-950F-F807AE4BDED0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{35DD3087-E395-4D33-950F-F807AE4BDED0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{35DD3087-E395-4D33-950F-F807AE4BDED0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{35DD3087-E395-4D33-950F-F807AE4BDED0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EFBE0B77-0E3D-42CF-9D09-97998BB45A5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EFBE0B77-0E3D-42CF-9D09-97998BB45A5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EFBE0B77-0E3D-42CF-9D09-97998BB45A5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -51,6 +47,10 @@ Global
 		{C75532C4-765B-418E-B09B-46D36B2ABDB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C75532C4-765B-418E-B09B-46D36B2ABDB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C75532C4-765B-418E-B09B-46D36B2ABDB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35DD3087-E395-4D33-950F-F807AE4BDED0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35DD3087-E395-4D33-950F-F807AE4BDED0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35DD3087-E395-4D33-950F-F807AE4BDED0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35DD3087-E395-4D33-950F-F807AE4BDED0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

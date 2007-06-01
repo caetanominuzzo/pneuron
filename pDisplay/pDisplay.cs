@@ -18,16 +18,7 @@ namespace primeira.pNeuron
         public static extern bool Beep(UInt32 frequency, UInt32 duration);
 
 
-        #region Temp
-
-        protected override void OnScroll(ScrollEventArgs se)
-        {
-            base.OnScroll(se);
-            Refresh();
-        }
-
-
-        #endregion
+     
 
         #region events
 
@@ -39,6 +30,9 @@ namespace primeira.pNeuron
 
         public delegate void TreeViewChangeDelegate(object o, pTreeviewRefresh mode);
         public event TreeViewChangeDelegate OnTreeViewChange;
+
+        public delegate void NetworkChangeDelegate();
+        public event NetworkChangeDelegate OnNetworkChange;
 
         #endregion
 
@@ -181,16 +175,6 @@ namespace primeira.pNeuron
 
         #endregion
 
-        #region Parent Form KeyUp event.
-        public void Initialize()
-        {
-
-        }
-
-
-
-        #endregion
-
         #region Methods
 
         public int NextRandom(int MinValue, int MaxValue)
@@ -221,6 +205,9 @@ namespace primeira.pNeuron
             if (OnTreeViewChange != null)
                 OnTreeViewChange(p, pTreeviewRefresh.pPanelAdd);
 
+            if (OnNetworkChange != null)
+                OnNetworkChange();
+
             return p;
         }
 
@@ -231,6 +218,9 @@ namespace primeira.pNeuron
 
             if (OnTreeViewChange != null)
                 OnTreeViewChange(p, pTreeviewRefresh.pPanelRemove);
+
+            if (OnNetworkChange != null)
+                OnNetworkChange();
         }
 
         public void Remove(pPanel[] p)
@@ -286,7 +276,7 @@ namespace primeira.pNeuron
                 dBounds.Width,
                 dBounds.Height);
 
-            Pen p = ((pPanel)c).GetPenStyle()[0];
+            Pen p = ((pPanel)c).GetPenStyle();
             p.Width = 1;
             SolidBrush b = new SolidBrush(Color.Red);
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
@@ -621,8 +611,17 @@ namespace primeira.pNeuron
                         {
                             Rectangle r = pp.Bounds;
                             //                            r.Inflate(10, 10);
-                            Invalidate(r);
-                            pp.Location = new Point(Convert.ToInt32(Math.Round(((double)p.X - ((double)pp.MousePositionOnDown.X)) / (double)iGridDistance)) * iGridDistance, Convert.ToInt32(Math.Round(((double)p.Y - ((double)pp.MousePositionOnDown.Y)) / (double)iGridDistance)) * iGridDistance);
+                            Point tempP = new Point(Convert.ToInt32(Math.Round(((double)p.X - ((double)pp.MousePositionOnDown.X)) / (double)iGridDistance)) * iGridDistance, Convert.ToInt32(Math.Round(((double)p.Y - ((double)pp.MousePositionOnDown.Y)) / (double)iGridDistance)) * iGridDistance);
+
+                            if (pp.Location != tempP)
+                            {
+                                Invalidate(r);
+                                pp.Location = tempP;
+
+                                if (OnNetworkChange != null)
+                                    OnNetworkChange();
+
+                            }
 
                         }
 
@@ -746,17 +745,27 @@ namespace primeira.pNeuron
             if (DisplayStatus == pDisplayStatus.Add_Neuron)
             {
                 pPanel pp = this.Add(new Neuron(0));
-                pp.Location = new Point(DisplayMousePosition.X - pp.Width / 2,
-                                        DisplayMousePosition.Y - pp.Height / 2);
+                int x, y;
+                x = pp.Location.X;
+                y = pp.Location.Y;
+                pp.Location = new Point((((DisplayMousePosition.X - pp.Width / 2) / m_gridDistance) * m_gridDistance),
+                                        ((DisplayMousePosition.Y - pp.Height / 2)/ m_gridDistance) * m_gridDistance);
+
+                pp.Location = new Point(
+                    (pp.Location.X + pp.Width / 2 < x) ? pp.Location.X : pp.Location.X + pp.Width / 2,
+                    (pp.Location.Y + pp.Height / 2 < y) ? pp.Location.Y : pp.Location.Y + pp.Height / 2);
+
+                    
+
                 Invalidate(pp.Bounds);
+
+                if (OnNetworkChange != null)
+                    OnNetworkChange();
 
                 return;
             }
 
             #endregion
-
-
-
 
             bool bFound = false;
 
@@ -801,11 +810,17 @@ namespace primeira.pNeuron
                                                 n.Output.Add(target);// .Input.Add(target, new NeuralFactor(new Random(1).NextDouble()));
                                                 target.Input.Add(n, new NeuralFactor(m_random.NextDouble())); //Output.Add(n);
                                                 Invalidate();
+
+                                                if (OnNetworkChange != null)
+                                                    OnNetworkChange();
                                             }
                                             else
                                             {
                                                 target.Input.Remove(n);
                                                 n.Output.Remove(target);
+
+                                                if (OnNetworkChange != null)
+                                                    OnNetworkChange();
                                             }
                                         }
                                     }

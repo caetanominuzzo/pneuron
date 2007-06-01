@@ -9,14 +9,52 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace primeira.pNeuron
 {
-    public class pDocument : DockContent
+    public class pDocument : DockContent, IpDocks
     {
         public pDisplay pDisplay1;
+        private bool m_modificated = false;
 
-        public pDocument(string sFileName)
+        public bool Modificated
+        {
+            get { return m_modificated; }
+            set {
+                if (value != m_modificated)
+                {
+                    if (!value)
+                    {
+                        this.TabText = this.TabText.Substring(0, TabText.Length - 2) + "]";
+                    }
+                    else
+                    {
+                        this.TabText = this.TabText.Substring(0, TabText.Length - 1) + "*]";
+                    }
+                    m_modificated = value;
+                }
+                
+            }
+        }
+        public bool Trainned = false;
+        private string m_filename;
+        private bool m_defaultNamedFile = true;
+
+        public string Filename
+        {
+            get { return m_filename; }
+            set { m_filename = value;
+                  this.TabText = "[" + value + "]";
+                }
+        }
+
+
+        public pDocument(string sFileName) : this()
+        {
+            Filename = sFileName;
+            
+        }
+
+        public pDocument()
         {
             InitializeComponent();
-            this.TabText = "[" + sFileName + "]";
         }
 
         protected override void OnShown(EventArgs e)
@@ -55,6 +93,7 @@ namespace primeira.pNeuron
             this.pDisplay1.VisibleAutoScrollVertical = true;
             this.pDisplay1.OnDisplayStatusChange += new primeira.pNeuron.pDisplay.DisplayStatusChangeDelegate(this.pDisplay1_OnDisplayStatusChange);
             this.pDisplay1.OnSelectedPanelsChange += new primeira.pNeuron.pDisplay.SelectedPanelsChangeDelegate(this.pDisplay1_OnSelectedPanelsChange);
+            this.pDisplay1.OnNetworkChange += new primeira.pNeuron.pDisplay.NetworkChangeDelegate(this.pDisplay1_OnNetworkChange);
             this.pDisplay1.OnTreeViewChange += new primeira.pNeuron.pDisplay.TreeViewChangeDelegate(this.pDisplay1_OnTreeViewChange);
             // 
             // pDocument
@@ -74,22 +113,22 @@ namespace primeira.pNeuron
 
         private void pDisplay1_OnDisplayStatusChange()
         {
-            ((pNeuronIDE)DockPanel.Parent).status.Items[0].Text = "Status: " + pDisplay1.DisplayStatus.ToString().Replace("_", " ");
+            Parent.status.Items[0].Text = "Status: " + pDisplay1.DisplayStatus.ToString().Replace("_", " ");
 
             switch (pDisplay1.DisplayStatus)
             {
                 case pDisplay.pDisplayStatus.Add_Neuron:
-                    ((pNeuronIDE)DockPanel.Parent).toolbox.rNeuron.Checked = true;
+                    Parent.fmToolbox.rNeuron.Checked = true;
                     break;
                 case pDisplay.pDisplayStatus.Linking:
                 case pDisplay.pDisplayStatus.Linking_Paused:
-                    ((pNeuronIDE)DockPanel.Parent).toolbox.rSynapse.Checked = true;
+                    Parent.fmToolbox.rSynapse.Checked = true;
                     break;
                 case pDisplay.pDisplayStatus.Remove_Neuron:
-                    ((pNeuronIDE)DockPanel.Parent).toolbox.rRemove.Checked = true;
+                    Parent.fmToolbox.rRemove.Checked = true;
                     break;
                 default:
-                    ((pNeuronIDE)DockPanel.Parent).toolbox.rCursor.Checked = true;
+                    Parent.fmToolbox.rCursor.Checked = true;
                     break;
             }
 
@@ -126,9 +165,7 @@ namespace primeira.pNeuron
                 case Keys.D9:
                 case Keys.D0:
 
-                    int iKey = Convert.ToInt16(e.KeyCode.ToString().Replace("D", "")) - 1;
-                    if (iKey == -1)
-                        iKey = 10;
+                    int iKey = Convert.ToInt16(e.KeyCode.ToString().Replace("D", ""));
 
                     if (pDisplay1.CtrlKey) //Create
                     {
@@ -183,11 +220,11 @@ namespace primeira.pNeuron
         {
             if (pDisplay1.SelectedpPanels.Length == 0)
             {
-                ((pNeuronIDE)DockPanel.Parent).property.propertyGrid1.SelectedObject = pDisplay1;
+                Parent.fmProperty.Property.SelectedObject = pDisplay1;
             }
             else
             {
-                ((pNeuronIDE)DockPanel.Parent).property.propertyGrid1.SelectedObjects = pDisplay1.SelectedpPanels;
+                Parent.fmProperty.Property.SelectedObjects = pDisplay1.SelectedpPanels;
             }
 
 
@@ -201,21 +238,21 @@ namespace primeira.pNeuron
             {
                 pPanel p = (pPanel)o;
 
-                int iGroup = p.Groups.Count == 0 ? 0 : p.Groups[0];
+                int iGroup = p.Groups;
 
-                ListViewItem lvi = new ListViewItem(p.Name, (((pNeuronIDE)DockPanel.Parent).treeview.treeView1.Groups[iGroup]));
+                ListViewItem lvi = new ListViewItem(p.Name, (Parent.fmTreeview.treeView1.Groups[iGroup ]));
 
-                ((pNeuronIDE)DockPanel.Parent).treeview.treeView1.Items.Add(lvi);
+                Parent.fmTreeview.treeView1.Items.Add(lvi);
 
-                int k = ((pNeuronIDE)DockPanel.Parent).treeview.treeView1.Groups[iGroup].Items.Count - 1;
+                int k = Parent.fmTreeview.treeView1.Groups[iGroup ].Items.Count - 1;
 
-                ((pNeuronIDE)DockPanel.Parent).treeview.treeView1.Groups[iGroup].Items[k].Tag = p;
+                Parent.fmTreeview.treeView1.Groups[iGroup ].Items[k].Tag = p;
             }
             else if (mode == pTreeviewRefresh.pPanelRemove)
             {
                 pPanel p = (pPanel)o;
                 ListViewItem toDelete = null;
-                foreach (ListViewGroup lg in ((pNeuronIDE)DockPanel.Parent).treeview.treeView1.Groups)
+                foreach (ListViewGroup lg in Parent.fmTreeview.treeView1.Groups)
                     foreach (ListViewItem lv in lg.Items)
                     {
                         if (((pPanel)lv.Tag) == p)
@@ -227,14 +264,17 @@ namespace primeira.pNeuron
                 if (toDelete != null)
                 {
                     toDelete.Group = null;
-                    ((pNeuronIDE)DockPanel.Parent).treeview.treeView1.Items.Remove(toDelete);
+                    Parent.fmTreeview.treeView1.Items.Remove(toDelete);
                 }
             }
             else if(mode == pTreeviewRefresh.pGroupClear)
             {
+                if( ((int)o) == 0)
+                    return;
+                
                 List<ListViewItem> toDelete = new List<ListViewItem>();
 
-                foreach (ListViewItem lv in ((pNeuronIDE)DockPanel.Parent).treeview.treeView1.Groups[(int)o].Items)
+                foreach (ListViewItem lv in Parent.fmTreeview.treeView1.Groups[(int)o].Items)
                 {
                     toDelete.Add(lv);
                 }
@@ -242,12 +282,12 @@ namespace primeira.pNeuron
                 foreach (ListViewItem lv in toDelete)
                 {
                     lv.Group = null;
-                    ((pNeuronIDE)DockPanel.Parent).treeview.treeView1.Items.Remove(lv);
+                    Parent.fmTreeview.treeView1.Items.Remove(lv);
                 }
             }
             else if (mode == pTreeviewRefresh.pFullRefreh)
             {
-                ((pNeuronIDE)DockPanel.Parent).treeview.treeView1.Focus();
+                Parent.fmTreeview.treeView1.Focus();
             }
             return;
             /*
@@ -263,7 +303,7 @@ namespace primeira.pNeuron
 
                 lToDelete.Clear();
 
-                foreach (ListViewItem lv in ((pNeuronIDE)DockPanel.Parent).treeview.treeView1.Groups[i].Items)
+                foreach (ListViewItem lv in Parent.treeview.treeView1.Groups[i].Items)
                 {
 
                     if(!pDisplay1.pPanels.Contains( ((pPanel)lv.Tag)))
@@ -282,24 +322,24 @@ namespace primeira.pNeuron
                 int y = 0;
                 foreach (int lv in lToDelete)
                 {
-                    ((pNeuronIDE)DockPanel.Parent).treeview.treeView1.Groups[i].Items.RemoveAt(lv - y);
+                    Parent.treeview.treeView1.Groups[i].Items.RemoveAt(lv - y);
                     y++;
                 }
 
                 foreach (pPanel p in l)
                 {
                     if (
-                        !((pNeuronIDE)DockPanel.Parent).treeview.Contains(
-                            ((pNeuronIDE)DockPanel.Parent).treeview.treeView1.Groups[i],
+                        !Parent.treeview.Contains(
+                            Parent.treeview.treeView1.Groups[i],
                             p))
                     {
-                        ListViewItem lvi = new ListViewItem(p.Name, (((pNeuronIDE)DockPanel.Parent).treeview.treeView1.Groups[i]));
+                        ListViewItem lvi = new ListViewItem(p.Name, (Parent.treeview.treeView1.Groups[i]));
 
-                        ((pNeuronIDE)DockPanel.Parent).treeview.treeView1.Items.Add(lvi);
+                        Parent.treeview.treeView1.Items.Add(lvi);
 
-                        int k = ((pNeuronIDE)DockPanel.Parent).treeview.treeView1.Groups[i].Items.Count - 1;
+                        int k = Parent.treeview.treeView1.Groups[i].Items.Count - 1;
 
-                        ((pNeuronIDE)DockPanel.Parent).treeview.treeView1.Groups[i].Items[k].Tag = p;
+                        Parent.treeview.treeView1.Groups[i].Items[k].Tag = p;
                     }
 
                     j++;
@@ -312,26 +352,85 @@ namespace primeira.pNeuron
 
         private void pDocument_Activated(object sender, EventArgs e)
         {
-            ((pNeuronIDE)DockPanel.Parent).ActiveDocument = this;
+            Parent.ActiveDocument = this;
 
             switch (pDisplay1.DisplayStatus)
             {
                 case pDisplay.pDisplayStatus.Add_Neuron:
-                    ((pNeuronIDE)DockPanel.Parent).toolbox.rNeuron.Checked = true;
+                    Parent.fmToolbox.rNeuron.Checked = true;
                     break;
                 case pDisplay.pDisplayStatus.Linking_Paused:
                 case pDisplay.pDisplayStatus.Linking:
-                    ((pNeuronIDE)DockPanel.Parent).toolbox.rSynapse.Checked = true;
+                    Parent.fmToolbox.rSynapse.Checked = true;
                     break;
                 default:
-                    ((pNeuronIDE)DockPanel.Parent).toolbox.rCursor.Checked = true;
+                    Parent.fmToolbox.rCursor.Checked = true;
                     break;
 
             }
 
-            ((pNeuronIDE)DockPanel.Parent).treeview.treeView1.Items.Clear();
+            Parent.fmTreeview.treeView1.Items.Clear();
 
 
+        }
+
+        #region IpDocks Members
+
+        public pNeuronIDE Parent
+        {
+            get { return ((pNeuronIDE)DockPanel.Parent); }
+        }
+
+        #endregion
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+
+            if (Modificated)
+            {
+                switch (MessageBox.Show("Save changes on " + this.Filename + "?", "Don't you like to save your work?", MessageBoxButtons.YesNoCancel))
+                {
+                    case DialogResult.No:
+                        return;
+                        break;
+                    case DialogResult.Cancel:
+                        e.Cancel = true;
+                        break;
+                    case DialogResult.Yes:
+                        if (m_defaultNamedFile)
+                        {
+                            SaveFileDialog s = new SaveFileDialog();
+                            s.DefaultExt = ".pnu";
+                            s.FileName = Filename + ".pnu";
+                            s.Filter = "Untrainned pNeuron Network (*.upn)|*.pnu|pNeuron Trained Network (*.pne)|*.pne|All files (*.*)|*.*";
+                            if (s.ShowDialog() == DialogResult.OK)
+                            {
+                                //Save operations
+                                Modificated = false;
+                            }
+                            else
+                            {
+                                e.Cancel = true;
+                                return;
+                            }
+                        }
+                        else
+                        {
+                            //Save operations
+                            Modificated = false;
+                        }
+                        break;
+
+                }
+            }
+
+
+            //base.OnFormClosing(e);
+        }
+
+        private void pDisplay1_OnNetworkChange()
+        {
+            this.Modificated = true;
         }
 
 
