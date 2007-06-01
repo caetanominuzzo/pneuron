@@ -61,5 +61,18 @@ namespace primeira.pNeuron
         {
             //base.OnFormClosing(e);
         }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            
+            
+            ActiveDocument.Save();
+
+        }
+
+        private void loadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ActiveDocument.Load();
+        }
     }
 }
