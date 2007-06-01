@@ -9,7 +9,7 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace primeira.pNeuron
 {
-    public class pTreeview : DockContent
+    public class pTreeview : DockContent, IpDocks
     {
         public ListView treeView1;
     
@@ -102,29 +102,25 @@ namespace primeira.pNeuron
 
         }
 
-
-
         protected override void OnActivated(EventArgs e)
         {
             base.OnActivated(e);
 
-             foreach (pPanel p in ((pNeuronIDE)DockPanel.Parent).ActiveDocument.pDisplay1.SelectedpPanels)
+            foreach (pPanel p in Parent.ActiveDocument.pDisplay1.SelectedpPanels)
             {
 
-                foreach (int i in p.Groups)
+                int i = p.Groups;
+
+                treeView1.SelectedItems.Clear();
+
+
+                foreach (ListViewItem t in (treeView1.Groups[i].Items))
                 {
-
-                    treeView1.SelectedItems.Clear();
-
-                 
-                    foreach (ListViewItem t in (treeView1.Groups[i].Items))
+                    if (((pPanel)t.Tag) == p)
                     {
-                        if (((pPanel)t.Tag) == p)
-                        {
-                            t.Selected = true;
-                        }
+                        t.Selected = true;
                     }
-                }   
+                }
             }
 
             foreach (ListViewItem lvi in treeView1.Items)
@@ -140,7 +136,7 @@ namespace primeira.pNeuron
             if (((pPanel)e.Item.Tag).Selected != e.IsSelected)
             {
                 ((pPanel)e.Item.Tag).Selected = e.IsSelected;
-                ((pNeuronIDE)DockPanel.Parent).ActiveDocument.pDisplay1.Invalidate(((pPanel)e.Item.Tag).Bounds);
+                Parent.ActiveDocument.pDisplay1.Invalidate(((pPanel)e.Item.Tag).Bounds);
             }
 
 
@@ -148,12 +144,12 @@ namespace primeira.pNeuron
 
         private void treeView1_KeyDown(object sender, KeyEventArgs e)
         {
-            ((pNeuronIDE)DockPanel.Parent).ActiveDocument.pDocument_KeyDown(sender, e);
+            Parent.ActiveDocument.pDocument_KeyDown(sender, e);
         }
 
         private void treeView1_KeyUp(object sender, KeyEventArgs e)
         {
-            ((pNeuronIDE)DockPanel.Parent).ActiveDocument.pDocument_KeyUp(sender, e);
+            Parent.ActiveDocument.pDocument_KeyUp(sender, e);
         }
 
         public bool Contains(ListViewGroup g, pPanel p)
@@ -165,5 +161,15 @@ namespace primeira.pNeuron
             }
             return false;
         }
+
+        #region IpDocks Members
+
+        public pNeuronIDE Parent
+        {
+            get { return ((pNeuronIDE)DockPanel.Parent); }
+        }
+
+        #endregion
+
     }
 }

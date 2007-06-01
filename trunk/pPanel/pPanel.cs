@@ -252,7 +252,7 @@ namespace primeira.pNeuron
 
         private const int MAX_GROUP_NUMBER = 10; //0 -- 9
         private Point m_mousePositionOnDown;
-        private List<int> m_groups;
+        private int m_groups;
         private Graphics m_graphics;
         private bool m_highlighed = false;
         private bool m_selected;
@@ -260,77 +260,56 @@ namespace primeira.pNeuron
 
         public pPanel(Graphics g)
         {
-            m_groups = new List<int>(MAX_GROUP_NUMBER);
+            m_groups = 0;
             m_graphics = g;
             m_synapses = new List<pLine>();
         }
 
-        public Pen[] GetPenStyle()
+        public Pen GetPenStyle()
         {
             pColorBase p;
 
-            List<pColorBase> lp = new List<pColorBase>();
-            List<Pen> lpp = new List<Pen>();
+            pColorBase lp = null;
+            Pen lpp = null;
 
-            foreach (int i in Groups)
+            int i = Groups;
+            lp = pColors.Colors[i];
+            lpp = pColors.Colors[i].Pen;
+         
+
+            if (Selected)
             {
-                lp.Add(pColors.Colors[i]);
-                lpp.Add(pColors.Colors[i].Pen);
+                lpp = lp.SelectedPen;
+            }
+            else
+            {
+                lpp = lp.Pen;
             }
 
-            if (lp.Count == 0)
-            {
-                lp.Add(pColors.Silver);
-                lpp.Add(pColors.Silver.Pen);
-            }
-
-            for (int i = 0; i < lp.Count; i++)
-            {
-                if (Selected)
-                {
-                    lpp[i] = lp[i].SelectedPen;
-                }
-                else
-                {
-                    lpp[i] = lp[i].Pen;
-                }
-            }
-
-            return lpp.ToArray();
+            return lpp;
         }
 
-        public Brush[] GetBrushtyle()
+        public Brush GetBrushtyle()
         {
             pColorBase p;
 
-            List<pColorBase> lp = new List<pColorBase>();
-            List<Brush> lpp = new List<Brush>();
+            pColorBase lp = null;
+            Brush lpp = null;
 
-            foreach (int i in Groups)
+            int i = Groups;
+            lp = pColors.Colors[i];
+            lpp= pColors.Colors[i].Brush;
+
+            if (Highlighted)
             {
-                lp.Add(pColors.Colors[i]);
-                lpp.Add(pColors.Colors[i].Brush);
+                lpp = lp.SelectedBrush;
+            }
+            else
+            {
+                lpp = lp.Brush;
             }
 
-            if (lp.Count == 0)
-            {
-                lp.Add(pColors.Silver);
-                lpp.Add(pColors.Silver.Brush);
-            }
-
-            for (int i = 0; i < lp.Count; i++)
-            {
-                if (Highlighted)
-                {
-                    lpp[i] = lp[i].SelectedBrush;
-                }
-                else
-                {
-                    lpp[i] = lp[i].Brush;
-                }
-            }
-
-            return lpp.ToArray();
+            return lpp;
         }
 
         public void Draw()
@@ -341,16 +320,16 @@ namespace primeira.pNeuron
         public void Draw(Graphics g)
         {
 
-            Brush[] brush = GetBrushtyle();
-            Pen[] pen = GetPenStyle();
+            Brush brush = GetBrushtyle();
+            Pen pen = GetPenStyle();
 
 
 
-            int iCount = pen.Length;
+            int iCount = 1;
 
             int iRad = 360 / iCount;
 
-            int iStart = 0;
+  
 
             //g.FillEllipse(brush[0],
             //                   Bounds.Left,
@@ -367,13 +346,12 @@ namespace primeira.pNeuron
 
 
             //return;
-            for (int i = 0; i < pen.Length; i++)
-            {
-                g.DrawPie(pen[i], Bounds.Left + (pen[i].Width),
-                                 Bounds.Top + (pen[i].Width),
-                                 Bounds.Width - (pen[i].Width * 2),
-                                 Bounds.Height - (pen[i].Width * 2),
-                                                             iStart,
+
+                g.DrawPie(pen, Bounds.Left + (pen.Width),
+                                 Bounds.Top + (pen.Width),
+                                 Bounds.Width - (pen.Width * 2),
+                                 Bounds.Height - (pen.Width * 2),
+                                                             0,
                          iRad);
 
 
@@ -385,19 +363,19 @@ namespace primeira.pNeuron
                 //        Bounds.Height - 8);
 
 
-                g.FillPie(brush[i],
+                g.FillPie(brush,
                            Bounds.Left,
                            Bounds.Top,
                            Bounds.Width,
                            Bounds.Height,
-                           iStart,
+                           0,
                            iRad);
 
 
 
 
-                iStart += iRad;
-            }
+        
+
             string s = Text;
             Font f = new Font(SystemFonts.MenuFont.SystemFontName, 10, FontStyle.Regular, GraphicsUnit.Pixel, 1, true);
 
@@ -426,7 +404,7 @@ namespace primeira.pNeuron
         }
 
         [Browsable(false)]
-        public List<int> Groups
+        public int Groups
         {
             get { return m_groups; }
             set { m_groups = value; }

@@ -248,6 +248,13 @@ namespace WeifenLuo.WinFormsUI.Docking
             DockHandler.DockTo(panel, dockStyle);
         }
 
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            e.Cancel = true;
+            this.Hide();
+            base.OnFormClosing(e);
+        }
+
 		#region Events
 		private void DockHandler_DockStateChanged(object sender, EventArgs e)
 		{
