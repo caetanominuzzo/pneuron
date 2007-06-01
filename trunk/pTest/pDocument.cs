@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
+using primeira.pNeuron.Core;
 
 namespace primeira.pNeuron
 {
@@ -432,6 +433,156 @@ namespace primeira.pNeuron
         {
             this.Modificated = true;
         }
+
+        #region Save/Load
+
+        public DialogResult Save()
+        {
+            if (m_defaultNamedFile)
+            {
+                SaveFileDialog s = new SaveFileDialog();
+                s.DefaultExt = ".pnu";
+                s.FileName = System.IO.Path.GetFileNameWithoutExtension(Filename) + ".pnu";
+                s.Filter = "Untrained pNeuron Network (*.upn)|*.pnu|Trained pNeuron Network (*.pne)|*.pne|All files (*.*)|*.*";
+                if (s.ShowDialog() == DialogResult.OK)
+                {
+                    Filename = s.FileName;
+                    internalSave();
+                    Modificated = false;
+                    return DialogResult.OK;
+                }
+                else
+                {
+                    return DialogResult.Cancel;
+                }
+            }
+            else
+            {
+                internalSave();
+                Modificated = false;
+                return DialogResult.OK;
+            }
+
+        }
+
+        private void internalSave()
+        {
+            DataSet ds = new DataSet(System.IO.Path.GetFileNameWithoutExtension(Filename));
+
+            DataTable tNeurons = new DataTable("pNeuron");
+            tNeurons.Columns.Add("Name", typeof(String));
+            tNeurons.Columns.Add("LocationX", typeof(int));
+            tNeurons.Columns.Add("LocationY", typeof(int));
+            tNeurons.Columns.Add("Group", typeof(Int32));
+
+            DataTable tSynapse = new DataTable("pSynapse");
+            tSynapse.Columns.Add("NeuronOut", typeof(string));
+            tSynapse.Columns.Add("NeuronIn", typeof(string));
+          //  tSynapse.Columns.Add("Value", typeof(double));
+
+            foreach (pPanel p in pDisplay1.pPanels)
+            {
+                tNeurons.Rows.Add(
+                    new object[]
+                        {
+                            p.Name,
+                            p.Location.X,
+                            p.Location.Y,
+                            p.Groups
+                        }
+                );
+
+
+                foreach (pPanel pp in pDisplay1.pPanels)
+                {
+                    if (((INeuron)pp.Tag).Input.ContainsKey((INeuron)p.Tag))
+                    {
+                        foreach (INeuron nn in ((INeuron)pp.Tag).Input.Keys)
+                        {
+
+                            if (nn == ((INeuron)p.Tag))
+                            {
+                                tSynapse.Rows.Add(
+                                        new object[]{
+                                            p.Name,
+                                            pp.Name
+                                        }
+                                );
+                                break;
+                            }
+                        }
+                    }
+                }
+
+
+
+
+            }
+
+
+            ds.Tables.Add(tNeurons);
+            ds.Tables.Add(tSynapse);
+
+            ds.WriteXml(Filename);
+        }
+
+        public DialogResult Load()
+        {
+            if (Modificated)
+                Save();
+
+            OpenFileDialog s = new OpenFileDialog();
+            s.DefaultExt = ".pnu";
+            s.Filter = "Untrained pNeuron Network (*.upn)|*.pnu|Trained pNeuron Network (*.pne)|*.pne|All files (*.*)|*.*";
+            if (s.ShowDialog() == DialogResult.OK)
+            {
+                internalLoad(s.FileName);
+                Modificated = false;
+                return DialogResult.OK;
+            }
+            else
+            {
+                return DialogResult.Cancel;
+            } 
+        }
+
+        public void internalLoad(string aFilename)
+        {
+            DataSet ds = new DataSet();
+            ds.ReadXml(aFilename);
+
+            foreach (DataRow r in ds.Tables["pNeuron"].Rows)
+            {
+                pPanel p = pDisplay1.Add(new Neuron(0));
+                p.Name = r["Name"].ToString();
+                p.Location = new Point( Convert.ToInt32(r["LocationX"]), Convert.ToInt32(r["LocationY"]) );
+                pDisplay1.Add(p, Convert.ToInt32(r["Group"]));
+            }
+
+            foreach (DataRow r in ds.Tables["pSynapse"].Rows)
+            {
+                foreach (pPanel p in pDisplay1.pPanels)
+                {
+                    if (r["NeuronOut"].ToString() == p.Name)
+                    {
+                        foreach (pPanel pp in pDisplay1.pPanels)
+                        {
+                            if (r["NeuronIn"].ToString() == pp.Name)
+                            {
+                                p.Output.Add((Neuron)pp.Tag);
+                                pp.Input.Add((Neuron)p.Tag, new NeuralFactor(0));
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+
+
+        }
+
+        #endregion
 
 
     }

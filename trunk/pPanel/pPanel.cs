@@ -44,8 +44,9 @@ namespace primeira.pNeuron
 
                 foreach (pPanel p in ((IpPanels)Parent).pPanels)
                 {
-                    if (p.Name == value)
-                        throw new Exception("Names must be unique.");
+                    if(p != this)
+                        if (p.Name == value)
+                            throw new Exception("Names must be unique.");
                 }
 
             Text = value;

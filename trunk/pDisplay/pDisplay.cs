@@ -233,11 +233,11 @@ namespace primeira.pNeuron
         {
             m_lastSelectRectangleDrow = cBounds;
 
-            gg.FillRectangle(new SolidBrush(Color.FromArgb(5, Color.Blue)),
+            gg.FillRectangle(new SolidBrush(Color.FromArgb(20, Color.Silver)),
 
                cBounds);
 
-            gg.DrawRectangle(new Pen(Color.FromArgb(50, Color.Blue), 1),
+            gg.DrawRectangle(new Pen(Color.FromArgb(100, Color.Silver), 1),
               cBounds);
 
         }
@@ -950,8 +950,9 @@ namespace primeira.pNeuron
                         }
                     }
                 }
-            }
 
+            }
+            
 
 
             if (DisplayStatus == pDisplayStatus.Linking)
@@ -1064,7 +1065,7 @@ namespace primeira.pNeuron
     
 #region IpPanels Members
 
-        List<pPanel> IpPanels.pPanels
+        public List<pPanel> pPanels
         {
             get { return m_pPanels; }
         }
