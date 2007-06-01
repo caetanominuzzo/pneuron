@@ -402,7 +402,7 @@ namespace primeira.pNeuron
                             SaveFileDialog s = new SaveFileDialog();
                             s.DefaultExt = ".pnu";
                             s.FileName = Filename + ".pnu";
-                            s.Filter = "Untrainned pNeuron Network (*.upn)|*.pnu|pNeuron Trained Network (*.pne)|*.pne|All files (*.*)|*.*";
+                            s.Filter = "Untrained pNeuron Network (*.upn)|*.pnu|Trained pNeuron Network (*.pne)|*.pne|All files (*.*)|*.*";
                             if (s.ShowDialog() == DialogResult.OK)
                             {
                                 //Save operations
