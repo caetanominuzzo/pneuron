@@ -11,14 +11,24 @@ using System.Collections;
 
 namespace primeira.pNeuron
 {
+    #region Enums
+
+    public enum pTreeviewRefresh
+    {
+        pPanelAdd,
+        pPanelRemove,
+        pPanelGroupRemove,
+        pGroupClear,
+        pFullRefreh
+    }
+
+    #endregion
+
     public partial class pDisplay : primeira.pExternal.CustomAutoScrollPanel.ScrollablePanel, primeira.pNeuron.IpPanels
     {
 
         [DllImport("Kernel32.dll")]
         public static extern bool Beep(UInt32 frequency, UInt32 duration);
-
-
-     
 
         #region events
 
@@ -53,41 +63,96 @@ namespace primeira.pNeuron
 
         #region Fields
 
+        #region Utils
+
+        /// <summary>
+        /// Generate randoms to neuron internal values.
+        /// </summary>
         private Random m_random = new Random(1);
 
-        private List<pPanel>[] m_groups;
+        /// <summary>
+        /// A global graphics to avoid use CreateGraphics()
+        /// </summary>
+        private Graphics m_graphics;
 
+        #endregion
+
+        #region Enviroment options
+
+        /// <summary>
+        /// To draw grid and snap neurons to grid.
+        /// </summary>
         private int m_gridDistance = 25;
 
+        /// <summary>
+        /// Indicates when snap to grid mode is enabled.
+        /// </summary>
         private bool m_allignToGrid = false;
 
-        private bool m_shiftKey = false;
-
-        private bool m_ctrlKey = false;
-
-        public TextBox Logger = new TextBox();
-
-        private Nullable<Point> m_selectSourcePoint; //Initial point of the select rectangle
-
-        private Nullable<Rectangle> m_lastSelectRectangleDrow; //Used to invalidate when the select rectangle closes
-
-        private List<pPanel> m_lastSelectItems;
-
+        /// <summary>
+        /// Grid Color.
+        /// </summary>
         private Color m_gridLineColor = Color.LightGray;
 
+        /// <summary>
+        /// Indicates to draw grid at onPaint.
+        /// </summary>
         private bool m_gridShow = false;
 
+        /// <summary>
+        /// Indicates Bezier mode enabled. Has a get/set on Bezier.
+        /// </summary>
         private bool m_bezier = true;
 
-        public bool Bezier
-        {
-            get { return m_bezier; }
-            set { m_bezier = value; }
-        }
+        #endregion
 
-        private pDisplayStatus m_DisplayStatus;
+        #region Status/Flags/Pressed Keys
 
-        private Graphics m_graphics;
+        /// <summary>
+        /// Indicates shift key is pressed. Has a get/set on Shiftkey.
+        /// </summary>
+        private bool m_shiftKey = false;
+
+        /// <summary>
+        /// Indicates ctrl key is pressed. Has a get/set on Ctrlkey.
+        /// </summary>
+        private bool m_ctrlKey = false;
+
+        /// <summary>
+        /// Keep initial point of the select rectangle otherwise null.
+        /// </summary>
+        private Nullable<Point> m_selectSourcePoint;
+
+        /// <summary>
+        /// Used to invalidate when the select rectangle closes.
+        /// </summary>
+        private Nullable<Rectangle> m_lastSelectRectangleDrow;
+
+        /// <summary>
+        /// Store the neurons selected til previous action.
+        /// </summary>
+        private List<pPanel> m_lastSelectItems;
+
+        /// <summary>
+        /// Main status of pDisplay. Has a get/set on DisplayStatus.
+        /// </summary>
+        private pDisplayStatus m_displayStatus;
+
+        #endregion
+
+        #region Groups. Implemented on pDisplayControls
+
+        /// <summary>
+        /// Neuron groups. Has a public get on Groups.
+        /// </summary>
+        private List<pPanel>[] m_groups;
+
+        /// <summary>
+        /// All pPanels on pDisplay. Has a get on pPanels.
+        /// </summary>
+        private List<pPanel> m_pPanels;
+
+        #endregion
 
         #endregion
 
@@ -95,33 +160,48 @@ namespace primeira.pNeuron
 
         public pDisplay()
         {
-
-            BackColor = Color.White;
-
+            //Make this system slow =)
             DoubleBuffered = true;
 
-            Logger.Dock = DockStyle.Bottom;
-            Logger.Multiline = true;
-            Logger.Height = 100;
-            Logger.Visible = false;
-            Controls.Add(Logger);
+            //Intialize neuron list
+            m_pPanels = new List<pPanel>();
 
-
+            //Initialize with no neurons selected
             m_lastSelectItems = new List<pPanel>();
-            m_groups = new List<pPanel>[10];
+
+            //Initialize with pColors.Colors.Length
+            m_groups = new List<pPanel>[pColors.Colors.Length];
+
+            //Set initial DisplayStatus
             DisplayStatus = pDisplayStatus.Idle;
 
-            m_pPanels = new List<pPanel>();
             m_graphics = CreateGraphics();
 
+            //Initialize all groups
             for (int i = 0; i < m_groups.Length; i++)
                 m_groups[i] = new List<pPanel>();
+
 
         }
 
         #endregion
 
         #region Properties
+
+        #region Enviroment Options
+
+        /// <summary>
+        /// Get or set if synapse draw will do bezier.
+        /// </summary>
+        public bool Bezier
+        {
+            get { return m_bezier; }
+            set { m_bezier = value; }
+        }
+
+        #endregion
+
+        #region Status/Flags/Pressed Keys
 
         public bool ShiftKey
         {
@@ -154,12 +234,12 @@ namespace primeira.pNeuron
 
         public pDisplayStatus DisplayStatus
         {
-            get { return m_DisplayStatus; }
+            get { return m_displayStatus; }
             set
             {
-                pDisplayStatus old = m_DisplayStatus;
-                m_DisplayStatus = value;
-                switch (m_DisplayStatus)
+                pDisplayStatus old = m_displayStatus;
+                m_displayStatus = value;
+                switch (m_displayStatus)
                 {
                     case pDisplayStatus.Moving: Cursor = Cursors.SizeAll;
                         break;
@@ -168,191 +248,20 @@ namespace primeira.pNeuron
                     default: Cursor = Cursors.Default;
                         break;
                 }
-                if (old != m_DisplayStatus && OnDisplayStatusChange != null)
+                if (old != m_displayStatus && OnDisplayStatusChange != null)
                     OnDisplayStatusChange();
             }
         }
 
         #endregion
 
-        #region Methods
+        /// <summary>
+        /// Output logger.
+        /// TODO: Create a fmLogger dockable window
+        /// </summary>
+        public TextBox Logger = new TextBox();
 
-        public int NextRandom(int MinValue, int MaxValue)
-        {
-            return m_random.Next(MinValue, MaxValue);
-        }
-
-        public void Log(string s)
-        {
-            Logger.Text = s + "\r\n" + Logger.Text;
-        }
-
-        public pPanel Add(Neuron n)
-        {
-            primeira.pNeuron.pPanel p = new primeira.pNeuron.pPanel(m_graphics);
-
-            p.Width = 25;// NextRandom(2, 5) * 15;
-            p.Height = p.Width;
-
-            p.BackColor = Color.AliceBlue;
-            p.Tag = n;
-            Controls.Add(p);
-            m_pPanels.Add(p);
-            p.Visible = false;
-            int i = m_pPanels.Count - 1;
-            p.Text = i.ToString();
-
-            if (OnTreeViewChange != null)
-                OnTreeViewChange(p, pTreeviewRefresh.pPanelAdd);
-
-            if (OnNetworkChange != null)
-                OnNetworkChange();
-
-            return p;
-        }
-
-        public void Remove(pPanel p)
-        {
-            m_pPanels.Remove(p);
-            Controls.Remove(p);
-
-            if (OnTreeViewChange != null)
-                OnTreeViewChange(p, pTreeviewRefresh.pPanelRemove);
-
-            if (OnNetworkChange != null)
-                OnNetworkChange();
-        }
-
-        public void Remove(pPanel[] p)
-        {
-            foreach (pPanel pp in p)
-                Remove(pp);
-        }
-
-        public void DrawSelect(Rectangle cBounds, Graphics gg)
-        {
-            m_lastSelectRectangleDrow = cBounds;
-
-            gg.FillRectangle(new SolidBrush(Color.FromArgb(20, Color.Silver)),
-
-               cBounds);
-
-            gg.DrawRectangle(new Pen(Color.FromArgb(100, Color.Silver), 1),
-              cBounds);
-
-        }
-
-        public void DrawSynapse(Control c, Point d, Graphics g)
-        {
-            pPanel dd = new pPanel(g);
-            dd.Location = new Point(d.X - AutoScrollPosition.X, d.Y - AutoScrollPosition.Y);
-            DrawSynapse(dd, c, g);
-        }
-
-        public void DrawSynapse(Control c, Control d)
-        {
-            DrawSynapse(c, d, m_graphics);
-        }
-
-        private void DrawSynapse(Control d, Control c, Graphics g)
-        {
-
-            if (c.Location == d.Location)
-                return;
-
-            Rectangle cBounds = c.Bounds;
-
-            cBounds = new Rectangle(cBounds.X + AutoScrollPosition.X,
-                cBounds.Y + AutoScrollPosition.Y,
-                cBounds.Width,
-                cBounds.Height);
-
-
-            Rectangle dBounds = d.Bounds;
-
-
-            dBounds = new Rectangle(dBounds.X + AutoScrollPosition.X,
-                dBounds.Y + AutoScrollPosition.Y,
-                dBounds.Width,
-                dBounds.Height);
-
-            Pen p = ((pPanel)c).GetPenStyle();
-            p.Width = 1;
-            SolidBrush b = new SolidBrush(Color.Red);
-            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-
-
-            //hipotenusa
-            double catA;
-            double catB;
-            double hyp;
-
-            int signX = d.Bounds.Left + (d.Bounds.Width / 2) > c.Bounds.Left + (c.Bounds.Width / 2) ? 1 : -1;
-            int signY = d.Bounds.Top + (d.Bounds.Height / 2) > c.Bounds.Top + (c.Bounds.Height / 2) ? 1 : -1;
-
-            catA = c.Top - d.Top;
-            catB = c.Left - d.Left;
-            hyp = Convert.ToInt32(Math.Sqrt(Math.Pow(catA, 2) + Math.Pow(catB, 2)));
-
-            double cos = -catA / hyp;
-            double sen = -catB / hyp;
-
-            double radXC = c.Bounds.Left + (c.Bounds.Width / 2) + (sen * c.Width / 2);
-            double radYC = c.Bounds.Top + (c.Bounds.Height / 2) + (cos * c.Width / 2);
-
-            double radXD = d.Bounds.Left + (d.Bounds.Width / 2) + (sen * d.Width / 2);
-            double radYD = d.Bounds.Top + (d.Bounds.Height / 2) + (cos * d.Width / 2);
-
-            if (m_bezier)
-            {
-
-
-
-
-                g.DrawBezier(p,
-                    new Point((int)radXC + (-1 * signX), (int)radYC + (-1 * signY)),
-                    new Point(c.Bounds.Left + (c.Bounds.Width) * signX, c.Bounds.Top + (c.Bounds.Height) * signY),
-
-                    new Point(d.Bounds.Left + (d.Bounds.Width / 2) * -signX, d.Bounds.Top + (d.Bounds.Height / 2) * -signY),
-                    new Point(d.Bounds.Left + (d.Bounds.Width / 2), d.Bounds.Top + (d.Bounds.Height / 2))
-
-                    );
-            }
-            else
-            {
-                g.DrawLine(p,
-                    new Point((int)radXC, (int)radYC),
-                    new Point(d.Bounds.Left + (d.Bounds.Width / 2), d.Bounds.Top + (d.Bounds.Height / 2))
-                    );
-            }
-
-
-
-            //g.DrawLine(new Pen(Color.Red, 5), 
-            //    new Point(c.Bounds.Left + (c.Bounds.Width / 2), c.Bounds.Top + (c.Bounds.Height / 2)),
-            //    new Point((int)sen, (int)cos));
-
-            //g.FillEllipse(b,
-            //    new Rectangle(
-            //        new Point((int)radX - (signX * 4), (int)radY - (signY * 4)),
-            //        new Size(signX*4, signY*4)));
-
-            //double ArrowBaseX = d.Bounds.Left + (d.Bounds.Width / 2) + (sen * (d.Width - 15));
-            //double ArrowBaseY = d.Bounds.Top + (d.Bounds.Height / 2) + (cos * (d.Width - 15));
-
-            //for (int i = -2; i < 3; i++)
-            //    for (int j = -2; j < 3; j++)
-            //    {
-            //        g.DrawLine(p,
-            //            new Point((int)radXD, (int)radYD),
-            //            new Point((int)ArrowBaseX + i, (int)ArrowBaseY + j));
-            //    }
-
-
-            //            g.RotateTransform(50);
-            //            g.DrawLine(p, new Point(10,10), new Point(100,100));
-
-        }
+        #endregion
 
         #region Utils
 
@@ -438,6 +347,12 @@ namespace primeira.pNeuron
             return result;
         }
 
+        /// <summary>
+        /// Deprecated. Use ExpandRectangle.
+        /// </summary>
+        /// <param name="cBounds"></param>
+        /// <param name="dBounds"></param>
+        /// <returns></returns>
         private Rectangle MakeRectanglePossible(Rectangle cBounds, Rectangle dBounds)
         {
 
@@ -476,6 +391,13 @@ namespace primeira.pNeuron
             return new Rectangle(Left, Top, Width, Height);
         }
 
+        /// <summary>
+        /// Indicates if a rectangle contains another.
+        /// </summary>
+        /// <param name="r">Rectangle</param>
+        /// <param name="i">Child retangle</param>
+        /// <param name="AnyPoint">Indicate if any point of child is enough</param>
+        /// <returns></returns>
         private bool Contains(Rectangle r, Rectangle i, bool AnyPoint)
         {
 
@@ -502,31 +424,9 @@ namespace primeira.pNeuron
                 return r.Contains(i);
         }
 
-        private MouseEventArgs GetAtControl(Control c, MouseEventArgs e)
-        {
-            Point p = c.PointToClient(e.Location);
-
-            MouseEventArgs m = new MouseEventArgs(e.Button, e.Clicks, p.X, p.Y, e.Delta);
-            return m;
-        }
-
-        public bool isUsed(Point p)
-        {
-            foreach (Control c in Controls)
-            {
-                if (c.Bounds.Contains(p))
-                    return true;
-            }
-            return false;
-        }
-
-
-        #endregion
-
         #endregion
 
         #region Transversal events
-
 
         protected override void OnMouseMove(MouseEventArgs e)
         {
@@ -671,65 +571,6 @@ namespace primeira.pNeuron
 
         }
 
-        private void RefreshHighlight()
-        {
-
-            List<pPanel> toHighlight = new List<pPanel>();
-
-            bool bGroupHighlight = false;
-            if (!CtrlKey)
-            {
-                foreach (List<pPanel> lp in m_groups)
-                {
-                    if (lp != null)
-                        if (lp.Count > 0)
-                            if (GetGroupRectangle(lp).Contains(DisplayMousePosition))
-                            {
-                                foreach (pPanel pp in lp)
-                                {
-                                    toHighlight.Add(pp);
-                                }
-                                bGroupHighlight = true;
-                            }
-                }
-            }
-
-            if (!bGroupHighlight)
-            {
-                foreach (pPanel p in m_pPanels)
-                {
-                    if (p.Bounds.Contains(DisplayMousePosition))
-                    {
-                        toHighlight.Add(p);
-                        break;
-                    }
-                }
-            }
-
-
-            foreach (pPanel p in m_pPanels)
-            {
-                if (toHighlight.Contains(p))
-                {
-                    if (!p.Highlighted)
-                    {
-                        HighLight(p);
-                        Invalidate(p.Bounds);
-                    }
-                }
-                else
-                {
-                    if (p.Highlighted)
-                    {
-                        UnHighLight(p);
-                        Invalidate(p.Bounds);
-                    }
-                }
-            }
-
-
-        }
-
         protected override void OnMouseDown(MouseEventArgs e)
         {
             Point p = DisplayMousePosition;
@@ -749,13 +590,13 @@ namespace primeira.pNeuron
                 x = pp.Location.X;
                 y = pp.Location.Y;
                 pp.Location = new Point((((DisplayMousePosition.X - pp.Width / 2) / m_gridDistance) * m_gridDistance),
-                                        ((DisplayMousePosition.Y - pp.Height / 2)/ m_gridDistance) * m_gridDistance);
+                                        ((DisplayMousePosition.Y - pp.Height / 2) / m_gridDistance) * m_gridDistance);
 
                 pp.Location = new Point(
                     (pp.Location.X + pp.Width / 2 < x) ? pp.Location.X : pp.Location.X + pp.Width / 2,
                     (pp.Location.Y + pp.Height / 2 < y) ? pp.Location.Y : pp.Location.Y + pp.Height / 2);
 
-                    
+
 
                 Invalidate(pp.Bounds);
 
@@ -841,11 +682,11 @@ namespace primeira.pNeuron
 
                             break;
                         case pDisplayStatus.Remove_Neuron:
-                                if (HighlightedpPanels.Length > 0)
-                                {
-                                    Remove(HighlightedpPanels);
-                                }
-                                break;
+                            if (HighlightedpPanels.Length > 0)
+                            {
+                                Remove(HighlightedpPanels);
+                            }
+                            break;
 
                     }
                 }
@@ -912,10 +753,6 @@ namespace primeira.pNeuron
 
         }
 
-
-
-
-
         #endregion
 
         #region Paint
@@ -945,14 +782,14 @@ namespace primeira.pNeuron
                     {
                         if (n == ((Neuron)pp.Tag))
                         {
-                            if (Contains(r, MakeRectanglePossible(p.Bounds, pp.Bounds), true))
+                            if (Contains(r, ExpandRectangle(p.Bounds, pp.Bounds), true))
                                 DrawSynapse(p, pp, e.Graphics);
                         }
                     }
                 }
 
             }
-            
+
 
 
             if (DisplayStatus == pDisplayStatus.Linking)
@@ -1014,7 +851,6 @@ namespace primeira.pNeuron
 
         }
 
-
         private void DrawLines(PaintEventArgs e)
         {
             if (m_gridShow)
@@ -1057,20 +893,132 @@ namespace primeira.pNeuron
             g.DrawLine(p, 0, h / 2, Width, h / 2);
         }
 
-
-        #endregion
-
-       
-
-    
-#region IpPanels Members
-
-        public List<pPanel> pPanels
+        public void DrawSelect(Rectangle cBounds, Graphics gg)
         {
-            get { return m_pPanels; }
+            m_lastSelectRectangleDrow = cBounds;
+
+            gg.FillRectangle(new SolidBrush(Color.FromArgb(20, Color.Silver)),
+
+               cBounds);
+
+            gg.DrawRectangle(new Pen(Color.FromArgb(100, Color.Silver), 1),
+              cBounds);
+
         }
 
-#endregion
-}
+        public void DrawSynapse(pPanel c, Point d, Graphics g)
+        {
+            pPanel dd = new pPanel(g);
+            dd.Location = new Point(d.X - AutoScrollPosition.X, d.Y - AutoScrollPosition.Y);
+            DrawSynapse(dd, c, g);
+        }
+
+        public void DrawSynapse(pPanel c, pPanel d)
+        {
+            DrawSynapse(c, d, m_graphics);
+        }
+
+        private void DrawSynapse(pPanel d, pPanel c, Graphics g)
+        {
+
+            if (c.Location == d.Location)
+                return;
+
+            Rectangle cBounds = c.Bounds;
+
+            cBounds = new Rectangle(cBounds.X + AutoScrollPosition.X,
+                cBounds.Y + AutoScrollPosition.Y,
+                cBounds.Width,
+                cBounds.Height);
+
+
+            Rectangle dBounds = d.Bounds;
+
+
+            dBounds = new Rectangle(dBounds.X + AutoScrollPosition.X,
+                dBounds.Y + AutoScrollPosition.Y,
+                dBounds.Width,
+                dBounds.Height);
+
+            Pen p = ((pPanel)c).GetPenStyle();
+            p.Width = 1;
+            SolidBrush b = new SolidBrush(Color.Red);
+            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+
+
+            //hipotenusa
+            double catA;
+            double catB;
+            double hyp;
+
+            int signX = d.Bounds.Left + (d.Bounds.Width / 2) > c.Bounds.Left + (c.Bounds.Width / 2) ? 1 : -1;
+            int signY = d.Bounds.Top + (d.Bounds.Height / 2) > c.Bounds.Top + (c.Bounds.Height / 2) ? 1 : -1;
+
+            catA = c.Top - d.Top;
+            catB = c.Left - d.Left;
+            hyp = Convert.ToInt32(Math.Sqrt(Math.Pow(catA, 2) + Math.Pow(catB, 2)));
+
+            double cos = -catA / hyp;
+            double sen = -catB / hyp;
+
+            double radXC = c.Bounds.Left + (c.Bounds.Width / 2) + (sen * c.Width / 2);
+            double radYC = c.Bounds.Top + (c.Bounds.Height / 2) + (cos * c.Width / 2);
+
+            double radXD = d.Bounds.Left + (d.Bounds.Width / 2) + (sen * d.Width / 2);
+            double radYD = d.Bounds.Top + (d.Bounds.Height / 2) + (cos * d.Width / 2);
+
+            if (m_bezier)
+            {
+
+
+
+
+                g.DrawBezier(p,
+                    new Point((int)radXC + (-1 * signX), (int)radYC + (-1 * signY)),
+                    new Point(c.Bounds.Left + (c.Bounds.Width) * signX, c.Bounds.Top + (c.Bounds.Height) * signY),
+
+                    new Point(d.Bounds.Left + (d.Bounds.Width / 2) * -signX, d.Bounds.Top + (d.Bounds.Height / 2) * -signY),
+                    new Point(d.Bounds.Left + (d.Bounds.Width / 2), d.Bounds.Top + (d.Bounds.Height / 2))
+
+                    );
+            }
+            else
+            {
+                g.DrawLine(p,
+                    new Point((int)radXC, (int)radYC),
+                    new Point(d.Bounds.Left + (d.Bounds.Width / 2), d.Bounds.Top + (d.Bounds.Height / 2))
+                    );
+            }
+
+
+
+            //g.DrawLine(new Pen(Color.Red, 5), 
+            //    new Point(c.Bounds.Left + (c.Bounds.Width / 2), c.Bounds.Top + (c.Bounds.Height / 2)),
+            //    new Point((int)sen, (int)cos));
+
+            //g.FillEllipse(b,
+            //    new Rectangle(
+            //        new Point((int)radX - (signX * 4), (int)radY - (signY * 4)),
+            //        new Size(signX*4, signY*4)));
+
+            //double ArrowBaseX = d.Bounds.Left + (d.Bounds.Width / 2) + (sen * (d.Width - 15));
+            //double ArrowBaseY = d.Bounds.Top + (d.Bounds.Height / 2) + (cos * (d.Width - 15));
+
+            //for (int i = -2; i < 3; i++)
+            //    for (int j = -2; j < 3; j++)
+            //    {
+            //        g.DrawLine(p,
+            //            new Point((int)radXD, (int)radYD),
+            //            new Point((int)ArrowBaseX + i, (int)ArrowBaseY + j));
+            //    }
+
+
+            //            g.RotateTransform(50);
+            //            g.DrawLine(p, new Point(10,10), new Point(100,100));
+
+        }
+
+        #endregion
+    }
 }
 

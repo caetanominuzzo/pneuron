@@ -50,10 +50,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\pDragChildrenPanel\pDragChildrenPanel.csproj">
-      <Project>{8A994035-838E-4740-A50D-2011A04F1703}</Project>
-      <Name>pDragChildrenPanel</Name>
-    </ProjectReference>
     <ProjectReference Include="..\pExternal\pExternal.csproj">
       <Project>{C29ECEF4-786D-43C7-BA68-DBCD648B93F5}</Project>
       <Name>pExternal</Name>
