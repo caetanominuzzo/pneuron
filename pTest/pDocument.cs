@@ -168,14 +168,14 @@ namespace primeira.pNeuron
 
                     int iKey = Convert.ToInt16(e.KeyCode.ToString().Replace("D", ""));
 
-                    if (pDisplay1.CtrlKey) //Create
+                    if (e.Control) //Create
                     {
                         if (pDisplay1.SelectedpPanels.Length == 0)
                         {
                             pDisplay1.GroupFree(iKey);
                         }
 
-                        if (!pDisplay1.ShiftKey)
+                        if (!e.Shift)
                             pDisplay1.GroupFree(iKey);
 
                         foreach (pPanel p in pDisplay1.SelectedpPanels)
@@ -187,7 +187,7 @@ namespace primeira.pNeuron
                     else
                     {
 
-                        if (!pDisplay1.ShiftKey)
+                        if (!e.Shift)
                             pDisplay1.UnSelect();
 
 
@@ -398,28 +398,7 @@ namespace primeira.pNeuron
                         e.Cancel = true;
                         break;
                     case DialogResult.Yes:
-                        if (m_defaultNamedFile)
-                        {
-                            SaveFileDialog s = new SaveFileDialog();
-                            s.DefaultExt = ".pnu";
-                            s.FileName = Filename + ".pnu";
-                            s.Filter = "Untrained pNeuron Network (*.upn)|*.pnu|Trained pNeuron Network (*.pne)|*.pne|All files (*.*)|*.*";
-                            if (s.ShowDialog() == DialogResult.OK)
-                            {
-                                //Save operations
-                                Modificated = false;
-                            }
-                            else
-                            {
-                                e.Cancel = true;
-                                return;
-                            }
-                        }
-                        else
-                        {
-                            //Save operations
-                            Modificated = false;
-                        }
+                        Save();
                         break;
 
                 }
@@ -441,7 +420,7 @@ namespace primeira.pNeuron
             if (m_defaultNamedFile)
             {
                 SaveFileDialog s = new SaveFileDialog();
-                s.DefaultExt = ".pnu";
+                s.DefaultExt = Trainned ? ".upn" : ".pne";
                 s.FileName = System.IO.Path.GetFileNameWithoutExtension(Filename) + ".pnu";
                 s.Filter = "Untrained pNeuron Network (*.upn)|*.pnu|Trained pNeuron Network (*.pne)|*.pne|All files (*.*)|*.*";
                 if (s.ShowDialog() == DialogResult.OK)
@@ -478,7 +457,8 @@ namespace primeira.pNeuron
             DataTable tSynapse = new DataTable("pSynapse");
             tSynapse.Columns.Add("NeuronOut", typeof(string));
             tSynapse.Columns.Add("NeuronIn", typeof(string));
-          //  tSynapse.Columns.Add("Value", typeof(double));
+            if(Trainned)
+                tSynapse.Columns.Add("Value", typeof(double));
 
             foreach (pPanel p in pDisplay1.pPanels)
             {
@@ -502,12 +482,19 @@ namespace primeira.pNeuron
 
                             if (nn == ((INeuron)p.Tag))
                             {
-                                tSynapse.Rows.Add(
-                                        new object[]{
-                                            p.Name,
-                                            pp.Name
-                                        }
-                                );
+                                if (Trainned)
+                                {
+                                    tSynapse.Rows.Add(new object[]{
+                                                        p.Name,
+                                                        pp.Name,
+                                                        ((INeuron)pp.Tag).Input[nn].Weight });
+                                }
+                                else
+                                {
+                                    tSynapse.Rows.Add(new object[]{
+                                                        p.Name,
+                                                        pp.Name});
+                                }
                                 break;
                             }
                         }
@@ -537,7 +524,9 @@ namespace primeira.pNeuron
             if (s.ShowDialog() == DialogResult.OK)
             {
                 internalLoad(s.FileName);
+                Filename = s.FileName;
                 Modificated = false;
+                m_defaultNamedFile = false;
                 return DialogResult.OK;
             }
             else
@@ -584,6 +573,12 @@ namespace primeira.pNeuron
 
         #endregion
 
+
+        protected override void OnMouseEnter(EventArgs e)
+        {
+            this.Focus();
+            base.OnMouseEnter(e);
+        }
 
     }
 }
