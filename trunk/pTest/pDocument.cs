@@ -453,6 +453,11 @@ namespace primeira.pNeuron
             tNeurons.Columns.Add("LocationX", typeof(int));
             tNeurons.Columns.Add("LocationY", typeof(int));
             tNeurons.Columns.Add("Group", typeof(Int32));
+            if (Trainned)
+            {
+                tNeurons.Columns.Add("Bias", typeof(double));
+                tNeurons.Columns.Add("Value", typeof(double));
+            }
 
             DataTable tSynapse = new DataTable("pSynapse");
             tSynapse.Columns.Add("NeuronOut", typeof(string));
@@ -462,15 +467,32 @@ namespace primeira.pNeuron
 
             foreach (pPanel p in pDisplay1.pPanels)
             {
-                tNeurons.Rows.Add(
-                    new object[]
+                if (Trainned)
+                {
+                    tNeurons.Rows.Add(
+                        new object[]
+                        {
+                            p.Name,
+                            p.Location.X,
+                            p.Location.Y,
+                            p.Groups,
+                            ((Neuron)p.Tag).Bias.Weight,
+                            ((Neuron)p.Tag).Value
+                        }
+                    );
+                }
+                else
+                {
+                    tNeurons.Rows.Add(
+                        new object[]
                         {
                             p.Name,
                             p.Location.X,
                             p.Location.Y,
                             p.Groups
                         }
-                );
+                    );
+                }
 
 
                 foreach (pPanel pp in pDisplay1.pPanels)
@@ -527,6 +549,7 @@ namespace primeira.pNeuron
                 Filename = s.FileName;
                 Modificated = false;
                 m_defaultNamedFile = false;
+                pDisplay1.Invalidate();
                 return DialogResult.OK;
             }
             else
@@ -540,14 +563,18 @@ namespace primeira.pNeuron
             DataSet ds = new DataSet();
             ds.ReadXml(aFilename);
 
+            if (ds.Tables["pNeuron"] != null)
             foreach (DataRow r in ds.Tables["pNeuron"].Rows)
             {
                 pPanel p = pDisplay1.Add(new Neuron(0));
                 p.Name = r["Name"].ToString();
                 p.Location = new Point( Convert.ToInt32(r["LocationX"]), Convert.ToInt32(r["LocationY"]) );
                 pDisplay1.Add(p, Convert.ToInt32(r["Group"]));
+                ((Neuron)p.Tag).Bias.Weight = Convert.ToDouble(r["Bias"]);
+                ((Neuron)p.Tag).Value = Convert.ToDouble(r["Value"]);
             }
 
+            if(ds.Tables["pSynapse"]!=null)
             foreach (DataRow r in ds.Tables["pSynapse"].Rows)
             {
                 foreach (pPanel p in pDisplay1.pPanels)
@@ -559,7 +586,7 @@ namespace primeira.pNeuron
                             if (r["NeuronIn"].ToString() == pp.Name)
                             {
                                 p.Output.Add((Neuron)pp.Tag);
-                                pp.Input.Add((Neuron)p.Tag, new NeuralFactor(0));
+                                pp.Input.Add((Neuron)p.Tag, new NeuralFactor( Convert.ToDouble(r["Value"]) ));
                                 break;
                             }
                         }

@@ -72,7 +72,14 @@ namespace primeira.pNeuron
 
         private void loadToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ActiveDocument.Load();
+
+            int i = fmDocuments.Count + 1;
+            fmDocuments.Add(new pDocument("NeuralNetwork " + i.ToString()));
+            ActiveDocument = fmDocuments[fmDocuments.Count - 1];
+            ActiveDocument.Show(dockPanel, DockState.Document);
+
+            if (ActiveDocument.Load() != DialogResult.OK)
+                ActiveDocument.Close();
         }
     }
 }
