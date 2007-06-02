@@ -15,21 +15,67 @@ using primeira.pNeuron.Core;
 namespace primeira.pNeuron
 {
 
-    public enum Operation
+    public class pPanel
     {
-        Move,
-        Resize
-    }
 
-    public struct pStructNeuron
-    {
-        public double bias;
-    }
+        #region Fields
 
+        private string m_text;
+        private Control m_parent;
+        private object m_tag;
+        private int m_height;
+        private int m_width;
+        private int m_left;
+        private int m_top;
+       
 
+        public int Height
+        {
+            get { return m_height; }
+            set { m_height = value; }
+        }
 
-    public class pPanel : Control
-    {
+        public int Width
+        {
+            get { return m_width; }
+            set { m_width = value; }
+        }
+
+        public int Left
+        {
+            get { return m_left; }
+            set { m_left = value; }
+        }
+
+        public int Top
+        {
+            get { return m_top; }
+            set { m_top = value; }
+        }
+
+        public Rectangle Bounds
+        {
+            get { return new Rectangle(Location, Size); }
+            set
+            {
+                Location = value.Location;
+                Size = value.Size;
+            }
+        }
+
+        public Point Location
+        {
+            get { return new Point(Left, Top); }
+            set { Left = value.X; Top = value.Y; }
+        }
+
+        public Size Size
+        {
+            get { return new Size(Width, Height); }
+            set { Width = value.Width; Height = value.Height; }
+        }
+
+        #endregion
 
         #region Browsable
 
@@ -53,8 +99,7 @@ namespace primeira.pNeuron
         } }
 
         [Browsable(false)]
-        public String Text { get { return base.Text; } set { base.Text = value; } }
-
+        public String Text { get { return m_text; } set { m_text = value; } }
 
         [Browsable(true)]
         public double[] SynapseIN
@@ -86,184 +131,38 @@ namespace primeira.pNeuron
             }
         }
 
+      
+
         #endregion
 
-        #region Fuck!
-
-        [Browsable(false)]
-        public Size MinimumSize { get { return base.MinimumSize; } set { base.MinimumSize = value; } }
-
-        [Browsable(false)]
-        public Size MaximumSize { get { return base.MaximumSize; } set { base.MaximumSize = value; } }
         
-        [Browsable(false)]
-        public Padding Margin { get { return base.Margin; } set { base.Margin = value; } }
 
-        [Browsable(false)]
-        public bool CausesValidation { get { return base.CausesValidation; } set { base.CausesValidation = value; } }
-
-        [Browsable(false)]
-        public virtual Cursor Cursor { get { return base.Cursor; } set { base.Cursor = value; } }
-
-        [Browsable(false)]
-        public string AccessibleDescription { get { return base.AccessibleDescription; } set { base.AccessibleDescription = value; } }
-
-        [Browsable(false)]
-        public string AccessibleName { get { return base.AccessibleName; } set { base.AccessibleName = value; } }
-
-        [Browsable(false)]
-        public AccessibleRole AccessibleRole { get { return base.AccessibleRole; } set { base.AccessibleRole = value; } }
-
-        [Browsable(false)]
-        public virtual bool AllowDrop { get { return base.AllowDrop; } set { base.AllowDrop = value; } }
-
-
-        [Browsable(false)]
-        public virtual AnchorStyles Anchor { get { return base.Anchor; } set { base.Anchor = value; } }
-
-        [Browsable(false)]
-        public virtual Color BackColor { get { return base.BackColor; } set { base.BackColor = value; } }
-
-        [Browsable(false)]
-        public virtual Image BackgroundImage { get { return base.BackgroundImage; } set { base.BackgroundImage = value; } }
-
-        [Browsable(false)]
-        public virtual ImageLayout BackgroundImageLayout { get { return base.BackgroundImageLayout; } set { base.BackgroundImageLayout = value; } }
-
-        [Browsable(false)]
-        protected override bool CanRaiseEvents { get { return base.CanRaiseEvents; } }
-
-        [Browsable(false)]
-        public bool Capture { get { return base.Capture; } set { base.Capture = value; } }
-
-        [Browsable(false)]
-        public virtual ContextMenu ContextMenu { get { return base.ContextMenu; } set { base.ContextMenu = value; } }
-
-        [Browsable(false)]
-        public virtual ContextMenuStrip ContextMenuStrip { get { return base.ContextMenuStrip; } set { base.ContextMenuStrip = value; } }
-
-        [Browsable(false)]
-        protected virtual CreateParams CreateParams { get { return base.CreateParams; } }
-
-        [Browsable(false)]
-        public ControlBindingsCollection DataBindings { get { return base.DataBindings; } }
-
-        [Browsable(false)]
-        public static Color DefaultBackColor { get { return Color.White; } }
-
-        [Browsable(false)]
-        protected virtual Cursor DefaultCursor { get { return base.DefaultCursor; } }
-
-        [Browsable(false)]
-        public static Font DefaultFont { get { return DefaultFont; } }
-
-        [Browsable(false)]
-        public static Color DefaultForeColor { get { return DefaultForeColor; } }
-
-        [Browsable(false)]
-        protected virtual ImeMode DefaultImeMode { get { return base.DefaultImeMode; } }
-
-        [Browsable(false)]
-        protected virtual Padding DefaultMargin { get { return base.DefaultMargin; } }
-
-        [Browsable(false)]
-        protected virtual Size DefaultMaximumSize { get { return base.DefaultMaximumSize; } }
-
-        [Browsable(false)]
-        protected virtual Size DefaultMinimumSize { get { return base.DefaultMinimumSize; } }
-
-        [Browsable(false)]
-        protected virtual Padding DefaultPadding { get { return base.DefaultPadding; } }
-
-        [Browsable(false)]
-        protected virtual Size DefaultSize { get { return base.DefaultSize; } }
-
-        [Browsable(false)]
-        public virtual Rectangle DisplayRectangle { get { return base.DisplayRectangle; } }
-
-        [Browsable(false)]
-        public bool Disposing { get { return base.Disposing; } }
-
-        [Browsable(false)]
-        public virtual DockStyle Dock { get { return base.Dock; } set { base.Dock = value; } }
-
-        [Browsable(false)]
-        protected virtual bool DoubleBuffered { get { return base.DoubleBuffered; } set { base.DoubleBuffered = value; } }
-
-        [Browsable(false)]
-        public bool Enabled { get { return base.Enabled; } set { base.Enabled = value; } }
-
-        [Browsable(false)]
-        public virtual bool Focused { get { return base.Focused; } }
-
-        [Browsable(false)]
-        public virtual Font Font { get { return base.Font; } set { base.Font = value; } }
-
-        [Browsable(false)]
-        protected int FontHeight { get { return base.FontHeight; } set { base.FontHeight = value; } }
-
-        [Browsable(false)]
-        public virtual Color ForeColor { get { return base.ForeColor; } set { base.ForeColor = value; } }
-
-        [Browsable(false)]
-        public bool HasChildren { get { return base.HasChildren; } }
-
-        [Browsable(false)]
-        public ImeMode ImeMode { get { return base.ImeMode; } set { base.ImeMode = value; } }
-
-        [Browsable(false)]
-        public bool InvokeRequired { get { return base.InvokeRequired; } }
-
-        [Browsable(false)]
-        public Padding Padding { get { return base.Padding; } set { base.Padding = value; } }
-
-
-        [Browsable(false)]
-        protected bool ResizeRedraw { get { return base.ResizeRedraw; } set { base.ResizeRedraw = value; } }
-
-        [Browsable(false)]
-        public virtual RightToLeft RightToLeft { get { return base.RightToLeft; } set { base.RightToLeft = value; } }
-
-        [Browsable(false)]
-        protected virtual bool ScaleChildren { get { return base.ScaleChildren; } }
-
-        [Browsable(false)]
-        public override ISite Site { get { return base.Site; } set { base.Site = value; } }
-
-        [Browsable(false)]
-        public Size Size { get { return base.Size; } set { base.Size = value; } }
-
-        [Browsable(false)]
-        public int TabIndex { get { return base.TabIndex; } set { base.TabIndex = value; } }
-
-        [Browsable(false)]
-        public bool TabStop { get { return base.TabStop; } set { base.TabStop = value; } }
-
-        [Browsable(false)]
-        public object Tag { get { return base.Tag; } set { base.Tag = value; } }
-
-        [Browsable(false)]
-        public bool UseWaitCursor { get { return base.UseWaitCursor; } set { base.UseWaitCursor = value; } }
-
-        [Browsable(false)]
-        public bool Visible { get { return base.Visible; } set { base.Visible = value; } }
         
-        
-        #endregion
 
-        private const int MAX_GROUP_NUMBER = 10; //0 -- 9
+        public Control Parent
+        {
+            get { return m_parent; }
+            set { m_parent = value; }
+        }
+
+        
+
+        public object Tag
+        {
+            get { return m_tag; }
+            set { m_tag = value; }
+        }
+
         private Point m_mousePositionOnDown;
         private int m_groups;
         private Graphics m_graphics;
         private bool m_highlighed = false;
-        private bool m_selected;
-        private List<pLine> m_synapses;
+        private bool m_selected = false;
 
         public pPanel(Graphics g)
         {
             m_groups = 0;
             m_graphics = g;
-            m_synapses = new List<pLine>();
         }
 
         public Pen GetPenStyle()
@@ -429,7 +328,7 @@ namespace primeira.pNeuron
         public Point MousePositionOnDown
         {
             get { return m_mousePositionOnDown; }
-            set { m_mousePositionOnDown = PointToClient(Parent.PointToScreen(value)); }
+            set { m_mousePositionOnDown = /*PointToClient( */Parent.PointToScreen(value) /*)*/; }
         }
 
     }

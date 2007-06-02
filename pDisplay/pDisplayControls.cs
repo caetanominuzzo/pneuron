@@ -9,21 +9,76 @@ using System.Reflection;
 
 namespace primeira.pNeuron
 {
-
-    public enum pTreeviewRefresh
-    {
-        pPanelAdd,
-        pPanelRemove,
-        pPanelGroupRemove,
-        pGroupClear,
-        pFullRefreh
-    }
-
     partial class  pDisplay
     {
 
+        #region Select/Highlight
 
-        private List<pPanel> m_pPanels;
+        /// <summary>
+        /// Highligh pPanels.
+        /// </summary>
+        public void RefreshHighlight()
+        {
+
+            List<pPanel> toHighlight = new List<pPanel>();
+
+            bool bGroupHighlight = false;
+            if (!CtrlKey)
+            {
+                foreach (List<pPanel> lp in m_groups)
+                {
+                    if (lp != null)
+                        if (lp.Count > 0)
+                            if (GetGroupRectangle(lp).Contains(DisplayMousePosition))
+                            {
+                                foreach (pPanel pp in lp)
+                                {
+                                    toHighlight.Add(pp);
+                                }
+                                bGroupHighlight = true;
+                            }
+                }
+            }
+
+            if (!bGroupHighlight)
+            {
+                foreach (pPanel p in m_pPanels)
+                {
+                    if (p.Bounds.Contains(DisplayMousePosition))
+                    {
+                        toHighlight.Add(p);
+                        break;
+                    }
+                }
+            }
+
+
+            foreach (pPanel p in m_pPanels)
+            {
+                if (toHighlight.Contains(p))
+                {
+                    if (!p.Highlighted)
+                    {
+                        HighLight(p);
+                        Invalidate(p.Bounds);
+                    }
+                }
+                else
+                {
+                    if (p.Highlighted)
+                    {
+                        UnHighLight(p);
+                        Invalidate(p.Bounds);
+                    }
+                }
+            }
+
+
+        }
+
+        /// <summary>
+        /// Get an array with all selected pPanel.
+        /// </summary>
         public pPanel[] SelectedpPanels
         {
             get
@@ -37,6 +92,9 @@ namespace primeira.pNeuron
             }
         }
 
+        /// <summary>
+        /// Get an array with all highlighted pPanel.
+        /// </summary>
         public pPanel[] HighlightedpPanels
         {
             get
@@ -49,12 +107,20 @@ namespace primeira.pNeuron
             }
         }
 
-        private void SelectCore(pPanel[] t)
+        /// <summary>
+        /// Select am array of pPanel. If ShiftKey switch select.
+        /// </summary>
+        /// <param name="t">Array of pPanels to select.</param>
+        private void SelectCore(pPanel[] pPanels)
         {
-            foreach (pPanel p in t)
+            foreach (pPanel p in pPanels)
                 SelectCore(p);
         }
 
+        /// <summary>
+        /// Select a pPanel. If ShiftKey switch select.
+        /// </summary>
+        /// <param name="t">pPanel to select.</param>
         private void SelectCore(pPanel p)
         {
             bool old = p.Selected;
@@ -66,16 +132,22 @@ namespace primeira.pNeuron
                 OnSelectedPanelsChange();
         }
 
+        /// <summary>
+        /// Select an array of pPanel. If !CtrlKey select all pPanels in same group.
+        /// </summary>
+        /// <param name="p">Array of pPanel to select.</param>
         public void Select(pPanel[] t)
         {
             foreach (pPanel p in t)
                 Select(p);
         }
 
+        /// <summary>
+        /// Select a pPanel. If !CtrlKey select all pPanels in same group.
+        /// </summary>
+        /// <param name="p">pPanel to select.</param>
         public void Select(pPanel p)
         {
-//            if(DisplayStatus != pDisplayStatus.Selecting && !ShiftKey)
-//                UnSelect();
 
             SelectCore(p);
 
@@ -85,8 +157,6 @@ namespace primeira.pNeuron
                 {
                     foreach (pPanel pp in m_groups[p.Groups])
                         {
-//                            if (DisplayStatus == pDisplayStatus.Selecting)
-//                                m_lastSelectItems.Add(p);
                             if (pp == p)
                                 continue;
                             SelectCore(pp);
@@ -99,6 +169,9 @@ namespace primeira.pNeuron
             Invalidate(p.Bounds);
         }
 
+        /// <summary>
+        /// Unselect all pPanels.
+        /// </summary>
         public void UnSelect()
         {
             while (SelectedpPanels.Length > 0)
@@ -107,6 +180,10 @@ namespace primeira.pNeuron
             }
         }
 
+        /// <summary>
+        /// Unselect a pPanel. =If !CtrlKey unselect all pPanel on same group.
+        /// </summary>
+        /// <param name="p">pPanel to unselect.</param>
         public void UnSelect(pPanel p)
         {
 
@@ -128,36 +205,10 @@ namespace primeira.pNeuron
             Invalidate(p.Bounds);
         }
 
-        public void Shift(pPanel p)
-        {
-            p.Selected = !p.Selected;
-            Invalidate(p.Bounds);
-        }
-
-        pPanel GetpPanelAt(Point p)
-        {
-            Rectangle pBounds = new Rectangle();
-
-            foreach (pPanel pp in m_pPanels)
-            {
-
-                pBounds = pp.Bounds;
-
-                pBounds = new Rectangle(pBounds.X + AutoScrollPosition.X,
-                    pBounds.Y + AutoScrollPosition.Y,
-                    pBounds.Width,
-                    pBounds.Height);
-
-                if (pBounds.Contains(p))
-                {
-                    return pp;
-                }
-            }
-
-            return null;
-        }
-
-
+        /// <summary>
+        /// HighLight a pPanel.
+        /// </summary>
+        /// <param name="p">pPanel do HighLight,</param>
         public void HighLight(pPanel p)
         {
             p.Highlighted = true;
@@ -165,6 +216,9 @@ namespace primeira.pNeuron
             Invalidate(p.Bounds);
         }
 
+        /// <summary>
+        /// UnHighLight all pPanels.
+        /// </summary>
         public void UnHighLight()
         {
             while (HighlightedpPanels.Length > 0)
@@ -173,13 +227,26 @@ namespace primeira.pNeuron
             }
         }
 
+        /// <summary>
+        /// UnHighLight a pPanel.
+        /// </summary>
+        /// <param name="p">pPanel to UnHighLight.</param>
         public void UnHighLight(pPanel p)
         {
             p.Highlighted = false;
             Invalidate(p.Bounds);
         }
 
-        Rectangle GetGroupRectangle(List<pPanel> lp)
+        #endregion
+
+        #region Utils
+
+        /// <summary>
+        /// Get a rectangle that contains all pPanel in a List.
+        /// </summary>
+        /// <param name="lp"></param>
+        /// <returns></returns>
+        public Rectangle GetGroupRectangle(List<pPanel> lp)
         {
             Rectangle r = lp[0].Bounds;
 
@@ -191,6 +258,12 @@ namespace primeira.pNeuron
             return r;
         }
 
+        /// <summary>
+        /// Returns how much pPanels in p2 exists in p1.
+        /// </summary>
+        /// <param name="p1"></param>
+        /// <param name="p2"></param>
+        /// <returns></returns>
         int Contains(pPanel[] p1, pPanel[] p2)
         {
             int Has = 0;
@@ -209,14 +282,15 @@ namespace primeira.pNeuron
 
         }
 
-        #region Utils
-
-      
-
         #endregion
 
         #region Groups
 
+        /// <summary>
+        /// Add a pPanel to a group.
+        /// </summary>
+        /// <param name="p">pPanel to add.</param>
+        /// <param name="GroupIndex">New group.</param>
         public void Add(pPanel p, int GroupIndex)
         {
 
@@ -238,16 +312,20 @@ namespace primeira.pNeuron
             }
         }
 
-        public bool GroupIsSet(int i)
-        {
-            return m_groups[i] != null;
-        }
-
+        /// <summary>
+        /// Gets all pPanels in a group.
+        /// </summary>
+        /// <param name="i">The group.</param>
+        /// <returns></returns>
         public pPanel[] GroupGetPanel(int i)
         {
             return m_groups[i].ToArray();
         }
 
+        /// <summary>
+        /// Clear a group.
+        /// </summary>
+        /// <param name="iKey">Group to clear.</param>
         public void GroupFree(int iKey)
         {
             foreach (pPanel p in GroupGetPanel(iKey))
@@ -262,12 +340,20 @@ namespace primeira.pNeuron
                 OnTreeViewChange(iKey, pTreeviewRefresh.pGroupClear);
         }
 
+        /// <summary>
+        /// Select all pPanels in a group.
+        /// </summary>
+        /// <param name="i">Group to select.</param>
         public void GroupSelect(int i)
         {
             foreach (pPanel p in GroupGetPanel(i))
                 Select(p);
         }
 
+        /// <summary>
+        /// Gets all groups.
+        /// </summary>
+        /// <returns></returns>
         public List<pPanel>[] Groups()
         {
             List<pPanel>[] d = new List<pPanel>[11];
@@ -289,6 +375,70 @@ namespace primeira.pNeuron
 
             return d;
         }
+
+        /// <summary>
+        /// Add a pPanel.
+        /// </summary>
+        /// <param name="n">The neuron represented by the pPanel.</param>
+        /// <returns></returns>
+        public pPanel Add(Neuron n)
+        {
+
+            primeira.pNeuron.pPanel p = new primeira.pNeuron.pPanel(m_graphics);
+
+            p.Width = m_gridDistance;
+            p.Height = p.Width;
+            p.Parent = this;
+            p.Tag = n;
+            m_pPanels.Add(p);
+            int i = m_pPanels.Count - 1;
+            p.Text = i.ToString();
+
+            if (OnTreeViewChange != null)
+                OnTreeViewChange(p, pTreeviewRefresh.pPanelAdd);
+
+            if (OnNetworkChange != null)
+                OnNetworkChange();
+
+            return p;
+        }
+
+        /// <summary>
+        /// Remove a pPanel.
+        /// </summary>
+        /// <param name="p"></param>
+        public void Remove(pPanel p)
+        {
+            m_pPanels.Remove(p);
+
+            if (OnTreeViewChange != null)
+                OnTreeViewChange(p, pTreeviewRefresh.pPanelRemove);
+
+            if (OnNetworkChange != null)
+                OnNetworkChange();
+        }
+
+        /// <summary>
+        /// Remove a pPanel.
+        /// </summary>
+        /// <param name="p"></param>
+        public void Remove(pPanel[] p)
+        {
+            foreach (pPanel pp in p)
+                Remove(pp);
+        }
+
+        #region IpPanels Members
+
+        /// <summary>
+        /// All pPanels.
+        /// </summary>
+        public List<pPanel> pPanels
+        {
+            get { return m_pPanels; }
+        }
+
+        #endregion
 
         #endregion
 
