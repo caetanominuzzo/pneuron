@@ -522,10 +522,6 @@ namespace primeira.pNeuron
                         }
                     }
                 }
-
-
-
-
             }
 
 
