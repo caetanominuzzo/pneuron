@@ -9,12 +9,14 @@ namespace primeira.pNeuron.Core
         BackPropogation
     }
 
+    /*
     public enum LayerType
     {
         Input,
         Hidden,
         Output
     }
+     * */
 
     public class Sinapse
     {
@@ -106,16 +108,25 @@ namespace primeira.pNeuron.Core
 
     public interface INeuron : INeuronSignal, INeuronReceptor
     {
-        void Pulse(INeuralLayer layer);
-        void ApplyLearning(INeuralLayer layer, ref double learningRate);
-        void InitializeLearning(INeuralLayer layer);
+    
+        void Pulse();
+        void ApplyLearning(ref double learningRate);
+        void InitializeLearning();
 
         NeuralFactor Bias { get; set; }
 
         double Error { get; set; }
         double LastError { get; set; }
+
+        NeuronTypes NeuronType
+        {
+            get;
+            set;
+        }
     }
 
+    #region
+    /*
     public interface INeuralLayer : IList<INeuron>
     {
         LayerType LayerType
@@ -127,13 +138,15 @@ namespace primeira.pNeuron.Core
         void ApplyLearning(INeuralNet net);
         void InitializeLearning(INeuralNet net);
     }
+     * */
+    #endregion
 
     public interface INeuralNet
     {
 
         double LearningRate { get; set; }
 
-        List<primeira.pNeuron.Core.NeuralLayer> Layer
+        List<Neuron> Neuron
         {
             get;
             set;
@@ -187,7 +200,7 @@ namespace primeira.pNeuron.Core
 
         #region INeuron Members
 
-        public void Pulse(INeuralLayer layer)
+        public void Pulse()
         {
             lock (this)
             {
@@ -218,7 +231,7 @@ namespace primeira.pNeuron.Core
             }
         }
 
-        public void ApplyLearning(INeuralLayer layer, ref double learningRate)
+        public void ApplyLearning(ref double learningRate)
         {
             foreach (KeyValuePair<INeuron, NeuralFactor> m in m_input)
                 m.Value.ApplyWeightChange(ref learningRate);
@@ -226,7 +239,7 @@ namespace primeira.pNeuron.Core
             m_bias.ApplyWeightChange(ref learningRate);
         }
 
-        public void InitializeLearning(INeuralLayer layer)
+        public void InitializeLearning()
         {
             foreach (KeyValuePair<INeuron, NeuralFactor> m in m_input)
                 m.Value.ResetWeightChange();
@@ -271,8 +284,24 @@ namespace primeira.pNeuron.Core
             get { return m_output; }
             set { m_output = value; }
         }
+
+        private NeuronTypes m_neuronType;
+
+        public NeuronTypes NeuronType
+        {
+            get
+            {
+                return m_neuronType;
+            }
+            set
+            {
+                m_neuronType = value;
+            }
+        }
     }
 
+    #region
+    /* Deprecated 
     public class NeuralLayer : INeuralLayer
     {
         #region Constructor
@@ -405,6 +434,8 @@ namespace primeira.pNeuron.Core
             set { m_layerType = value; }
         }
     }
+    */
+    #endregion
 
     public class NeuralNet : INeuralNet
     {
@@ -422,19 +453,13 @@ namespace primeira.pNeuron.Core
         private double m_learningRate;
 
         #endregion
-        private List<primeira.pNeuron.Core.NeuralLayer> m_layer;
+
         private List<Neuron> m_neuron;
 
         public List<Neuron> Neuron
         {
             get { return m_neuron; }
             set { m_neuron = value; }
-        }
-
-        public List<primeira.pNeuron.Core.NeuralLayer> Layer
-        {
-            get { return m_layer; }
-            set { m_layer = value; }
         }
 
         #region INeuralNet Members
@@ -450,10 +475,10 @@ namespace primeira.pNeuron.Core
         {
             lock (this)
             {
-                //TODO:DEFINE A START LAYER
-                foreach (NeuralLayer nl in this.Layer)
+                foreach (Neuron n in this.Neuron)
                 {
-                    nl.Pulse(this);
+                    if(n.NeuronType == NeuronTypes.Perception)
+                        n.Pulse();
                 }
             }
         }
@@ -463,11 +488,10 @@ namespace primeira.pNeuron.Core
             lock (this)
             {
                 //TODO:DEFINE A START LAYER
-                foreach (NeuralLayer nl in this.Layer)
+                foreach (Neuron n in this.Neuron)
                 {
-                    if (nl.LayerType == LayerType.Input)
-                        continue;
-                    nl.ApplyLearning(this);
+                    if (n.NeuronType == NeuronTypes.Output)
+                        n.ApplyLearning();
                 }
             }
         }
@@ -477,11 +501,10 @@ namespace primeira.pNeuron.Core
             lock (this)
             {
                 //TODO:DEFINE A START LAYER
-                foreach (NeuralLayer nl in this.Layer)
+                foreach (Neuron n in this.Neuron)
                 {
-                    if (nl.LayerType == LayerType.Input)
-                        continue;
-                    nl.InitializeLearning(this);
+                    if (n.NeuronType == NeuronTypes.Hidden)
+                        n.InitializeLearning();
                 }
             }
         }
@@ -803,5 +826,12 @@ namespace primeira.pNeuron.Core
             get;
             set;
         }
+    }
+
+    public enum NeuronTypes
+    {
+        Perception,
+        Hidden,
+        Output,
     }
 }
