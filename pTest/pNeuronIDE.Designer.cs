@@ -30,6 +30,7 @@ namespace primeira.pNeuron
         {
             this.dockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
             this.status = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newNeuralNetworkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -52,7 +53,8 @@ namespace primeira.pNeuron
             this.toolboxToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.neuralNetworkExplorerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.proToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.nNToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.trainToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.status.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -78,6 +80,12 @@ namespace primeira.pNeuron
             this.status.Size = new System.Drawing.Size(767, 22);
             this.status.TabIndex = 3;
             this.status.Text = "statusStrip1";
+            // 
+            // toolStripStatusLabel2
+            // 
+            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(63, 17);
+            this.toolStripStatusLabel2.Text = "Status: Idle";
             // 
             // toolStripStatusLabel1
             // 
@@ -151,7 +159,8 @@ namespace primeira.pNeuron
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem1,
-            this.viewToolStripMenuItem1});
+            this.viewToolStripMenuItem1,
+            this.nNToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
@@ -247,11 +256,20 @@ namespace primeira.pNeuron
             this.proToolStripMenuItem.Text = "s";
             this.proToolStripMenuItem.Click += new System.EventHandler(this.propertyWindowToolStripMenuItem_Click);
             // 
-            // toolStripStatusLabel2
+            // nNToolStripMenuItem
             // 
-            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(63, 17);
-            this.toolStripStatusLabel2.Text = "Status: Idle";
+            this.nNToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.trainToolStripMenuItem});
+            this.nNToolStripMenuItem.Name = "nNToolStripMenuItem";
+            this.nNToolStripMenuItem.Size = new System.Drawing.Size(33, 20);
+            this.nNToolStripMenuItem.Text = "NN";
+            // 
+            // trainToolStripMenuItem
+            // 
+            this.trainToolStripMenuItem.Name = "trainToolStripMenuItem";
+            this.trainToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.trainToolStripMenuItem.Text = "Train";
+            this.trainToolStripMenuItem.Click += new System.EventHandler(this.trainToolStripMenuItem_Click);
             // 
             // pNeuronIDE
             // 
@@ -302,5 +320,7 @@ namespace primeira.pNeuron
         private System.Windows.Forms.ToolStripMenuItem neuralNetworkExplorerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem proToolStripMenuItem;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
+        private System.Windows.Forms.ToolStripMenuItem nNToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem trainToolStripMenuItem;
     }
 }
