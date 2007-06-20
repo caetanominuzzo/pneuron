@@ -135,7 +135,11 @@ namespace primeira.pNeuron
 
         #endregion
 
-        
+        public NeuronTypes NeuronType
+        {
+            get { return ((Neuron)Tag).NeuronType; }
+            set { ((Neuron)Tag).NeuronType = value; }
+        }
 
         
 

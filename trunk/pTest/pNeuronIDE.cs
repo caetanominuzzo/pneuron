@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
+using primeira.pNeuron.Core;
 
 namespace primeira.pNeuron
 {
@@ -80,6 +81,17 @@ namespace primeira.pNeuron
 
             if (ActiveDocument.Load() != DialogResult.OK)
                 ActiveDocument.Close();
+        }
+
+        private void trainToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            pTrain fmTrain = new pTrain();
+            fmTrain.net.Initialize(1, 1);
+            foreach(pPanel p in ActiveDocument.pDisplay1.pPanels)
+            {
+                fmTrain.net.Neuron.Add((Neuron)p.Tag);
+            }
+            fmTrain.Show();
         }
     }
 }
