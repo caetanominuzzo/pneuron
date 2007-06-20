@@ -203,16 +203,20 @@ namespace primeira.pNeuron.Core
             {
                 this.InputReady = 0;
 
-                m_value = 0;
+                if (NeuronType != NeuronTypes.Perception)
+                {
 
-                foreach (KeyValuePair<INeuron, NeuralFactor> item in m_input)
-                    m_value += item.Key.Value * item.Value.Weight;
+                    m_value = 0;
 
-                m_value += m_bias.Weight;
+                    foreach (KeyValuePair<INeuron, NeuralFactor> item in m_input)
+                        m_value += item.Key.Value * item.Value.Weight;
 
-                m_value = Sigmoid(m_value);
+                    m_value += m_bias.Weight;
 
-                foreach (Neuron n in m_input.Keys)
+                    m_value = Sigmoid(m_value);
+                }
+
+                foreach (Neuron n in m_output)
                 {
                     n.InputReady++;
                     if (n.InputReady == n.Input.Count)
@@ -257,12 +261,13 @@ namespace primeira.pNeuron.Core
 
             this.Error = (desiredResult - this.Value) *  NeuralNet.SigmoidDerivative(this.Value); //* temp * (1.0F - temp);
 
+
             foreach (Neuron n in this.Input.Keys)
             {
                 n.OutputReady ++;
                 if (n.OutputReady == n.Output.Count)
-                    n.CalculateErrors(this.Error);
-
+                    n.CalculateErrors(this.Error * this.Input[n].Weight);
+                
             }
         }
 
@@ -514,7 +519,8 @@ namespace primeira.pNeuron.Core
                 {
                     //Dont need to be sorted
                     //if (n.NeuronType == NeuronTypes.Output)
-                    n.ApplyLearning(LearningRate);
+                    if(n.NeuronType != NeuronTypes.Perception)
+                        n.ApplyLearning(LearningRate);
                 }
             }
         }
@@ -545,7 +551,7 @@ namespace primeira.pNeuron.Core
                         for (i = 0; i < iterations; i++)
                         {
 
-                            InitializeLearning(); // set all weight changes to zero
+                             // set all weight changes to zero
 
                             for (j = 0; j < inputs.Length; j++)
                                 BackPropogation_TrainingSession(this, inputs[j], expected[j]);
@@ -596,8 +602,8 @@ namespace primeira.pNeuron.Core
 
             #region Execution
 
-            for (int i = 0; i < neuronCount; i++)
-                net.m_neuron.Add(new Neuron(rand.NextDouble()));
+            //for (int i = 0; i < neuronCount; i++)
+            //    net.m_neuron.Add(new Neuron(rand.NextDouble()));
 
 
             /*
@@ -650,8 +656,11 @@ namespace primeira.pNeuron.Core
             int ni = 0;
             foreach (Neuron n in net.Neuron)
             {
-                n.CalculateErrors(desiredResults[ni]);
-                ni++;
+                if (n.NeuronType == NeuronTypes.Output)
+                {
+                    n.CalculateErrors(desiredResults[ni]);
+                    ni++;
+                }
             }
 
             /*
@@ -707,8 +716,10 @@ namespace primeira.pNeuron.Core
             foreach (Neuron n in net.Neuron)
             {
                 if (n.NeuronType == NeuronTypes.Perception)
+                {
                     n.Value = input[i];
-                i++;
+                    i++;
+                }
             }
 
             #endregion

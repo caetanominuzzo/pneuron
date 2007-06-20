@@ -77,6 +77,10 @@
       <SubType>Designer</SubType>
       <DependentUpon>pToolbox.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="pTrain.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>pTrain.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="pTreeview.resx">
       <SubType>Designer</SubType>
       <DependentUpon>pTreeview.cs</DependentUpon>
@@ -92,6 +96,12 @@
     </Compile>
     <Compile Include="pToolbox.cs">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="pTrain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="pTrain.Designer.cs">
+      <DependentUpon>pTrain.cs</DependentUpon>
     </Compile>
     <Compile Include="pTreeview.cs">
       <SubType>Form</SubType>
