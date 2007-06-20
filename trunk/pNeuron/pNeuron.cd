@@ -9,7 +9,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="primeira.pNeuron.Core.NeuralNet" BaseTypeListCollapsed="true">
-    <Position X="10.5" Y="2.75" Width="3" />
+    <Position X="10.5" Y="2.75" Width="2.75" />
     <TypeIdentifier>
       <FileName>pNeuron.cs</FileName>
       <HashCode>AAggAggAAAIAAYAAAAAAAACAAAEBAAIQAAAAAGAAAAA=</HashCode>
@@ -20,7 +20,7 @@
     <Position X="7.25" Y="0.5" Width="3" />
     <TypeIdentifier>
       <FileName>pNeuron.cs</FileName>
-      <HashCode>AAAAAAAAIQAAAQgAQAAIAAABEAUBAEIQAABlAAAAAQA=</HashCode>
+      <HashCode>AAAAAgAAIQAAAQgAQAAIAAABEAUBAEIQAABlAAAAAQA=</HashCode>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
@@ -35,7 +35,7 @@
     <Position X="1.25" Y="2.25" Width="2" />
     <TypeIdentifier>
       <FileName>pNeuron.cs</FileName>
-      <HashCode>AAAAAAAAIQAAAQAAAAAAAAAAAAEBAAIAAABAAAAAAAA=</HashCode>
+      <HashCode>AAAAAgAAIQAAAQAAAAAAAAAAAAEBAAIAAABAAAAAAAA=</HashCode>
     </TypeIdentifier>
   </Interface>
   <Interface Name="primeira.pNeuron.Core.INeuronReceptor">

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 
 namespace primeira.pNeuron.Core
 {
@@ -8,15 +9,6 @@ namespace primeira.pNeuron.Core
     {
         BackPropogation
     }
-
-    /*
-    public enum LayerType
-    {
-        Input,
-        Hidden,
-        Output
-    }
-     * */
 
     public class Sinapse
     {
@@ -85,7 +77,7 @@ namespace primeira.pNeuron.Core
 
         #region Methods
 
-        public void ApplyWeightChange(ref double learningRate)
+        public void ApplyWeightChange(double learningRate)
         {
             m_lastDelta = m_delta;
             m_weight += m_delta * learningRate;
@@ -110,8 +102,10 @@ namespace primeira.pNeuron.Core
     {
     
         void Pulse();
-        void ApplyLearning(ref double learningRate);
+        void ApplyLearning(double learningRate);
         void InitializeLearning();
+
+        void CalculateErrors(double desiredResult);
 
         NeuralFactor Bias { get; set; }
 
@@ -174,6 +168,9 @@ namespace primeira.pNeuron.Core
         #region Member Variables
 
         private Dictionary<INeuron, NeuralFactor> m_input;
+
+        private int m_inputReady = 0;
+
         double m_value, m_error, m_lastError;
         NeuralFactor m_bias;
 
@@ -204,6 +201,8 @@ namespace primeira.pNeuron.Core
         {
             lock (this)
             {
+                this.InputReady = 0;
+
                 m_value = 0;
 
                 foreach (KeyValuePair<INeuron, NeuralFactor> item in m_input)
@@ -212,7 +211,20 @@ namespace primeira.pNeuron.Core
                 m_value += m_bias.Weight;
 
                 m_value = Sigmoid(m_value);
+
+                foreach (Neuron n in m_input.Keys)
+                {
+                    n.InputReady++;
+                    if (n.InputReady == n.Input.Count)
+                        n.Pulse();
+                }
             }
+        }
+
+        public int InputReady
+        {
+            get { return m_inputReady; }
+            set { m_inputReady = value; }
         }
 
         public NeuralFactor Bias
@@ -231,12 +243,27 @@ namespace primeira.pNeuron.Core
             }
         }
 
-        public void ApplyLearning(ref double learningRate)
+        public void ApplyLearning(double learningRate)
         {
             foreach (KeyValuePair<INeuron, NeuralFactor> m in m_input)
-                m.Value.ApplyWeightChange(ref learningRate);
+                m.Value.ApplyWeightChange(learningRate);
 
-            m_bias.ApplyWeightChange(ref learningRate);
+            m_bias.ApplyWeightChange(learningRate);
+        }
+
+        public void CalculateErrors(double desiredResult)
+        {
+            this.OutputReady = 0;
+
+            this.Error = (desiredResult - this.Value) *  NeuralNet.SigmoidDerivative(this.Value); //* temp * (1.0F - temp);
+
+            foreach (Neuron n in this.Input.Keys)
+            {
+                n.OutputReady ++;
+                if (n.OutputReady == n.Output.Count)
+                    n.CalculateErrors(this.Error);
+
+            }
         }
 
         public void InitializeLearning()
@@ -264,25 +291,23 @@ namespace primeira.pNeuron.Core
 
         #endregion
 
-        private int m_join;
-
-        public int Join
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-            set
-            {
-            }
-        }
 
         private  List<Neuron> m_output;
+
+        
 
         public List<Neuron> Output
         {
             get { return m_output; }
             set { m_output = value; }
+        }
+
+        private int m_outputReady = 0;
+
+        public int OutputReady
+        {
+            get { return m_outputReady; }
+            set { m_outputReady = value; }
         }
 
         private NeuronTypes m_neuronType;
@@ -451,24 +476,22 @@ namespace primeira.pNeuron.Core
         #region Member Variables
 
         private double m_learningRate;
+        private List<Neuron> m_neuron;
 
         #endregion
 
-        private List<Neuron> m_neuron;
-
-        public List<Neuron> Neuron
-        {
-            get { return m_neuron; }
-            set { m_neuron = value; }
-        }
-
         #region INeuralNet Members
-
 
         public double LearningRate
         {
             get { return m_learningRate; }
             set { m_learningRate = value; }
+        }
+
+        public List<Neuron> Neuron
+        {
+            get { return m_neuron; }
+            set { m_neuron = value; }
         }
 
         public void Pulse()
@@ -487,11 +510,11 @@ namespace primeira.pNeuron.Core
         {
             lock (this)
             {
-                //TODO:DEFINE A START LAYER
                 foreach (Neuron n in this.Neuron)
                 {
-                    if (n.NeuronType == NeuronTypes.Output)
-                        n.ApplyLearning();
+                    //Dont need to be sorted
+                    //if (n.NeuronType == NeuronTypes.Output)
+                    n.ApplyLearning(LearningRate);
                 }
             }
         }
@@ -500,10 +523,9 @@ namespace primeira.pNeuron.Core
         {
             lock (this)
             {
-                //TODO:DEFINE A START LAYER
                 foreach (Neuron n in this.Neuron)
                 {
-                    if (n.NeuronType == NeuronTypes.Hidden)
+                    if (n.NeuronType != NeuronTypes.Perception)
                         n.InitializeLearning();
                 }
             }
@@ -617,61 +639,20 @@ namespace primeira.pNeuron.Core
 
             #region Execution
 
+            int iOutputCount = 0;
+            foreach (Neuron n in net.Neuron)
+                if (n.NeuronType == NeuronTypes.Output)
+                    iOutputCount++;
 
-            //Errors must be calculated from output to perception layer
-            //so the layer order will be inverted.
-            net.Layer.Reverse();
+            if (desiredResults.Length != iOutputCount)
+                throw new Exception("The number of desiredResults must be equal to number of output neurons.");
 
-            NeuralLayer lastLayer = null;
-            INeuron n;
-
-
-            /*
-            foreach (NeuralLayer nl in net.Layer)
+            int ni = 0;
+            foreach (Neuron n in net.Neuron)
             {
-                if (nl.LayerType == LayerType.Input)
-                    continue;
-
-                if (lastLayer == null)
-                {
-                    for (i = 0; i < nl.Count; i++)
-                    {
-                        n = nl[i];
-                        temp = n.Output;
-
-                        n.Error = (desiredResults[i] - temp) * SigmoidDerivative(temp); //* temp * (1.0F - temp);
-                    }
-                }
-                else
-                {
-
-                    for (i = 0; i < nl.Count; i++)
-                    {
-                        n = nl[i];
-                        temp = n.Output;
-
-                        error = 0;
-
-                        n
-
-                        for (j = 0; j < lastLayer.Count; j++)
-                        {
-                            error += (lastLayer[j].Error * lastLayer[j].Input[n].NeuralFactor.Weight) * SigmoidDerivative(temp);
-                        }
-
-                        n.Error = error;
-                    }
-                }
-
-                lastLayer = nl;
+                n.CalculateErrors(desiredResults[ni]);
+                ni++;
             }
-             */
-
-
-            //undo reverse
-            net.Layer.Reverse();
-
-            
 
             /*
             // Calcualte output error values 
@@ -703,27 +684,32 @@ namespace primeira.pNeuron.Core
             #endregion
         }
 
-        private static double SigmoidDerivative(double value)
+        public static double SigmoidDerivative(double value)
         {
             return value * (1.0F - value);
         }
 
         public static void PreparePerceptionLayerForPulse(NeuralNet net, double[] input)
         {
-            #region Declarations
-
-            int i;
-
-            #endregion
 
             #region Execution
 
-            if (input.Length != net.Layer[0].Count)
-                throw new ArgumentException(string.Format("Expecting {0} inputs for this net", net.Layer[0].Count));
+            int iInputCount = 0;
+            foreach (Neuron n in net.Neuron)
+                if (n.NeuronType == NeuronTypes.Perception)
+                    iInputCount++;
+
+            if (input.Length != iInputCount)
+                throw new Exception("The number of input must be equal to number of perception neurons.");
 
             // initialize data
-            for (i = 0; i < net.Layer[0].Count; i++)
-                net.Layer[0][i].Value = input[i];
+            int i = 0;
+            foreach (Neuron n in net.Neuron)
+            {
+                if (n.NeuronType == NeuronTypes.Perception)
+                    n.Value = input[i];
+                i++;
+            }
 
             #endregion
 
