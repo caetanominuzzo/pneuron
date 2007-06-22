@@ -55,6 +55,7 @@ namespace primeira.pNeuron
             this.proToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nNToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.trainToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dataEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.status.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -230,7 +231,8 @@ namespace primeira.pNeuron
             this.viewToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolboxToolStripMenuItem1,
             this.neuralNetworkExplorerToolStripMenuItem,
-            this.proToolStripMenuItem});
+            this.proToolStripMenuItem,
+            this.dataEditorToolStripMenuItem});
             this.viewToolStripMenuItem1.Name = "viewToolStripMenuItem1";
             this.viewToolStripMenuItem1.Size = new System.Drawing.Size(41, 20);
             this.viewToolStripMenuItem1.Text = "View";
@@ -253,7 +255,7 @@ namespace primeira.pNeuron
             // 
             this.proToolStripMenuItem.Name = "proToolStripMenuItem";
             this.proToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
-            this.proToolStripMenuItem.Text = "s";
+            this.proToolStripMenuItem.Text = "Property Window";
             this.proToolStripMenuItem.Click += new System.EventHandler(this.propertyWindowToolStripMenuItem_Click);
             // 
             // nNToolStripMenuItem
@@ -267,9 +269,16 @@ namespace primeira.pNeuron
             // trainToolStripMenuItem
             // 
             this.trainToolStripMenuItem.Name = "trainToolStripMenuItem";
-            this.trainToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.trainToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
             this.trainToolStripMenuItem.Text = "Train";
             this.trainToolStripMenuItem.Click += new System.EventHandler(this.trainToolStripMenuItem_Click);
+            // 
+            // dataEditorToolStripMenuItem
+            // 
+            this.dataEditorToolStripMenuItem.Name = "dataEditorToolStripMenuItem";
+            this.dataEditorToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.dataEditorToolStripMenuItem.Text = "Data Editor";
+            this.dataEditorToolStripMenuItem.Click += new System.EventHandler(this.dataEditorToolStripMenuItem_Click);
             // 
             // pNeuronIDE
             // 
@@ -322,5 +331,6 @@ namespace primeira.pNeuron
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
         private System.Windows.Forms.ToolStripMenuItem nNToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem trainToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem dataEditorToolStripMenuItem;
     }
 }
