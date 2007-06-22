@@ -73,7 +73,7 @@ namespace primeira.pNeuron
               
 
 
-                net.Train(input, output, TrainingType.BackPropogation, 5);
+                net.Train(input, output, TrainingType.BackPropogation, 1);
 
                 // net.ApplyLearning();
 
@@ -106,10 +106,10 @@ namespace primeira.pNeuron
 
             }
 
-            while (hh > (mid + low) / 3
-                || lh < (mid + high) / 3
-                || hl < (mid + low) / 3
-                || ll > (mid + high) / 3);
+            while (hh > (mid + low) / 2
+                || lh < (mid + high) / 2
+                || hl < (mid + low) / 2
+                || ll > (mid + high) / 2);
 
             StringBuilder bld = new StringBuilder();
 

@@ -93,5 +93,9 @@ namespace primeira.pNeuron
             }
             fmTrain.Show();
         }
+
+        private void dataEditorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+        }
     }
 }
