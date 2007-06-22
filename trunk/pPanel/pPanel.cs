@@ -251,12 +251,15 @@ namespace primeira.pNeuron
 
             //return;
 
-                g.DrawPie(pen, Bounds.Left + (pen.Width),
+                g.DrawEllipse(pen, Bounds.Left + (pen.Width),
                                  Bounds.Top + (pen.Width),
                                  Bounds.Width - (pen.Width * 2),
-                                 Bounds.Height - (pen.Width * 2),
-                                                             0,
-                         iRad);
+                                 Bounds.Height - (pen.Width * 2));
+
+                g.DrawEllipse(pen, Bounds.Left + (pen.Width),
+                     Bounds.Top + (pen.Width),
+                     Bounds.Width - (pen.Width * 2),
+                     Bounds.Height - (pen.Width * 2));
 
 
 
@@ -332,7 +335,19 @@ namespace primeira.pNeuron
         public Point MousePositionOnDown
         {
             get { return m_mousePositionOnDown; }
-            set { m_mousePositionOnDown = /*PointToClient( */Parent.PointToScreen(value) /*)*/; }
+            set {
+
+                Control t = new Control();
+                this.Parent.Controls.Add(t);
+                t.Location = this.Location;
+
+
+                
+                m_mousePositionOnDown = t.PointToClient( Parent.PointToScreen(value));
+                    this.Parent.Controls.Remove(t);
+            
+            }
+
         }
 
     }
