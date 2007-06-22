@@ -21,7 +21,7 @@ namespace primeira.pNeuron
         TextBox[][] t = new TextBox[3][];
            double high, mid, low;
 
- 
+        int gI = 0;
 
 
 
@@ -55,9 +55,14 @@ namespace primeira.pNeuron
             int count;
 
             count = 0;
-
             net.LearningRate = 3;
+            
             net.InitializeLearning();
+
+            Timer t = new Timer();
+            t.Interval = 1;
+            t.Tick += new EventHandler(t_Tick);
+            t.Enabled = true;
 
             do
             {
@@ -65,42 +70,59 @@ namespace primeira.pNeuron
                 count++;
 
 
+              
 
 
-                    net.Train(input, output, TrainingType.BackPropogation, 100);
+                net.Train(input, output, TrainingType.BackPropogation, 5);
 
-                net.ApplyLearning();
+                // net.ApplyLearning();
 
                 net.Neuron[0].Value = low;
                 net.Neuron[1].Value = low;
 
                 net.Pulse();
-                ll = net.Neuron[4].Value;
+                ll = net.Neuron[ net.Neuron.Count-1 ].Value;
 
 
                 net.Neuron[0].Value = high;
                 net.Neuron[1].Value = low;
 
                 net.Pulse();
-                hl = net.Neuron[4].Value;
+                hl = net.Neuron[net.Neuron.Count - 1].Value;
 
 
                 net.Neuron[0].Value = low;
                 net.Neuron[1].Value = high;
 
                 net.Pulse();
-                lh = net.Neuron[4].Value;
+                lh = net.Neuron[net.Neuron.Count - 1].Value;
 
 
                 net.Neuron[0].Value = high;
                 net.Neuron[1].Value = high;
 
                 net.Pulse();
-                hh = net.Neuron[4].Value;
+                hh = net.Neuron[net.Neuron.Count - 1].Value;
 
             }
 
-            while (hh > mid || lh < mid || hl < mid || ll > mid);
+            while (hh > (mid + low) / 3
+                || lh < (mid + high) / 3
+                || hl < (mid + low) / 3
+                || ll > (mid + high) / 3);
+
+            StringBuilder bld = new StringBuilder();
+
+            bld.Remove(0, bld.Length);
+            bld.Append((count * 5).ToString()).Append(" iterations required for training\n");
+
+            bld.Append("hh: ").Append(hh.ToString()).Append(" < .5\n");
+            bld.Append("ll: ").Append(ll.ToString()).Append(" < .5\n");
+
+            bld.Append("hl: ").Append(hl.ToString()).Append(" > .5\n");
+            bld.Append("lh: ").Append(lh.ToString()).Append(" > .5\n");
+            bld.Append(gI.ToString());
+            MessageBox.Show(bld.ToString());
 
          //   net.Train(input, output, TrainingType.BackPropogation, 100);
 
@@ -115,5 +137,11 @@ namespace primeira.pNeuron
 
             MessageBox.Show(net.Neuron[4].Value.ToString());
         }
+
+        void t_Tick(object sender, EventArgs e)
+        {
+            gI++;
+        }
+
     }
 }

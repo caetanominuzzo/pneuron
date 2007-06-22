@@ -259,16 +259,43 @@ namespace primeira.pNeuron.Core
         {
             this.OutputReady = 0;
 
-            this.Error = (desiredResult - this.Value) *  NeuralNet.SigmoidDerivative(this.Value); //* temp * (1.0F - temp);
+            if (this.NeuronType == NeuronTypes.Output)
+            {
+                this.Error = (desiredResult - this.Value) * NeuralNet.SigmoidDerivative(this.Value); //* temp * (1.0F - temp);
+            }
+            else
+            {
+                this.Error = (desiredResult) * NeuralNet.SigmoidDerivative(this.Value); //* temp * (1.0F - temp);
+            }
 
 
             foreach (Neuron n in this.Input.Keys)
             {
-                n.OutputReady ++;
+                if (n.NeuronType == NeuronTypes.Perception)
+                    continue;
+
+                n.OutputReady++;
                 if (n.OutputReady == n.Output.Count)
-                    n.CalculateErrors(this.Error * this.Input[n].Weight);
+                {
+                    double error = 0;
+
+                    foreach (Neuron nn in n.Output)
+                        error += (nn.Error * nn.Input[n].Weight);
+
+                    n.CalculateErrors(error);
+                }
                 
             }
+        }
+
+        public void CalculateAndAppendTransformation()
+        {
+            foreach (Neuron n in this.Input.Keys)
+            {
+                this.Input[n].H_Vector += this.Error * n.Value;
+            }
+
+            this.Bias.H_Vector += this.Error * this.Bias.Weight;
         }
 
         public void InitializeLearning()
@@ -552,6 +579,7 @@ namespace primeira.pNeuron.Core
                         {
 
                              // set all weight changes to zero
+                            InitializeLearning();
 
                             for (j = 0; j < inputs.Length; j++)
                                 BackPropogation_TrainingSession(this, inputs[j], expected[j]);
@@ -663,33 +691,7 @@ namespace primeira.pNeuron.Core
                 }
             }
 
-            /*
-            // Calcualte output error values 
-             for (i = 0; i < net.m_outputLayer.Count; i++)
-            {
-                outputNode = net.m_outputLayer[i];
-                temp = outputNode.Output;
-                outputNode.Error = (desiredResults[i] - temp) * SigmoidDerivative(temp); //* temp * (1.0F - temp);
-            }
-
-
-            // calculate hidden layer error values
-            for (i = 0; i < net.m_hiddenLayer.Count; i++)
-            {
-                hiddenNode = net.m_hiddenLayer[i];
-                temp = hiddenNode.Output;
-
-                error = 0;
-                for (j = 0; j < net.m_outputLayer.Count; j++)
-                {
-                    outputNode = net.m_outputLayer[j];
-                    error += (outputNode.Error * outputNode.Input[hiddenNode].NeuralFactor.Weight) * SigmoidDerivative(temp);// *(1.0F - temp);                   
-                }
-
-                hiddenNode.Error = error;
-
-            }
-            */
+        
             #endregion
         }
 
@@ -739,7 +741,10 @@ namespace primeira.pNeuron.Core
 
             #region Execution
 
+            foreach (Neuron n in net.Neuron)
+                n.CalculateAndAppendTransformation();
             
+
             //// adjust output layer weight change
             //for (j = 0; j < net.m_outputLayer.Count; j++)
             //{
