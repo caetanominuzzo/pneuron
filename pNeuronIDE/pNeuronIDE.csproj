@@ -49,6 +49,9 @@
     <Compile Include="pLayout.Designer.cs">
       <DependentUpon>pLayout.cs</DependentUpon>
     </Compile>
+    <Compile Include="pNetworkExplorer.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="pNeuronIDE.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -68,6 +71,10 @@
       <SubType>Designer</SubType>
       <DependentUpon>pLayout.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="pNetworkExplorer.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>pNetworkExplorer.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="pNeuronIDE.resx">
       <SubType>Designer</SubType>
       <DependentUpon>pNeuronIDE.cs</DependentUpon>
@@ -84,9 +91,9 @@
       <SubType>Designer</SubType>
       <DependentUpon>pTrain.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="pTreeview.resx">
+    <EmbeddedResource Include="pGroupExplorer.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>pTreeview.cs</DependentUpon>
+      <DependentUpon>pGroupExplorer.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -106,7 +113,7 @@
     <Compile Include="pTrain.Designer.cs">
       <DependentUpon>pTrain.cs</DependentUpon>
     </Compile>
-    <Compile Include="pTreeview.cs">
+    <Compile Include="pGroupExplorer.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>

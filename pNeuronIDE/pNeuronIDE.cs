@@ -14,9 +14,41 @@ namespace primeira.pNeuron
     {
         public pProperty fmProperty;
         public pToolbox fmToolbox = new pToolbox();
-        public pTreeview fmTreeview = new pTreeview();
+        public pGroupExplorer fmGroupExplorer = new pGroupExplorer();
+        public pNetworkExplorer fmNetworkExplorer = new pNetworkExplorer();
         public List<pDocDisplay> fmDocuments = new List<pDocDisplay>();
         public pDocDisplay ActiveDocument;
+
+        private string m_projectFilename;
+
+        public string ProjectFilename
+        {
+            get { return m_projectFilename; }
+        }
+
+        public void Load()
+        {
+            OpenFileDialog s = new OpenFileDialog();
+            s.DefaultExt = ".pnu";
+            s.Filter = "pNeuron Network Project (*.pnp)|*.pnu|All files (*.*)|*.*";
+            if (s.ShowDialog() == DialogResult.OK)
+            {
+                //TODO:If there is a project opened do the ord stuff
+                internalLoad(s.FileName);
+            }
+
+        }
+
+        private void internalLoad(string sFilename)
+        {
+            DataTable dt = new DataTable();
+            
+            try
+            {
+                dt.ReadXml(sFilename);
+                
+            }
+        }
 
         public pNeuronIDE()
         {
@@ -27,11 +59,15 @@ namespace primeira.pNeuron
 
             fmToolbox.Show(dockPanel, DockState.DockLeft);
 
-            fmTreeview.Show(dockPanel, DockState.DockRight);
+
+            fmGroupExplorer.Show(dockPanel, DockState.DockRight);
+            
+            fmNetworkExplorer.Show(dockPanel, DockState.DockRight);
+            fmNetworkExplorer.DockTo(fmGroupExplorer.Pane, DockStyle.Fill,0);
             
 
             fmProperty.Show(dockPanel, DockState.DockRight);
-            fmProperty.DockTo(fmTreeview.Pane, DockStyle.Bottom, 0);
+            fmProperty.DockTo(fmGroupExplorer.Pane, DockStyle.Bottom, 0);
            
         }
 
@@ -50,7 +86,7 @@ namespace primeira.pNeuron
 
         private void networkExplorerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            fmTreeview.Show();
+            fmGroupExplorer.Show();
         }
 
         private void toolBoxToolStripMenuItem_Click(object sender, EventArgs e)
