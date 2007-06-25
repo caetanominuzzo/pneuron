@@ -20,35 +20,112 @@ namespace primeira.pNeuron
         public pDocDisplay ActiveDocument;
 
         private string m_projectFilename;
+        private bool m_defaultNamedProjectFile = true;
+        private bool m_modificated = false;
+
+        public bool Modificated
+        {
+            get { return m_modificated; }
+            set
+            {
+                if (value != m_modificated)
+                {
+                    if (!value)
+                    {
+                        this.Text = this.Text.Substring(0, Text.Length - 2) + "";
+                    }
+                    else
+                    {
+                        this.Text = this.Text.Substring(0, Text.Length - 1) + "*";
+                    }
+                    m_modificated = value;
+                }
+
+            }
+        }
 
         public string ProjectFilename
         {
             get { return m_projectFilename; }
         }
 
-        public void Load()
+        public DialogResult Load()
         {
+            if (Modificated)
+                Save();
+
             OpenFileDialog s = new OpenFileDialog();
-            s.DefaultExt = ".pnu";
-            s.Filter = "pNeuron Network Project (*.pnp)|*.pnu|All files (*.*)|*.*";
+            s.DefaultExt = ".pnp";
+            s.Filter = "pNeuron Network Project (*.pnp)|*.pnp|All files (*.*)|*.*";
             if (s.ShowDialog() == DialogResult.OK)
             {
-                //TODO:If there is a project opened do the ord stuff
-                internalLoad(s.FileName);
+                m_projectFilename = s.FileName;
+                internalLoad();
+                
+                Modificated = false;
+                m_defaultNamedProjectFile = false;
+
+                //TODO:Refresh Network Explorer
+                return DialogResult.OK;
             }
+            else
+            {
+                return DialogResult.Cancel;
+            } 
 
         }
 
-        private void internalLoad(string sFilename)
+        private DialogResult internalLoad()
         {
             DataTable dt = new DataTable();
-            
-            try
+
+            dt.ReadXml(m_projectFilename);
+
+            //TODO:Refresh Network Explorer
+            return DialogResult.OK;
+        }
+
+        public DialogResult Save()
+        {
+            if (m_defaultNamedProjectFile)
             {
-                dt.ReadXml(sFilename);
-                
+                SaveFileDialog s = new SaveFileDialog();
+                s.DefaultExt = ".pnp";
+                s.FileName = System.IO.Path.GetFileNameWithoutExtension(m_projectFilename) + ".pnp";
+                s.Filter = "pNeuron Network Project (*.pnp)|*.pnp|All files (*.*)|*.*";
+                if (s.ShowDialog() == DialogResult.OK)
+                {
+                    m_projectFilename = s.FileName;
+                    internalSave();
+                    Modificated = false;
+                    return DialogResult.OK;
+                }
+                else
+                {
+                    return DialogResult.Cancel;
+                }
+            }
+            else
+            {
+                internalSave();
+                Modificated = false;
+                return DialogResult.OK;
             }
         }
+
+        private void internalSave()
+        {
+            DataSet ds = new DataSet(System.IO.Path.GetFileNameWithoutExtension(m_projectFilename));
+
+            DataTable tNeurons = new DataTable("pNeuronNetworkProject");
+            tNeurons.Columns.Add("File", typeof(String));
+
+            ds.Tables.Add(tNeurons);
+
+            ds.WriteXml(m_projectFilename);
+        }
+
+
 
         public pNeuronIDE()
         {
