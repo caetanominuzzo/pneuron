@@ -27,6 +27,8 @@ namespace primeira.pNeuron
             {
                 foreach (List<pPanel> lp in m_groups)
                 {
+                    if (lp == m_groups[0])
+                        break;
                     if (lp != null)
                         if (lp.Count > 0)
                             if (GetGroupRectangle(lp).Contains(DisplayMousePosition))
