@@ -14,7 +14,6 @@ namespace primeira.pNeuron
         public RadioButton rCursor;
         public RadioButton rSynapse;
         public RadioButton rRemove;
-        private Button button1;
         public RadioButton rNeuron;
     
         public pToolbox()
@@ -28,7 +27,6 @@ namespace primeira.pNeuron
             this.rSynapse = new System.Windows.Forms.RadioButton();
             this.rNeuron = new System.Windows.Forms.RadioButton();
             this.rRemove = new System.Windows.Forms.RadioButton();
-            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // rCursor
@@ -91,20 +89,9 @@ namespace primeira.pNeuron
             this.rRemove.UseVisualStyleBackColor = true;
             this.rRemove.CheckedChanged += new System.EventHandler(this.rCursor_CheckedChanged);
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(12, 339);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 4;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // pToolbox
             // 
             this.ClientSize = new System.Drawing.Size(192, 581);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.rRemove);
             this.Controls.Add(this.rNeuron);
             this.Controls.Add(this.rSynapse);
@@ -135,9 +122,5 @@ namespace primeira.pNeuron
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            ((pNeuronIDE)DockPanel.Parent).ActiveDocument.Trainned = true;
-        }
     }
 }
