@@ -19,7 +19,6 @@ namespace primeira.pNeuron
         public pDocDisplay(string sFileName) : this()
         {
             Filename = sFileName;
-            
         }
 
         public pDocDisplay()
