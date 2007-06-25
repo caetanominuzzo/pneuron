@@ -1,5 +1,0 @@
-bin\Debug\pDraggablePanel.dll
-bin\Debug\pDraggablePanel.pdb
-obj\Debug\ResolveAssemblyReference.cache
-obj\Debug\pDraggablePanel.dll
-obj\Debug\pDraggablePanel.pdb
