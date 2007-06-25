@@ -23,6 +23,9 @@ namespace primeira.pNeuron
 
         private ImageList imageList1;
         private IContainer components;
+        private ContextMenuStrip contextMenuStrip1;
+        private ToolStripMenuItem addTrainerSetToolStripMenuItem;
+        private ToolStripMenuItem runToolStripMenuItem;
 
         public TreeView treeView1;
         #region IpDocks Members
@@ -40,10 +43,15 @@ namespace primeira.pNeuron
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(pNetworkExplorer));
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.addTrainerSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.runToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // treeView1
             // 
+            this.treeView1.ContextMenuStrip = this.contextMenuStrip1;
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView1.ImageIndex = 0;
             this.treeView1.ImageList = this.imageList1;
@@ -64,6 +72,27 @@ namespace primeira.pNeuron
             this.imageList1.Images.SetKeyName(1, "funcionalidades.png");
             this.imageList1.Images.SetKeyName(2, "small_cal.gif");
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.addTrainerSetToolStripMenuItem,
+            this.runToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(161, 48);
+            // 
+            // addTrainerSetToolStripMenuItem
+            // 
+            this.addTrainerSetToolStripMenuItem.Name = "addTrainerSetToolStripMenuItem";
+            this.addTrainerSetToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.addTrainerSetToolStripMenuItem.Text = "Add Trainer Set";
+            this.addTrainerSetToolStripMenuItem.Click += new System.EventHandler(this.addTrainerSetToolStripMenuItem_Click);
+            // 
+            // runToolStripMenuItem
+            // 
+            this.runToolStripMenuItem.Name = "runToolStripMenuItem";
+            this.runToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.runToolStripMenuItem.Text = "Run";
+            // 
             // pNetworkExplorer
             // 
             this.ClientSize = new System.Drawing.Size(292, 273);
@@ -71,6 +100,7 @@ namespace primeira.pNeuron
             this.Name = "pNetworkExplorer";
             this.TabText = "Network Explorer";
             this.Text = "Network Explorer";
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -192,7 +222,26 @@ namespace primeira.pNeuron
         private void treeView1_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             if(e.Node.ImageIndex != 0 && e.Node.ImageIndex!=2) //Folder && Project
-                Parent.OpenNetwork(e.Node.Name);
+                Parent.OpenAny(e.Node.Name);
+        }
+
+        private void addTrainerSetToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Parent.ProjectFilename == "")
+            {
+                Parent.NewProject();
+            }
+
+            if (Parent.ProjectFilename != "")
+            {
+                int i = Parent.fmDocuments.Count + 1;
+                Parent.fmDocuments.Add(new pTrainerSet("TrainerSet " + i.ToString()));
+                Parent.ActiveDocument = Parent.fmDocuments[Parent.fmDocuments.Count - 1];
+                ((pTrainerSet)Parent.ActiveDocument).Show(Parent.dockPanel, DockState.Document);
+                ((pTrainerSet)Parent.ActiveDocument).Modificated = true;
+                Parent.fmNetworkExplorer.AddNode(((pTrainerSet)Parent.ActiveDocument).Filename);
+                Parent.Modificated = true;
+            }
         }
 
     }

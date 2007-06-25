@@ -9,8 +9,10 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace primeira.pNeuron
 {
-    interface IpDocks
+    public interface IpDocks
     {
         pNeuronIDE Parent { get; }
+
     }
+
 }
