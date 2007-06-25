@@ -214,19 +214,19 @@ namespace primeira.pNeuron
 
                 int iGroup = p.Groups;
 
-                ListViewItem lvi = new ListViewItem(p.Name, (Parent.fmTreeview.treeView1.Groups[iGroup ]));
+                ListViewItem lvi = new ListViewItem(p.Name, (Parent.fmGroupExplorer.treeView1.Groups[iGroup ]));
 
-                Parent.fmTreeview.treeView1.Items.Add(lvi);
+                Parent.fmGroupExplorer.treeView1.Items.Add(lvi);
 
-                int k = Parent.fmTreeview.treeView1.Groups[iGroup ].Items.Count - 1;
+                int k = Parent.fmGroupExplorer.treeView1.Groups[iGroup ].Items.Count - 1;
 
-                Parent.fmTreeview.treeView1.Groups[iGroup ].Items[k].Tag = p;
+                Parent.fmGroupExplorer.treeView1.Groups[iGroup ].Items[k].Tag = p;
             }
             else if (mode == pTreeviewRefresh.pPanelRemove)
             {
                 pPanel p = (pPanel)o;
                 ListViewItem toDelete = null;
-                foreach (ListViewGroup lg in Parent.fmTreeview.treeView1.Groups)
+                foreach (ListViewGroup lg in Parent.fmGroupExplorer.treeView1.Groups)
                     foreach (ListViewItem lv in lg.Items)
                     {
                         if (((pPanel)lv.Tag) == p)
@@ -238,7 +238,7 @@ namespace primeira.pNeuron
                 if (toDelete != null)
                 {
                     toDelete.Group = null;
-                    Parent.fmTreeview.treeView1.Items.Remove(toDelete);
+                    Parent.fmGroupExplorer.treeView1.Items.Remove(toDelete);
                 }
             }
             else if(mode == pTreeviewRefresh.pGroupClear)
@@ -248,7 +248,7 @@ namespace primeira.pNeuron
                 
                 List<ListViewItem> toDelete = new List<ListViewItem>();
 
-                foreach (ListViewItem lv in Parent.fmTreeview.treeView1.Groups[(int)o].Items)
+                foreach (ListViewItem lv in Parent.fmGroupExplorer.treeView1.Groups[(int)o].Items)
                 {
                     toDelete.Add(lv);
                 }
@@ -256,12 +256,12 @@ namespace primeira.pNeuron
                 foreach (ListViewItem lv in toDelete)
                 {
                     lv.Group = null;
-                    Parent.fmTreeview.treeView1.Items.Remove(lv);
+                    Parent.fmGroupExplorer.treeView1.Items.Remove(lv);
                 }
             }
             else if (mode == pTreeviewRefresh.pFullRefreh)
             {
-                Parent.fmTreeview.treeView1.Focus();
+                Parent.fmGroupExplorer.treeView1.Focus();
             }
             return;
             /*
@@ -343,7 +343,7 @@ namespace primeira.pNeuron
 
             }
 
-            Parent.fmTreeview.treeView1.Items.Clear();
+            Parent.fmGroupExplorer.treeView1.Items.Clear();
 
 
         }
