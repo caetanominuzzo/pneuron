@@ -46,7 +46,7 @@
     <Compile Include="pDoc.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="pDocument.cs">
+    <Compile Include="pDocDisplay.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="pLayout.cs">
@@ -73,9 +73,9 @@
       <SubType>Designer</SubType>
       <DependentUpon>fmNewProject.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="pDocument.resx">
+    <EmbeddedResource Include="pDocDisplay.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>pDocument.cs</DependentUpon>
+      <DependentUpon>pDocDisplay.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="pLayout.resx">
       <SubType>Designer</SubType>
