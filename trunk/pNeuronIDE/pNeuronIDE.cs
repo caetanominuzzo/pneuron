@@ -48,22 +48,7 @@ namespace primeira.pNeuron
         public bool Modificated
         {
             get { return m_modificated; }
-            set
-            {
-                if (value != m_modificated)
-                {
-                    if (!value)
-                    {
-                        this.Text = this.Text.Substring(0, Text.Length - 2) + "";
-                    }
-                    else
-                    {
-                        this.Text = this.Text.Substring(0, Text.Length - 1) + "*";
-                    }
-                    m_modificated = value;
-                }
-
-            }
+            set { m_modificated = value; }
         }
 
         public string ProjectFilename
@@ -71,8 +56,26 @@ namespace primeira.pNeuron
             get { return m_projectFilename; }
         }
 
-        public void Unload()
+        public DialogResult Unload()
         {
+
+            if (Modificated)
+            {
+                switch (MessageBox.Show("Save changes on " + this.ProjectFilename + "?", "Don't you like to save your work?", MessageBoxButtons.YesNoCancel))
+                {
+                    case DialogResult.No:
+                        break;
+                    case DialogResult.Cancel:
+                        return DialogResult.Cancel;
+                        break;
+                    case DialogResult.Yes:
+                        Save();
+                        break;
+
+                }
+            }
+
+
             while(fmDocuments.Count>0)
             {
                 fmDocuments[0].Close();
@@ -82,6 +85,9 @@ namespace primeira.pNeuron
 
             Modificated = false;
             m_projectFilename = "";
+            Text = "pNeuron IDE";
+
+            return DialogResult.OK;
 
         }
 
@@ -96,6 +102,7 @@ namespace primeira.pNeuron
             if (s.ShowDialog() == DialogResult.OK)
             {
                 m_projectFilename = s.FileName;
+                Text = m_projectFilename + " - pNeuron IDE";
                 fmNetworkExplorer.AddNode(ProjectFilename);
                 internalLoad();
                 
@@ -146,6 +153,16 @@ namespace primeira.pNeuron
 
             foreach (string s in fmNetworkExplorer.getFiles())
             {
+                if (s.IndexOf('\\') == -1) //Unsaved network
+                {
+                    foreach (pDocDisplay p in fmDocuments)
+                    {
+                        if (p.Filename == s)
+                        {
+                            p.Save();
+                        }
+                    }
+                }
                 tNeurons.Rows.Add(s);
             }
 
@@ -175,19 +192,44 @@ namespace primeira.pNeuron
 
         public void NewProject()
         {
+            DialogResult d = DialogResult.OK;
             if (m_projectFilename != "")
-                Unload();
+                d = Unload();
 
-            string sFilename = fmNewProject.Show();
-
-            if(sFilename!="")
+            if (d == DialogResult.OK)
             {
-                m_projectFilename = sFilename;
-                internalSave();
-                Modificated = false;
-                fmNetworkExplorer.AddNode(ProjectFilename);
+                string sFilename = fmNewProject.Show();
+
+                if (sFilename != "")
+                {
+                    m_projectFilename = sFilename;
+                    internalSave();
+                    Modificated = false;
+                    fmNetworkExplorer.AddNode(ProjectFilename);
+                }
+
+                
             }
 
+        }
+
+        public void AddNetwork()
+        {
+            if (ProjectFilename == "")
+            {
+                NewProject();
+            }
+
+            if (ProjectFilename != "")
+            {
+                int i = fmDocuments.Count + 1;
+                fmDocuments.Add(new pDocDisplay("NeuralNetwork " + i.ToString()));
+                ActiveDocument = fmDocuments[fmDocuments.Count - 1];
+                ActiveDocument.Show(dockPanel, DockState.Document);
+                ActiveDocument.Modificated = true;
+                fmNetworkExplorer.AddNode(ActiveDocument.Filename);
+                Modificated = true;
+            }
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
@@ -202,25 +244,14 @@ namespace primeira.pNeuron
         //FILE
         private void tspAddNetwork_Click(object sender, EventArgs e)
         {
-            if (ProjectFilename == "")
-            {
-                NewProject();
-            }
+            AddNetwork();
 
-            if (ProjectFilename != "")
-            {
-                int i = fmDocuments.Count + 1;
-                fmDocuments.Add(new pDocDisplay("NeuralNetwork " + i.ToString()));
-                ActiveDocument = fmDocuments[fmDocuments.Count - 1];
-                ActiveDocument.Show(dockPanel, DockState.Document);
-
-                fmNetworkExplorer.AddNode(ActiveDocument.Filename);
-            }
         }
 
         private void tspNewProject_Click(object sender, EventArgs e)
         {
             NewProject();
+            AddNetwork();
         }
 
         private void tspOpenProject_Click(object sender, EventArgs e)
@@ -248,10 +279,7 @@ namespace primeira.pNeuron
             {
                 ActiveDocument.DefaultNamedFile = bDefaul;
             }
-            else
-            {
-                //fmNetworkExplorer.RemoveNode(old);
-            }
+
         }
 
         private void tspUnloadProject_Click(object sender, EventArgs e)

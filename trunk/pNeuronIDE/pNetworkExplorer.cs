@@ -47,9 +47,11 @@ namespace primeira.pNeuron
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView1.ImageIndex = 0;
             this.treeView1.ImageList = this.imageList1;
+            this.treeView1.ItemHeight = 20;
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Name = "treeView1";
             this.treeView1.SelectedImageIndex = 0;
+            this.treeView1.ShowRootLines = false;
             this.treeView1.Size = new System.Drawing.Size(292, 273);
             this.treeView1.TabIndex = 0;
             this.treeView1.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseDoubleClick);
@@ -82,6 +84,7 @@ namespace primeira.pNeuron
             if (sFilename.IndexOf('\\') == -1) //New network added
             {
                 treeView1.Nodes[Parent.ProjectFilename].Nodes.Add(sFilename, sFilename, 1, 1);
+                treeView1.Nodes[Parent.ProjectFilename].Expand();
                 return;
             }
 
