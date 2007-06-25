@@ -36,9 +36,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Collections.cs" />
-    <Compile Include="Delegates.cs" />
-    <Compile Include="Enums.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -48,25 +45,12 @@
     <Compile Include="ScrollablePanel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="ToolBox.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="ToolBoxItem.cs" />
-    <Compile Include="ToolBoxTab.cs" />
-    <Compile Include="ToolObject.cs" />
-    <Compile Include="ToolScrollButton.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ToolBox.resx">
-      <DependentUpon>ToolBox.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
