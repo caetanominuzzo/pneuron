@@ -69,7 +69,7 @@ namespace primeira.pNeuron
 
             OpenFileDialog s = new OpenFileDialog();
             s.DefaultExt = ".pts";
-            s.Filter = "pNeuron Trainer Set (*.pts)|*.pne|All files (*.*)|*.*";
+            s.Filter = "pNeuron Trainer Set (*.pts)|*.pts|All files (*.*)|*.*";
             if (s.ShowDialog() == DialogResult.OK)
             {
                 internalLoad(s.FileName);
