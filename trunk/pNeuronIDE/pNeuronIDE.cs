@@ -17,8 +17,8 @@ namespace primeira.pNeuron
         public pToolbox fmToolbox = new pToolbox();
         public pGroupExplorer fmGroupExplorer = new pGroupExplorer();
         public pNetworkExplorer fmNetworkExplorer = new pNetworkExplorer();
-        public List<pDocDisplay> fmDocuments = new List<pDocDisplay>();
-        public pDocDisplay ActiveDocument;
+        public List<IpDoc> fmDocuments = new List<IpDoc>();
+        public IpDoc ActiveDocument;
 
         
         private string m_projectFilename = "";
@@ -171,9 +171,9 @@ namespace primeira.pNeuron
             ds.WriteXml(m_projectFilename);
         }
 
-        public void OpenNetwork(string sFilename)
+        public void OpenAny(string sFilename)
         {
-            foreach (pDocDisplay p in fmDocuments)
+            foreach (IpDoc p in fmDocuments)
             {
                 if (p.Filename == sFilename)
                 {
@@ -182,10 +182,23 @@ namespace primeira.pNeuron
                 }
             }
 
-            fmDocuments.Add(new pDocDisplay(sFilename));
-            ActiveDocument = fmDocuments[fmDocuments.Count - 1];
-            ActiveDocument.Show(dockPanel, DockState.Document);
-            ActiveDocument.internalLoad(ActiveDocument.Filename);
+            switch (Path.GetExtension(sFilename))
+            {
+                case ".pne": fmDocuments.Add(new pDocDisplay(sFilename));
+                    ActiveDocument = fmDocuments[fmDocuments.Count - 1];
+                    ((pDocDisplay)ActiveDocument).Show(dockPanel, DockState.Document);
+                    ((pDocDisplay)ActiveDocument).internalLoad(((pDocDisplay)ActiveDocument).Filename);
+                    break;
+                    
+                case ".pts": fmDocuments.Add(new pTrainerSet(sFilename));
+                    ActiveDocument = fmDocuments[fmDocuments.Count - 1];
+                    ((pTrainerSet)ActiveDocument).Show(dockPanel, DockState.Document);
+                    ((pTrainerSet)ActiveDocument).internalLoad(((pTrainerSet)ActiveDocument).Filename);
+                    break;
+            }
+
+            
+            
             ActiveDocument.Modificated = false;
             ActiveDocument.DefaultNamedFile = false;
         }
@@ -225,9 +238,9 @@ namespace primeira.pNeuron
                 int i = fmDocuments.Count + 1;
                 fmDocuments.Add(new pDocDisplay("NeuralNetwork " + i.ToString()));
                 ActiveDocument = fmDocuments[fmDocuments.Count - 1];
-                ActiveDocument.Show(dockPanel, DockState.Document);
-                ActiveDocument.Modificated = true;
-                fmNetworkExplorer.AddNode(ActiveDocument.Filename);
+                ((pDocDisplay)ActiveDocument).Show(dockPanel, DockState.Document);
+                ((pDocDisplay)ActiveDocument).Modificated = true;
+                fmNetworkExplorer.AddNode(((pDocDisplay)ActiveDocument).Filename);
                 Modificated = true;
             }
         }
@@ -245,6 +258,12 @@ namespace primeira.pNeuron
         private void tspAddNetwork_Click(object sender, EventArgs e)
         {
             AddNetwork();
+
+        }
+
+
+        private void tspAddTrainer_Click(object sender, EventArgs e)
+        {
 
         }
 
@@ -307,13 +326,13 @@ namespace primeira.pNeuron
         //TRAIN
         private void trainToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            pTrain fmTrain = new pTrain();
-            fmTrain.net.Initialize(1, 1);
-            foreach (pPanel p in ActiveDocument.pDisplay1.pPanels)
-            {
-                fmTrain.net.Neuron.Add((Neuron)p.Tag);
-            }
-            fmTrain.Show();
+            //pTrain fmTrain = new pTrain();
+            //fmTrain.net.Initialize(1, 1);
+            //foreach (pPanel p in ActiveDocument.pDisplay1.pPanels)
+            //{
+            //    fmTrain.net.Neuron.Add((Neuron)p.Tag);
+            //}
+            //fmTrain.Show();
         }
 
         #endregion
@@ -326,6 +345,9 @@ namespace primeira.pNeuron
                 Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.Personal) + "\\pNeuron Projects");
             }
         }
+
+
+
 
 
 

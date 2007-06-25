@@ -44,7 +44,6 @@ namespace primeira.pNeuron
             this.fileToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tspAddNetwork = new System.Windows.Forms.ToolStripMenuItem();
-            this.newTrainnerSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
             this.existingNetworkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.existingTrainnerSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -199,7 +198,6 @@ namespace primeira.pNeuron
             // 
             this.newToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tspAddNetwork,
-            this.newTrainnerSetToolStripMenuItem,
             this.toolStripMenuItem3,
             this.existingNetworkToolStripMenuItem,
             this.existingTrainnerSetToolStripMenuItem});
@@ -213,12 +211,6 @@ namespace primeira.pNeuron
             this.tspAddNetwork.Size = new System.Drawing.Size(178, 22);
             this.tspAddNetwork.Text = "New Network";
             this.tspAddNetwork.Click += new System.EventHandler(this.tspAddNetwork_Click);
-            // 
-            // newTrainnerSetToolStripMenuItem
-            // 
-            this.newTrainnerSetToolStripMenuItem.Name = "newTrainnerSetToolStripMenuItem";
-            this.newTrainnerSetToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
-            this.newTrainnerSetToolStripMenuItem.Text = "New Trainer Set";
             // 
             // toolStripMenuItem3
             // 
@@ -343,7 +335,7 @@ namespace primeira.pNeuron
             // tspTrain
             // 
             this.tspTrain.Name = "tspTrain";
-            this.tspTrain.Size = new System.Drawing.Size(152, 22);
+            this.tspTrain.Size = new System.Drawing.Size(109, 22);
             this.tspTrain.Text = "Train";
             this.tspTrain.Click += new System.EventHandler(this.trainToolStripMenuItem_Click);
             // 
@@ -372,7 +364,7 @@ namespace primeira.pNeuron
 
         #endregion
 
-        private WeifenLuo.WinFormsUI.Docking.DockPanel dockPanel;
+        public  WeifenLuo.WinFormsUI.Docking.DockPanel dockPanel;
         public System.Windows.Forms.StatusStrip status;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
@@ -404,7 +396,6 @@ namespace primeira.pNeuron
         private System.Windows.Forms.ToolStripMenuItem tspUnloadProject;
         private System.Windows.Forms.ToolStripMenuItem tspSave;
         private System.Windows.Forms.ToolStripMenuItem tspSaveAs;
-        private System.Windows.Forms.ToolStripMenuItem newTrainnerSetToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem existingNetworkToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem existingTrainnerSetToolStripMenuItem;

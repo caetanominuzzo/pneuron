@@ -11,7 +11,7 @@ using System.IO;
 
 namespace primeira.pNeuron
 {
-    public class pDoc : DockContent, IpDocks
+    public class pDoc : DockContent, IpDocks, IpDoc
     {
         #region IpDocks Members
 
@@ -36,11 +36,11 @@ namespace primeira.pNeuron
                 {
                     if (!value)
                     {
-                        this.TabText = this.TabText.Substring(0, TabText.Length - 2) + "]";
+                        this.TabText = this.TabText.Substring(0, TabText.Length - 1);
                     }
                     else
                     {
-                        this.TabText = this.TabText.Substring(0, TabText.Length - 1) + "*]";
+                        this.TabText = this.TabText + "*";
                     }
                     m_modificated = value;
                 }
@@ -59,7 +59,7 @@ namespace primeira.pNeuron
                     Parent.fmNetworkExplorer.AddNode(value);
                 }
                 m_filename = value;
-                this.TabText = "[" + value + "]";
+                this.TabText = value;
             }
         }
 
@@ -68,6 +68,19 @@ namespace primeira.pNeuron
             get { return m_defaultNamedFile; }
             set { m_defaultNamedFile = value; }
         }
+
+        public DialogResult Save()
+        {
+            if (this is pTrainerSet)
+                return ((pTrainerSet)this).Save();
+
+            if (this is pDocDisplay)
+                return ((pDocDisplay)this).Save();
+
+            return DialogResult.OK;
+        }
+
+      
     }
 
 }

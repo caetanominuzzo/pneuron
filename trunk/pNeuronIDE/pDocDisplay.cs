@@ -11,7 +11,7 @@ using System.IO;
 
 namespace primeira.pNeuron
 {
-    public class pDocDisplay : pDoc
+    public class pDocDisplay : pDoc, IpDoc
     {
         
         public pDisplay pDisplay1;
@@ -349,7 +349,6 @@ namespace primeira.pNeuron
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-
             if (Modificated)
             {
                 switch (MessageBox.Show("Save changes on " + this.Filename + "?", "Don't you like to save your work?", MessageBoxButtons.YesNoCancel))
@@ -379,7 +378,6 @@ namespace primeira.pNeuron
             }
             Parent.fmDocuments.Remove(this);
 
-            //base.OnFormClosing(e);
         }
 
         private void pDisplay1_OnNetworkChange()
