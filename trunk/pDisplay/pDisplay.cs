@@ -888,7 +888,7 @@ namespace primeira.pNeuron
                     g.DrawLine(p, 0, j, Width, j);
                 }
 
-                DrawCentralLines(g);
+                DrawCentralLines(g);  
             }
 
 
@@ -908,11 +908,11 @@ namespace primeira.pNeuron
         {
             m_lastSelectRectangleDrow = cBounds;
 
-            gg.FillRectangle(new SolidBrush(Color.FromArgb(20, Color.Silver)),
+            gg.FillRectangle(new SolidBrush(Color.FromArgb(10, Color.Blue)),
 
                cBounds);
 
-            gg.DrawRectangle(new Pen(Color.FromArgb(100, Color.Silver), 1),
+            gg.DrawRectangle(new Pen(Color.FromArgb(50, Color.Blue), 1),
               cBounds);
 
         }

@@ -488,7 +488,7 @@ namespace primeira.pNeuron
 
         public DialogResult Load()
         {
-            if (Modificated)
+            if (Modificated )
                 Save();
 
             OpenFileDialog s = new OpenFileDialog();
@@ -548,6 +548,7 @@ namespace primeira.pNeuron
                     }
                 }
             }
+
 
 
         }
