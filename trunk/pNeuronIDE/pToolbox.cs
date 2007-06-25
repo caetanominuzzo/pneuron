@@ -105,20 +105,21 @@ namespace primeira.pNeuron
 
         private void rCursor_CheckedChanged(object sender, EventArgs e)
         {
+            if (((pNeuronIDE)DockPanel.Parent).ActiveDocument is pDocDisplay)
+            {
+                if (rCursor.Checked)
+                    ((pDocDisplay)((pNeuronIDE)DockPanel.Parent).ActiveDocument).pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.Idle;
 
-            if (rCursor.Checked)
-                ((pNeuronIDE)DockPanel.Parent).ActiveDocument.pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.Idle;
+                if (rSynapse.Checked)
+                    ((pDocDisplay)((pNeuronIDE)DockPanel.Parent).ActiveDocument).pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.Linking_Paused;
 
-            if (rSynapse.Checked)
-                ((pNeuronIDE)DockPanel.Parent).ActiveDocument.pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.Linking_Paused;
+                if (rNeuron.Checked)
+                    ((pDocDisplay)((pNeuronIDE)DockPanel.Parent).ActiveDocument).pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.Add_Neuron;
 
-            if (rNeuron.Checked)
-                ((pNeuronIDE)DockPanel.Parent).ActiveDocument.pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.Add_Neuron;
-
-            if (rRemove.Checked)
-                ((pNeuronIDE)DockPanel.Parent).ActiveDocument.pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.Remove_Neuron;
-
-            ((pNeuronIDE)DockPanel.Parent).ActiveDocument.pDisplay1.Focus();// Select();
+                if (rRemove.Checked)
+                    ((pDocDisplay)((pNeuronIDE)DockPanel.Parent).ActiveDocument).pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.Remove_Neuron;
+            }
+            //((pNeuronIDE)DockPanel.Parent).ActiveDocument.pDisplay1.Focus();// Select();
 
         }
 
