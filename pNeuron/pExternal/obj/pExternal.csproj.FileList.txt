@@ -1,5 +1,0 @@
-obj\Debug\ResolveAssemblyReference.cache
-bin\Debug\pExternal.dll
-bin\Debug\pExternal.pdb
-obj\Debug\pExternal.dll
-obj\Debug\pExternal.pdb

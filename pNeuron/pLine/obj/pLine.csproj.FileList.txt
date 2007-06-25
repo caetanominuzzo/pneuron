@@ -1,7 +1,0 @@
-bin\Debug\pLine.dll
-bin\Debug\pLine.pdb
-bin\Debug\pPanel.dll
-bin\Debug\pPanel.pdb
-obj\Debug\ResolveAssemblyReference.cache
-obj\Debug\pLine.dll
-obj\Debug\pLine.pdb
