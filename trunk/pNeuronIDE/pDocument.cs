@@ -355,6 +355,11 @@ namespace primeira.pNeuron
                 switch (MessageBox.Show("Save changes on " + this.Filename + "?", "Don't you like to save your work?", MessageBoxButtons.YesNoCancel))
                 {
                     case DialogResult.No:
+                        if (DefaultNamedFile)
+                        {
+                            Parent.fmDocuments.Remove(this);
+                            Parent.fmNetworkExplorer.RemoveNode(this.Filename);
+                        }
                         return;
                         break;
                     case DialogResult.Cancel:
@@ -367,6 +372,12 @@ namespace primeira.pNeuron
                 }
             }
 
+            if (DefaultNamedFile)
+            {
+                Parent.fmDocuments.Remove(this);
+                Parent.fmNetworkExplorer.RemoveNode(this.Filename);
+            }
+            Parent.fmDocuments.Remove(this);
 
             //base.OnFormClosing(e);
         }
@@ -383,14 +394,16 @@ namespace primeira.pNeuron
             if (DefaultNamedFile)
             {
                 SaveFileDialog s = new SaveFileDialog();
-                //s.DefaultExt = Trainned ? ".upn" : ".pne";
-                s.FileName = System.IO.Path.GetFileNameWithoutExtension(Filename) + ".pnu";
-                s.Filter = "Untrained pNeuron Network (*.upn)|*.pnu|Trained pNeuron Network (*.pne)|*.pne|All files (*.*)|*.*";
+                s.DefaultExt = ".pne";
+                s.FileName = System.IO.Path.GetFileNameWithoutExtension(Filename) + ".pne";
+                s.Filter = "pNeuron Network (*.pne)|*.pne|All files (*.*)|*.*";
+                s.InitialDirectory = Path.GetDirectoryName(Parent.ProjectFilename);
                 if (s.ShowDialog() == DialogResult.OK)
                 {
                     Filename = s.FileName;
                     internalSave();
                     Modificated = false;
+                    DefaultNamedFile = false;
                     return DialogResult.OK;
                 }
                 else

@@ -17,7 +17,7 @@ namespace primeira.pNeuron
 
         public pNeuronIDE Parent
         {
-            get { return ((pNeuronIDE)DockPanel.Parent); }
+            get { return DockPanel == null ? null : ((pNeuronIDE)DockPanel.Parent); }
         }
 
         #endregion
@@ -53,9 +53,11 @@ namespace primeira.pNeuron
             get { return m_filename; }
             set
             {
-
-                Parent.fmNetworkExplorer.treeView1.Nodes[m_filename].Remove();
-                Parent.fmNetworkExplorer.treeView1.Nodes.Add(value);
+                if (Parent != null)
+                {
+                    Parent.fmNetworkExplorer.RemoveNode(m_filename);
+                    Parent.fmNetworkExplorer.AddNode(value);
+                }
                 m_filename = value;
                 this.TabText = "[" + value + "]";
             }
