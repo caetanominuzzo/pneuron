@@ -1,7 +1,0 @@
-bin\Debug\pPanel.dll
-bin\Debug\pPanel.pdb
-obj\Debug\ResolveAssemblyReference.cache
-obj\Debug\pPanel.dll
-obj\Debug\pPanel.pdb
-bin\Debug\pNeuron.dll
-bin\Debug\pNeuron.pdb
