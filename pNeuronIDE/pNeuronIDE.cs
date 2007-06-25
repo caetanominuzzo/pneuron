@@ -15,8 +15,8 @@ namespace primeira.pNeuron
         public pProperty fmProperty;
         public pToolbox fmToolbox = new pToolbox();
         public pTreeview fmTreeview = new pTreeview();
-        public List<pDocument> fmDocuments = new List<pDocument>();
-        public pDocument ActiveDocument;
+        public List<pDocDisplay> fmDocuments = new List<pDocDisplay>();
+        public pDocDisplay ActiveDocument;
 
         public pNeuronIDE()
         {
@@ -38,7 +38,7 @@ namespace primeira.pNeuron
         private void newNeuralNetworkToolStripMenuItem_Click(object sender, EventArgs e)
         {
             int i = fmDocuments.Count+1;
-            fmDocuments.Add(new pDocument("NeuralNetwork " + i.ToString()));
+            fmDocuments.Add(new pDocDisplay("NeuralNetwork " + i.ToString()));
             ActiveDocument = fmDocuments[fmDocuments.Count - 1];
             ActiveDocument.Show(dockPanel, DockState.Document);
         }
@@ -75,7 +75,7 @@ namespace primeira.pNeuron
         {
 
             int i = fmDocuments.Count + 1;
-            fmDocuments.Add(new pDocument("NeuralNetwork " + i.ToString()));
+            fmDocuments.Add(new pDocDisplay("NeuralNetwork " + i.ToString()));
             ActiveDocument = fmDocuments[fmDocuments.Count - 1];
             ActiveDocument.Show(dockPanel, DockState.Document);
 

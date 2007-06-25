@@ -11,54 +11,18 @@ using System.IO;
 
 namespace primeira.pNeuron
 {
-    public class pDocument : DockContent, IpDocks
+    public class pDocDisplay : pDoc
     {
-        private bool m_modificated = false;
-
-        public bool Modificated
-        {
-            get { return m_modificated; }
-            set {
-                if (value != m_modificated)
-                {
-                    if (!value)
-                    {
-                        this.TabText = this.TabText.Substring(0, TabText.Length - 2) + "]";
-                    }
-                    else
-                    {
-                        this.TabText = this.TabText.Substring(0, TabText.Length - 1) + "*]";
-                    }
-                    m_modificated = value;
-                }
-                
-            }
-        }
-        public bool Trainned = false;
-        private string m_filename;
+        
         public pDisplay pDisplay1;
-        private TabControl tbDocument;
-        private TabPage tabPage1;
-        private TabPage tabPage2;
-        private DataGridView dataGridView1;
-        private bool m_defaultNamedFile = true;
 
-        public string Filename
-        {
-            get { return m_filename; }
-            set { m_filename = value;
-                  this.TabText = "[" + value + "]";
-                }
-        }
-
-
-        public pDocument(string sFileName) : this()
+        public pDocDisplay(string sFileName) : this()
         {
             Filename = sFileName;
             
         }
 
-        public pDocument()
+        public pDocDisplay()
         {
             InitializeComponent();
         }
@@ -70,18 +34,12 @@ namespace primeira.pNeuron
 
         private void InitializeComponent()
         {
+            primeira.pNeuron.Core.NeuralNet neuralNet22 = new primeira.pNeuron.Core.NeuralNet();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(pDocDisplay));
             this.pDisplay1 = new primeira.pNeuron.pDisplay();
-            this.tbDocument = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.tbDocument.SuspendLayout();
-            this.tabPage1.SuspendLayout();
-            this.tabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
-            // pDisplay1
+            // pDisplay
             // 
             this.pDisplay1.AutoScroll = true;
             this.pDisplay1.AutoScrollHorizontalMaximum = 100;
@@ -98,10 +56,12 @@ namespace primeira.pNeuron
             this.pDisplay1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pDisplay1.EnableAutoScrollHorizontal = true;
             this.pDisplay1.EnableAutoScrollVertical = true;
-            this.pDisplay1.Location = new System.Drawing.Point(3, 3);
-            this.pDisplay1.Name = "pDisplay1";
+            this.pDisplay1.Location = new System.Drawing.Point(0, 0);
+            this.pDisplay1.Name = "pDisplay";
+            neuralNet22.LearningRate = 0.5;
+            this.pDisplay1.Net = neuralNet22;
             this.pDisplay1.ShiftKey = false;
-            this.pDisplay1.Size = new System.Drawing.Size(387, 349);
+            this.pDisplay1.Size = new System.Drawing.Size(354, 155);
             this.pDisplay1.TabIndex = 0;
             this.pDisplay1.VisibleAutoScrollHorizontal = true;
             this.pDisplay1.VisibleAutoScrollVertical = true;
@@ -110,55 +70,10 @@ namespace primeira.pNeuron
             this.pDisplay1.OnNetworkChange += new primeira.pNeuron.pDisplay.NetworkChangeDelegate(this.pDisplay1_OnNetworkChange);
             this.pDisplay1.OnTreeViewChange += new primeira.pNeuron.pDisplay.TreeViewChangeDelegate(this.pDisplay1_OnTreeViewChange);
             // 
-            // tbDocument
-            // 
-            this.tbDocument.Alignment = System.Windows.Forms.TabAlignment.Bottom;
-            this.tbDocument.Controls.Add(this.tabPage1);
-            this.tbDocument.Controls.Add(this.tabPage2);
-            this.tbDocument.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbDocument.Location = new System.Drawing.Point(0, 0);
-            this.tbDocument.Name = "tbDocument";
-            this.tbDocument.Padding = new System.Drawing.Point(20, 3);
-            this.tbDocument.SelectedIndex = 0;
-            this.tbDocument.Size = new System.Drawing.Size(401, 381);
-            this.tbDocument.TabIndex = 1;
-            // 
-            // tabPage1
-            // 
-            this.tabPage1.Controls.Add(this.pDisplay1);
-            this.tabPage1.Location = new System.Drawing.Point(4, 4);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(393, 355);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Design";
-            this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // tabPage2
-            // 
-            this.tabPage2.Controls.Add(this.dataGridView1);
-            this.tabPage2.Location = new System.Drawing.Point(4, 4);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(393, 355);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Data";
-            this.tabPage2.UseVisualStyleBackColor = true;
-            this.tabPage2.Enter += new System.EventHandler(this.tabPage2_Enter);
-            // 
-            // dataGridView1
-            // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(3, 3);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(387, 349);
-            this.dataGridView1.TabIndex = 0;
-            // 
             // pDocument
             // 
-            this.ClientSize = new System.Drawing.Size(401, 381);
-            this.Controls.Add(this.tbDocument);
+            this.ClientSize = new System.Drawing.Size(354, 155);
+            this.Controls.Add(this.pDisplay1);
             this.KeyPreview = true;
             this.Name = "pDocument";
             this.TabText = "[NeuralNetwork1]";
@@ -166,10 +81,6 @@ namespace primeira.pNeuron
             this.Activated += new System.EventHandler(this.pDocument_Activated);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.pDocument_KeyUp);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.pDocument_KeyDown);
-            this.tbDocument.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            this.tabPage2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -437,15 +348,6 @@ namespace primeira.pNeuron
 
         }
 
-        #region IpDocks Members
-
-        public pNeuronIDE Parent
-        {
-            get { return ((pNeuronIDE)DockPanel.Parent); }
-        }
-
-        #endregion
-
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
 
@@ -479,10 +381,10 @@ namespace primeira.pNeuron
 
         public DialogResult Save()
         {
-            if (m_defaultNamedFile)
+            if (DefaultNamedFile)
             {
                 SaveFileDialog s = new SaveFileDialog();
-                s.DefaultExt = Trainned ? ".upn" : ".pne";
+                //s.DefaultExt = Trainned ? ".upn" : ".pne";
                 s.FileName = System.IO.Path.GetFileNameWithoutExtension(Filename) + ".pnu";
                 s.Filter = "Untrained pNeuron Network (*.upn)|*.pnu|Trained pNeuron Network (*.pne)|*.pne|All files (*.*)|*.*";
                 if (s.ShowDialog() == DialogResult.OK)
@@ -585,7 +487,7 @@ namespace primeira.pNeuron
                 internalLoad(s.FileName);
                 Filename = s.FileName;
                 Modificated = false;
-                m_defaultNamedFile = false;
+                DefaultNamedFile = false;
                 pDisplay1.Invalidate();
                 return DialogResult.OK;
             }
@@ -655,7 +557,7 @@ namespace primeira.pNeuron
             {
                 DataTable dt = new DataTable();
                 dt.ReadXml(sDataFile);
-                dataGridView1.DataSource = dt;
+               // dataGridView1.DataSource = dt;
             }
             else
             {
