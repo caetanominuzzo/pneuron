@@ -55,7 +55,7 @@ namespace primeira.pNeuron
             int count;
 
             count = 0;
-            net.LearningRate = 3;
+            net.LearningRate = .5;
             
             net.InitializeLearning();
 

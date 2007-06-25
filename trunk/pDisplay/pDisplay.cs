@@ -30,6 +30,14 @@ namespace primeira.pNeuron
         [DllImport("Kernel32.dll")]
         public static extern bool Beep(UInt32 frequency, UInt32 duration);
 
+        NeuralNet m_net = new NeuralNet();
+
+        public NeuralNet Net
+        {
+            get { return m_net; }
+            set { m_net = value; }
+        }
+
         #region events
 
         public delegate void SelectedPanelsChangeDelegate();
@@ -180,6 +188,9 @@ namespace primeira.pNeuron
             //Initialize all groups
             for (int i = 0; i < m_groups.Length; i++)
                 m_groups[i] = new List<pPanel>();
+
+            //Initialize NeuralNet
+            m_net.Initialize(1, 0);
 
 
         }
