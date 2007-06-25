@@ -19,8 +19,7 @@ namespace primeira.pNeuron
         public List<pDocDisplay> fmDocuments = new List<pDocDisplay>();
         public pDocDisplay ActiveDocument;
 
-        private string m_projectFilename;
-        private bool m_defaultNamedProjectFile = true;
+        private string m_projectFilename = "";
         private bool m_modificated = false;
 
         public bool Modificated
@@ -49,6 +48,20 @@ namespace primeira.pNeuron
             get { return m_projectFilename; }
         }
 
+        public void Unload()
+        {
+            foreach(pDocDisplay p in fmDocuments)
+            {
+                p.Close();
+            }
+
+            fmNetworkExplorer.treeView1.Nodes.Clear();
+
+            Modificated = false;
+            m_projectFilename = "";
+
+        }
+
         public DialogResult Load()
         {
             if (Modificated)
@@ -63,9 +76,11 @@ namespace primeira.pNeuron
                 internalLoad();
                 
                 Modificated = false;
-                m_defaultNamedProjectFile = false;
 
                 //TODO:Refresh Network Explorer
+
+                
+
                 return DialogResult.OK;
             }
             else
@@ -82,35 +97,36 @@ namespace primeira.pNeuron
             dt.ReadXml(m_projectFilename);
 
             //TODO:Refresh Network Explorer
+
             return DialogResult.OK;
         }
 
         public DialogResult Save()
         {
-            if (m_defaultNamedProjectFile)
-            {
-                SaveFileDialog s = new SaveFileDialog();
-                s.DefaultExt = ".pnp";
-                s.FileName = System.IO.Path.GetFileNameWithoutExtension(m_projectFilename) + ".pnp";
-                s.Filter = "pNeuron Network Project (*.pnp)|*.pnp|All files (*.*)|*.*";
-                if (s.ShowDialog() == DialogResult.OK)
-                {
-                    m_projectFilename = s.FileName;
-                    internalSave();
-                    Modificated = false;
-                    return DialogResult.OK;
-                }
-                else
-                {
-                    return DialogResult.Cancel;
-                }
-            }
-            else
-            {
+            //if (m_defaultNamedProjectFile)
+            //{
+            //    SaveFileDialog s = new SaveFileDialog();
+            //    s.DefaultExt = ".pnp";
+            //    s.FileName = System.IO.Path.GetFileNameWithoutExtension(m_projectFilename) + ".pnp";
+            //    s.Filter = "pNeuron Network Project (*.pnp)|*.pnp|All files (*.*)|*.*";
+            //    if (s.ShowDialog() == DialogResult.OK)
+            //    {
+            //        m_projectFilename = s.FileName;
+            //        internalSave();
+            //        Modificated = false;
+            //        return DialogResult.OK;
+            //    }
+            //    else
+            //    {
+            //        return DialogResult.Cancel;
+            //    }
+            //}
+            //else
+            //{
                 internalSave();
                 Modificated = false;
                 return DialogResult.OK;
-            }
+            //}
         }
 
         private void internalSave()
@@ -154,6 +170,8 @@ namespace primeira.pNeuron
             fmDocuments.Add(new pDocDisplay("NeuralNetwork " + i.ToString()));
             ActiveDocument = fmDocuments[fmDocuments.Count - 1];
             ActiveDocument.Show(dockPanel, DockState.Document);
+
+            fmNetworkExplorer.treeView1.Nodes.Add(ActiveDocument.Text);
         }
 
         private void propertyWindowToolStripMenuItem_Click(object sender, EventArgs e)
@@ -209,6 +227,46 @@ namespace primeira.pNeuron
 
         private void dataEditorToolStripMenuItem_Click(object sender, EventArgs e)
         {
+        }
+
+        private void projectFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (m_projectFilename != "")
+                Unload();
+
+            Load();
+        }
+
+        private void toolStripMenuItem3_Click(object sender, EventArgs e)
+        {
+            Unload();
+        }
+
+        private void dockPanel_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItem3_Click_1(object sender, EventArgs e)
+        {
+            if (m_projectFilename != "")
+                Unload();
+
+            SaveFileDialog s = new SaveFileDialog();
+            s.DefaultExt = ".pnp";
+            s.FileName = System.IO.Path.GetFileNameWithoutExtension(m_projectFilename) + ".pnp";
+            s.Filter = "pNeuron Network Project (*.pnp)|*.pnp|All files (*.*)|*.*";
+            if (s.ShowDialog() == DialogResult.OK)
+            {
+                m_projectFilename = s.FileName;
+                internalSave();
+                Modificated = false;
+            }
+            else
+            {
+            }
+
+
         }
     }
 }

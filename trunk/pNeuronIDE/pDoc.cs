@@ -53,6 +53,9 @@ namespace primeira.pNeuron
             get { return m_filename; }
             set
             {
+
+                Parent.fmNetworkExplorer.treeView1.Nodes[m_filename].Remove();
+                Parent.fmNetworkExplorer.treeView1.Nodes.Add(value);
                 m_filename = value;
                 this.TabText = "[" + value + "]";
             }

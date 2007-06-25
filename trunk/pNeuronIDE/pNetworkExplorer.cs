@@ -21,8 +21,7 @@ namespace primeira.pNeuron
 
         }
 
-
-        private TreeView treeView1;
+        public TreeView treeView1;
         #region IpDocks Members
 
         public pNeuronIDE Parent 
