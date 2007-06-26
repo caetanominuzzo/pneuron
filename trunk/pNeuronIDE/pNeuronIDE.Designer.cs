@@ -63,6 +63,8 @@ namespace primeira.pNeuron
             this.tspViewPropertyWindow = new System.Windows.Forms.ToolStripMenuItem();
             this.nNToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tspTrain = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.status.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -76,7 +78,7 @@ namespace primeira.pNeuron
             this.dockPanel.Font = new System.Drawing.Font("Tahoma", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
             this.dockPanel.Location = new System.Drawing.Point(0, 24);
             this.dockPanel.Name = "dockPanel";
-            this.dockPanel.Size = new System.Drawing.Size(767, 266);
+            this.dockPanel.Size = new System.Drawing.Size(305, 266);
             this.dockPanel.TabIndex = 0;
             // 
             // status
@@ -86,7 +88,7 @@ namespace primeira.pNeuron
             this.status.Location = new System.Drawing.Point(0, 290);
             this.status.Name = "status";
             this.status.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.status.Size = new System.Drawing.Size(767, 22);
+            this.status.Size = new System.Drawing.Size(305, 22);
             this.status.TabIndex = 3;
             this.status.Text = "statusStrip1";
             // 
@@ -172,7 +174,7 @@ namespace primeira.pNeuron
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.menuStrip1.Size = new System.Drawing.Size(767, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(305, 24);
             this.menuStrip1.TabIndex = 5;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -180,13 +182,15 @@ namespace primeira.pNeuron
             // 
             this.fileToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newToolStripMenuItem,
+            this.toolStripMenuItem1,
             this.tspNewProject,
             this.tspOpenProject,
-            this.toolStripMenuItem1,
-            this.tspSave,
-            this.tspSaveAs,
+            this.toolStripSeparator1,
             this.tspSaveProject,
             this.tspSaveProjectAs,
+            this.toolStripSeparator2,
+            this.tspSave,
+            this.tspSaveAs,
             this.toolStripMenuItem2,
             this.tspUnloadProject,
             this.closeToolStripMenuItem});
@@ -252,14 +256,14 @@ namespace primeira.pNeuron
             // 
             this.tspSave.Name = "tspSave";
             this.tspSave.Size = new System.Drawing.Size(160, 22);
-            this.tspSave.Text = "Save";
+            this.tspSave.Text = "Save %1";
             this.tspSave.Click += new System.EventHandler(this.tspSave_Click);
             // 
             // tspSaveAs
             // 
             this.tspSaveAs.Name = "tspSaveAs";
             this.tspSaveAs.Size = new System.Drawing.Size(160, 22);
-            this.tspSaveAs.Text = "Save as";
+            this.tspSaveAs.Text = "Save %1 as";
             this.tspSaveAs.Click += new System.EventHandler(this.tspSaveAs_Click);
             // 
             // tspSaveProject
@@ -335,15 +339,25 @@ namespace primeira.pNeuron
             // tspTrain
             // 
             this.tspTrain.Name = "tspTrain";
-            this.tspTrain.Size = new System.Drawing.Size(109, 22);
+            this.tspTrain.Size = new System.Drawing.Size(152, 22);
             this.tspTrain.Text = "Train";
             this.tspTrain.Click += new System.EventHandler(this.trainToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(157, 6);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(157, 6);
             // 
             // pNeuronIDE
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(767, 312);
+            this.ClientSize = new System.Drawing.Size(305, 312);
             this.Controls.Add(this.dockPanel);
             this.Controls.Add(this.status);
             this.Controls.Add(this.menuStrip1);
@@ -399,5 +413,7 @@ namespace primeira.pNeuron
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem existingNetworkToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem existingTrainnerSetToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
     }
 }

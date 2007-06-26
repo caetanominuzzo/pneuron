@@ -13,6 +13,7 @@ namespace primeira.pNeuron
 {
     public class pDocDisplay : pDoc, IpDoc
     {
+        private IContainer components;
         
         public pDisplay pDisplay1;
 
@@ -33,12 +34,12 @@ namespace primeira.pNeuron
 
         private void InitializeComponent()
         {
-            primeira.pNeuron.Core.NeuralNet neuralNet22 = new primeira.pNeuron.Core.NeuralNet();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(pDocDisplay));
+            this.components = new System.ComponentModel.Container();
+            primeira.pNeuron.Core.NeuralNet neuralNet1 = new primeira.pNeuron.Core.NeuralNet();
             this.pDisplay1 = new primeira.pNeuron.pDisplay();
             this.SuspendLayout();
             // 
-            // pDisplay
+            // pDisplay1
             // 
             this.pDisplay1.AutoScroll = true;
             this.pDisplay1.AutoScrollHorizontalMaximum = 100;
@@ -56,9 +57,10 @@ namespace primeira.pNeuron
             this.pDisplay1.EnableAutoScrollHorizontal = true;
             this.pDisplay1.EnableAutoScrollVertical = true;
             this.pDisplay1.Location = new System.Drawing.Point(0, 0);
-            this.pDisplay1.Name = "pDisplay";
-            neuralNet22.LearningRate = 0.5;
-            this.pDisplay1.Net = neuralNet22;
+            this.pDisplay1.Name = "pDisplay1";
+            neuralNet1.LearningRate = 0.5;
+            neuralNet1.Neuron = null;
+            this.pDisplay1.Net = neuralNet1;
             this.pDisplay1.ShiftKey = false;
             this.pDisplay1.Size = new System.Drawing.Size(354, 155);
             this.pDisplay1.TabIndex = 0;
@@ -69,12 +71,12 @@ namespace primeira.pNeuron
             this.pDisplay1.OnNetworkChange += new primeira.pNeuron.pDisplay.NetworkChangeDelegate(this.pDisplay1_OnNetworkChange);
             this.pDisplay1.OnTreeViewChange += new primeira.pNeuron.pDisplay.TreeViewChangeDelegate(this.pDisplay1_OnTreeViewChange);
             // 
-            // pDocument
+            // pDocDisplay
             // 
             this.ClientSize = new System.Drawing.Size(354, 155);
             this.Controls.Add(this.pDisplay1);
             this.KeyPreview = true;
-            this.Name = "pDocument";
+            this.Name = "pDocDisplay";
             this.TabText = "[NeuralNetwork1]";
             this.Text = "[NeuralNetwork1]";
             this.Activated += new System.EventHandler(this.pDocument_Activated);
