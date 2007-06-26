@@ -42,10 +42,10 @@ namespace primeira.pNeuron
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(pNetworkExplorer));
             this.treeView1 = new System.Windows.Forms.TreeView();
-            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.addTrainerSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.runToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -63,14 +63,6 @@ namespace primeira.pNeuron
             this.treeView1.Size = new System.Drawing.Size(292, 273);
             this.treeView1.TabIndex = 0;
             this.treeView1.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseDoubleClick);
-            // 
-            // imageList1
-            // 
-            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "folder.JPG");
-            this.imageList1.Images.SetKeyName(1, "funcionalidades.png");
-            this.imageList1.Images.SetKeyName(2, "small_cal.gif");
             // 
             // contextMenuStrip1
             // 
@@ -92,6 +84,14 @@ namespace primeira.pNeuron
             this.runToolStripMenuItem.Name = "runToolStripMenuItem";
             this.runToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.runToolStripMenuItem.Text = "Run";
+            // 
+            // imageList1
+            // 
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "folder.JPG");
+            this.imageList1.Images.SetKeyName(1, "funcionalidades.png");
+            this.imageList1.Images.SetKeyName(2, "small_cal.gif");
             // 
             // pNetworkExplorer
             // 
