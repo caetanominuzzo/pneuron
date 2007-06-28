@@ -50,7 +50,7 @@ namespace primeira.pNeuron
 
         }
 
-        public void OpenAny(string sFilename)
+        public void OpenAny(string sFilename, TreeNode FilenameParent)
         {
             foreach (IpDoc p in fmDocuments)
             {
@@ -69,7 +69,7 @@ namespace primeira.pNeuron
                     ((pDocDisplay)ActiveDocument).internalLoad(((pDocDisplay)ActiveDocument).Filename);
                     break;
                     
-                case ".pts": fmDocuments.Add(new pTrainningSet(sFilename));
+                case ".pts": fmDocuments.Add(new pTrainningSet(sFilename, ((pDocDisplay)GetDocByName(FilenameParent.Name))));
                     ActiveDocument = fmDocuments[fmDocuments.Count - 1];
                     ((pTrainningSet)ActiveDocument).Show(dockPanel, DockState.Document);
                     ((pTrainningSet)ActiveDocument).internalLoad(((pTrainningSet)ActiveDocument).Filename);

@@ -18,12 +18,27 @@ namespace primeira.pNeuron
             InitializeComponent();
         }
 
-        public pTrainningSet(string sFileName) : this()
+        public pTrainningSet(string sFileName, pDocDisplay pParentNetwork) : this()
         {
             Filename = sFileName;
+            fParentNetwork = pParentNetwork;
+
+            DataTable dt = new DataTable(sFileName);
+
+            foreach(pPanel p in fParentNetwork.pDisplay1.pPanels)
+            {
+                if(p.NeuronType != NeuronTypes.Hidden)
+                {
+                    dt.Columns.Add(p.NeuronType.ToString() + " [" +p.Name+"]", typeof(double));
+                }
+            }
+
+            this.dataGridView1.DataSource = dt;
+
+            
         }
 
-
+        private pDocDisplay fParentNetwork;
         
 
         #region Save/Load
@@ -61,7 +76,7 @@ namespace primeira.pNeuron
 
         private void internalSave()
         {
-           
+            ((DataTable)dataGridView1.DataSource).WriteXml(Filename);
         }
 
         public DialogResult Load()
@@ -71,7 +86,7 @@ namespace primeira.pNeuron
 
             OpenFileDialog s = new OpenFileDialog();
             s.DefaultExt = ".pts";
-            s.Filter = "pNeuron Trainer Set (*.pts)|*.pts|All files (*.*)|*.*";
+            s.Filter = "pNeuron Training Set (*.pts)|*.pts|All files (*.*)|*.*";
             if (s.ShowDialog() == DialogResult.OK)
             {
                 internalLoad(s.FileName);
@@ -88,7 +103,11 @@ namespace primeira.pNeuron
 
         public void internalLoad(string aFilename)
         {
-           
+            Filename = aFilename;
+            DataTable dt = new DataTable(Filename);
+            dt.ReadXml(Filename);
+            dataGridView1.DataSource = dt;
+
 
 
         }

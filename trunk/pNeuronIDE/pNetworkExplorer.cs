@@ -62,6 +62,8 @@ namespace primeira.pNeuron
             this.treeView1.Size = new System.Drawing.Size(292, 273);
             this.treeView1.TabIndex = 0;
             this.treeView1.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseDoubleClick);
+            this.treeView1.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseClick);
+            this.treeView1.Click += new System.EventHandler(this.treeView1_Click);
             // 
             // contextMenuStrip1
             // 
@@ -69,7 +71,7 @@ namespace primeira.pNeuron
             this.addTrainerSetToolStripMenuItem,
             this.runToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(161, 70);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(161, 48);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // addTrainerSetToolStripMenuItem
@@ -144,6 +146,30 @@ namespace primeira.pNeuron
 
         }
 
+        public void RenameNode(string sOldFilename, string sNewFilename)
+        {
+            if (treeView1.Nodes.ContainsKey(sOldFilename))
+                treeView1.Nodes[sOldFilename].Name = sNewFilename;
+            else
+            {
+                foreach (TreeNode n in treeView1.Nodes)
+                    RenameNode(n, sOldFilename, sNewFilename);
+            }
+        }
+
+        public void RenameNode(TreeNode Node, string sOldFilename, string sNewFilename)
+        {
+            if (Node.Nodes.ContainsKey(sOldFilename))
+                Node.Nodes[sOldFilename].Name = sNewFilename;
+            else
+            {
+                foreach (TreeNode n in Node.Nodes)
+                {
+                    RenameNode(n, sOldFilename, sNewFilename);
+                }
+            }
+        }
+
         public void RemoveNode(string sFilename)
         {
 
@@ -204,24 +230,28 @@ namespace primeira.pNeuron
 
         private void treeView1_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            if(e.Node.ImageIndex != 0 && e.Node.ImageIndex!=2) //Folder && Project
-                Parent.OpenAny(e.Node.Name);
+            ///if(e.Node.ImageIndex != 0 && e.Node.ImageIndex!=2) //Folder && Project
+            Parent.OpenAny(e.Node.Name, e.Node.Parent);
         }
 
         private void addTrainerSetToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
+
+            string sParent = "";
+            if (treeView1.SelectedNode.ImageIndex == 2)
+                sParent = treeView1.SelectedNode.Parent.Name;
+            else
+                sParent = treeView1.SelectedNode.Name;
+
+
                 int i = Parent.fmDocuments.Count + 1;
-                Parent.fmDocuments.Add(new pTrainningSet("TrainningSet " + i.ToString()));
+                Parent.fmDocuments.Add(new pTrainningSet("TrainningSet " + i.ToString(), (pDocDisplay)Parent.GetDocByName(sParent)));
                 Parent.ActiveDocument = Parent.fmDocuments[Parent.fmDocuments.Count - 1];
                 ((pTrainningSet)Parent.ActiveDocument).Show(Parent.dockPanel, DockState.Document);
                 ((pTrainningSet)Parent.ActiveDocument).Modificated = true;
 
-                string sParent = "";
-                if (treeView1.SelectedNode.ImageIndex == 2)
-                    sParent = treeView1.SelectedNode.Parent.Name;
-                else
-                    sParent = treeView1.SelectedNode.Name;
+                
 
                 Parent.fmNetworkExplorer.AddNode(((pTrainningSet)Parent.ActiveDocument).Filename, sParent);
 
@@ -229,12 +259,20 @@ namespace primeira.pNeuron
 
         private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
         {
-            //if(treeView1.SelectedNode.ImageIndex == 2)
-            //{
-            //    addTrainerSetToolStripMenuItem.Enabled = false;
-            //}
-            //else addTrainerSetToolStripMenuItem.Enabled = true;
 
+        }
+
+        private void treeView1_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            if(e.Button == MouseButtons.Right)
+            {
+                treeView1.SelectedNode = e.Node;
+            }
         }
 
     }
