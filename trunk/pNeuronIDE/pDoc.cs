@@ -65,8 +65,7 @@ namespace primeira.pNeuron
             {
                 if (Parent != null)
                 {
-                    Parent.fmNetworkExplorer.RemoveNode(m_filename);
-                    Parent.fmNetworkExplorer.AddNode(value);
+                     Parent.fmNetworkExplorer.RenameNode(m_filename, value);
                 }
                 m_filename = value;
                 this.TabText = value;
