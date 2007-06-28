@@ -106,9 +106,9 @@
       <SubType>Designer</SubType>
       <DependentUpon>pGroupExplorer.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="pTrainerSet.resx">
+    <EmbeddedResource Include="pTrainningSet.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>pTrainerSet.cs</DependentUpon>
+      <DependentUpon>pTrainningSet.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -131,11 +131,11 @@
     <Compile Include="pGroupExplorer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="pTrainerSet.cs">
+    <Compile Include="pTrainningSet.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="pTrainerSet.Designer.cs">
-      <DependentUpon>pTrainerSet.cs</DependentUpon>
+    <Compile Include="pTrainningSet.Designer.cs">
+      <DependentUpon>pTrainningSet.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
