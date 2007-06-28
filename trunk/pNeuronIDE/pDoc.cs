@@ -15,9 +15,19 @@ namespace primeira.pNeuron
     {
         #region IpDocks Members
 
+        private pNeuronIDE fParent;
+
+        private bool fQueryOnClose = true;
+	  
+        public bool QueryOnClose
+	    {
+		    get { return fQueryOnClose; }
+		    set { fQueryOnClose = value; }
+	    }
         public pNeuronIDE Parent
         {
-            get { return DockPanel == null ? null : ((pNeuronIDE)DockPanel.Parent); }
+            get { return DockPanel == null ? fParent : ((pNeuronIDE)DockPanel.Parent); }
+            set { fParent = value; }
         }
 
         #endregion
@@ -71,8 +81,8 @@ namespace primeira.pNeuron
 
         public DialogResult Save()
         {
-            if (this is pTrainerSet)
-                return ((pTrainerSet)this).Save();
+            if (this is pTrainningSet)
+                return ((pTrainningSet)this).Save();
 
             if (this is pDocDisplay)
                 return ((pDocDisplay)this).Save();
