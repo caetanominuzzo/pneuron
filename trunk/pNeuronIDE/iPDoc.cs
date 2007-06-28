@@ -17,5 +17,6 @@ namespace primeira.pNeuron
         bool Modificated {get; set; }
         bool DefaultNamedFile { get; set; }
         string Filename { get; set; }
+        bool QueryOnClose { get; set; }
     }
 }
