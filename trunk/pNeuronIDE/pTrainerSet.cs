@@ -34,7 +34,7 @@ namespace primeira.pNeuron
                 s.DefaultExt = ".pts";
                 s.FileName = System.IO.Path.GetFileNameWithoutExtension(Filename) + ".pts";
                 s.Filter = "pNeuron Trainer Set (*.pts)|*.pts|All files (*.*)|*.*";
-                s.InitialDirectory = Path.GetDirectoryName(Parent.ProjectFilename);
+//                s.InitialDirectory = Path.GetDirectoryName(Parent.ProjectFilename);
                 if (s.ShowDialog() == DialogResult.OK)
                 {
                     Filename = s.FileName;
