@@ -59,7 +59,6 @@ namespace primeira.pNeuron
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Name = "treeView1";
             this.treeView1.SelectedImageIndex = 0;
-            this.treeView1.ShowRootLines = false;
             this.treeView1.Size = new System.Drawing.Size(292, 273);
             this.treeView1.TabIndex = 0;
             this.treeView1.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseDoubleClick);
@@ -70,7 +69,8 @@ namespace primeira.pNeuron
             this.addTrainerSetToolStripMenuItem,
             this.runToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(161, 48);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(161, 70);
+            this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // addTrainerSetToolStripMenuItem
             // 
@@ -107,58 +107,41 @@ namespace primeira.pNeuron
 
         public void AddNode(string sFilename)
         {
+            AddNode(sFilename, "");
+        }
 
-
-            string defaultDir = Path.GetDirectoryName(Parent.ProjectFilename);
-
+        public void AddNode(string sFilename, string sParentNode)
+        {
             if (sFilename.IndexOf('\\') == -1) //New network added
             {
-                treeView1.Nodes[Parent.ProjectFilename].Nodes.Add(sFilename, sFilename, 1, 1);
-                treeView1.Nodes[Parent.ProjectFilename].Expand();
+
+                if (sParentNode== "")
+                {
+                    treeView1.Nodes.Add(sFilename, sFilename, 1, 1);
+                }
+                else
+                {
+                    treeView1.Nodes[sParentNode].Nodes.Add(sFilename, sFilename, 2, 2);
+                    treeView1.Nodes[sParentNode].Expand();
+                }
+
                 return;
             }
 
             string thisDir = Path.GetDirectoryName(Path.GetFullPath(sFilename));
 
-            if (defaultDir != thisDir.Substring(0, thisDir.Length))
+            if (sParentNode == "")
             {
-                //TODO:Want to add in the project dir?
-            }
-
-            if (defaultDir == thisDir)
-            {
-                if (sFilename == Parent.ProjectFilename)
-                    treeView1.Nodes.Add(sFilename, Path.GetFileNameWithoutExtension(sFilename), 2, 2);
-                else
-                    treeView1.Nodes[Parent.ProjectFilename].Nodes.Add(sFilename, Path.GetFileNameWithoutExtension(sFilename), 1, 1);
-
-                treeView1.Nodes[Parent.ProjectFilename].Expand();
+                treeView1.Nodes.Add(sFilename, Path.GetFileNameWithoutExtension(sFilename), 1, 1);
             }
             else
             {
-                string sDelta = thisDir.Substring(defaultDir.Length + 1);
-                string[] aDelta = sDelta.Split(new char[] { '\\' });
-                string pDir = defaultDir;
-                foreach (string s in aDelta)
-                {
-                    if (treeView1.Nodes[pDir + "\\" + s] == null)
-                    {
-                        if (pDir == defaultDir)
-                            treeView1.Nodes[Parent.ProjectFilename].Nodes.Add(pDir + "\\" + s, s, 0, 0);
-                        else
-                            treeView1.Nodes[Parent.ProjectFilename].Nodes[pDir].Nodes.Add(pDir + "\\" + s, s, 0, 0);
-
-                    }
-
-                    pDir += "\\" + s;
-                }
-
-                treeView1.Nodes[Parent.ProjectFilename].Nodes[pDir].Nodes.Add(sFilename, Path.GetFileNameWithoutExtension(sFilename), 1, 1);
-                treeView1.Nodes[Parent.ProjectFilename].Nodes[pDir].Expand();
-
+                treeView1.Nodes[sParentNode].Nodes.Add(sFilename, Path.GetFileNameWithoutExtension(sFilename), 2, 2);
+                treeView1.Nodes[sParentNode].Expand();
             }
 
-           
+            
+
         }
 
         public void RemoveNode(string sFilename)
@@ -227,21 +210,31 @@ namespace primeira.pNeuron
 
         private void addTrainerSetToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (Parent.ProjectFilename == "")
-            {
-                Parent.NewProject();
-            }
 
-            if (Parent.ProjectFilename != "")
-            {
                 int i = Parent.fmDocuments.Count + 1;
-                Parent.fmDocuments.Add(new pTrainerSet("TrainerSet " + i.ToString()));
+                Parent.fmDocuments.Add(new pTrainningSet("TrainningSet " + i.ToString()));
                 Parent.ActiveDocument = Parent.fmDocuments[Parent.fmDocuments.Count - 1];
-                ((pTrainerSet)Parent.ActiveDocument).Show(Parent.dockPanel, DockState.Document);
-                ((pTrainerSet)Parent.ActiveDocument).Modificated = true;
-                Parent.fmNetworkExplorer.AddNode(((pTrainerSet)Parent.ActiveDocument).Filename);
-                Parent.Modificated = true;
-            }
+                ((pTrainningSet)Parent.ActiveDocument).Show(Parent.dockPanel, DockState.Document);
+                ((pTrainningSet)Parent.ActiveDocument).Modificated = true;
+
+                string sParent = "";
+                if (treeView1.SelectedNode.ImageIndex == 2)
+                    sParent = treeView1.SelectedNode.Parent.Name;
+                else
+                    sParent = treeView1.SelectedNode.Name;
+
+                Parent.fmNetworkExplorer.AddNode(((pTrainningSet)Parent.ActiveDocument).Filename, sParent);
+
+        }
+
+        private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
+        {
+            //if(treeView1.SelectedNode.ImageIndex == 2)
+            //{
+            //    addTrainerSetToolStripMenuItem.Enabled = false;
+            //}
+            //else addTrainerSetToolStripMenuItem.Enabled = true;
+
         }
 
     }

@@ -359,7 +359,15 @@ namespace primeira.pNeuron
                         if (DefaultNamedFile)
                         {
                             Parent.fmDocuments.Remove(this);
+                            foreach (TreeNode n in Parent.fmNetworkExplorer.treeView1.Nodes[this.Filename].Nodes)
+                            {
+                                IpDoc p = Parent.GetDocByName(n.Name);
+                                p.QueryOnClose = false;
+                                p.Close();
+                            }
+
                             Parent.fmNetworkExplorer.RemoveNode(this.Filename);
+
                         }
                         return;
                         break;
@@ -373,12 +381,11 @@ namespace primeira.pNeuron
                 }
             }
 
-            if (DefaultNamedFile)
-            {
+            
+
                 Parent.fmDocuments.Remove(this);
                 Parent.fmNetworkExplorer.RemoveNode(this.Filename);
-            }
-            Parent.fmDocuments.Remove(this);
+  
 
         }
 
@@ -397,7 +404,7 @@ namespace primeira.pNeuron
                 s.DefaultExt = ".pne";
                 s.FileName = System.IO.Path.GetFileNameWithoutExtension(Filename) + ".pne";
                 s.Filter = "pNeuron Network (*.pne)|*.pne|All files (*.*)|*.*";
-                s.InitialDirectory = Path.GetDirectoryName(Parent.ProjectFilename);
+//                s.InitialDirectory = Path.GetDirectoryName(Parent.ProjectFilename);
                 if (s.ShowDialog() == DialogResult.OK)
                 {
                     Filename = s.FileName;
