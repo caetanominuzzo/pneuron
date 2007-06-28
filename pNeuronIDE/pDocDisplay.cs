@@ -446,6 +446,9 @@ namespace primeira.pNeuron
             tSynapse.Columns.Add("NeuronIn", typeof(string));
             tSynapse.Columns.Add("Value", typeof(double));
 
+            DataTable tFiles = new DataTable("pTrainningSet");
+            tFiles.Columns.Add("File", typeof(string));
+
             foreach (pPanel p in pDisplay1.pPanels)
             {
 
@@ -487,8 +490,14 @@ namespace primeira.pNeuron
             }
 
 
+            foreach (TreeNode n in Parent.fmNetworkExplorer.treeView1.Nodes[Filename].Nodes)
+            {
+                tFiles.Rows.Add(new object[] { n.Name });
+            }
+
             ds.Tables.Add(tNeurons);
             ds.Tables.Add(tSynapse);
+            ds.Tables.Add(tFiles);
 
             ds.WriteXml(Filename);
         }
@@ -556,6 +565,20 @@ namespace primeira.pNeuron
                 }
             }
 
+        if (ds.Tables["pTrainningSet"] != null)
+        {
+            foreach (DataRow r in ds.Tables["pTrainningSet"].Rows)
+            {
+                pTrainningSet p = new pTrainningSet();
+                p.Parent = this.Parent;
+                p.internalLoad(r["File"].ToString());
+
+                this.Parent.fmDocuments.Add(p);
+                this.Parent.ActiveDocument = this.Parent.fmDocuments[this.Parent.fmDocuments.Count - 1];
+                ((pTrainningSet)this.Parent.ActiveDocument).Show(this.Parent.dockPanel, DockState.Document);
+                ((pTrainningSet)this.Parent.ActiveDocument).Modificated = false;
+            }
+        }
 
 
         }
