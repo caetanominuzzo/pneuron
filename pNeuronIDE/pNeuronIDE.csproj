@@ -119,6 +119,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="pShortcutManager.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="pToolbox.cs">
       <SubType>Form</SubType>
     </Compile>
