@@ -11,11 +11,18 @@ using System.IO;
 
 namespace primeira.pNeuron
 {
-    public class pDocDisplay : pDoc, IpDoc
+    public class pDocDisplay : pDoc
     {
         private IContainer components;
-        
         public pDisplay pDisplay1;
+        private TabControl tcDesigner;
+        private TabPage tbDesigner;
+        private TabPage tbTrainingSet;
+        private ToolStrip toolStrip1;
+        private ToolStripButton toolStripButton1;
+        private DataGridView dataGridView1;
+        private ToolStripComboBox toolStripComboBox1;
+        private List<pTrainingSet> fTraining = new List<pTrainingSet>();
 
         public pDocDisplay(string sFileName) : this()
         {
@@ -34,9 +41,21 @@ namespace primeira.pNeuron
 
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            primeira.pNeuron.Core.NeuralNet neuralNet1 = new primeira.pNeuron.Core.NeuralNet();
+            primeira.pNeuron.Core.NeuralNet neuralNet3 = new primeira.pNeuron.Core.NeuralNet();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(pDocDisplay));
             this.pDisplay1 = new primeira.pNeuron.pDisplay();
+            this.tcDesigner = new System.Windows.Forms.TabControl();
+            this.tbDesigner = new System.Windows.Forms.TabPage();
+            this.tbTrainingSet = new System.Windows.Forms.TabPage();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.toolStripComboBox1 = new System.Windows.Forms.ToolStripComboBox();
+            this.tcDesigner.SuspendLayout();
+            this.tbDesigner.SuspendLayout();
+            this.tbTrainingSet.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // pDisplay1
@@ -56,13 +75,13 @@ namespace primeira.pNeuron
             this.pDisplay1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pDisplay1.EnableAutoScrollHorizontal = true;
             this.pDisplay1.EnableAutoScrollVertical = true;
-            this.pDisplay1.Location = new System.Drawing.Point(0, 0);
+            this.pDisplay1.Location = new System.Drawing.Point(3, 3);
             this.pDisplay1.Name = "pDisplay1";
-            neuralNet1.LearningRate = 0.5;
-            neuralNet1.Neuron = null;
-            this.pDisplay1.Net = neuralNet1;
+            neuralNet3.LearningRate = 0.5;
+            neuralNet3.Neuron = null;
+            this.pDisplay1.Net = neuralNet3;
             this.pDisplay1.ShiftKey = false;
-            this.pDisplay1.Size = new System.Drawing.Size(354, 155);
+            this.pDisplay1.Size = new System.Drawing.Size(667, 390);
             this.pDisplay1.TabIndex = 0;
             this.pDisplay1.VisibleAutoScrollHorizontal = true;
             this.pDisplay1.VisibleAutoScrollVertical = true;
@@ -71,10 +90,80 @@ namespace primeira.pNeuron
             this.pDisplay1.OnNetworkChange += new primeira.pNeuron.pDisplay.NetworkChangeDelegate(this.pDisplay1_OnNetworkChange);
             this.pDisplay1.OnTreeViewChange += new primeira.pNeuron.pDisplay.TreeViewChangeDelegate(this.pDisplay1_OnTreeViewChange);
             // 
+            // tcDesigner
+            // 
+            this.tcDesigner.Alignment = System.Windows.Forms.TabAlignment.Bottom;
+            this.tcDesigner.Controls.Add(this.tbDesigner);
+            this.tcDesigner.Controls.Add(this.tbTrainingSet);
+            this.tcDesigner.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tcDesigner.Location = new System.Drawing.Point(0, 0);
+            this.tcDesigner.Name = "tcDesigner";
+            this.tcDesigner.SelectedIndex = 0;
+            this.tcDesigner.Size = new System.Drawing.Size(681, 422);
+            this.tcDesigner.TabIndex = 1;
+            this.tcDesigner.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.tcDesigner_Selecting);
+            // 
+            // tbDesigner
+            // 
+            this.tbDesigner.Controls.Add(this.pDisplay1);
+            this.tbDesigner.Location = new System.Drawing.Point(4, 4);
+            this.tbDesigner.Name = "tbDesigner";
+            this.tbDesigner.Padding = new System.Windows.Forms.Padding(3);
+            this.tbDesigner.Size = new System.Drawing.Size(673, 396);
+            this.tbDesigner.TabIndex = 0;
+            this.tbDesigner.Text = "Network Designer";
+            this.tbDesigner.UseVisualStyleBackColor = true;
+            // 
+            // tbTrainingSet
+            // 
+            this.tbTrainingSet.Controls.Add(this.dataGridView1);
+            this.tbTrainingSet.Controls.Add(this.toolStrip1);
+            this.tbTrainingSet.Location = new System.Drawing.Point(4, 4);
+            this.tbTrainingSet.Name = "tbTrainingSet";
+            this.tbTrainingSet.Padding = new System.Windows.Forms.Padding(3);
+            this.tbTrainingSet.Size = new System.Drawing.Size(673, 396);
+            this.tbTrainingSet.TabIndex = 1;
+            this.tbTrainingSet.Text = "Training Sets";
+            this.tbTrainingSet.UseVisualStyleBackColor = true;
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripComboBox1,
+            this.toolStripButton1});
+            this.toolStrip1.Location = new System.Drawing.Point(3, 3);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(667, 25);
+            this.toolStrip1.TabIndex = 1;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(51, 22);
+            this.toolStripButton1.Text = "Train";
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.BackgroundColor = System.Drawing.Color.White;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView1.Location = new System.Drawing.Point(3, 28);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(667, 365);
+            this.dataGridView1.TabIndex = 0;
+            // 
+            // toolStripComboBox1
+            // 
+            this.toolStripComboBox1.Name = "toolStripComboBox1";
+            this.toolStripComboBox1.Size = new System.Drawing.Size(121, 25);
+            // 
             // pDocDisplay
             // 
-            this.ClientSize = new System.Drawing.Size(354, 155);
-            this.Controls.Add(this.pDisplay1);
+            this.ClientSize = new System.Drawing.Size(681, 422);
+            this.Controls.Add(this.tcDesigner);
             this.KeyPreview = true;
             this.Name = "pDocDisplay";
             this.TabText = "[NeuralNetwork1]";
@@ -82,6 +171,13 @@ namespace primeira.pNeuron
             this.Activated += new System.EventHandler(this.pDocument_Activated);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.pDocument_KeyUp);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.pDocument_KeyDown);
+            this.tcDesigner.ResumeLayout(false);
+            this.tbDesigner.ResumeLayout(false);
+            this.tbTrainingSet.ResumeLayout(false);
+            this.tbTrainingSet.PerformLayout();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -361,7 +457,7 @@ namespace primeira.pNeuron
                             Parent.fmDocuments.Remove(this);
                             foreach (TreeNode n in Parent.fmNetworkExplorer.treeView1.Nodes[this.Filename].Nodes)
                             {
-                                IpDoc p = Parent.GetDocByName(n.Name);
+                                pDoc p = Parent.GetDocByName(n.Name);
                                 p.QueryOnClose = false;
                                 p.Close();
                             }
@@ -392,6 +488,17 @@ namespace primeira.pNeuron
         private void pDisplay1_OnNetworkChange()
         {
             this.Modificated = true;
+        }
+
+        public void AddTrainingSet()
+        {
+            int i = fTraining.Count + 1;
+            fTraining.Add(new pTrainingSet());
+            //  ActiveDocument = fTraining[fTraining.Count - 1];
+            pTrainingSet fm = fTraining[fTraining.Count - 1];
+            fm.Show(Parent.dockPanel, DockState.Document);
+            fm.Modificated = true;
+            //fmNetworkExplorer.AddNode(((pDocDisplay)ActiveDocument).Filename);
         }
 
         #region Save/Load
@@ -565,20 +672,7 @@ namespace primeira.pNeuron
                 }
             }
 
-        if (ds.Tables["pTrainningSet"] != null)
-        {
-            foreach (DataRow r in ds.Tables["pTrainningSet"].Rows)
-            {
-                pTrainningSet p = new pTrainningSet();
-                p.Parent = this.Parent;
-                p.internalLoad(r["File"].ToString());
 
-                this.Parent.fmDocuments.Add(p);
-                this.Parent.ActiveDocument = this.Parent.fmDocuments[this.Parent.fmDocuments.Count - 1];
-                ((pTrainningSet)this.Parent.ActiveDocument).Show(this.Parent.dockPanel, DockState.Document);
-                ((pTrainningSet)this.Parent.ActiveDocument).Modificated = false;
-            }
-        }
 
 
         }
@@ -592,22 +686,16 @@ namespace primeira.pNeuron
             base.OnMouseEnter(e);
         }
 
-        private void tabPage2_Enter(object sender, EventArgs e)
-        {
-            string sDataFile = Path.GetFileNameWithoutExtension(this.Filename)+".dat";
 
-            if (File.Exists(sDataFile))
+        private void tcDesigner_Selecting(object sender, TabControlCancelEventArgs e)
+        {
+            if(fTraining.Count == 0)
             {
-                DataTable dt = new DataTable();
-                dt.ReadXml(sDataFile);
-               // dataGridView1.DataSource = dt;
-            }
-            else
-            {
-                DataTable dt = new DataTable();
-                dt.Columns.Add("N1");
-                dt.Columns.Add("N2");
-                dt.Columns.Add("R1");
+                if (MessageBox.Show("Add new training set?", "Training Set", MessageBoxButtons.OKCancel) == DialogResult.OK)
+                {
+
+                }
+                else e.Cancel = true;
             }
         }
 

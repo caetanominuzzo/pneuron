@@ -17,12 +17,12 @@ namespace primeira.pNeuron
         public pToolbox fmToolbox = new pToolbox();
         public pGroupExplorer fmGroupExplorer = new pGroupExplorer();
         public pNetworkExplorer fmNetworkExplorer = new pNetworkExplorer();
-        public List<IpDoc> fmDocuments = new List<IpDoc>();
-        public IpDoc ActiveDocument;
+        public List<pDoc> fmDocuments = new List<pDoc>();
+        public pDoc ActiveDocument;
 
-        public IpDoc GetDocByName(String sName)
+        public pDoc GetDocByName(String sName)
         {
-            foreach (IpDoc p in fmDocuments)
+            foreach (pDoc p in fmDocuments)
                 if (p.Filename == sName)
                     return p;
 
@@ -52,7 +52,7 @@ namespace primeira.pNeuron
 
         public void OpenAny(string sFilename, TreeNode FilenameParent)
         {
-            foreach (IpDoc p in fmDocuments)
+            foreach (pDoc p in fmDocuments)
             {
                 if (p.Filename == sFilename)
                 {
@@ -69,11 +69,7 @@ namespace primeira.pNeuron
                     ((pDocDisplay)ActiveDocument).internalLoad(((pDocDisplay)ActiveDocument).Filename);
                     break;
                     
-                case ".pts": fmDocuments.Add(new pTrainningSet(sFilename, ((pDocDisplay)GetDocByName(FilenameParent.Name))));
-                    ActiveDocument = fmDocuments[fmDocuments.Count - 1];
-                    ((pTrainningSet)ActiveDocument).Show(dockPanel, DockState.Document);
-                    ((pTrainningSet)ActiveDocument).internalLoad(((pTrainningSet)ActiveDocument).Filename);
-                    break;
+
             }
             
             ActiveDocument.Modificated = false;
@@ -141,7 +137,7 @@ namespace primeira.pNeuron
 
         private void pNeuronIDE_Load(object sender, EventArgs e)
         {
-            //Create Enviroment
+            //Create Environment
             if (!Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.Personal) + "\\pNeuron Projects"))
             {
                 Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.Personal) + "\\pNeuron Projects");
