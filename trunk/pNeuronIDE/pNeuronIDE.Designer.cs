@@ -41,18 +41,18 @@ namespace primeira.pNeuron
             this.networkExplorerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.propertyWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.newNetworkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openNetworkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.saveToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.tspViewToolbox = new System.Windows.Forms.ToolStripMenuItem();
             this.tspViewNetworkExplorer = new System.Windows.Forms.ToolStripMenuItem();
             this.tspViewPropertyWindow = new System.Windows.Forms.ToolStripMenuItem();
             this.nNToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tspTrain = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.newNetworkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openNetworkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.status.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -66,17 +66,17 @@ namespace primeira.pNeuron
             this.dockPanel.Font = new System.Drawing.Font("Tahoma", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
             this.dockPanel.Location = new System.Drawing.Point(0, 24);
             this.dockPanel.Name = "dockPanel";
-            this.dockPanel.Size = new System.Drawing.Size(767, 266);
+            this.dockPanel.Size = new System.Drawing.Size(765, 264);
             this.dockPanel.TabIndex = 0;
             // 
             // status
             // 
             this.status.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel2});
-            this.status.Location = new System.Drawing.Point(0, 290);
+            this.status.Location = new System.Drawing.Point(0, 288);
             this.status.Name = "status";
             this.status.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.status.Size = new System.Drawing.Size(767, 22);
+            this.status.Size = new System.Drawing.Size(765, 22);
             this.status.TabIndex = 3;
             this.status.Text = "statusStrip1";
             // 
@@ -160,9 +160,54 @@ namespace primeira.pNeuron
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.menuStrip1.Size = new System.Drawing.Size(767, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(765, 24);
             this.menuStrip1.TabIndex = 5;
             this.menuStrip1.Text = "menuStrip1";
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.newNetworkToolStripMenuItem,
+            this.openNetworkToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.saveToolStripMenuItem1,
+            this.saveAsToolStripMenuItem});
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(35, 20);
+            this.toolStripMenuItem1.Text = "File";
+            // 
+            // newNetworkToolStripMenuItem
+            // 
+            this.newNetworkToolStripMenuItem.Name = "newNetworkToolStripMenuItem";
+            this.newNetworkToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.newNetworkToolStripMenuItem.Text = "New Network";
+            this.newNetworkToolStripMenuItem.Click += new System.EventHandler(this.newNetworkToolStripMenuItem_Click);
+            // 
+            // openNetworkToolStripMenuItem
+            // 
+            this.openNetworkToolStripMenuItem.Name = "openNetworkToolStripMenuItem";
+            this.openNetworkToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.openNetworkToolStripMenuItem.Text = "Open Network";
+            this.openNetworkToolStripMenuItem.Click += new System.EventHandler(this.openNetworkToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(151, 6);
+            // 
+            // saveToolStripMenuItem1
+            // 
+            this.saveToolStripMenuItem1.Name = "saveToolStripMenuItem1";
+            this.saveToolStripMenuItem1.Size = new System.Drawing.Size(154, 22);
+            this.saveToolStripMenuItem1.Text = "Save";
+            this.saveToolStripMenuItem1.Click += new System.EventHandler(this.saveToolStripMenuItem1_Click);
+            // 
+            // saveAsToolStripMenuItem
+            // 
+            this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.saveAsToolStripMenuItem.Text = "Save as";
+            this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // viewToolStripMenuItem1
             // 
@@ -210,56 +255,11 @@ namespace primeira.pNeuron
             this.tspTrain.Text = "Train";
             this.tspTrain.Click += new System.EventHandler(this.trainToolStripMenuItem_Click);
             // 
-            // toolStripMenuItem1
-            // 
-            this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.newNetworkToolStripMenuItem,
-            this.openNetworkToolStripMenuItem,
-            this.toolStripSeparator1,
-            this.saveToolStripMenuItem1,
-            this.saveAsToolStripMenuItem});
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(35, 20);
-            this.toolStripMenuItem1.Text = "File";
-            // 
-            // newNetworkToolStripMenuItem
-            // 
-            this.newNetworkToolStripMenuItem.Name = "newNetworkToolStripMenuItem";
-            this.newNetworkToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
-            this.newNetworkToolStripMenuItem.Text = "New Network";
-            this.newNetworkToolStripMenuItem.Click += new System.EventHandler(this.newNetworkToolStripMenuItem_Click);
-            // 
-            // openNetworkToolStripMenuItem
-            // 
-            this.openNetworkToolStripMenuItem.Name = "openNetworkToolStripMenuItem";
-            this.openNetworkToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
-            this.openNetworkToolStripMenuItem.Text = "Open Network";
-            this.openNetworkToolStripMenuItem.Click += new System.EventHandler(this.openNetworkToolStripMenuItem_Click);
-            // 
-            // saveToolStripMenuItem1
-            // 
-            this.saveToolStripMenuItem1.Name = "saveToolStripMenuItem1";
-            this.saveToolStripMenuItem1.Size = new System.Drawing.Size(154, 22);
-            this.saveToolStripMenuItem1.Text = "Save";
-            this.saveToolStripMenuItem1.Click += new System.EventHandler(this.saveToolStripMenuItem1_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(151, 6);
-            // 
-            // saveAsToolStripMenuItem
-            // 
-            this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
-            this.saveAsToolStripMenuItem.Text = "Save as";
-            this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
-            // 
             // pNeuronIDE
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(767, 312);
+            this.ClientSize = new System.Drawing.Size(765, 310);
             this.Controls.Add(this.dockPanel);
             this.Controls.Add(this.status);
             this.Controls.Add(this.menuStrip1);
