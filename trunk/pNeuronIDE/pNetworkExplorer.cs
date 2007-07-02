@@ -236,25 +236,7 @@ namespace primeira.pNeuron
 
         private void addTrainerSetToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
-
-            string sParent = "";
-            if (treeView1.SelectedNode.ImageIndex == 2)
-                sParent = treeView1.SelectedNode.Parent.Name;
-            else
-                sParent = treeView1.SelectedNode.Name;
-
-
-                int i = Parent.fmDocuments.Count + 1;
-                Parent.fmDocuments.Add(new pTrainningSet("TrainningSet " + i.ToString(), (pDocDisplay)Parent.GetDocByName(sParent)));
-                Parent.ActiveDocument = Parent.fmDocuments[Parent.fmDocuments.Count - 1];
-                ((pTrainningSet)Parent.ActiveDocument).Show(Parent.dockPanel, DockState.Document);
-                ((pTrainningSet)Parent.ActiveDocument).Modificated = true;
-
-                
-
-                Parent.fmNetworkExplorer.AddNode(((pTrainningSet)Parent.ActiveDocument).Filename, sParent);
-
+            ((pDocDisplay)Parent.ActiveDocument).AddTrainingSet();
         }
 
         private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
