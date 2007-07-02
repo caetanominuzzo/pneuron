@@ -11,7 +11,7 @@ using System.IO;
 
 namespace primeira.pNeuron
 {
-    public class pDoc : DockContent, IpDocks, IpDoc
+    public class pDoc : DockContent, IpDocks
     {
         #region IpDocks Members
 
@@ -80,9 +80,6 @@ namespace primeira.pNeuron
 
         public DialogResult Save()
         {
-            if (this is pTrainningSet)
-                return ((pTrainningSet)this).Save();
-
             if (this is pDocDisplay)
                 return ((pDocDisplay)this).Save();
 
