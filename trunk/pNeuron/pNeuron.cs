@@ -584,7 +584,7 @@ namespace primeira.pNeuron.Core
                             for (j = 0; j < inputs.Length; j++)
                                 BackPropogation_TrainingSession(this, inputs[j], expected[j]);
 
-                            ApplyLearning(); // apply batch of cumlutive weight changes
+                            ApplyLearning(); // apply batch of cumulative weight changes
                         }
 
                     }

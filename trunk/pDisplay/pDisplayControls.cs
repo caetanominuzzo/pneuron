@@ -393,6 +393,9 @@ namespace primeira.pNeuron
             p.Parent = this;
             p.Tag = n;
             m_pPanels.Add(p);
+
+            Net.Neuron.Add(n);
+
             int i = m_pPanels.Count - 1;
             p.Text = i.ToString();
 
