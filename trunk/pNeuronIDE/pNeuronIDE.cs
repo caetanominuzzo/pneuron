@@ -125,11 +125,7 @@ namespace primeira.pNeuron
         private void trainToolStripMenuItem_Click(object sender, EventArgs e)
         {
             pTrain fmTrain = new pTrain();
-            fmTrain.net.Initialize(1, 1);
-            foreach (pPanel p in ((pDocDisplay)ActiveDocument).pDisplay1.pPanels)
-            {
-                fmTrain.net.Neuron.Add((Neuron)p.Tag);
-            }
+            fmTrain.net = ((pDocDisplay)ActiveDocument).pDisplay1.Net;
             fmTrain.Show();
         }
 

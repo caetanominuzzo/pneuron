@@ -192,6 +192,8 @@ namespace primeira.pNeuron
             //Initialize NeuralNet
             m_net.Initialize(1, 0);
 
+//            m_net.Neuron = new List<Neuron>();
+
 
         }
 
