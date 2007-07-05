@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 using primeira.pNeuron.Core;
 using System.IO;
+using System.Threading;
 
 namespace primeira.pNeuron
 {
@@ -88,7 +89,6 @@ namespace primeira.pNeuron
 
         private void InitializeComponent()
         {
-            primeira.pNeuron.Core.NeuralNet neuralNet6 = new primeira.pNeuron.Core.NeuralNet();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(pDocDisplay));
             this.pDisplay1 = new primeira.pNeuron.pDisplay();
             this.tcDesigner = new System.Windows.Forms.TabControl();
@@ -124,9 +124,6 @@ namespace primeira.pNeuron
             this.pDisplay1.EnableAutoScrollVertical = true;
             this.pDisplay1.Location = new System.Drawing.Point(3, 3);
             this.pDisplay1.Name = "pDisplay1";
-            neuralNet6.LearningRate = 0.5;
-            this.pDisplay1.Net = neuralNet6;
-            neuralNet6.Neuron = new List<Neuron>();
             this.pDisplay1.ShiftKey = false;
             this.pDisplay1.Size = new System.Drawing.Size(667, 390);
             this.pDisplay1.TabIndex = 0;
@@ -182,10 +179,10 @@ namespace primeira.pNeuron
             this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(3, 3);
+            this.dataGridView1.Location = new System.Drawing.Point(3, 28);
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(0);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(667, 390);
+            this.dataGridView1.Size = new System.Drawing.Size(667, 365);
             this.dataGridView1.TabIndex = 0;
             // 
             // toolStrip1
@@ -198,7 +195,6 @@ namespace primeira.pNeuron
             this.toolStrip1.Size = new System.Drawing.Size(667, 25);
             this.toolStrip1.TabIndex = 5;
             this.toolStrip1.Text = "toolStrip1";
-            this.toolStrip1.Visible = false;
             // 
             // cbTrainingSets
             // 
@@ -883,6 +879,31 @@ namespace primeira.pNeuron
 
             NeuralNet net = pDisplay1.Net;
 
+            ThreadStart starter2 = delegate {  internalTrain(ref net, input, output);  };
+            new Thread(starter2).Start();
+
+            
+
+
+        }
+
+        delegate void Assinc();
+
+        public void StartTrain()
+        {
+            pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.Training;
+        }
+
+        public void StopTrain()
+        {
+            pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.Idle;
+        }
+
+
+        private void internalTrain(ref NeuralNet net, double[][] input, double[][] output)
+        {
+            this.Invoke(new Assinc(StartTrain));
+
             int count;
 
             count = 0;
@@ -890,16 +911,16 @@ namespace primeira.pNeuron
 
             net.InitializeLearning();
 
-            double dGlobalError = 0;
-            double dTotalError = 0;
+            double dGlobalError = 1;
+            double dTotalError = 1;
 
-            do
+            while (dGlobalError < -.0000001 || dGlobalError > .0000001)
             {
 
                 count++;
 
 
-                net.Train(input, output, TrainingType.BackPropogation, 1);
+                net.Train(input, output, TrainingType.BackPropogation, 100);
 
                 dTotalError = 0;
                 foreach (Neuron n in net.Neuron)
@@ -908,12 +929,15 @@ namespace primeira.pNeuron
                 }
 
                 dGlobalError = dTotalError / net.Neuron.Count;
-            }
-            while (dGlobalError < -.0000001 || dGlobalError > .0000001);
-            MessageBox.Show("Done. \nGlobal error: " + dGlobalError.ToString());
 
+            }
+
+            this.Invoke(new Assinc(StopTrain));
+
+            MessageBox.Show("Done with " + count.ToString() + " cicles.\nGlobal error: " + dGlobalError.ToString());
         }
 
+        
 
     }
 }

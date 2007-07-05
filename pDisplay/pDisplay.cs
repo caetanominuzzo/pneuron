@@ -30,12 +30,11 @@ namespace primeira.pNeuron
         [DllImport("Kernel32.dll")]
         public static extern bool Beep(UInt32 frequency, UInt32 duration);
 
-        NeuralNet m_net = new NeuralNet();
+        NeuralNet m_net ;
 
         public NeuralNet Net
         {
             get { return m_net; }
-            set { m_net = value; }
         }
 
         #region events
@@ -64,7 +63,8 @@ namespace primeira.pNeuron
             Linking_Paused,
             Selecting,
             Add_Neuron,
-            Remove_Neuron
+            Remove_Neuron,
+            Training
         }
 
         #endregion
@@ -82,6 +82,11 @@ namespace primeira.pNeuron
         /// A global graphics to avoid use CreateGraphics()
         /// </summary>
         private Graphics m_graphics;
+
+        /// <summary>
+        /// Refresh display at Training status.
+        /// </summary>
+        private Timer tmTrain;
 
         #endregion
 
@@ -168,7 +173,9 @@ namespace primeira.pNeuron
 
         public pDisplay()
         {
-            //Make this system slow =)
+            InitializeComponent();
+
+            //Make all this stuff slow =(
             DoubleBuffered = true;
 
             //Intialize neuron list
@@ -190,11 +197,24 @@ namespace primeira.pNeuron
                 m_groups[i] = new List<pPanel>();
 
             //Initialize NeuralNet
-            m_net.Initialize(1, 0);
-
-//            m_net.Neuron = new List<Neuron>();
+            m_net.Initialize(1);
 
 
+        }
+
+        private void InitializeComponent()
+        {
+            m_net = new NeuralNet();
+            tmTrain = new Timer();
+
+            tmTrain.Tick += new EventHandler(tmTrain_Tick);
+            tmTrain.Interval = 1000;
+
+        }
+
+        void tmTrain_Tick(object sender, EventArgs e)
+        {
+            Refresh();
         }
 
         #endregion
@@ -258,8 +278,12 @@ namespace primeira.pNeuron
                         break;
                     case pDisplayStatus.Linking: Cursor = Cursors.Cross;
                         break;
-                    default: Cursor = Cursors.Default;
+                    case pDisplayStatus.Training: tmTrain.Start();
                         break;
+                    default: Cursor = Cursors.Default;
+                        tmTrain.Stop();
+                        break;
+                    
                 }
                 if (old != m_displayStatus && OnDisplayStatusChange != null)
                     OnDisplayStatusChange();
@@ -776,6 +800,11 @@ namespace primeira.pNeuron
             base.OnPaint(e);
             DrawLines(e);
 
+            if(DisplayStatus == pDisplayStatus.Training)
+            {
+                e.Graphics.DrawString(m_net.GlobalError.ToString(), SystemFonts.DefaultFont, new SolidBrush(Color.Black), new Point(10, 10));
+                
+            }
 
 
             //g.FillRectangle(Brushes.White, 0, 0, 200, 30);
