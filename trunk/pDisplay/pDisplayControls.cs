@@ -415,6 +415,7 @@ namespace primeira.pNeuron
         public void Remove(pPanel p)
         {
             m_pPanels.Remove(p);
+            m_net.Neuron.Remove((Neuron)p.Tag);
 
             if (OnTreeViewChange != null)
                 OnTreeViewChange(p, pTreeviewRefresh.pPanelRemove);

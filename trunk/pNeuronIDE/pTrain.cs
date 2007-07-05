@@ -119,7 +119,7 @@ namespace primeira.pNeuron
             //    || ll > (mid + high) / 2);
 
 
-            while ( dGlobalError  < -.0000001 || dGlobalError > .0000001);
+            while ( dGlobalError  < -.0001 || dGlobalError > .0001);
 
             StringBuilder bld = new StringBuilder();
 
