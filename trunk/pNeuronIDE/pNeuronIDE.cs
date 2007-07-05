@@ -48,6 +48,8 @@ namespace primeira.pNeuron
             fmProperty.Show(dockPanel, DockState.DockRight);
             fmProperty.DockTo(fmGroupExplorer.Pane, DockStyle.Bottom, 0);
 
+
+
         }
 
         public void OpenAny(string sFilename, TreeNode FilenameParent)

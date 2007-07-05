@@ -526,6 +526,25 @@ namespace primeira.pNeuron.Core
             set { m_neuron = value; }
         }
 
+        public double GlobalError
+        {
+            get
+            {
+                double dGlobalTemp = 0;
+                int iNoPerception = 0;
+                foreach(Neuron n in Neuron)
+                {
+                    if (n.NeuronType != NeuronTypes.Perception)
+                    {
+                        dGlobalTemp += n.Error;
+                        iNoPerception ++;
+                    }
+                }
+                return dGlobalTemp / (double)iNoPerception;
+
+            }
+        }
+
         public void Pulse()
         {
             lock (this)
@@ -598,10 +617,9 @@ namespace primeira.pNeuron.Core
 
         #region Methods
 
-        public void Initialize(int randomSeed,
-            int neuronCount)
+        public void Initialize(int randomSeed)
         {
-            Initialize(this, randomSeed, neuronCount);
+            Initialize(this, randomSeed);
         }
 
         public void PreparePerceptionLayerForPulse(double[] input)
@@ -611,8 +629,7 @@ namespace primeira.pNeuron.Core
 
         #region Private Static Utility Methods -----------------------------------------------
 
-        private static void Initialize(NeuralNet net, int randomSeed,
-            int neuronCount)
+        private static void Initialize(NeuralNet net, int randomSeed)
         {
 
             #region Declarations
@@ -624,7 +641,7 @@ namespace primeira.pNeuron.Core
             #region Initialization
 
             rand = new Random(randomSeed);
-            net.Neuron = new List<Neuron>(neuronCount);
+            net.Neuron = new List<Neuron>();
 
             #endregion
 
@@ -788,6 +805,7 @@ namespace primeira.pNeuron.Core
         }
 
         #endregion
+
 
         #endregion Private Static Utility Methods -------------------------------------------
 

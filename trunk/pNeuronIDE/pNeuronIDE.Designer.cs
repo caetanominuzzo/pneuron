@@ -28,6 +28,7 @@ namespace primeira.pNeuron
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(pNeuronIDE));
             this.dockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
             this.status = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -263,6 +264,7 @@ namespace primeira.pNeuron
             this.Controls.Add(this.dockPanel);
             this.Controls.Add(this.status);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.IsMdiContainer = true;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "pNeuronIDE";
