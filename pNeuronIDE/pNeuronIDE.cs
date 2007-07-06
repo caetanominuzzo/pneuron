@@ -18,7 +18,7 @@ namespace primeira.pNeuron
         public pGroupExplorer fmGroupExplorer = new pGroupExplorer();
         public pNetworkExplorer fmNetworkExplorer = new pNetworkExplorer();
         public List<pDoc> fmDocuments = new List<pDoc>();
-        public pDoc ActiveDocument;
+        private pDoc fActiveDocument;
 
         public pDoc GetDocByName(String sName)
         {
@@ -28,6 +28,58 @@ namespace primeira.pNeuron
 
             return null;
         }
+
+        public pDoc ActiveDocument
+        {
+            get
+            {
+                if (fActiveDocument == null)
+                {
+                    pMessage.Alert("Please create a new document or open one before try this.");
+                    return null;
+                }
+
+                return fActiveDocument;
+            }
+            internal set
+            {
+                fmToolbox.SetToolSet(value);
+                fActiveDocument = value;
+            }
+        }
+
+
+        public void SetActiveDocument(pDoc aActiveDocument)
+        {
+            ActiveDocument = aActiveDocument;
+        }
+
+        /// <summary>
+        /// This dont really closes the pDoc object since this method is called by it.
+        /// Just change de ActiveDocument to an open or set it to null and closes subitems.
+        /// </summary>
+        /// <param name="aRemoveDocument"></param>
+        public void PreRemoveDocument(pDoc aRemoveDocument)
+        {
+            fmDocuments.Remove(aRemoveDocument);
+            foreach (TreeNode n in fmNetworkExplorer.treeView1.Nodes[aRemoveDocument.Filename].Nodes)
+            {
+                pDoc p = GetDocByName(n.Name);
+                p.QueryOnClose = false;
+                p.Close();
+            }
+
+            fmNetworkExplorer.RemoveNode(aRemoveDocument.Filename);
+
+            if (fmDocuments.Count > 0)
+            {
+                ActiveDocument = fmDocuments[fmDocuments.Count - 1];
+            }
+            else
+                ActiveDocument = null;
+
+        }
+
 
         public pNeuronIDE()
         {
@@ -48,7 +100,8 @@ namespace primeira.pNeuron
             fmProperty.Show(dockPanel, DockState.DockRight);
             fmProperty.DockTo(fmGroupExplorer.Pane, DockStyle.Bottom, 0);
 
-
+            //Just to keep consistently
+            ActiveDocument = null;
 
         }
 
@@ -187,6 +240,7 @@ namespace primeira.pNeuron
         
 
         #endregion
+        
 
     }
 }
