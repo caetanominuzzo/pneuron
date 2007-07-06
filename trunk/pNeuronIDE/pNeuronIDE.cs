@@ -17,19 +17,19 @@ namespace primeira.pNeuron
         public pToolbox fmToolbox = new pToolbox();
         public pGroupExplorer fmGroupExplorer = new pGroupExplorer();
         public pNetworkExplorer fmNetworkExplorer = new pNetworkExplorer();
-        public List<pDoc> fmDocuments = new List<pDoc>();
-        private pDoc fActiveDocument;
+        public List<pDocument> fmDocuments = new List<pDocument>();
+        private pDocument fActiveDocument;
 
-        public pDoc GetDocByName(String sName)
+        public pDocument GetDocByName(String sName)
         {
-            foreach (pDoc p in fmDocuments)
+            foreach (pDocument p in fmDocuments)
                 if (p.Filename == sName)
                     return p;
 
             return null;
         }
 
-        public pDoc ActiveDocument
+        public pDocument ActiveDocument
         {
             get
             {
@@ -49,7 +49,7 @@ namespace primeira.pNeuron
         }
 
 
-        public void SetActiveDocument(pDoc aActiveDocument)
+        public void SetActiveDocument(pDocument aActiveDocument)
         {
             ActiveDocument = aActiveDocument;
         }
@@ -59,12 +59,12 @@ namespace primeira.pNeuron
         /// Just change de ActiveDocument to an open or set it to null and closes subitems.
         /// </summary>
         /// <param name="aRemoveDocument"></param>
-        public void PreRemoveDocument(pDoc aRemoveDocument)
+        public void PreRemoveDocument(pDocument aRemoveDocument)
         {
             fmDocuments.Remove(aRemoveDocument);
             foreach (TreeNode n in fmNetworkExplorer.treeView1.Nodes[aRemoveDocument.Filename].Nodes)
             {
-                pDoc p = GetDocByName(n.Name);
+                pDocument p = GetDocByName(n.Name);
                 p.QueryOnClose = false;
                 p.Close();
             }
@@ -107,7 +107,7 @@ namespace primeira.pNeuron
 
         public void OpenAny(string sFilename, TreeNode FilenameParent)
         {
-            foreach (pDoc p in fmDocuments)
+            foreach (pDocument p in fmDocuments)
             {
                 if (p.Filename == sFilename)
                 {
@@ -118,10 +118,10 @@ namespace primeira.pNeuron
 
             switch (Path.GetExtension(sFilename))
             {
-                case ".pne": fmDocuments.Add(new pDocDisplay(sFilename));
+                case ".pne": fmDocuments.Add(new pDocument(sFilename));
                     ActiveDocument = fmDocuments[fmDocuments.Count - 1];
-                    ((pDocDisplay)ActiveDocument).Show(dockPanel, DockState.Document);
-                    ((pDocDisplay)ActiveDocument).internalLoad(((pDocDisplay)ActiveDocument).Filename);
+                    ((pDocument)ActiveDocument).Show(dockPanel, DockState.Document);
+                    ((pDocument)ActiveDocument).internalLoad(((pDocument)ActiveDocument).Filename);
                     break;
                     
 
@@ -180,7 +180,7 @@ namespace primeira.pNeuron
         private void trainToolStripMenuItem_Click(object sender, EventArgs e)
         {
             pTrain fmTrain = new pTrain();
-            fmTrain.net = ((pDocDisplay)ActiveDocument).pDisplay1.Net;
+            fmTrain.net = ((pDocument)ActiveDocument).pDisplay1.Net;
             fmTrain.Show();
         }
 
@@ -200,23 +200,23 @@ namespace primeira.pNeuron
         public void NewNetwork()
         {
             int i = fmDocuments.Count + 1;
-            fmDocuments.Add(new pDocDisplay("NeuralNetwork " + i.ToString()));
+            fmDocuments.Add(new pDocument("NeuralNetwork " + i.ToString()));
             ActiveDocument = fmDocuments[fmDocuments.Count - 1];
-            ((pDocDisplay)ActiveDocument).Show(dockPanel, DockState.Document);
-            ((pDocDisplay)ActiveDocument).Modificated = true;
-            fmNetworkExplorer.AddNode(((pDocDisplay)ActiveDocument).Filename);
+            ((pDocument)ActiveDocument).Show(dockPanel, DockState.Document);
+            ((pDocument)ActiveDocument).Modificated = true;
+            fmNetworkExplorer.AddNode(((pDocument)ActiveDocument).Filename);
         }
 
         public void OpenNetwork()
         {
-            pDocDisplay p = new pDocDisplay();
+            pDocument p = new pDocument();
             p.Parent = this;
             p.Load();
 
             fmDocuments.Add(p);
             ActiveDocument = fmDocuments[fmDocuments.Count - 1];
-            ((pDocDisplay)ActiveDocument).Show(dockPanel, DockState.Document);
-            ((pDocDisplay)ActiveDocument).Modificated = false;
+            ((pDocument)ActiveDocument).Show(dockPanel, DockState.Document);
+            ((pDocument)ActiveDocument).Modificated = false;
         }
         
         public void SaveNetwork()

@@ -114,16 +114,16 @@ namespace primeira.pNeuron
                 if (((pNeuronIDE)DockPanel.Parent).ActiveDocument != null)
                 {
                     if (rCursor.Checked)
-                        ((pDocDisplay)((pNeuronIDE)DockPanel.Parent).ActiveDocument).pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.Idle;
+                        ((pDocument)((pNeuronIDE)DockPanel.Parent).ActiveDocument).pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.Idle;
 
                     if (rSynapse.Checked)
-                        ((pDocDisplay)((pNeuronIDE)DockPanel.Parent).ActiveDocument).pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.Linking_Paused;
+                        ((pDocument)((pNeuronIDE)DockPanel.Parent).ActiveDocument).pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.Linking_Paused;
 
                     if (rNeuron.Checked)
-                        ((pDocDisplay)((pNeuronIDE)DockPanel.Parent).ActiveDocument).pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.Add_Neuron;
+                        ((pDocument)((pNeuronIDE)DockPanel.Parent).ActiveDocument).pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.Add_Neuron;
 
                     if (rRemove.Checked)
-                        ((pDocDisplay)((pNeuronIDE)DockPanel.Parent).ActiveDocument).pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.Remove_Neuron;
+                        ((pDocument)((pNeuronIDE)DockPanel.Parent).ActiveDocument).pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.Remove_Neuron;
                 }
 
 
@@ -131,7 +131,7 @@ namespace primeira.pNeuron
 
         }
 
-        public void SetToolSet(pDoc aActiveDocument)
+        public void SetToolSet(pDocument aActiveDocument)
         {
             if(aActiveDocument == null)
             {
