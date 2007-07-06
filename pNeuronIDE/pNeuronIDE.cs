@@ -13,10 +13,13 @@ namespace primeira.pNeuron
 {
     public partial class pNeuronIDE : Form
     {
-        public pProperty fmProperty;
+        public pProperty fmProperty = new pProperty();
         public pToolbox fmToolbox = new pToolbox();
         public pGroupExplorer fmGroupExplorer = new pGroupExplorer();
         public pNetworkExplorer fmNetworkExplorer = new pNetworkExplorer();
+        public pPlotter fmPlotter = new pPlotter();
+
+
         public List<pDocument> fmDocuments = new List<pDocument>();
         private pDocument fActiveDocument;
 
@@ -48,6 +51,11 @@ namespace primeira.pNeuron
             }
         }
 
+        public bool ActiveDocumentExists()
+        {
+            return fActiveDocument != null;
+        }
+
 
         public void SetActiveDocument(pDocument aActiveDocument)
         {
@@ -55,8 +63,8 @@ namespace primeira.pNeuron
         }
 
         /// <summary>
-        /// This dont really closes the pDoc object since this method is called by it.
-        /// Just change de ActiveDocument to an open or set it to null and closes subitems.
+        /// This don't really closes the pDoc object since this method is called by it.
+        /// Just change de ActiveDocument to an open or set it to null and closes sub items.
         /// </summary>
         /// <param name="aRemoveDocument"></param>
         public void PreRemoveDocument(pDocument aRemoveDocument)
@@ -83,13 +91,11 @@ namespace primeira.pNeuron
 
         public pNeuronIDE()
         {
-
-
             InitializeComponent();
-            fmProperty = new pProperty();
 
             fmToolbox.Show(dockPanel, DockState.DockLeft);
 
+            fmPlotter.Show(dockPanel, DockState.DockBottomAutoHide);
 
             fmGroupExplorer.Show(dockPanel, DockState.DockRight);
 
