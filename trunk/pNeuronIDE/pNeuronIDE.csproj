@@ -38,9 +38,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IpDocks.cs" />
-    <Compile Include="pDoc.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="pDocDisplay.cs">
       <SubType>Form</SubType>
     </Compile>
