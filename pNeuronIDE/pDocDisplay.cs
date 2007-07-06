@@ -12,8 +12,80 @@ using System.Threading;
 
 namespace primeira.pNeuron
 {
-    public class pDocDisplay : pDoc
+    public class pDocument : DockContent, IpDocks
     {
+
+        #region 
+
+        #region IpDocks Members
+
+        private pNeuronIDE fParent;
+
+        private bool fQueryOnClose = true;
+
+        public bool QueryOnClose
+        {
+            get { return fQueryOnClose; }
+            set { fQueryOnClose = value; }
+        }
+        public pNeuronIDE Parent
+        {
+            get { return DockPanel == null ? fParent : ((pNeuronIDE)DockPanel.Parent); }
+            set { fParent = value; }
+        }
+
+        #endregion
+
+        private bool m_modificated = false;
+
+        private string m_filename;
+        private bool m_defaultNamedFile = true;
+
+        public bool Modificated
+        {
+            get { return m_modificated; }
+            set
+            {
+                if (value != m_modificated)
+                {
+                    if (!value)
+                    {
+                        this.TabText = this.TabText.Substring(0, TabText.Length - 1);
+                    }
+                    else
+                    {
+                        this.TabText = this.TabText + "*";
+                    }
+                    m_modificated = value;
+                }
+
+            }
+        }
+
+        public string Filename
+        {
+            get { return m_filename; }
+            set
+            {
+                if (Parent != null)
+                {
+                    Parent.fmNetworkExplorer.RenameNode(m_filename, value);
+                }
+                m_filename = value;
+                this.TabText = value;
+            }
+        }
+
+        public bool DefaultNamedFile
+        {
+            get { return m_defaultNamedFile; }
+            set { m_defaultNamedFile = value; }
+        }
+
+
+        #endregion
+
+
         internal class pTrainingSet
         {
             public String Name;
@@ -72,12 +144,12 @@ namespace primeira.pNeuron
         private ToolStripButton btTrain;
         private List<pTrainingSet> fpTrainingSet = new List<pTrainingSet>();
 
-        public pDocDisplay(string sFileName) : this()
+        public pDocument(string sFileName) : this()
         {
             Filename = sFileName;
         }
 
-        public pDocDisplay()
+        public pDocument()
         {
             InitializeComponent();
         }
@@ -89,7 +161,7 @@ namespace primeira.pNeuron
 
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(pDocDisplay));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(pDocument));
             this.tcDesigner = new System.Windows.Forms.TabControl();
             this.tbDesigner = new System.Windows.Forms.TabPage();
             this.pDisplay1 = new primeira.pNeuron.pDisplay();

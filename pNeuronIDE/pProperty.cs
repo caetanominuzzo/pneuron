@@ -46,10 +46,10 @@ namespace primeira.pNeuron
 
         private void propertyGrid1_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
-            if ((pDocDisplay)Parent.ActiveDocument!=null)
+            if ((pDocument)Parent.ActiveDocument!=null)
             {
-                ((pDocDisplay)Parent.ActiveDocument).pDisplay1_OnTreeViewChange(null, pTreeviewRefresh.pFullRefreh);
-                ((pDocDisplay)Parent.ActiveDocument).pDisplay1.Invalidate(((pPanel)Property.SelectedObject).Bounds);
+                ((pDocument)Parent.ActiveDocument).pDisplay1_OnTreeViewChange(null, pTreeviewRefresh.pFullRefreh);
+                ((pDocument)Parent.ActiveDocument).pDisplay1.Invalidate(((pPanel)Property.SelectedObject).Bounds);
             }
 
         }

@@ -236,8 +236,8 @@ namespace primeira.pNeuron
 
         private void addTrainerSetToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if ((pDocDisplay)Parent.ActiveDocument != null)
-                ((pDocDisplay)Parent.ActiveDocument).AddTrainingSet();
+            if ((pDocument)Parent.ActiveDocument != null)
+                ((pDocument)Parent.ActiveDocument).AddTrainingSet();
         }
 
         private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)

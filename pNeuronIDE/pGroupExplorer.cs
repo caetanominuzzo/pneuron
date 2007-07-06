@@ -106,7 +106,7 @@ namespace primeira.pNeuron
         {
             base.OnActivated(e);
 
-            foreach (pPanel p in ((pDocDisplay)Parent.ActiveDocument).pDisplay1.SelectedpPanels)
+            foreach (pPanel p in ((pDocument)Parent.ActiveDocument).pDisplay1.SelectedpPanels)
             {
 
                 int i = p.Groups;
@@ -136,7 +136,7 @@ namespace primeira.pNeuron
             if (((pPanel)e.Item.Tag).Selected != e.IsSelected)
             {
                 ((pPanel)e.Item.Tag).Selected = e.IsSelected;
-                ((pDocDisplay)Parent.ActiveDocument).pDisplay1.Invalidate(((pPanel)e.Item.Tag).Bounds);
+                ((pDocument)Parent.ActiveDocument).pDisplay1.Invalidate(((pPanel)e.Item.Tag).Bounds);
             }
 
 
@@ -144,12 +144,12 @@ namespace primeira.pNeuron
 
         private void treeView1_KeyDown(object sender, KeyEventArgs e)
         {
-            ((pDocDisplay)Parent.ActiveDocument).pDocument_KeyDown(sender, e);
+            ((pDocument)Parent.ActiveDocument).pDocument_KeyDown(sender, e);
         }
 
         private void treeView1_KeyUp(object sender, KeyEventArgs e)
         {
-            ((pDocDisplay)Parent.ActiveDocument).pDocument_KeyUp(sender, e);
+            ((pDocument)Parent.ActiveDocument).pDocument_KeyUp(sender, e);
         }
 
         public bool Contains(ListViewGroup g, pPanel p)
