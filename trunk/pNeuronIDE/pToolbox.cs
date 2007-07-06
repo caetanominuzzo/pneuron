@@ -105,22 +105,52 @@ namespace primeira.pNeuron
 
         private void rCursor_CheckedChanged(object sender, EventArgs e)
         {
-            if (((pNeuronIDE)DockPanel.Parent).ActiveDocument is pDocDisplay)
+            if (sender == rCursor)
+                return;
+
+            if (((RadioButton)sender).Checked) //To pass here just one time.
             {
-                if (rCursor.Checked)
-                    ((pDocDisplay)((pNeuronIDE)DockPanel.Parent).ActiveDocument).pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.Idle;
 
-                if (rSynapse.Checked)
-                    ((pDocDisplay)((pNeuronIDE)DockPanel.Parent).ActiveDocument).pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.Linking_Paused;
+                if (((pNeuronIDE)DockPanel.Parent).ActiveDocument != null)
+                {
+                    if (rCursor.Checked)
+                        ((pDocDisplay)((pNeuronIDE)DockPanel.Parent).ActiveDocument).pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.Idle;
 
-                if (rNeuron.Checked)
-                    ((pDocDisplay)((pNeuronIDE)DockPanel.Parent).ActiveDocument).pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.Add_Neuron;
+                    if (rSynapse.Checked)
+                        ((pDocDisplay)((pNeuronIDE)DockPanel.Parent).ActiveDocument).pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.Linking_Paused;
 
-                if (rRemove.Checked)
-                    ((pDocDisplay)((pNeuronIDE)DockPanel.Parent).ActiveDocument).pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.Remove_Neuron;
+                    if (rNeuron.Checked)
+                        ((pDocDisplay)((pNeuronIDE)DockPanel.Parent).ActiveDocument).pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.Add_Neuron;
+
+                    if (rRemove.Checked)
+                        ((pDocDisplay)((pNeuronIDE)DockPanel.Parent).ActiveDocument).pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.Remove_Neuron;
+                }
+
+
             }
-            //((pNeuronIDE)DockPanel.Parent).ActiveDocument.pDisplay1.Focus();// Select();
 
+        }
+
+        public void SetToolSet(pDoc aActiveDocument)
+        {
+            if(aActiveDocument == null)
+            {
+                rCursor.Enabled = true;
+                rCursor.Checked = true;
+
+                rNeuron.Enabled = false;
+                rSynapse.Enabled = false;
+                rRemove.Enabled = false;
+            }
+            else 
+            {
+                rCursor.Enabled = true;
+                rCursor.Checked = true;
+
+                rNeuron.Enabled = true;
+                rSynapse.Enabled = true;
+                rRemove.Enabled = true;
+            }
         }
 
     }

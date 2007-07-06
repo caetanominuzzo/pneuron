@@ -270,22 +270,33 @@ namespace primeira.pNeuron
             get { return m_displayStatus; }
             set
             {
-                pDisplayStatus old = m_displayStatus;
-                m_displayStatus = value;
-                switch (m_displayStatus)
+
+                if (m_displayStatus == value)
+                    return;
+
+                if (m_displayStatus == pDisplayStatus.Training && (value!=pDisplayStatus.Training && value != pDisplayStatus.Idle) )
                 {
-                    case pDisplayStatus.Moving: Cursor = Cursors.SizeAll;
-                        break;
-                    case pDisplayStatus.Linking: Cursor = Cursors.Cross;
-                        break;
-                    case pDisplayStatus.Training: tmTrain.Start();
-                        break;
-                    default: Cursor = Cursors.Default;
-                        tmTrain.Stop();
-                        break;
-                    
+                    pMessage.Error("This operation is not valid at Training Status");
                 }
-                if (old != m_displayStatus && OnDisplayStatusChange != null)
+                else
+                {
+                    m_displayStatus = value;
+
+                    switch (m_displayStatus)
+                    {
+                        case pDisplayStatus.Moving: Cursor = Cursors.SizeAll;
+                            break;
+                        case pDisplayStatus.Linking: Cursor = Cursors.Cross;
+                            break;
+                        case pDisplayStatus.Training: tmTrain.Start();
+                            break;
+                        default: Cursor = Cursors.Default;
+                            tmTrain.Stop();
+                            break;
+
+                    }
+                }
+                if (OnDisplayStatusChange != null)
                     OnDisplayStatusChange();
             }
         }
@@ -1061,6 +1072,8 @@ namespace primeira.pNeuron
         }
 
         #endregion
+
+
     }
 }
 
