@@ -90,9 +90,9 @@ namespace primeira.pNeuron
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(pDocDisplay));
-            this.pDisplay1 = new primeira.pNeuron.pDisplay();
             this.tcDesigner = new System.Windows.Forms.TabControl();
             this.tbDesigner = new System.Windows.Forms.TabPage();
+            this.pDisplay1 = new primeira.pNeuron.pDisplay();
             this.tbTrainingSet = new System.Windows.Forms.TabPage();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
@@ -104,6 +104,31 @@ namespace primeira.pNeuron
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // tcDesigner
+            // 
+            this.tcDesigner.Alignment = System.Windows.Forms.TabAlignment.Bottom;
+            this.tcDesigner.Controls.Add(this.tbDesigner);
+            this.tcDesigner.Controls.Add(this.tbTrainingSet);
+            this.tcDesigner.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tcDesigner.Location = new System.Drawing.Point(0, 0);
+            this.tcDesigner.Margin = new System.Windows.Forms.Padding(0);
+            this.tcDesigner.Name = "tcDesigner";
+            this.tcDesigner.SelectedIndex = 0;
+            this.tcDesigner.Size = new System.Drawing.Size(681, 422);
+            this.tcDesigner.TabIndex = 1;
+            this.tcDesigner.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.tcDesigner_Selecting);
+            // 
+            // tbDesigner
+            // 
+            this.tbDesigner.Controls.Add(this.pDisplay1);
+            this.tbDesigner.Location = new System.Drawing.Point(4, 4);
+            this.tbDesigner.Name = "tbDesigner";
+            this.tbDesigner.Padding = new System.Windows.Forms.Padding(3);
+            this.tbDesigner.Size = new System.Drawing.Size(673, 396);
+            this.tbDesigner.TabIndex = 0;
+            this.tbDesigner.Text = "Network Designer";
+            this.tbDesigner.UseVisualStyleBackColor = true;
             // 
             // pDisplay1
             // 
@@ -134,31 +159,6 @@ namespace primeira.pNeuron
             this.pDisplay1.OnNetworkChange += new primeira.pNeuron.pDisplay.NetworkChangeDelegate(this.pDisplay1_OnNetworkChange);
             this.pDisplay1.OnTreeViewChange += new primeira.pNeuron.pDisplay.TreeViewChangeDelegate(this.pDisplay1_OnTreeViewChange);
             // 
-            // tcDesigner
-            // 
-            this.tcDesigner.Alignment = System.Windows.Forms.TabAlignment.Bottom;
-            this.tcDesigner.Controls.Add(this.tbDesigner);
-            this.tcDesigner.Controls.Add(this.tbTrainingSet);
-            this.tcDesigner.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tcDesigner.Location = new System.Drawing.Point(0, 0);
-            this.tcDesigner.Margin = new System.Windows.Forms.Padding(0);
-            this.tcDesigner.Name = "tcDesigner";
-            this.tcDesigner.SelectedIndex = 0;
-            this.tcDesigner.Size = new System.Drawing.Size(681, 422);
-            this.tcDesigner.TabIndex = 1;
-            this.tcDesigner.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.tcDesigner_Selecting);
-            // 
-            // tbDesigner
-            // 
-            this.tbDesigner.Controls.Add(this.pDisplay1);
-            this.tbDesigner.Location = new System.Drawing.Point(4, 4);
-            this.tbDesigner.Name = "tbDesigner";
-            this.tbDesigner.Padding = new System.Windows.Forms.Padding(3);
-            this.tbDesigner.Size = new System.Drawing.Size(673, 396);
-            this.tbDesigner.TabIndex = 0;
-            this.tbDesigner.Text = "Network Designer";
-            this.tbDesigner.UseVisualStyleBackColor = true;
-            // 
             // tbTrainingSet
             // 
             this.tbTrainingSet.Controls.Add(this.dataGridView1);
@@ -179,10 +179,10 @@ namespace primeira.pNeuron
             this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(3, 28);
+            this.dataGridView1.Location = new System.Drawing.Point(3, 3);
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(0);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(667, 365);
+            this.dataGridView1.Size = new System.Drawing.Size(667, 390);
             this.dataGridView1.TabIndex = 0;
             // 
             // toolStrip1
@@ -195,6 +195,7 @@ namespace primeira.pNeuron
             this.toolStrip1.Size = new System.Drawing.Size(667, 25);
             this.toolStrip1.TabIndex = 5;
             this.toolStrip1.Text = "toolStrip1";
+            this.toolStrip1.Visible = false;
             // 
             // cbTrainingSets
             // 
@@ -475,7 +476,7 @@ namespace primeira.pNeuron
 
         private void pDocument_Activated(object sender, EventArgs e)
         {
-            Parent.ActiveDocument = this;
+            Parent.SetActiveDocument(this);
 
             switch (pDisplay1.DisplayStatus)
             {
@@ -501,21 +502,15 @@ namespace primeira.pNeuron
         {
             if (Modificated)
             {
-                switch (MessageBox.Show("Save changes on " + this.Filename + "?", "Don't you like to save your work?", MessageBoxButtons.YesNoCancel))
+                DialogResult r = pMessage.Confirm("Save changes on " + this.Filename + "?", MessageBoxButtons.YesNoCancel);
+
+                switch (r)
                 {
                     case DialogResult.No:
                         if (DefaultNamedFile)
                         {
-                            Parent.fmDocuments.Remove(this);
-                            foreach (TreeNode n in Parent.fmNetworkExplorer.treeView1.Nodes[this.Filename].Nodes)
-                            {
-                                pDoc p = Parent.GetDocByName(n.Name);
-                                p.QueryOnClose = false;
-                                p.Close();
-                            }
 
-                            Parent.fmNetworkExplorer.RemoveNode(this.Filename);
-
+                            Parent.PreRemoveDocument(this);
                         }
                         return;
                         break;
@@ -529,10 +524,9 @@ namespace primeira.pNeuron
                 }
             }
 
-            
 
-                Parent.fmDocuments.Remove(this);
-                Parent.fmNetworkExplorer.RemoveNode(this.Filename);
+
+            Parent.PreRemoveDocument(this);
   
 
         }
@@ -683,8 +677,8 @@ namespace primeira.pNeuron
                 Save();
 
             OpenFileDialog s = new OpenFileDialog();
-            s.DefaultExt = ".pnu";
-            s.Filter = "Untrained pNeuron Network (*.upn)|*.pnu|Trained pNeuron Network (*.pne)|*.pne|All files (*.*)|*.*";
+            s.DefaultExt = ".pne";
+            s.Filter = "pNeuron Network (*.pne)|*.pne|All files (*.*)|*.*";
             if (s.ShowDialog() == DialogResult.OK)
             {
                 Filename = s.FileName;
@@ -772,7 +766,8 @@ namespace primeira.pNeuron
         {
             if(Modificated)
             {
-                if (MessageBox.Show("You must save the network design before add or edit a training set?", "Network Design", MessageBoxButtons.OKCancel) == DialogResult.OK)
+                DialogResult r = pMessage.Confirm("You must save the network design before add or edit a training set.\nDo you want to save now?", MessageBoxButtons.YesNoCancel);
+                if (r == DialogResult.OK)
                 {
                     Save();
                 }
@@ -784,7 +779,7 @@ namespace primeira.pNeuron
             }
             if (fpTrainingSet.Count == 0)
             {
-                if (MessageBox.Show("Add new training set?", "Training Set", MessageBoxButtons.OKCancel) == DialogResult.OK)
+                if (pMessage.Confirm("Add new training set?", MessageBoxButtons.OKCancel) == DialogResult.OK)
                 {
                     AddTrainingSet();
                 }
@@ -794,6 +789,8 @@ namespace primeira.pNeuron
             {
                 cbTrainingSets.SelectedIndex = 0;
             }
+
+            toolStrip1.Visible = true;
         }
 
         private void tbTrainingSet_Enter(object sender, EventArgs e)
@@ -934,7 +931,7 @@ namespace primeira.pNeuron
 
             this.Invoke(new Assinc(StopTrain));
 
-            MessageBox.Show("Done with " + count.ToString() + " cicles.\nGlobal error: " + dGlobalError.ToString());
+            pMessage.Alert("Done with " + count.ToString() + " cicles.\nGlobal error: " + dGlobalError.ToString());
         }
 
         
