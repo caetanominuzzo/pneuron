@@ -58,6 +58,9 @@
     <Compile Include="pNeuronIDE.Designer.cs">
       <DependentUpon>pNeuronIDE.cs</DependentUpon>
     </Compile>
+    <Compile Include="pPlotter.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="pProperty.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -78,6 +81,10 @@
     <EmbeddedResource Include="pNeuronIDE.resx">
       <SubType>Designer</SubType>
       <DependentUpon>pNeuronIDE.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pPlotter.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>pPlotter.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="pProperty.resx">
       <SubType>Designer</SubType>

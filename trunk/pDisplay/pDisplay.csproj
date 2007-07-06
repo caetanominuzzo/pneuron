@@ -47,6 +47,9 @@
     <Compile Include="pDisplayControls.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="pGraphicPlotter.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="pMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

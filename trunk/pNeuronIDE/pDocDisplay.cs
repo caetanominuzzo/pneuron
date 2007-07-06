@@ -142,6 +142,10 @@ namespace primeira.pNeuron
         private ToolStrip toolStrip1;
         private ToolStripComboBox cbTrainingSets;
         private ToolStripButton btTrain;
+        private ToolStripSeparator toolStripSeparator1;
+        private ToolStripButton btImport;
+        private ToolStripButton btExport;
+        private ToolStripButton Reset;
         private List<pTrainingSet> fpTrainingSet = new List<pTrainingSet>();
 
         public pDocument(string sFileName) : this()
@@ -170,6 +174,10 @@ namespace primeira.pNeuron
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.cbTrainingSets = new System.Windows.Forms.ToolStripComboBox();
             this.btTrain = new System.Windows.Forms.ToolStripButton();
+            this.Reset = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.btImport = new System.Windows.Forms.ToolStripButton();
+            this.btExport = new System.Windows.Forms.ToolStripButton();
             this.tcDesigner.SuspendLayout();
             this.tbDesigner.SuspendLayout();
             this.tbTrainingSet.SuspendLayout();
@@ -261,7 +269,11 @@ namespace primeira.pNeuron
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.cbTrainingSets,
-            this.btTrain});
+            this.btTrain,
+            this.Reset,
+            this.toolStripSeparator1,
+            this.btImport,
+            this.btExport});
             this.toolStrip1.Location = new System.Drawing.Point(3, 3);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(667, 25);
@@ -285,12 +297,44 @@ namespace primeira.pNeuron
             this.btTrain.Text = "Train";
             this.btTrain.Click += new System.EventHandler(this.btTrain_Click);
             // 
-            // pDocDisplay
+            // Reset
+            // 
+            this.Reset.Image = ((System.Drawing.Image)(resources.GetObject("Reset.Image")));
+            this.Reset.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.Reset.Name = "Reset";
+            this.Reset.Size = new System.Drawing.Size(55, 22);
+            this.Reset.Text = "Reset";
+            this.Reset.Click += new System.EventHandler(this.Reset_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // btImport
+            // 
+            this.btImport.Image = ((System.Drawing.Image)(resources.GetObject("btImport.Image")));
+            this.btImport.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btImport.Name = "btImport";
+            this.btImport.Size = new System.Drawing.Size(59, 22);
+            this.btImport.Text = "Import";
+            this.btImport.Click += new System.EventHandler(this.btImport_Click);
+            // 
+            // btExport
+            // 
+            this.btExport.Image = ((System.Drawing.Image)(resources.GetObject("btExport.Image")));
+            this.btExport.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btExport.Name = "btExport";
+            this.btExport.Size = new System.Drawing.Size(59, 22);
+            this.btExport.Text = "Export";
+            this.btExport.Click += new System.EventHandler(this.btExport_Click);
+            // 
+            // pDocument
             // 
             this.ClientSize = new System.Drawing.Size(681, 422);
             this.Controls.Add(this.tcDesigner);
             this.KeyPreview = true;
-            this.Name = "pDocDisplay";
+            this.Name = "pDocument";
             this.TabText = "[NeuralNetwork1]";
             this.Text = "[NeuralNetwork1]";
             this.Activated += new System.EventHandler(this.pDocument_Activated);
@@ -326,6 +370,17 @@ namespace primeira.pNeuron
                 default:
                     Parent.fmToolbox.rCursor.Checked = true;
                     break;
+            }
+
+            if (pDisplay1.DisplayStatus == pDisplay.pDisplayStatus.Training)
+            {
+                Parent.fmPlotter.StartTimer();
+                Parent.fmPlotter.DockState = DockState.DockBottom;
+            }
+            else
+            {
+                Parent.fmPlotter.StopTimer();
+                Parent.fmPlotter.DockState = DockState.DockBottomAutoHide;
             }
 
         }
@@ -839,7 +894,7 @@ namespace primeira.pNeuron
             if(Modificated)
             {
                 DialogResult r = pMessage.Confirm("You must save the network design before add or edit a training set.\nDo you want to save now?", MessageBoxButtons.YesNoCancel);
-                if (r == DialogResult.OK)
+                if (r == DialogResult.Yes)
                 {
                     Save();
                 }
@@ -895,61 +950,72 @@ namespace primeira.pNeuron
 
         private void btTrain_Click(object sender, EventArgs e)
         {
-            DataTable dt = (DataTable)dataGridView1.DataSource;
-
-            double[][] input = new double[dt.Rows.Count][];
-
-            double[][] output = new double[dt.Rows.Count][];
-
-            int iPerceptionNeuronCount = 0;
-            foreach(pPanel p in pDisplay1.pPanels)
+            if (btTrain.Text == "Train")
             {
-                if( ((Neuron)p.Tag).NeuronType == NeuronTypes.Perception)
-                    iPerceptionNeuronCount ++;
-            }
+                btTrain.Text = "Stop Training";
 
 
-            int iXPosition = 0;
-            foreach(DataRow r in dt.Rows)
-            {
+                DataTable dt = (DataTable)dataGridView1.DataSource;
 
-                int iYPosition = 0;
-                double[] dIn = new double[iPerceptionNeuronCount];
-                foreach(DataColumn c in dt.Columns)
+                double[][] input = new double[dt.Rows.Count][];
+
+                double[][] output = new double[dt.Rows.Count][];
+
+                int iPerceptionNeuronCount = 0;
+                foreach (pPanel p in pDisplay1.pPanels)
                 {
-                    if (iYPosition >= iPerceptionNeuronCount)
-                        continue;
-                    dIn[iYPosition++] = Convert.ToDouble(r[c]);
+                    if (((Neuron)p.Tag).NeuronType == NeuronTypes.Perception)
+                        iPerceptionNeuronCount++;
                 }
 
-                input[iXPosition++] = dIn;
 
-            }
-
-            iXPosition = 0;
-            foreach (DataRow r in dt.Rows)
-            {
-
-                int iYPosition = 0;
-                double[] dOut = new double[dt.Columns.Count - iPerceptionNeuronCount];
-                foreach (DataColumn c in dt.Columns)
+                int iXPosition = 0;
+                foreach (DataRow r in dt.Rows)
                 {
-                    if (iYPosition < iPerceptionNeuronCount)
+
+                    int iYPosition = 0;
+                    double[] dIn = new double[iPerceptionNeuronCount];
+                    foreach (DataColumn c in dt.Columns)
                     {
-                        iYPosition++;
-                        continue;
+                        if (iYPosition >= iPerceptionNeuronCount)
+                            continue;
+                        dIn[iYPosition++] = Convert.ToDouble(r[c]);
                     }
-                    dOut[iPerceptionNeuronCount - iYPosition++] = Convert.ToDouble(r[c]);
+
+                    input[iXPosition++] = dIn;
+
                 }
 
-                output[iXPosition++] = dOut;
+                iXPosition = 0;
+                foreach (DataRow r in dt.Rows)
+                {
+
+                    int iYPosition = 0;
+                    double[] dOut = new double[dt.Columns.Count - iPerceptionNeuronCount];
+                    foreach (DataColumn c in dt.Columns)
+                    {
+                        if (iYPosition < iPerceptionNeuronCount)
+                        {
+                            iYPosition++;
+                            continue;
+                        }
+                        dOut[iPerceptionNeuronCount - iYPosition++] = Convert.ToDouble(r[c]);
+                    }
+
+                    output[iXPosition++] = dOut;
+
+                }
+
+                NeuralNet net = pDisplay1.Net;
+
+                ThreadStart starter2 = delegate { internalTrain(ref net, input, output); };
+                new Thread(starter2).Start();
+            }
+            else
+            {
+                btTrain.Text = "Train";
 
             }
-
-            NeuralNet net = pDisplay1.Net;
-
-            ThreadStart starter2 = delegate {  internalTrain(ref net, input, output);  };
-            new Thread(starter2).Start();
 
             
 
@@ -966,6 +1032,7 @@ namespace primeira.pNeuron
         public void StopTrain()
         {
             pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.Idle;
+            btTrain.Text = "Train";
         }
 
 
@@ -985,7 +1052,11 @@ namespace primeira.pNeuron
 
             while (dGlobalError < -.0000001 || dGlobalError > .0000001)
             {
-
+                if(btTrain.Text == "Train")
+                {
+                    this.Invoke(new Assinc(StopTrain));
+                    return;
+                }
                 count++;
 
 
@@ -1004,6 +1075,42 @@ namespace primeira.pNeuron
             this.Invoke(new Assinc(StopTrain));
 
             pMessage.Alert("Done with " + count.ToString() + " cicles.\nGlobal error: " + dGlobalError.ToString());
+        }
+
+        private void btImport_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog s = new OpenFileDialog();
+            s.DefaultExt = ".xml";
+            s.Filter = "pNeuron Network Training Set (*.xml)|*.xml|All files (*.*)|*.*";
+            if (s.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    ((DataTable)dataGridView1.DataSource).ReadXml(s.FileName);
+                }
+                catch
+                {
+                    pMessage.Error("Invalid or corrupt file.");
+                }
+            }
+        }
+
+        private void btExport_Click(object sender, EventArgs e)
+        {
+            
+                SaveFileDialog s = new SaveFileDialog();
+                s.DefaultExt = ".xml";
+                s.FileName = ".xml";
+                s.Filter = "pNeuron Network Training Set (*.xml)|*.xml|All files (*.*)|*.*";
+                if (s.ShowDialog() == DialogResult.OK)
+                {
+                    ((DataTable)dataGridView1.DataSource).WriteXml(s.FileName);
+                }
+        }
+
+        private void Reset_Click(object sender, EventArgs e)
+        {
+            pDisplay1.Net.ResetLearning();
         }
 
         
