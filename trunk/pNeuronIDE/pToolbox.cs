@@ -105,17 +105,18 @@ namespace primeira.pNeuron
 
         private void rCursor_CheckedChanged(object sender, EventArgs e)
         {
-            if (sender == rCursor)
+            if (sender == rCursor && rCursor.Checked)
+            {
+                if((((pNeuronIDE)DockPanel.Parent).ActiveDocumentExists()))
+                    ((pDocument)((pNeuronIDE)DockPanel.Parent).ActiveDocument).pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.Idle;
                 return;
+            }
 
             if (((RadioButton)sender).Checked) //To pass here just one time.
             {
 
                 if (((pNeuronIDE)DockPanel.Parent).ActiveDocument != null)
                 {
-                    if (rCursor.Checked)
-                        ((pDocument)((pNeuronIDE)DockPanel.Parent).ActiveDocument).pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.Idle;
-
                     if (rSynapse.Checked)
                         ((pDocument)((pNeuronIDE)DockPanel.Parent).ActiveDocument).pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.Linking_Paused;
 

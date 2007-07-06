@@ -83,11 +83,6 @@ namespace primeira.pNeuron
         /// </summary>
         private Graphics m_graphics;
 
-        /// <summary>
-        /// Refresh display at Training status.
-        /// </summary>
-        private Timer tmTrain;
-
         #endregion
 
         #region Enviroment options
@@ -205,16 +200,7 @@ namespace primeira.pNeuron
         private void InitializeComponent()
         {
             m_net = new NeuralNet();
-            tmTrain = new Timer();
 
-            tmTrain.Tick += new EventHandler(tmTrain_Tick);
-            tmTrain.Interval = 1000;
-
-        }
-
-        void tmTrain_Tick(object sender, EventArgs e)
-        {
-            Refresh();
         }
 
         #endregion
@@ -271,10 +257,10 @@ namespace primeira.pNeuron
             set
             {
 
-                if (m_displayStatus == value)
-                    return;
+//                if (m_displayStatus == value)
+//                    return;
 
-                if (m_displayStatus == pDisplayStatus.Training && (value!=pDisplayStatus.Training && value != pDisplayStatus.Idle) )
+                if (m_displayStatus == pDisplayStatus.Training && (value != pDisplayStatus.Training && value != pDisplayStatus.Idle) && m_displayStatus != value)
                 {
                     pMessage.Error("This operation is not valid at Training Status");
                 }
@@ -288,10 +274,7 @@ namespace primeira.pNeuron
                             break;
                         case pDisplayStatus.Linking: Cursor = Cursors.Cross;
                             break;
-                        case pDisplayStatus.Training: tmTrain.Start();
-                            break;
                         default: Cursor = Cursors.Default;
-                            tmTrain.Stop();
                             break;
 
                     }
@@ -813,8 +796,8 @@ namespace primeira.pNeuron
 
             if(DisplayStatus == pDisplayStatus.Training)
             {
-                e.Graphics.DrawString(m_net.GlobalError.ToString(), SystemFonts.DefaultFont, new SolidBrush(Color.Black), new Point(10, 10));
-                
+                e.Graphics.DrawString(m_net.GlobalError.ToString("#00.00000000"), SystemFonts.DefaultFont, new SolidBrush(Color.Black), new Point(10, 10));
+              //  return;
             }
 
 

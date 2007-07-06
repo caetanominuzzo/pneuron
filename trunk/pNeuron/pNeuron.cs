@@ -88,6 +88,11 @@ namespace primeira.pNeuron.Core
             m_lastDelta = m_delta = 0;
         }
 
+        public void ResetValue()
+        {
+            this.Weight = new Random().NextDouble();
+        }
+
         #endregion
     }
 
@@ -304,6 +309,12 @@ namespace primeira.pNeuron.Core
                 m.Value.ResetWeightChange();
 
             m_bias.ResetWeightChange();
+        }
+
+        public void ResetLearning()
+        {
+            foreach (KeyValuePair<INeuron, NeuralFactor> m in m_input)
+                m.Value.ResetValue();
         }
 
         public double LastError
@@ -579,6 +590,17 @@ namespace primeira.pNeuron.Core
                 {
                     if (n.NeuronType != NeuronTypes.Perception)
                         n.InitializeLearning();
+                }
+            }
+        }
+
+        public void ResetLearning()
+        {
+            lock (this)
+            {
+                foreach (Neuron n in this.Neuron)
+                {
+                    n.ResetLearning();
                 }
             }
         }
