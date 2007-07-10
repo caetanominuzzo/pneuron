@@ -70,12 +70,14 @@ namespace primeira.pNeuron
         public void PreRemoveDocument(pDocument aRemoveDocument)
         {
             fmDocuments.Remove(aRemoveDocument);
-            foreach (TreeNode n in fmNetworkExplorer.treeView1.Nodes[aRemoveDocument.Filename].Nodes)
-            {
-                pDocument p = GetDocByName(n.Name);
-                p.QueryOnClose = false;
-                p.Close();
-            }
+            if(fmNetworkExplorer.treeView1.Nodes!=null)
+                if(fmNetworkExplorer.treeView1.Nodes[aRemoveDocument.Filename]!=null)
+                    foreach (TreeNode n in fmNetworkExplorer.treeView1.Nodes[aRemoveDocument.Filename].Nodes)
+                    {
+                        pDocument p = GetDocByName(n.Name);
+                        p.QueryOnClose = false;
+                        p.Close();
+                    }
 
             fmNetworkExplorer.RemoveNode(aRemoveDocument.Filename);
 
