@@ -61,6 +61,11 @@ namespace primeira.pNeuron
             tmRefresh.Stop();
         }
 
+        public void ClearData()
+        {
+            pPlot.ClearData();
+        }
+
         private void tmRefresh_Tick(object sender, EventArgs e)
         {
             pPlot.AddData(Parent.ActiveDocument.pDisplay1.Net.GlobalError);
