@@ -21,6 +21,7 @@ namespace primeira.pNeuron
         public pGraphicPlotter()
         {
             fData = new List<double>(100);
+            DoubleBuffered = true;
         }
 
 
@@ -55,11 +56,24 @@ namespace primeira.pNeuron
             Refresh();
         }
 
+        public void ClearData()
+        {
+            fData.Clear();
+
+            fZoom = 1;
+
+            fMaxValue = double.NegativeInfinity;
+            fMinValue = double.PositiveInfinity;
+        }
+
         protected override void OnPaint(PaintEventArgs e)
         {
+
             e.Graphics.Clear(Color.White);
 
             DrawLines(e.Graphics);
+
+            e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
 
             double dMaxY = Height / 2;
             double dMaxX = Width;
@@ -90,14 +104,24 @@ namespace primeira.pNeuron
         {
             if (double.IsInfinity(fMaxValue))
                 return;
-            for(int i= 0; i<Height;i+=10 )
+            if(fMaxValue == 0)
+                return;
+
+            
+
+            for(int i= 0; i<100;i+=10 )
             {
-                g.DrawLine(new Pen(Color.Gray),
+                g.DrawLine(new Pen(Color.LightGray),
                         new Point(0,
-                            Convert.ToInt32(i * fMaxValue * fZoom / 100)),
+                            Convert.ToInt32(i * Height / 100)),
+
                         new Point(Width,
-                            Convert.ToInt32(i * fMaxValue * fZoom / 100)));
+                            Convert.ToInt32(i * Height / 100)));
+
             }
+
+            g.DrawString("0", SystemFonts.DefaultFont, new SolidBrush(Color.Black), new Point(10, (Height / 2) - 12));
+            g.DrawString("0", SystemFonts.DefaultFont, new SolidBrush(Color.Black), new Point(Width - 20, (Height / 2) - 12));
         }
     }
 }

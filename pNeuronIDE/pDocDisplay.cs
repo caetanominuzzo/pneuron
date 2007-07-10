@@ -148,6 +148,8 @@ namespace primeira.pNeuron
         private ToolStripButton Reset;
         private List<pTrainingSet> fpTrainingSet = new List<pTrainingSet>();
 
+        private const int INNER_TRAINING_TIMES = 100;
+
         public pDocument(string sFileName) : this()
         {
             Filename = sFileName;
@@ -259,10 +261,10 @@ namespace primeira.pNeuron
             this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(3, 3);
+            this.dataGridView1.Location = new System.Drawing.Point(3, 28);
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(0);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(667, 390);
+            this.dataGridView1.Size = new System.Drawing.Size(667, 365);
             this.dataGridView1.TabIndex = 0;
             // 
             // toolStrip1
@@ -293,8 +295,8 @@ namespace primeira.pNeuron
             this.btTrain.Image = ((System.Drawing.Image)(resources.GetObject("btTrain.Image")));
             this.btTrain.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btTrain.Name = "btTrain";
-            this.btTrain.Size = new System.Drawing.Size(51, 22);
-            this.btTrain.Text = "Train";
+            this.btTrain.Size = new System.Drawing.Size(92, 22);
+            this.btTrain.Text = "Start Training";
             this.btTrain.Click += new System.EventHandler(this.btTrain_Click);
             // 
             // Reset
@@ -302,8 +304,8 @@ namespace primeira.pNeuron
             this.Reset.Image = ((System.Drawing.Image)(resources.GetObject("Reset.Image")));
             this.Reset.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.Reset.Name = "Reset";
-            this.Reset.Size = new System.Drawing.Size(55, 22);
-            this.Reset.Text = "Reset";
+            this.Reset.Size = new System.Drawing.Size(82, 22);
+            this.Reset.Text = "Reset Train";
             this.Reset.Click += new System.EventHandler(this.Reset_Click);
             // 
             // toolStripSeparator1
@@ -835,8 +837,8 @@ namespace primeira.pNeuron
                 p.Location = new Point( Convert.ToInt32(r["LocationX"]), Convert.ToInt32(r["LocationY"]) );
                 pDisplay1.Add(p, Convert.ToInt32(r["Group"]));
 
-                ((Neuron)p.Tag).Bias.Weight = Convert.ToDouble(r["Bias"]);
-                ((Neuron)p.Tag).Value = Convert.ToDouble(r["Value"]);
+                ((Neuron)p.Tag).Bias.Weight = Convert.ToDouble(r["Bias"], System.Globalization.CultureInfo.InvariantCulture);
+                ((Neuron)p.Tag).Value = Convert.ToDouble(r["Value"], System.Globalization.CultureInfo.InvariantCulture);
                 ((Neuron)p.Tag).NeuronType = (NeuronTypes)Convert.ToInt16(r["NeuronType"]);
 
             }
@@ -853,7 +855,7 @@ namespace primeira.pNeuron
                             if (r["NeuronIn"].ToString() == pp.Name)
                             {
                                 p.Output.Add((Neuron)pp.Tag);
-                                pp.Input.Add((Neuron)p.Tag, new NeuralFactor( Convert.ToDouble(r["Value"]) ));
+                                pp.Input.Add((Neuron)p.Tag, new NeuralFactor(Convert.ToDouble(r["Value"], System.Globalization.CultureInfo.InvariantCulture)));
                                 break;
                             }
                         }
@@ -950,7 +952,7 @@ namespace primeira.pNeuron
 
         private void btTrain_Click(object sender, EventArgs e)
         {
-            if (btTrain.Text == "Train")
+            if (Parent.ActiveDocument.pDisplay1.DisplayStatus != pDisplay.pDisplayStatus.Training)
             {
                 btTrain.Text = "Stop Training";
 
@@ -999,7 +1001,8 @@ namespace primeira.pNeuron
                             iYPosition++;
                             continue;
                         }
-                        dOut[iPerceptionNeuronCount - iYPosition++] = Convert.ToDouble(r[c]);
+                        dOut[iYPosition - iPerceptionNeuronCount] = Convert.ToDouble(r[c]);
+                        iYPosition++;
                     }
 
                     output[iXPosition++] = dOut;
@@ -1013,7 +1016,7 @@ namespace primeira.pNeuron
             }
             else
             {
-                btTrain.Text = "Train";
+                Parent.ActiveDocument.pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.Idle;
 
             }
 
@@ -1022,17 +1025,54 @@ namespace primeira.pNeuron
 
         }
 
+        delegate void AssincP(int aCount, double aGlobalError);
         delegate void Assinc();
 
         public void StartTrain()
         {
             pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.Training;
+            Parent.statusCicles.Visible = true;
+            Parent.statusGlobalError.Visible = true;
         }
 
         public void StopTrain()
         {
             pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.Idle;
-            btTrain.Text = "Train";
+            Parent.statusCicles.Visible = false;
+            btTrain.Text = "Start Training";
+            Parent.statusCicles.Tag = null;
+        }
+
+        public struct t_dates
+        {
+            public DateTime First;
+        }
+
+        public void RefreshCiclesSec(int aCount, double aGlobalError)
+        {
+            int aCicles = aCount;
+            t_dates t;
+            if (Parent.statusCicles.Tag == null)
+            {
+                t = new t_dates();
+                t.First = DateTime.Now;
+                Parent.statusCicles.Tag = t;
+                return;
+            }
+            
+            t = ((t_dates)Parent.statusCicles.Tag);
+
+
+
+
+            TimeSpan m =  DateTime.Now.Subtract(t.First);
+            int iFirst = m.Seconds;
+
+            double vFirst = ((double)(aCicles)) / iFirst;
+
+            Parent.statusCicles.Text = "Cicles/Sec.: "+vFirst.ToString("#0000");
+            Parent.statusGlobalError.Text = "Global Error: " + aGlobalError.ToString("#0.0000000");
+
         }
 
 
@@ -1050,9 +1090,10 @@ namespace primeira.pNeuron
             double dGlobalError = 1;
             double dTotalError = 1;
 
+
             while (dGlobalError < -.0000001 || dGlobalError > .0000001)
             {
-                if(btTrain.Text == "Train")
+                if(Parent.ActiveDocument.pDisplay1.DisplayStatus != pDisplay.pDisplayStatus.Training)
                 {
                     this.Invoke(new Assinc(StopTrain));
                     return;
@@ -1060,7 +1101,10 @@ namespace primeira.pNeuron
                 count++;
 
 
-                net.Train(input, output, TrainingType.BackPropogation, 100);
+                net.Train(input, output, TrainingType.BackPropogation, INNER_TRAINING_TIMES);
+
+                if(count % INNER_TRAINING_TIMES == 0)
+                    this.Invoke(new AssincP(RefreshCiclesSec), new object[] { count*INNER_TRAINING_TIMES, dGlobalError });
 
                 dTotalError = 0;
                 foreach (Neuron n in net.Neuron)
@@ -1111,6 +1155,7 @@ namespace primeira.pNeuron
         private void Reset_Click(object sender, EventArgs e)
         {
             pDisplay1.Net.ResetLearning();
+            Parent.fmPlotter.ClearData();
         }
 
         

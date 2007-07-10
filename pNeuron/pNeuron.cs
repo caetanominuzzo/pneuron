@@ -90,7 +90,7 @@ namespace primeira.pNeuron.Core
 
         public void ResetValue()
         {
-            this.Weight = new Random().NextDouble();
+            this.Weight = new Random(1).NextDouble();
         }
 
         #endregion
@@ -574,8 +574,6 @@ namespace primeira.pNeuron.Core
             {
                 foreach (Neuron n in this.Neuron)
                 {
-                    //Dont need to be sorted
-                    //if (n.NeuronType == NeuronTypes.Output)
                     if(n.NeuronType != NeuronTypes.Perception)
                         n.ApplyLearning(LearningRate);
                 }
