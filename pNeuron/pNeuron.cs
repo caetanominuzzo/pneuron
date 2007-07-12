@@ -603,34 +603,27 @@ namespace primeira.pNeuron.Core
             }
         }
 
-        public void Train(double[][] inputs, double[][] expected, TrainingType type, int iterations)
+        public void Train(double[][] inputs, double[][] expected, int iterations)
         {
             int i, j;
 
-            switch (type)
+            lock (this)
             {
-                case TrainingType.BackPropogation:
 
-                    lock (this)
-                    {
+                for (i = 0; i < iterations; i++)
+                {
 
-                        for (i = 0; i < iterations; i++)
-                        {
+                    // set all weight changes to zero
+                    InitializeLearning();
 
-                             // set all weight changes to zero
-                            InitializeLearning();
+                    for (j = 0; j < inputs.Length; j++)
+                        BackPropogation_TrainingSession(this, inputs[j], expected[j]);
 
-                            for (j = 0; j < inputs.Length; j++)
-                                BackPropogation_TrainingSession(this, inputs[j], expected[j]);
+                    ApplyLearning(); // apply batch of cumulative weight changes
+                }
 
-                            ApplyLearning(); // apply batch of cumulative weight changes
-                        }
-
-                    }
-                    break;
-                default:
-                    throw new ArgumentException("Unexpected TrainingType");
             }
+           
         }
 
         #endregion

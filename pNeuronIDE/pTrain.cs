@@ -71,7 +71,7 @@ namespace primeira.pNeuron
                 count++;
 
 
-                net.Train(input, output, TrainingType.BackPropogation, 1);
+                net.Train(input, output, 1);
 
                 dTotalError = 0;
                 foreach (Neuron n in net.Neuron)
@@ -206,7 +206,7 @@ namespace primeira.pNeuron
 
 
 
-                net.Train(input, output, TrainingType.BackPropogation, 100);
+                net.Train(input, output, 100);
 
                 // net.ApplyLearning();
 

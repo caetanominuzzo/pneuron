@@ -1031,16 +1031,16 @@ namespace primeira.pNeuron
         public void StartTrain()
         {
             pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.Training;
-            Parent.statusCicles.Visible = true;
+            Parent.statusCycles.Visible = true;
             Parent.statusGlobalError.Visible = true;
         }
 
         public void StopTrain()
         {
             pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.Idle;
-            Parent.statusCicles.Visible = false;
+            Parent.statusCycles.Visible = false;
             btTrain.Text = "Start Training";
-            Parent.statusCicles.Tag = null;
+            Parent.statusCycles.Tag = null;
         }
 
         public struct t_dates
@@ -1048,19 +1048,19 @@ namespace primeira.pNeuron
             public DateTime First;
         }
 
-        public void RefreshCiclesSec(int aCount, double aGlobalError)
+        public void RefreshCyclesSec(int aCount, double aGlobalError)
         {
-            int aCicles = aCount;
+            int aCycles = aCount;
             t_dates t;
-            if (Parent.statusCicles.Tag == null)
+            if (Parent.statusCycles.Tag == null)
             {
                 t = new t_dates();
                 t.First = DateTime.Now;
-                Parent.statusCicles.Tag = t;
+                Parent.statusCycles.Tag = t;
                 return;
             }
             
-            t = ((t_dates)Parent.statusCicles.Tag);
+            t = ((t_dates)Parent.statusCycles.Tag);
 
 
 
@@ -1068,9 +1068,9 @@ namespace primeira.pNeuron
             TimeSpan m =  DateTime.Now.Subtract(t.First);
             int iFirst = m.Seconds;
 
-            double vFirst = ((double)(aCicles)) / iFirst;
+            double vFirst = ((double)(aCycles)) / iFirst;
 
-            Parent.statusCicles.Text = "Cicles/Sec.: "+vFirst.ToString("#0000");
+            Parent.statusCycles.Text = "Cycles/Sec.: "+vFirst.ToString("#00000");
             Parent.statusGlobalError.Text = "Global Error: " + aGlobalError.ToString("#0.0000000");
 
         }
@@ -1101,10 +1101,10 @@ namespace primeira.pNeuron
                 count++;
 
 
-                net.Train(input, output, TrainingType.BackPropogation, INNER_TRAINING_TIMES);
+                net.Train(input, output, INNER_TRAINING_TIMES);
 
                 if(count % INNER_TRAINING_TIMES == 0)
-                    this.Invoke(new AssincP(RefreshCiclesSec), new object[] { count*INNER_TRAINING_TIMES, dGlobalError });
+                    this.Invoke(new AssincP(RefreshCyclesSec), new object[] { count*INNER_TRAINING_TIMES, dGlobalError });
 
                 dTotalError = 0;
                 foreach (Neuron n in net.Neuron)
@@ -1118,7 +1118,6 @@ namespace primeira.pNeuron
 
             this.Invoke(new Assinc(StopTrain));
 
-            pMessage.Alert("Done with " + count.ToString() + " cicles.\nGlobal error: " + dGlobalError.ToString());
         }
 
         private void btImport_Click(object sender, EventArgs e)
