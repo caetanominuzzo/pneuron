@@ -16,7 +16,7 @@ namespace primeira.pNeuron
         public pProperty fmProperty = new pProperty();
         public pToolbox fmToolbox = new pToolbox();
         public pGroupExplorer fmGroupExplorer = new pGroupExplorer();
-        public pNetworkExplorer fmNetworkExplorer = new pNetworkExplorer();
+        //DEPRECATEDpublic pNetworkExplorer fmNetworkExplorer = new pNetworkExplorer();
         public pPlotter fmPlotter = new pPlotter();
 
 
@@ -70,16 +70,19 @@ namespace primeira.pNeuron
         public void PreRemoveDocument(pDocument aRemoveDocument)
         {
             fmDocuments.Remove(aRemoveDocument);
-            if(fmNetworkExplorer.treeView1.Nodes!=null)
-                if(fmNetworkExplorer.treeView1.Nodes[aRemoveDocument.Filename]!=null)
-                    foreach (TreeNode n in fmNetworkExplorer.treeView1.Nodes[aRemoveDocument.Filename].Nodes)
-                    {
-                        pDocument p = GetDocByName(n.Name);
-                        p.QueryOnClose = false;
-                        p.Close();
-                    }
+            fmGroupExplorer.treeView1.Clear();
 
-            fmNetworkExplorer.RemoveNode(aRemoveDocument.Filename);
+            //DEPRECATED
+            //if(fmNetworkExplorer.treeView1.Nodes!=null)
+            //    if(fmNetworkExplorer.treeView1.Nodes[aRemoveDocument.Filename]!=null)
+            //        foreach (TreeNode n in fmNetworkExplorer.treeView1.Nodes[aRemoveDocument.Filename].Nodes)
+            //        {
+            //            pDocument p = GetDocByName(n.Name);
+            //            p.QueryOnClose = false;
+            //            p.Close();
+            //        }
+
+            //fmNetworkExplorer.RemoveNode(aRemoveDocument.Filename);
 
             if (fmDocuments.Count > 0)
             {
@@ -101,8 +104,8 @@ namespace primeira.pNeuron
 
             fmGroupExplorer.Show(dockPanel, DockState.DockRight);
 
-            fmNetworkExplorer.Show(dockPanel, DockState.DockRight);
-            fmNetworkExplorer.DockTo(fmGroupExplorer.Pane, DockStyle.Fill, 0);
+            //DEPRECATEDfmNetworkExplorer.Show(dockPanel, DockState.DockRight);
+            //DEPRECATEDfmNetworkExplorer.DockTo(fmGroupExplorer.Pane, DockStyle.Fill, 0);
 
 
             fmProperty.Show(dockPanel, DockState.DockRight);
@@ -212,7 +215,7 @@ namespace primeira.pNeuron
             ActiveDocument = fmDocuments[fmDocuments.Count - 1];
             ((pDocument)ActiveDocument).Show(dockPanel, DockState.Document);
             ((pDocument)ActiveDocument).Modificated = true;
-            fmNetworkExplorer.AddNode(((pDocument)ActiveDocument).Filename);
+            //DEPRECATEDfmNetworkExplorer.AddNode(((pDocument)ActiveDocument).Filename);
         }
 
         public void OpenNetwork()
@@ -225,6 +228,7 @@ namespace primeira.pNeuron
             ActiveDocument = fmDocuments[fmDocuments.Count - 1];
             ((pDocument)ActiveDocument).Show(dockPanel, DockState.Document);
             ((pDocument)ActiveDocument).Modificated = false;
+            //DEPRECATEDfmNetworkExplorer.AddNode(((pDocument)ActiveDocument).Filename);
         }
         
         public void SaveNetwork()

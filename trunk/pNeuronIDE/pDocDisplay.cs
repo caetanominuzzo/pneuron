@@ -67,10 +67,11 @@ namespace primeira.pNeuron
             get { return m_filename; }
             set
             {
-                if (Parent != null)
-                {
-                    Parent.fmNetworkExplorer.RenameNode(m_filename, value);
-                }
+                //DEPRECATED
+                //if (Parent != null)
+                //{
+                //    Parent.fmNetworkExplorer.RenameNode(m_filename, value);
+                //}
                 m_filename = value;
                 this.TabText = value;
             }
@@ -540,67 +541,12 @@ namespace primeira.pNeuron
             }
             else if (mode == pTreeviewRefresh.pFullRefreh)
             {
-                Parent.fmGroupExplorer.treeView1.Focus();
+                foreach (pPanel p in pDisplay1.pPanels)
+                {
+                    pDisplay1_OnTreeViewChange(p, pTreeviewRefresh.pPanelAdd);
+                }
             }
-            return;
-            /*
-            int i = 0;
-            int j = 0;
-
-            //            ((pNeuonIDE)DockPanel.Parent).treeview.treeView1.Items.Clear();
-
-            List<int> lToDelete = new List<int>();
-
-            foreach (List<pPanel> l in pDisplay1.Groups())
-            {
-
-                lToDelete.Clear();
-
-                foreach (ListViewItem lv in Parent.treeview.treeView1.Groups[i].Items)
-                {
-
-                    if(!pDisplay1.pPanels.Contains( ((pPanel)lv.Tag)))
-                    {
-                        lToDelete.Add(lv.Index);
-                    } else
-
-                    if (!((pPanel)lv.Tag).Groups.Contains(i) && (i != 0))
-                    {
-                        lToDelete.Add(lv.Index);
-                    }
-                }
-
-                lToDelete.Sort();
-
-                int y = 0;
-                foreach (int lv in lToDelete)
-                {
-                    Parent.treeview.treeView1.Groups[i].Items.RemoveAt(lv - y);
-                    y++;
-                }
-
-                foreach (pPanel p in l)
-                {
-                    if (
-                        !Parent.treeview.Contains(
-                            Parent.treeview.treeView1.Groups[i],
-                            p))
-                    {
-                        ListViewItem lvi = new ListViewItem(p.Name, (Parent.treeview.treeView1.Groups[i]));
-
-                        Parent.treeview.treeView1.Items.Add(lvi);
-
-                        int k = Parent.treeview.treeView1.Groups[i].Items.Count - 1;
-
-                        Parent.treeview.treeView1.Groups[i].Items[k].Tag = p;
-                    }
-
-                    j++;
-                }
-
-                i++;
-            }
-             * */
+        
         }
 
         private void pDocument_Activated(object sender, EventArgs e)
@@ -623,6 +569,8 @@ namespace primeira.pNeuron
             }
 
             Parent.fmGroupExplorer.treeView1.Items.Clear();
+
+            pDisplay1_OnTreeViewChange(null, pTreeviewRefresh.pFullRefreh);
 
 
         }
@@ -680,6 +628,7 @@ namespace primeira.pNeuron
             cbTrainingSets.Items.Add(fm.Name);
             cbTrainingSets.SelectedIndex = cbTrainingSets.Items.Count - 1;
 
+            //DEPRECATEDParent.fmNetworkExplorer.AddNode(fm.Name, ((pDocument)Parent.ActiveDocument).Filename);
         }
 
         #region Save/Load
@@ -1031,16 +980,16 @@ namespace primeira.pNeuron
         public void StartTrain()
         {
             pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.Training;
-            Parent.statusCycles.Visible = true;
+            Parent.statusCicles.Visible = true;
             Parent.statusGlobalError.Visible = true;
         }
 
         public void StopTrain()
         {
             pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.Idle;
-            Parent.statusCycles.Visible = false;
+            Parent.statusCicles.Visible = false;
             btTrain.Text = "Start Training";
-            Parent.statusCycles.Tag = null;
+            Parent.statusCicles.Tag = null;
         }
 
         public struct t_dates
@@ -1048,19 +997,19 @@ namespace primeira.pNeuron
             public DateTime First;
         }
 
-        public void RefreshCyclesSec(int aCount, double aGlobalError)
+        public void RefreshCiclesSec(int aCount, double aGlobalError)
         {
-            int aCycles = aCount;
+            int aCicles = aCount;
             t_dates t;
-            if (Parent.statusCycles.Tag == null)
+            if (Parent.statusCicles.Tag == null)
             {
                 t = new t_dates();
                 t.First = DateTime.Now;
-                Parent.statusCycles.Tag = t;
+                Parent.statusCicles.Tag = t;
                 return;
             }
             
-            t = ((t_dates)Parent.statusCycles.Tag);
+            t = ((t_dates)Parent.statusCicles.Tag);
 
 
 
@@ -1068,9 +1017,9 @@ namespace primeira.pNeuron
             TimeSpan m =  DateTime.Now.Subtract(t.First);
             int iFirst = m.Seconds;
 
-            double vFirst = ((double)(aCycles)) / iFirst;
+            double vFirst = ((double)(aCicles)) / iFirst;
 
-            Parent.statusCycles.Text = "Cycles/Sec.: "+vFirst.ToString("#00000");
+            Parent.statusCicles.Text = "Cicles/Sec.: "+vFirst.ToString("#0000");
             Parent.statusGlobalError.Text = "Global Error: " + aGlobalError.ToString("#0.0000000");
 
         }
@@ -1083,7 +1032,7 @@ namespace primeira.pNeuron
             int count;
 
             count = 0;
-            net.LearningRate = .5;
+            net.LearningRate = 8;
 
             net.InitializeLearning();
 
@@ -1101,10 +1050,10 @@ namespace primeira.pNeuron
                 count++;
 
 
-                net.Train(input, output, INNER_TRAINING_TIMES);
+                net.Train(input, output, TrainingType.BackPropogation, INNER_TRAINING_TIMES);
 
                 if(count % INNER_TRAINING_TIMES == 0)
-                    this.Invoke(new AssincP(RefreshCyclesSec), new object[] { count*INNER_TRAINING_TIMES, dGlobalError });
+                    this.Invoke(new AssincP(RefreshCiclesSec), new object[] { count*INNER_TRAINING_TIMES, dGlobalError });
 
                 dTotalError = 0;
                 foreach (Neuron n in net.Neuron)
@@ -1118,6 +1067,7 @@ namespace primeira.pNeuron
 
             this.Invoke(new Assinc(StopTrain));
 
+            pMessage.Alert("Done with " + count.ToString() + " cicles.\nGlobal error: " + dGlobalError.ToString());
         }
 
         private void btImport_Click(object sender, EventArgs e)
