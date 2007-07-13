@@ -246,5 +246,17 @@ namespace primeira.pNeuron
             MessageBox.Show(bld.ToString());
         }
 
+        private void button4_Click(object sender, EventArgs e)
+        {
+            net.Neuron[0].Value = Convert.ToDouble(textBox3.Text);
+
+            net.Pulse();
+
+            if(net.Neuron[net.Neuron.Count-2].Value > net.Neuron[net.Neuron.Count-1].Value)
+                MessageBox.Show("Impar");
+            else MessageBox.Show("Par");
+
+        }
+
     }
 }

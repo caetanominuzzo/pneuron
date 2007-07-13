@@ -5,10 +5,7 @@ using System.Threading;
 
 namespace primeira.pNeuron.Core
 {
-    public enum TrainingType
-    {
-        BackPropogation
-    }
+
 
     public class Sinapse
     {
@@ -603,9 +600,42 @@ namespace primeira.pNeuron.Core
             }
         }
 
-        public void Train(double[][] inputs, double[][] expected, int iterations)
+        private class SortCompare : IComparer<int>
+        {
+
+            #region IComparer<int> Members
+
+            public int Compare(int x, int y)
+            {
+                return new Random().Next(1);
+            }
+
+            #endregion
+        }
+
+        public void Train(double[][] inputs, double[][] outputs, int iterations)
         {
             int i, j;
+
+            //Randomize input order
+
+            double[][] sortedInputs = new double[inputs.Length][];
+            double[][] sortedOutputs = new double[outputs.Length][];
+
+            int iAlreadyAdded = 0;
+
+            List<int> lOrder = new List<int>(inputs.Length);
+            for (int k = 0; k < inputs.Length; k++)
+                lOrder.Add(k);
+
+            lOrder.Sort(new SortCompare());
+
+            for (int k = 0; k < inputs.Length; k++)
+            {
+                sortedInputs[k] = inputs[lOrder[k]];
+                sortedOutputs[k] = outputs[lOrder[k]];
+            }
+
 
             lock (this)
             {
@@ -617,13 +647,15 @@ namespace primeira.pNeuron.Core
                     InitializeLearning();
 
                     for (j = 0; j < inputs.Length; j++)
-                        BackPropogation_TrainingSession(this, inputs[j], expected[j]);
+                        BackPropogation_TrainingSession(this, sortedInputs[j], sortedOutputs[j]);
 
                     ApplyLearning(); // apply batch of cumulative weight changes
                 }
 
+
+
             }
-           
+          
         }
 
         #endregion
