@@ -42,6 +42,9 @@ Import Weka files
 
 Export Weka files
 
+throw new Exception("This Training Set are out of date.");
+	tell what changes
+
 Create the Just Started Help
 	1. Design a XOR Problem network
 	2. Import a Training Set
@@ -74,7 +77,7 @@ Of course we don't want to discourage the research use since the amount of data 
 What you can do with the pNeuron IDE
 
 1. Design the layout of a neural network and customize several of their aspects with visual ease-to-use tools.
-2. Maintain training set or import a previous via a XML file or the Weka format.
+2. Maintain training sets or import a previous via a XML file or the Weka format.
 3. Train a neural network applying a training set.
 4. Monitor and debugger the train process.
 5. Analyze with graphical tools the performance of a neural network.

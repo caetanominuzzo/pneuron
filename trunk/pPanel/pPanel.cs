@@ -22,7 +22,7 @@ namespace primeira.pNeuron
 
         private string m_text;
         private Control m_parent;
-        private object m_tag;
+        private Neuron m_neuron;
         private int m_height;
         private int m_width;
         private int m_left;
@@ -80,10 +80,10 @@ namespace primeira.pNeuron
         #region Browsable
 
         [Browsable(true)]
-        public Dictionary<INeuron, NeuralFactor> Input { get { return ((pNeuron.Core.Neuron)Tag).Input; } } 
+        public Dictionary<INeuron, NeuralFactor> Input { get { return Neuron.Input; } } 
 
         [Browsable(true)]
-        public List<Neuron> Output { get { return ((pNeuron.Core.Neuron)Tag).Output; } }
+        public List<Neuron> Output { get { return Neuron.Output; } }
 
         [Browsable(true)]
         public String Name { get { return Text; } set {
@@ -107,9 +107,9 @@ namespace primeira.pNeuron
             get
             {
                 List<double> d = new List<double>();
-                foreach (Neuron n in ((pNeuron.Core.Neuron)Tag).Input.Keys)
+                foreach (Neuron n in Neuron.Input.Keys)
                 {
-                    d.Add(((pNeuron.Core.Neuron)Tag).Input[n].Weight);
+                    d.Add(Neuron.Input[n].Weight);
                 }
 
                 return d.ToArray();
@@ -122,9 +122,9 @@ namespace primeira.pNeuron
             get
             {
                 List<double> d = new List<double>();
-                foreach (Neuron n in ((pNeuron.Core.Neuron)Tag).Output)
+                foreach (Neuron n in Neuron.Output)
                 {
-                    d.Add(n.Input[((pNeuron.Core.Neuron)Tag)].Weight);
+                    d.Add(n.Input[Neuron].Weight);
                 }
 
                 return d.ToArray();
@@ -136,7 +136,7 @@ namespace primeira.pNeuron
         {
             get
             {
-                return ((Neuron)this.Tag).Bias.Weight;
+                return Neuron.Bias.Weight;
             }
         }
       
@@ -145,8 +145,8 @@ namespace primeira.pNeuron
 
         public NeuronTypes NeuronType
         {
-            get { return ((Neuron)Tag).NeuronType; }
-            set { ((Neuron)Tag).NeuronType = value; }
+            get { return Neuron.NeuronType; }
+            set { Neuron.NeuronType = value; }
         }
 
         
@@ -159,10 +159,10 @@ namespace primeira.pNeuron
 
         
 
-        public object Tag
+        public Neuron Neuron
         {
-            get { return m_tag; }
-            set { m_tag = value; }
+            get { return m_neuron; }
+            set { m_neuron = value; }
         }
 
         private Point m_mousePositionOnDown;

@@ -391,10 +391,10 @@ namespace primeira.pNeuron
             p.Width = m_gridDistance;
             p.Height = p.Width;
             p.Parent = this;
-            p.Tag = n;
+            p.Neuron = n;
             m_pPanels.Add(p);
 
-            Net.Neuron.Add(n);
+            Net.AddNeuron(n);
 
             int i = m_pPanels.Count - 1;
             p.Text = i.ToString();
@@ -415,7 +415,7 @@ namespace primeira.pNeuron
         public void Remove(pPanel p)
         {
             m_pPanels.Remove(p);
-            m_net.Neuron.Remove((Neuron)p.Tag);
+            m_net.RemoveNeuron(p.Neuron);
 
             if (OnTreeViewChange != null)
                 OnTreeViewChange(p, pTreeviewRefresh.pPanelRemove);
