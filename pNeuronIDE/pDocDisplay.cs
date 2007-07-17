@@ -107,7 +107,7 @@ namespace primeira.pNeuron
 
                 foreach (pPanel p in fpPanel)
                 {
-                    if( ((Neuron)p.Tag).NeuronType == NeuronTypes.Perception)
+                    if( (p.Neuron).NeuronType == NeuronTypes.Input)
                     {
                         fDataTable.Columns.Add(p.Text, typeof(double));
                     }
@@ -115,7 +115,7 @@ namespace primeira.pNeuron
 
                 foreach (pPanel p in fpPanel)
                 {
-                    if (((Neuron)p.Tag).NeuronType == NeuronTypes.Output)
+                    if ((p.Neuron).NeuronType == NeuronTypes.Output)
                     {
                         fDataTable.Columns.Add(p.Text, typeof(double));
                     }
@@ -177,6 +177,7 @@ namespace primeira.pNeuron
             this.tbDesigner = new System.Windows.Forms.TabPage();
             this.pDisplay1 = new primeira.pNeuron.pDisplay();
             this.tbTrainingSet = new System.Windows.Forms.TabPage();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.cbTrainingSets = new System.Windows.Forms.ToolStripComboBox();
@@ -188,13 +189,12 @@ namespace primeira.pNeuron
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.btImport = new System.Windows.Forms.ToolStripButton();
             this.btExport = new System.Windows.Forms.ToolStripButton();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.tcDesigner.SuspendLayout();
             this.tbDesigner.SuspendLayout();
             this.tbTrainingSet.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.flowLayoutPanel1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // tcDesigner
@@ -266,6 +266,17 @@ namespace primeira.pNeuron
             this.tbTrainingSet.UseVisualStyleBackColor = true;
             this.tbTrainingSet.Enter += new System.EventHandler(this.tbTrainingSet_Enter);
             // 
+            // dataGridView1
+            // 
+            this.dataGridView1.BackgroundColor = System.Drawing.Color.White;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView1.Location = new System.Drawing.Point(3, 28);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(0);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(730, 365);
+            this.dataGridView1.TabIndex = 0;
+            // 
             // flowLayoutPanel1
             // 
             this.flowLayoutPanel1.AutoSize = true;
@@ -292,7 +303,7 @@ namespace primeira.pNeuron
             this.toolStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(551, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(553, 25);
             this.toolStrip1.TabIndex = 6;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -367,17 +378,6 @@ namespace primeira.pNeuron
             this.btExport.Text = "Export";
             this.btExport.Click += new System.EventHandler(this.btExport_Click);
             // 
-            // dataGridView1
-            // 
-            this.dataGridView1.BackgroundColor = System.Drawing.Color.White;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(3, 28);
-            this.dataGridView1.Margin = new System.Windows.Forms.Padding(0);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(730, 365);
-            this.dataGridView1.TabIndex = 0;
-            // 
             // pDocument
             // 
             this.ClientSize = new System.Drawing.Size(744, 422);
@@ -393,11 +393,11 @@ namespace primeira.pNeuron
             this.tbDesigner.ResumeLayout(false);
             this.tbTrainingSet.ResumeLayout(false);
             this.tbTrainingSet.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -746,9 +746,9 @@ namespace primeira.pNeuron
                             p.Location.X,
                             p.Location.Y,
                             p.Groups,
-                            ((Neuron)p.Tag).Bias.Weight,
-                            ((Neuron)p.Tag).Value,
-                            ((Neuron)p.Tag).NeuronType
+                            (p.Neuron).Bias.Weight,
+                            (p.Neuron).Value,
+                            (p.Neuron).NeuronType
                         }
                     );
                
@@ -756,18 +756,18 @@ namespace primeira.pNeuron
 
                 foreach (pPanel pp in pDisplay1.pPanels)
                 {
-                    if (((INeuron)pp.Tag).Input.ContainsKey((INeuron)p.Tag))
+                    if (pp.Neuron.Input.ContainsKey(p.Neuron))
                     {
-                        foreach (INeuron nn in ((INeuron)pp.Tag).Input.Keys)
+                        foreach (INeuron nn in (pp.Neuron).Input.Keys)
                         {
 
-                            if (nn == ((INeuron)p.Tag))
+                            if (nn == (p.Neuron))
                             {
                                 
                                     tSynapse.Rows.Add(new object[]{
                                                         p.Name,
                                                         pp.Name,
-                                                        ((INeuron)pp.Tag).Input[nn].Weight });
+                                                        (pp.Neuron).Input[nn].Weight });
        
                                 break;
                             }
@@ -836,8 +836,8 @@ namespace primeira.pNeuron
                 p.Location = new Point( Convert.ToInt32(r["LocationX"]), Convert.ToInt32(r["LocationY"]) );
                 pDisplay1.Add(p, Convert.ToInt32(r["Group"]));
 
-                ((Neuron)p.Tag).Value = Convert.ToDouble(r["Value"], System.Globalization.CultureInfo.InvariantCulture);
-                ((Neuron)p.Tag).NeuronType = (NeuronTypes)Convert.ToInt16(r["NeuronType"]);
+                (p.Neuron).Value = Convert.ToDouble(r["Value"], System.Globalization.CultureInfo.InvariantCulture);
+                (p.Neuron).NeuronType = (NeuronTypes)Convert.ToInt16(r["NeuronType"]);
 
             }
 
@@ -852,8 +852,8 @@ namespace primeira.pNeuron
                         {
                             if (r["NeuronIn"].ToString() == pp.Name)
                             {
-                                p.Output.Add((Neuron)pp.Tag);
-                                pp.Input.Add((Neuron)p.Tag, new NeuralFactor(Convert.ToDouble(r["Value"], System.Globalization.CultureInfo.InvariantCulture)));
+                                p.Output.Add(pp.Neuron);
+                                pp.Input.Add(p.Neuron, new NeuralFactor(Convert.ToDouble(r["Value"], System.Globalization.CultureInfo.InvariantCulture)));
                                 break;
                             }
                         }
@@ -925,11 +925,10 @@ namespace primeira.pNeuron
                 {
                     dataGridView1.DataSource = p.fDataTable;
                   
-                    //TODO:IF COLS CHANGED
                     int iCount = 0;
                     foreach(pPanel pp in pDisplay1.pPanels)
                     {
-                        if( ((Neuron)pp.Tag).NeuronType != NeuronTypes.Hidden)
+                        if( (pp.Neuron).NeuronType != NeuronTypes.Hidden)
                         {
                             iCount++;
                         }
@@ -954,13 +953,7 @@ namespace primeira.pNeuron
 
                 double[][] output = new double[dt.Rows.Count][];
 
-                int iPerceptionNeuronCount = 0;
-                foreach (pPanel p in pDisplay1.pPanels)
-                {
-                    if (((Neuron)p.Tag).NeuronType == NeuronTypes.Perception)
-                        iPerceptionNeuronCount++;
-                }
-
+                int iPerceptionNeuronCount = pDisplay1.Net.InputNeuronCount;
 
                 int iXPosition = 0;
                 foreach (DataRow r in dt.Rows)
