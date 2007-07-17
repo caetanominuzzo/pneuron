@@ -154,6 +154,10 @@ namespace primeira.pNeuron
         /// Neuron groups. Has a public get on Groups.
         /// </summary>
         private List<pPanel>[] m_groups;
+        private ContextMenuStrip pPanelMenu;
+        private System.ComponentModel.IContainer components;
+        private ToolStripMenuItem btEditList;
+        private ToolStripMenuItem btRemove;
 
         /// <summary>
         /// All pPanels on pDisplay. Has a get on pPanels.
@@ -192,14 +196,43 @@ namespace primeira.pNeuron
                 m_groups[i] = new List<pPanel>();
 
             //Initialize NeuralNet
-            m_net.Initialize(1);
+            m_net = new NeuralNet();
+            m_net.Initialize();
 
 
         }
 
         private void InitializeComponent()
         {
-            m_net = new NeuralNet();
+            this.components = new System.ComponentModel.Container();
+            this.pPanelMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.btEditList = new System.Windows.Forms.ToolStripMenuItem();
+            this.btRemove = new System.Windows.Forms.ToolStripMenuItem();
+            this.pPanelMenu.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // pPanelMenu
+            // 
+            this.pPanelMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btEditList,
+            this.btRemove});
+            this.pPanelMenu.Name = "pPanelMenu";
+            this.pPanelMenu.Size = new System.Drawing.Size(125, 48);
+            this.pPanelMenu.Opening += new System.ComponentModel.CancelEventHandler(this.pPanelMenu_Opening);
+            // 
+            // btEditList
+            // 
+            this.btEditList.Name = "btEditList";
+            this.btEditList.Size = new System.Drawing.Size(124, 22);
+            this.btEditList.Text = "Edit List";
+            // 
+            // btRemove
+            // 
+            this.btRemove.Name = "btRemove";
+            this.btRemove.Size = new System.Drawing.Size(124, 22);
+            this.btRemove.Text = "Remove";
+            this.pPanelMenu.ResumeLayout(false);
+            this.ResumeLayout(false);
 
         }
 
@@ -604,6 +637,14 @@ namespace primeira.pNeuron
 
         protected override void OnMouseDown(MouseEventArgs e)
         {
+            if(e.Button == MouseButtons.Right)
+            {
+                if (HighlightedpPanels.Length > 0)
+                    pPanelMenu.Show(PointToScreen(e.Location));
+
+                return;
+            }
+
             Point p = DisplayMousePosition;
 
             if (Cursor == Cursors.No)
@@ -1055,6 +1096,23 @@ namespace primeira.pNeuron
         }
 
         #endregion
+
+        private void pPanelMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            bool bShowEditList = true;
+            if(HighlightedpPanels.Length == 1)
+            {
+                if(HighlightedpPanels[0].DataType != DataTypes.List)
+                    bShowEditList = false;
+            }
+            else 
+            {
+                foreach(pPanel p in HighlightedpPanels)
+                {
+                  //  if(p.DataType != DataTypes.List)
+                }
+            }
+        }
 
 
     }
