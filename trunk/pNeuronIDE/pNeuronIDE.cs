@@ -107,11 +107,10 @@ namespace primeira.pNeuron
             //DEPRECATEDfmNetworkExplorer.Show(dockPanel, DockState.DockRight);
             //DEPRECATEDfmNetworkExplorer.DockTo(fmGroupExplorer.Pane, DockStyle.Fill, 0);
 
-
             fmProperty.Show(dockPanel, DockState.DockRight);
             fmProperty.DockTo(fmGroupExplorer.Pane, DockStyle.Bottom, 0);
 
-            //Just to keep consistently
+            //Just to keep consistency
             ActiveDocument = null;
 
         }

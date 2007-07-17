@@ -43,12 +43,6 @@
     <Compile Include="pDocDisplay.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="pLayout.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="pLayout.Designer.cs">
-      <DependentUpon>pLayout.cs</DependentUpon>
-    </Compile>
     <Compile Include="pNetworkExplorer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -70,10 +64,6 @@
       <SubType>Designer</SubType>
       <DependentUpon>pDocDisplay.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="pLayout.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>pLayout.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="pNetworkExplorer.resx">
       <SubType>Designer</SubType>
       <DependentUpon>pNetworkExplorer.cs</DependentUpon>
@@ -89,6 +79,11 @@
     <EmbeddedResource Include="pProperty.resx">
       <SubType>Designer</SubType>
       <DependentUpon>pProperty.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="pToolbox.resx">
       <SubType>Designer</SubType>
@@ -106,13 +101,18 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="pShortcutManager.cs">
-      <SubType>Component</SubType>
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="pToolbox.cs">
       <SubType>Form</SubType>
