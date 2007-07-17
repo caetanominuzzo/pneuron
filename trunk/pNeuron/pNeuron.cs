@@ -40,6 +40,7 @@ namespace primeira.pNeuron.Core
         {
             m_weight = weight;
             m_lastDelta = m_delta = 0;
+            
         }
 
         #endregion
@@ -157,9 +158,14 @@ namespace primeira.pNeuron.Core
     {
         #region Constructors
 
-        public Neuron(double bias)
+        public Neuron() : this(new Random().NextDouble())
         {
-            m_bias = new NeuralFactor(bias);
+         
+        }
+
+        public Neuron(double Weight)
+        {
+            m_bias = new NeuralFactor(Weight);
             m_error = 0;
             m_input = new Dictionary<INeuron, NeuralFactor>();
             m_output = new List<Neuron>();

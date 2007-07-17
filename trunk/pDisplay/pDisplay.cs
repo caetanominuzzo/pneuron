@@ -616,7 +616,7 @@ namespace primeira.pNeuron
 
             if (DisplayStatus == pDisplayStatus.Add_Neuron)
             {
-                pPanel pp = this.Add(new Neuron(0));
+                pPanel pp = this.Add(new Neuron());
                 int x, y;
                 x = pp.Location.X;
                 y = pp.Location.Y;
