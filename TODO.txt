@@ -51,7 +51,7 @@ Create the Just Started Help
 	3. Train	
 	
 	
-	
+Add new restriction funcions (sigmoid)	
 	
 	
 	
@@ -82,3 +82,26 @@ What you can do with the pNeuron IDE
 4. Monitor and debugger the train process.
 5. Analyze with graphical tools the performance of a neural network.
 6. Export a trained neural network to use in your applications.
+
+ 
+
+ The objective of this neural network IDE is provide all the complexity
+of AI algorithms through an easy-to-use interface.
+ Our IDE is a set of tools specially projected and developed 	
+ aiming to create an enviroment where you can easily model, apply
+and maintain a Neural network.
+ A less academic way to deal with Neural networks enables the utilization
+of Ai power in your commercial applications.
+ Of course that all the data provided by pNeuron is also an envite
+to researches and studies in the area.
+
+
+What you can do with pNeuron
+
+1. Design the neural network layout using visual tools. Customizing several of it aspects.
+2. Mantain trainning sets or import one from xml or Weka(r) format.
+3. Train a neural network by applying a training set.
+4. Monitorate and debug the learning process.
+5. Analyze trough graphical tools several neural network aspects.
+6. Keep the historic of all training sets applied on a neural network.
+7. Export a trained neural network to be used in your application.

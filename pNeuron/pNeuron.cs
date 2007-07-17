@@ -356,7 +356,7 @@ namespace primeira.pNeuron.Core
             set { m_outputReady = value; }
         }
 
-        private NeuronTypes m_neuronType;
+        private NeuronTypes m_neuronType = NeuronTypes.Hidden;
 
         public NeuronTypes NeuronType
         {
@@ -366,7 +366,45 @@ namespace primeira.pNeuron.Core
             }
             set
             {
-                m_neuronType = value;
+
+                if (value == NeuronTypes.Input && m_neuronType != NeuronTypes.Input)
+                {
+                    m_neuronType = value;
+                    DataType = DataTypes.Integer;
+                }
+
+                if (value != NeuronTypes.Input)
+                {
+                    //To avoid validation
+                    m_dataType = DataTypes.Not_Applicable;
+                    m_neuronType = value;
+                }
+                
+            }
+        }
+
+        private DataTypes m_dataType = DataTypes.Not_Applicable;
+
+        public DataTypes DataType
+        {
+            get { return m_dataType; }
+            set {
+
+                if (value == m_dataType)
+                    return;
+
+                if (NeuronType != NeuronTypes.Input && value != DataTypes.Not_Applicable)
+                    throw new Exception("Invalid operation on a non-input neuron.");
+
+                if (NeuronType == NeuronTypes.Input)
+                {
+                    if (value != DataTypes.Not_Applicable)
+                        m_dataType = value;
+                    else
+                        throw new Exception("Invalid operation on a input neuron.");
+                }
+                else
+                    m_dataType = DataTypes.Not_Applicable;
             }
         }
     }
@@ -594,9 +632,9 @@ namespace primeira.pNeuron.Core
         }
 
 
-        public void Initialize(int randomSeed)
+        public void Initialize()
         {
-            Initialize(this, randomSeed);
+            Initialize(this);
         }
 
         public void PreparePerceptionLayerForPulse(double[] input)
@@ -711,7 +749,7 @@ namespace primeira.pNeuron.Core
 
         #region Private Static Utility Methods -----------------------------------------------
 
-        private static void Initialize(NeuralNet net, int randomSeed)
+        private static void Initialize(NeuralNet net)
         {
 
             #region Declarations
@@ -722,7 +760,7 @@ namespace primeira.pNeuron.Core
 
             #region Initialization
 
-            rand = new Random(randomSeed);
+            rand = new Random(1);
             net.Neuron = new List<Neuron>();
 
             #endregion
@@ -922,5 +960,13 @@ namespace primeira.pNeuron.Core
         Input,
         Hidden,
         Output
+    }
+
+    public enum DataTypes
+    {
+        Not_Applicable,
+        Integer,
+        Continuos,
+        List
     }
 }

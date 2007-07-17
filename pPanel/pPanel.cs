@@ -139,6 +139,19 @@ namespace primeira.pNeuron
                 return Neuron.Bias.Weight;
             }
         }
+
+        [Browsable(true)]
+        public DataTypes DataType
+        {
+            get
+            {
+                return Neuron.DataType;
+            }
+            set 
+            {
+                Neuron.DataType = value;
+            }
+        }
       
 
         #endregion
@@ -149,15 +162,11 @@ namespace primeira.pNeuron
             set { Neuron.NeuronType = value; }
         }
 
-        
-
         public Control Parent
         {
             get { return m_parent; }
             set { m_parent = value; }
         }
-
-        
 
         public Neuron Neuron
         {

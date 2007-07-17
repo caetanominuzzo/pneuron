@@ -221,12 +221,13 @@ namespace primeira.pNeuron
         {
             pDocument p = new pDocument();
             p.Parent = this;
-            p.Load();
-
-            fmDocuments.Add(p);
-            ActiveDocument = fmDocuments[fmDocuments.Count - 1];
-            ((pDocument)ActiveDocument).Show(dockPanel, DockState.Document);
-            ((pDocument)ActiveDocument).Modificated = false;
+            if (p.Load() == DialogResult.OK)
+            {
+                fmDocuments.Add(p);
+                ActiveDocument = fmDocuments[fmDocuments.Count - 1];
+                ((pDocument)ActiveDocument).Show(dockPanel, DockState.Document);
+                ((pDocument)ActiveDocument).Modificated = false;
+            }
             //DEPRECATEDfmNetworkExplorer.AddNode(((pDocument)ActiveDocument).Filename);
         }
         
