@@ -831,12 +831,11 @@ namespace primeira.pNeuron
             if (ds.Tables["pNeuron"] != null)
             foreach (DataRow r in ds.Tables["pNeuron"].Rows)
             {
-                pPanel p = pDisplay1.Add(new Neuron(0));
+                pPanel p = pDisplay1.Add(new Neuron(Convert.ToDouble(r["Bias"], System.Globalization.CultureInfo.InvariantCulture)));
                 p.Name = r["Name"].ToString();
                 p.Location = new Point( Convert.ToInt32(r["LocationX"]), Convert.ToInt32(r["LocationY"]) );
                 pDisplay1.Add(p, Convert.ToInt32(r["Group"]));
 
-                ((Neuron)p.Tag).Bias.Weight = Convert.ToDouble(r["Bias"], System.Globalization.CultureInfo.InvariantCulture);
                 ((Neuron)p.Tag).Value = Convert.ToDouble(r["Value"], System.Globalization.CultureInfo.InvariantCulture);
                 ((Neuron)p.Tag).NeuronType = (NeuronTypes)Convert.ToInt16(r["NeuronType"]);
 
