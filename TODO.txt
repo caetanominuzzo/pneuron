@@ -1,0 +1,81 @@
+Enlarge NeuronType enum
+	Output
+	Hidden
+	Integer
+	Continuos
+	List
+	
+Show estimated learning left time
+	Create a logger to gather these training information
+		LearningRate
+		Input neurons
+		Hidden neurons
+		Output neurons
+		Integer neurons
+		Continuos neurons
+		List neurons
+		Average Lists items
+		GlobalError after one minute
+		GlobalError last
+		GlobalError current
+		Time current
+		*Time total
+
+Project a float train window	
+	Pause train when %var %= %x
+	Step over
+	Evaluate LearningRate
+		Evaluate LearningRate with AI
+	Code it
+
+Write new property view
+	Manage Inputs/Outputs
+	Provide batch functions to set neuron value and bias 
+	
+Minimize  to tray
+	Debug learning process via tray icon
+	
+	
+Provide DLLs to import a trained network
+	
+Import Weka files
+
+Export Weka files
+
+Create the Just Started Help
+	1. Design a XOR Problem network
+	2. Import a Training Set
+	3. Train	
+	
+	
+	
+	
+	
+	
+O principal objetivo da pNEuron Neural Network IDE é ser uma ferramenta que disponibilize toda a complexidade de um algorítmo de IA atraves de uma interface fácil de usar.  Como IDE nós queremos dizer uma coleção de ferramentas projetadas e integradas de forma que seja simples modelar, manter e aplicar uma Rede Neural.
+Isso não é um ambiente acadêmico mas uma maneira prática de aplicar todo poder de AI em seus aplicativos comerciais.
+É claro que com isso não queremos desencorajar a utilização em pesquisas uma vez que a quantidade de dados disponibilizados pelo pNeuron é um convite ao estudo de redes neurais.
+
+O que você pode fazer com o pNEuron IDE
+
+1. Projetar o layout de uma rede neural e customizar vários de suas variáveis usando ferramentas visuais fáceis de usar.
+2. Manter training sets ou importar um prévio através de arquivos XML ou no formato Weka.
+3. Treinar uma rede neural aplicando um training set.
+4. Monitorar e debugar o processo de aprendizado.
+5. Analizar com ferramentas gráficas o desempenho da rede neural e do training set.
+6. Manter o histórico de todos os training sets aplicados em uma rede neural.
+7. Exportar uma rede neural treinada para que seja usada em suas aplicações.
+
+
+The main goal of pNeuron Neural Network IDE Project is to create a tool which provide all complexity of AI throw a ease-to-use interface. As IDE we mean a set of tools designed and integrated to make easy to model, keep and apply a neural network.
+It isn't a academic enviroment but a pratice way to apply all power of AI in your bussines applications.
+Of course we don't want to discourage the research use since the amount of data provided by the pNeuron IDE is an invitation to learn and study neural networks.
+
+What you can do with the pNeuron IDE
+
+1. Design the layout of a neural network and customize several of their aspects with visual ease-to-use tools.
+2. Maintain training set or import a previous via a XML file or the Weka format.
+3. Train a neural network applying a training set.
+4. Monitor and debugger the train process.
+5. Analyze with graphical tools the performance of a neural network.
+6. Export a trained neural network to use in your applications.
