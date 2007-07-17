@@ -131,6 +131,14 @@ namespace primeira.pNeuron
             }
         }
 
+        [Browsable(true)]
+        public double Bias
+        {
+            get
+            {
+                return ((Neuron)this.Tag).Bias.Weight;
+            }
+        }
       
 
         #endregion
