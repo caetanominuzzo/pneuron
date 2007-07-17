@@ -211,7 +211,7 @@ namespace primeira.pNeuron.Core
             {
                 this.InputReady = 0;
 
-                if (NeuronType != NeuronTypes.Perception)
+                if (NeuronType != NeuronTypes.Input)
                 {
 
                     m_value = 0;
@@ -279,7 +279,7 @@ namespace primeira.pNeuron.Core
 
             foreach (Neuron n in this.Input.Keys)
             {
-                if (n.NeuronType == NeuronTypes.Perception)
+                if (n.NeuronType == NeuronTypes.Input)
                     continue;
 
                 n.OutputReady++;
@@ -523,6 +523,8 @@ namespace primeira.pNeuron.Core
 
         private double m_learningRate;
         private List<Neuron> m_neuron;
+        private int m_inputNeuronCount = 0;
+        private int m_outputNeuronCount = 0;
 
         #endregion
 
@@ -545,18 +547,61 @@ namespace primeira.pNeuron.Core
             get
             {
                 double dGlobalTemp = 0;
-                int iNoPerception = 0;
-                foreach(Neuron n in Neuron)
-                {
-                    if (n.NeuronType != NeuronTypes.Perception)
-                    {
-                        dGlobalTemp += n.Error;
-                        iNoPerception ++;
-                    }
-                }
+                int iNoPerception = Neuron.Count - InputNeuronCount;
                 return dGlobalTemp / (double)iNoPerception;
 
             }
+        }
+
+        public int InputNeuronCount
+        {
+            get { return m_inputNeuronCount; }
+        }
+
+        public int OutputNeuronCount
+        {
+            get { return m_outputNeuronCount; }
+        }
+
+        #endregion
+
+        #region Methods
+
+        public void AddNeuron(Neuron n)
+        {
+            Neuron.Add(n);
+
+            switch(n.NeuronType)
+            {
+                case NeuronTypes.Input: m_inputNeuronCount++; 
+                    break;
+                case NeuronTypes.Output: m_outputNeuronCount++;
+                    break;
+            }
+        }
+
+        public void RemoveNeuron(Neuron n)
+        {
+            Neuron.Remove(n);
+
+            switch (n.NeuronType)
+            {
+                case NeuronTypes.Input: m_inputNeuronCount--;
+                    break;
+                case NeuronTypes.Output: m_outputNeuronCount--;
+                    break;
+            }
+        }
+
+
+        public void Initialize(int randomSeed)
+        {
+            Initialize(this, randomSeed);
+        }
+
+        public void PreparePerceptionLayerForPulse(double[] input)
+        {
+            PreparePerceptionLayerForPulse(this, input);
         }
 
         public void Pulse()
@@ -565,7 +610,7 @@ namespace primeira.pNeuron.Core
             {
                 foreach (Neuron n in this.Neuron)
                 {
-                    if(n.NeuronType == NeuronTypes.Perception)
+                    if (n.NeuronType == NeuronTypes.Input)
                         n.Pulse();
                 }
             }
@@ -577,7 +622,7 @@ namespace primeira.pNeuron.Core
             {
                 foreach (Neuron n in this.Neuron)
                 {
-                    if(n.NeuronType != NeuronTypes.Perception)
+                    if (n.NeuronType != NeuronTypes.Input)
                         n.ApplyLearning(LearningRate);
                 }
             }
@@ -589,7 +634,7 @@ namespace primeira.pNeuron.Core
             {
                 foreach (Neuron n in this.Neuron)
                 {
-                    if (n.NeuronType != NeuronTypes.Perception)
+                    if (n.NeuronType != NeuronTypes.Input)
                         n.InitializeLearning();
                 }
             }
@@ -661,21 +706,7 @@ namespace primeira.pNeuron.Core
 
 
             }
-          
-        }
 
-        #endregion
-
-        #region Methods
-
-        public void Initialize(int randomSeed)
-        {
-            Initialize(this, randomSeed);
-        }
-
-        public void PreparePerceptionLayerForPulse(double[] input)
-        {
-            PreparePerceptionLayerForPulse(this, input);
         }
 
         #region Private Static Utility Methods -----------------------------------------------
@@ -730,7 +761,7 @@ namespace primeira.pNeuron.Core
             #endregion
         }
 
-        private static void CalculateErrors(NeuralNet net, double[] desiredResults)
+        private void CalculateErrors(NeuralNet net, double[] desiredResults)
         {
             #region Declarations
 
@@ -741,12 +772,7 @@ namespace primeira.pNeuron.Core
 
             #region Execution
 
-            int iOutputCount = 0;
-            foreach (Neuron n in net.Neuron)
-                if (n.NeuronType == NeuronTypes.Output)
-                    iOutputCount++;
-
-            if (desiredResults.Length != iOutputCount)
+            if (desiredResults.Length != OutputNeuronCount)
                 throw new Exception("The number of desiredResults must be equal to number of output neurons.");
 
             int ni = 0;
@@ -768,24 +794,20 @@ namespace primeira.pNeuron.Core
             return value * (1.0F - value);
         }
 
-        public static void PreparePerceptionLayerForPulse(NeuralNet net, double[] input)
+        public void PreparePerceptionLayerForPulse(NeuralNet net, double[] input)
         {
 
             #region Execution
 
-            int iInputCount = 0;
-            foreach (Neuron n in net.Neuron)
-                if (n.NeuronType == NeuronTypes.Perception)
-                    iInputCount++;
 
-            if (input.Length != iInputCount)
+            if (input.Length != InputNeuronCount)
                 throw new Exception("The number of input must be equal to number of perception neurons.");
 
             // initialize data
             int i = 0;
             foreach (Neuron n in net.Neuron)
             {
-                if (n.NeuronType == NeuronTypes.Perception)
+                if (n.NeuronType == NeuronTypes.Input)
                 {
                     n.Value = input[i];
                     i++;
@@ -847,7 +869,7 @@ namespace primeira.pNeuron.Core
 
         #region Backprop
 
-        public static void BackPropogation_TrainingSession(NeuralNet net, double[] input, double[] desiredResult)
+        public void BackPropogation_TrainingSession(NeuralNet net, double[] input, double[] desiredResult)
         {
             PreparePerceptionLayerForPulse(net, input);
             net.Pulse();
@@ -880,10 +902,6 @@ namespace primeira.pNeuron.Core
         
     }
 
-    public class pSinapse
-    {
-    }
-
     public interface ISinapse
     {
         Neuron Input
@@ -901,8 +919,8 @@ namespace primeira.pNeuron.Core
 
     public enum NeuronTypes
     {
-        Perception,
+        Input,
         Hidden,
-        Output,
+        Output
     }
 }

@@ -142,7 +142,7 @@ namespace primeira.pNeuron
         private void button2_Click(object sender, EventArgs e)
         {
             net.Neuron[0].Value = Convert.ToDouble(textBox1.Text);
-            if (net.Neuron[1].NeuronType == NeuronTypes.Perception)
+            if (net.Neuron[1].NeuronType == NeuronTypes.Input)
                 net.Neuron[1].Value = Convert.ToDouble(textBox2.Text);
 
             net.Pulse();

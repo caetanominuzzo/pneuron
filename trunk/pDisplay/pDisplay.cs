@@ -670,12 +670,12 @@ namespace primeira.pNeuron
                                 {
                                     foreach (pPanel pp in SelectedpPanels)
                                     {
-                                        Neuron n = (Neuron)pp.Tag;
+                                        Neuron n = pp.Neuron;
 
                                         foreach (pPanel ppp in HighlightedpPanels)
                                         {
 
-                                            Neuron target = (Neuron)ppp.Tag;
+                                            Neuron target = ppp.Neuron;
 
                                             if (!target.Input.ContainsKey(n))
                                             {
@@ -812,11 +812,11 @@ namespace primeira.pNeuron
 
             foreach (pPanel p in m_pPanels)
             {
-                foreach (Neuron n in ((Neuron)p.Tag).Input.Keys)
+                foreach (Neuron n in (p.Neuron).Input.Keys)
                 {
                     foreach (pPanel pp in m_pPanels)
                     {
-                        if (n == ((Neuron)pp.Tag))
+                        if (n == (pp.Neuron))
                         {
                             if (Contains(r, ExpandRectangle(p.Bounds, pp.Bounds), true))
                                 DrawSynapse(p, pp, e.Graphics);
