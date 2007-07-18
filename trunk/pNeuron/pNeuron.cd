@@ -5,22 +5,30 @@
     <Position X="5.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <FileName>pNeuron.cs</FileName>
-      <HashCode>AAAABEQAAAAAAAABAAAAAAAAASAAgAgAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAABEQAAAAAAAABAAAAAAAAASAAgAwAAAAAAAAAAAA=</HashCode>
     </TypeIdentifier>
   </Class>
   <Class Name="primeira.pNeuron.Core.NeuralNet" BaseTypeListCollapsed="true">
     <Position X="10.5" Y="2.75" Width="2.75" />
     <TypeIdentifier>
       <FileName>pNeuron.cs</FileName>
-      <HashCode>AAggAggAAAIAAYAAAAAAAACAAAEBAAIQAAAAAGAAAAA=</HashCode>
+      <HashCode>AAggAggAAAIIgYAACAAAAACAAAEBgAIQCEABAGAEAAA=</HashCode>
     </TypeIdentifier>
+    <NestedTypes>
+      <Class Name="primeira.pNeuron.Core.NeuralNet.SortCompare" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>pNeuron.cs</NewMemberFileName>
+        </TypeIdentifier>
+        <Lollipop Position="0.2" />
+      </Class>
+    </NestedTypes>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="primeira.pNeuron.Core.Neuron" BaseTypeListCollapsed="true">
     <Position X="7.25" Y="0.5" Width="3" />
     <TypeIdentifier>
       <FileName>pNeuron.cs</FileName>
-      <HashCode>AAAAAgAAIQAAAQgAQAAIAAABEAUBAEIQAABlAAAAAQA=</HashCode>
+      <HashCode>IAAAAgAAoQIAAQAAAAAIAAABEAUDAGIYAABlAEAEAQA=</HashCode>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
@@ -56,7 +64,7 @@
     <Position X="3.75" Y="2.25" Width="1.5" />
     <TypeIdentifier>
       <FileName>pNeuron.cs</FileName>
-      <HashCode>AAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAEAAAAEAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAIAAAAEAAAAAAAAAAAAAAEAAA=</HashCode>
     </TypeIdentifier>
   </Enum>
 </ClassDiagram>
