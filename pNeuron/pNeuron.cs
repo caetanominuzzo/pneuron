@@ -55,7 +55,7 @@ namespace primeira.pNeuron.Core
 
         public double Weight
         {
-            get { return 0; }// m_weight; }
+            get { return m_weight; }
             set { m_weight = value; }
         }
 

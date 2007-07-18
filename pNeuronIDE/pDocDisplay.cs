@@ -966,7 +966,7 @@ namespace primeira.pNeuron
                     {
                         if (iYPosition >= iPerceptionNeuronCount)
                             continue;
-                        dIn[iYPosition++] = Convert.ToDouble(r[c]);
+                        dIn[iYPosition++] = Convert.ToDouble(r[c], System.Globalization.CultureInfo.InvariantCulture);
                     }
 
                     input[iXPosition++] = dIn;
@@ -986,7 +986,7 @@ namespace primeira.pNeuron
                             iYPosition++;
                             continue;
                         }
-                        dOut[iYPosition - iPerceptionNeuronCount] = Convert.ToDouble(r[c]);
+                        dOut[iYPosition - iPerceptionNeuronCount] = Convert.ToDouble(r[c], System.Globalization.CultureInfo.InvariantCulture);
                         iYPosition++;
                     }
 
