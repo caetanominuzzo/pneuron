@@ -55,7 +55,7 @@ namespace primeira.pNeuron.Core
 
         public double Weight
         {
-            get { return m_weight; }
+            get { return 0; }// m_weight; }
             set { m_weight = value; }
         }
 
@@ -158,17 +158,19 @@ namespace primeira.pNeuron.Core
     {
         #region Constructors
 
-        public Neuron() : this(new Random().NextDouble())
+        public Neuron(NeuralNet aNet) : this(new Random().NextDouble(), aNet)
         {
          
         }
 
-        public Neuron(double Weight)
+        public Neuron(double Weight, NeuralNet aNet)
         {
             m_bias = new NeuralFactor(Weight);
             m_error = 0;
             m_input = new Dictionary<INeuron, NeuralFactor>();
             m_output = new List<Neuron>();
+            m_net = aNet;
+            
         }
 
         #endregion
@@ -180,7 +182,13 @@ namespace primeira.pNeuron.Core
         private int m_inputReady = 0;
 
         double m_value, m_error, m_lastError;
+
         NeuralFactor m_bias;
+
+        private NeuralNet m_net;
+
+        private List<Neuron> m_output;
+        
 
         #endregion
 
@@ -337,10 +345,11 @@ namespace primeira.pNeuron.Core
 
         #endregion
 
-
-        private  List<Neuron> m_output;
-
-        
+        public NeuralNet Net
+        {
+            get { return m_net; }
+            set { m_net = value; }
+        }
 
         public List<Neuron> Output
         {
@@ -367,6 +376,17 @@ namespace primeira.pNeuron.Core
             set
             {
 
+                if(value != m_neuronType)
+                {
+                    if (value == NeuronTypes.Input)
+                        Net.InputNeuronCount++;
+                    if (value == NeuronTypes.Output)
+                        Net.OutputNeuronCount++;
+                    if (m_neuronType == NeuronTypes.Input)
+                        Net.InputNeuronCount--;
+                    if (m_neuronType == NeuronTypes.Output)
+                        Net.OutputNeuronCount--;
+                }
                 if (value == NeuronTypes.Input && m_neuronType != NeuronTypes.Input)
                 {
                     m_neuronType = value;
@@ -594,18 +614,28 @@ namespace primeira.pNeuron.Core
         public int InputNeuronCount
         {
             get { return m_inputNeuronCount; }
+            set { m_inputNeuronCount = value; }
+
         }
 
         public int OutputNeuronCount
         {
             get { return m_outputNeuronCount; }
+            set { m_outputNeuronCount = value; }
         }
 
         #endregion
 
         #region Methods
 
-        public void AddNeuron(Neuron n)
+        public Neuron AddNeuron()
+        {
+            Neuron n = new Neuron(this);
+            AddNeuron(n);
+            return n;
+        }
+
+        private void AddNeuron(Neuron n)
         {
             Neuron.Add(n);
 
@@ -677,6 +707,8 @@ namespace primeira.pNeuron.Core
                 }
             }
         }
+
+        
 
         public void ResetLearning()
         {

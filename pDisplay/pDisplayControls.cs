@@ -383,9 +383,9 @@ namespace primeira.pNeuron
         /// </summary>
         /// <param name="n">The neuron represented by the pPanel.</param>
         /// <returns></returns>
-        public pPanel Add(Neuron n)
+        public pPanel Add()
         {
-
+            Neuron n = Net.AddNeuron();
             primeira.pNeuron.pPanel p = new primeira.pNeuron.pPanel(m_graphics);
 
             p.Width = m_gridDistance;
@@ -394,7 +394,7 @@ namespace primeira.pNeuron
             p.Neuron = n;
             m_pPanels.Add(p);
 
-            Net.AddNeuron(n);
+            
 
             int i = m_pPanels.Count - 1;
             p.Text = i.ToString();

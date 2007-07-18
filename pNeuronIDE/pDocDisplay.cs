@@ -831,7 +831,8 @@ namespace primeira.pNeuron
             if (ds.Tables["pNeuron"] != null)
             foreach (DataRow r in ds.Tables["pNeuron"].Rows)
             {
-                pPanel p = pDisplay1.Add(new Neuron(Convert.ToDouble(r["Bias"], System.Globalization.CultureInfo.InvariantCulture)));
+                pPanel p = pDisplay1.Add();
+                p.Neuron.Bias.Weight = Convert.ToDouble(r["Bias"], System.Globalization.CultureInfo.InvariantCulture);
                 p.Name = r["Name"].ToString();
                 p.Location = new Point( Convert.ToInt32(r["LocationX"]), Convert.ToInt32(r["LocationY"]) );
                 pDisplay1.Add(p, Convert.ToInt32(r["Group"]));
@@ -1067,7 +1068,7 @@ namespace primeira.pNeuron
             int count;
 
             count = 0;
-            net.LearningRate = 8;
+            net.LearningRate = .4;
 
             net.InitializeLearning();
 
