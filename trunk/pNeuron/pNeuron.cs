@@ -606,6 +606,15 @@ namespace primeira.pNeuron.Core
             {
                 double dGlobalTemp = 0;
                 int iNoPerception = Neuron.Count - InputNeuronCount;
+
+                foreach (Neuron n in Neuron)
+                {
+                    if (n.NeuronType != NeuronTypes.Input)
+                    {
+                        dGlobalTemp += n.Error;
+                    }
+                }
+
                 return dGlobalTemp / (double)iNoPerception;
 
             }
