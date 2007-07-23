@@ -52,6 +52,8 @@ Create the Just Started Help
 	
 	
 Add new restriction funcions (sigmoid)	
+
+Use random from http://random.org/decimal-fractions/?num=10&dec=20&col=1&format=plain&rnd=new
 	
 	
 	

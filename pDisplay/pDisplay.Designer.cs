@@ -60,17 +60,10 @@ namespace pDisplay {
             }
         }
         
-        internal static System.Drawing.Bitmap ball {
+        internal static System.Drawing.Point pPanelMenu_TrayLocation {
             get {
-                object obj = ResourceManager.GetObject("ball", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap glow {
-            get {
-                object obj = ResourceManager.GetObject("glow", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
+                object obj = ResourceManager.GetObject("pPanelMenu.TrayLocation", resourceCulture);
+                return ((System.Drawing.Point)(obj));
             }
         }
     }
