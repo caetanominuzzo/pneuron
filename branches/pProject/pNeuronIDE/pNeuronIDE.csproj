@@ -7,7 +7,7 @@
     <ProjectGuid>{EFBE0B77-0E3D-42CF-9D09-97998BB45A5D}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>primeira.pNeuron</RootNamespace>
+    <RootNamespace>primeira.pNeuron_OLD</RootNamespace>
     <AssemblyName>pNeuronIDE</AssemblyName>
     <ApplicationIcon>PP.ico</ApplicationIcon>
   </PropertyGroup>
@@ -55,10 +55,6 @@
     <Compile Include="pPlotter.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="pProject\IpProjectItem.cs" />
-    <Compile Include="pProject\pNeuralNertwork.cs" />
-    <Compile Include="pProject\pProject.cs" />
-    <Compile Include="pProject\pTrainningSet.cs" />
     <Compile Include="pProperty.cs">
       <SubType>Form</SubType>
     </Compile>
