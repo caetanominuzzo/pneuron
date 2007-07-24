@@ -49,6 +49,8 @@ Create the Just Started Help
 	1. Design a XOR Problem network
 	2. Import a Training Set
 	3. Train	
+	4. Export a .pne
+	5. Use .pne in a C# project
 	
 	
 Add new restriction funcions (sigmoid)	
