@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace pNeuronIDE2
+namespace primeira.pNeuron.pNeuronIDE
 {
     static class Program
     {
@@ -14,7 +14,7 @@ namespace pNeuronIDE2
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(new pNeuronIDE());
         }
     }
 }
