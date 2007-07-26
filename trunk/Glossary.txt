@@ -1,0 +1,6 @@
+XOR
+rede neural
+domínios
+trainning set
+NeuronType
+DataType
