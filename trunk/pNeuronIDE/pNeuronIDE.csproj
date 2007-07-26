@@ -37,6 +37,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="fmDomainEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fmDomainEdit.Designer.cs">
+      <DependentUpon>fmDomainEdit.cs</DependentUpon>
+    </Compile>
     <Compile Include="IpDocks.cs">
       <SubType>Code</SubType>
     </Compile>
