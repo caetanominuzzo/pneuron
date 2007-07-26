@@ -51,6 +51,9 @@ namespace primeira.pNeuron
         public delegate void NetworkChangeDelegate();
         public event NetworkChangeDelegate OnNetworkChange;
 
+        public delegate void NewDomainDelegate();
+        public event NewDomainDelegate OnNewDomain;
+
         #endregion
 
         #region Enums
@@ -154,10 +157,20 @@ namespace primeira.pNeuron
         /// Neuron groups. Has a public get on Groups.
         /// </summary>
         private List<pPanel>[] m_groups;
-        private ContextMenuStrip pPanelMenu;
         private System.ComponentModel.IContainer components;
-        private ToolStripMenuItem btEditList;
-        private ToolStripMenuItem btRemove;
+        private ContextMenuStrip pPanelMenu;
+        private ToolStripMenuItem tspNeuronType;
+        private ToolStripMenuItem tspDataType;
+        private ContextMenuStrip mspNeuronType;
+        private ToolStripMenuItem tspNeuronTypeInput;
+        private ToolStripMenuItem tspNeuronTypeHidden;
+        private ToolStripMenuItem tspNeuronTypeOutput;
+        private ContextMenuStrip mspDataType;
+        private ToolStripMenuItem toolStripMenuItem5;
+        private ToolStripMenuItem toolStripMenuItem6;
+        private ToolStripMenuItem toolStripMenuItem7;
+        private ToolStripSeparator toolStripSeparator1;
+        private ToolStripMenuItem tspNewDomain;
 
         /// <summary>
         /// All pPanels on pDisplay. Has a get on pPanels.
@@ -206,32 +219,117 @@ namespace primeira.pNeuron
         {
             this.components = new System.ComponentModel.Container();
             this.pPanelMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.btEditList = new System.Windows.Forms.ToolStripMenuItem();
-            this.btRemove = new System.Windows.Forms.ToolStripMenuItem();
+            this.tspNeuronType = new System.Windows.Forms.ToolStripMenuItem();
+            this.tspDataType = new System.Windows.Forms.ToolStripMenuItem();
+            this.mspNeuronType = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.mspDataType = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tspNeuronTypeInput = new System.Windows.Forms.ToolStripMenuItem();
+            this.tspNeuronTypeHidden = new System.Windows.Forms.ToolStripMenuItem();
+            this.tspNeuronTypeOutput = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.tspNewDomain = new System.Windows.Forms.ToolStripMenuItem();
             this.pPanelMenu.SuspendLayout();
+            this.mspNeuronType.SuspendLayout();
+            this.mspDataType.SuspendLayout();
             this.SuspendLayout();
             // 
             // pPanelMenu
             // 
             this.pPanelMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btEditList,
-            this.btRemove});
-            this.pPanelMenu.Name = "pPanelMenu";
-            this.pPanelMenu.Size = new System.Drawing.Size(125, 48);
+            this.tspNeuronType,
+            this.tspDataType});
+            this.pPanelMenu.Name = "contextMenuStrip1";
+            this.pPanelMenu.Size = new System.Drawing.Size(148, 48);
             this.pPanelMenu.Opening += new System.ComponentModel.CancelEventHandler(this.pPanelMenu_Opening);
+            this.pPanelMenu.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.pPanelMenu_ItemClicked);
             // 
-            // btEditList
+            // tspNeuronType
             // 
-            this.btEditList.Name = "btEditList";
-            this.btEditList.Size = new System.Drawing.Size(124, 22);
-            this.btEditList.Text = "Edit List";
+            this.tspNeuronType.DropDown = this.mspNeuronType;
+            this.tspNeuronType.Name = "tspNeuronType";
+            this.tspNeuronType.Size = new System.Drawing.Size(147, 22);
+            this.tspNeuronType.Text = "NeuronType";
             // 
-            // btRemove
+            // tspDataType
             // 
-            this.btRemove.Name = "btRemove";
-            this.btRemove.Size = new System.Drawing.Size(124, 22);
-            this.btRemove.Text = "Remove";
+            this.tspDataType.DropDown = this.mspDataType;
+            this.tspDataType.Name = "tspDataType";
+            this.tspDataType.Size = new System.Drawing.Size(147, 22);
+            this.tspDataType.Text = "tspDataType";
+            // 
+            // mspNeuronType
+            // 
+            this.mspNeuronType.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tspNeuronTypeInput,
+            this.tspNeuronTypeHidden,
+            this.tspNeuronTypeOutput});
+            this.mspNeuronType.Name = "mspNeuronType";
+            this.mspNeuronType.Size = new System.Drawing.Size(120, 70);
+            // 
+            // mspDataType
+            // 
+            this.mspDataType.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem5,
+            this.toolStripMenuItem6,
+            this.toolStripMenuItem7,
+            this.toolStripSeparator1,
+            this.tspNewDomain});
+            this.mspDataType.Name = "mspDataType";
+            this.mspDataType.Size = new System.Drawing.Size(180, 98);
+            this.mspDataType.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.mspDataType_ItemClicked);
+            // 
+            // tspNeuronTypeInput
+            // 
+            this.tspNeuronTypeInput.Name = "tspNeuronTypeInput";
+            this.tspNeuronTypeInput.Size = new System.Drawing.Size(119, 22);
+            this.tspNeuronTypeInput.Text = "Input";
+            // 
+            // tspNeuronTypeHidden
+            // 
+            this.tspNeuronTypeHidden.Name = "tspNeuronTypeHidden";
+            this.tspNeuronTypeHidden.Size = new System.Drawing.Size(119, 22);
+            this.tspNeuronTypeHidden.Text = "Hidden";
+            // 
+            // tspNeuronTypeOutput
+            // 
+            this.tspNeuronTypeOutput.Name = "tspNeuronTypeOutput";
+            this.tspNeuronTypeOutput.Size = new System.Drawing.Size(119, 22);
+            this.tspNeuronTypeOutput.Text = "Output";
+            // 
+            // toolStripMenuItem5
+            // 
+            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(179, 22);
+            this.toolStripMenuItem5.Text = "toolStripMenuItem5";
+            // 
+            // toolStripMenuItem6
+            // 
+            this.toolStripMenuItem6.Name = "toolStripMenuItem6";
+            this.toolStripMenuItem6.Size = new System.Drawing.Size(179, 22);
+            this.toolStripMenuItem6.Text = "toolStripMenuItem6";
+            // 
+            // toolStripMenuItem7
+            // 
+            this.toolStripMenuItem7.Name = "toolStripMenuItem7";
+            this.toolStripMenuItem7.Size = new System.Drawing.Size(179, 22);
+            this.toolStripMenuItem7.Text = "toolStripMenuItem7";
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(176, 6);
+            // 
+            // tspNewDomain
+            // 
+            this.tspNewDomain.Name = "tspNewDomain";
+            this.tspNewDomain.Size = new System.Drawing.Size(179, 22);
+            this.tspNewDomain.Text = "New Domain";
             this.pPanelMenu.ResumeLayout(false);
+            this.mspNeuronType.ResumeLayout(false);
+            this.mspDataType.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1111,6 +1209,25 @@ namespace primeira.pNeuron
                 {
                   //  if(p.DataType != DataTypes.List)
                 }
+            }
+        }
+
+        private void pPanelMenu_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+            //if(sender == tspNewDomain)
+            //{
+            //    fmDomainEdit f = new fmDomainEdit();
+            //    f.ShowDialog();
+            //}
+        }
+
+        private void mspDataType_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+            if (e.ClickedItem == tspNewDomain)
+            {
+                if (OnNewDomain!=null)
+                    OnNewDomain();
+                
             }
         }
 

@@ -248,9 +248,10 @@ namespace primeira.pNeuron
             this.pDisplay1.VisibleAutoScrollHorizontal = true;
             this.pDisplay1.VisibleAutoScrollVertical = true;
             this.pDisplay1.OnDisplayStatusChange += new primeira.pNeuron.pDisplay.DisplayStatusChangeDelegate(this.pDisplay1_OnDisplayStatusChange);
+            this.pDisplay1.OnTreeViewChange += new primeira.pNeuron.pDisplay.TreeViewChangeDelegate(this.pDisplay1_OnTreeViewChange);
             this.pDisplay1.OnSelectedPanelsChange += new primeira.pNeuron.pDisplay.SelectedPanelsChangeDelegate(this.pDisplay1_OnSelectedPanelsChange);
             this.pDisplay1.OnNetworkChange += new primeira.pNeuron.pDisplay.NetworkChangeDelegate(this.pDisplay1_OnNetworkChange);
-            this.pDisplay1.OnTreeViewChange += new primeira.pNeuron.pDisplay.TreeViewChangeDelegate(this.pDisplay1_OnTreeViewChange);
+            this.pDisplay1.OnNewDomain += new primeira.pNeuron.pDisplay.NewDomainDelegate(this.pDisplay1_OnNewDomain);
             // 
             // tbTrainingSet
             // 
@@ -1166,6 +1167,12 @@ namespace primeira.pNeuron
 
 
 
+        }
+
+        private void pDisplay1_OnNewDomain()
+        {
+            fmDomainEdit f = new fmDomainEdit();
+            f.ShowDialog();
         }
 
         
