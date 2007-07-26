@@ -1,8 +1,9 @@
-_XOR_ é um bem conhecido problema de redes neurais. Consiste em ensinar uma rede neural a calcular o XOR de dois valores booleanos dados. Esse exemplo é dividido em X partes. A primeira parte trata do projeto da _rede neural_ e dos _domínios_ utilizados. NO segunda parte vamos importar um _trainning set_ e aplicá-lo em nossa rede. Na terceira parte a rede será exportada e então utilizada em um projeto Windows Forms no Visual Studio 2005. 
+_XOR_ é um bem conhecido problema de redes neurais. Consiste em ensinar uma rede neural a calcular o XOR de dois valores booleanos. Esse exemplo é dividido em três partes. A primeira parte trata do projeto da _rede neural_ e dos _domínios_ utilizados. NO segunda parte vamos importar um _trainning set_ e aplicá-lo em nossa rede. Na terceira parte a rede será exportada e então utilizada em um projeto Windows Forms no Visual Studio 2005. 
 
 Antes de começar talvez você queira conhecer os termos usados, ou a qualquer momento você pode consultar o glossário. Sempre que um conceito estiver disponível no glossário ele será mostrado como um link no texto.
 
 Primeira parte
+
 Antes de iniciar uma rede neural devemos responder as seguintes perguntas:
 1. Quantos entradas a rede deve ter?
 2. Que tipo de dados são esperados nas entradas?
@@ -16,9 +17,17 @@ No toolbox clique em Novo Neurônio e clique na área de design da rede neural. Ad
 
 (Imagem do layout basico)
 
-Selecione os dois neurônios da esquerda. Na janela de propriedades faça as seguintes alterações NeuronType = Input
-DataType = Domains.Boolean
+Selecione os dois neurônios da esquerda. Na janela de propriedades e altere o _NeuronType_ pra Input. DICA: Para saber mais sobre _NeuronType_ consulte o glossário seguindo o link.
+
+Selecione o neurônio da direita. E altere o NeuronType pra Output.
+
+Agora vamos definir as sinapses entre os neurônios. Na toolbox clique em Adicionar Sinapse. Selecione os dois neurônios de entrada (a esquerda), agora clique em cada um dos dois neurônios ocultos (no centro). Agora repita a operação ligando os neurônios ocultos ao neurônio de saida. Você deve ter algo parecido com isso
+
+(Imagem da rede com sinaspses)
+
+Agora precisamos definir o tipo de dado de entrada. Selecione os dois neuônios de entrada, na janela de propriedades altere _DataType_ pra Boolean.
 
 
- 
+Segunda parte
+Antes de iniciar o processo de treinamento é necessário salvar a rede neural. Clique em Arquivo\Salvar.
 
