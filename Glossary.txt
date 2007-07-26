@@ -1,6 +1,18 @@
 XOR
-rede neural
-domínios
-trainning set
+Exclusive disjunction (usual symbol xor) is a logical operator that results in true if one of the operands, but not both of them, is true.
+en.wikipedia.org/wiki/XOR
+
+Neural Network
+A neural network (NN), is an interconnected group of artificial neurons that uses a mathematical or computational model for information processing based on a connectionist approach to computation.
+en.wikipedia.org/wiki/Artificial_neural_network
+
+Domain
+A set of all input values to the function.
+en.wikipedia.org/wiki/Domain_(function)
+In pNeuronIDE a domain is a set a range of values allowed in a input neuron. The pNeuronIDE has three predefined domains:Boolean (true or false, internally calculated as 0.1 and 0.9, respectively), Integer (Any integer number),  Float (decimal values between 0 and 1). To see about add customized domains go to Defining a Domin topic.
+
+Trainning Set
+In trainnig process the neural network need a set of facts which represets the knowledgmet. Each fact is a record with values to each input/output neuron.
+
 NeuronType
 DataType
