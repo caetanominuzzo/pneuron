@@ -21,7 +21,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Welcome.txt = Welcome.txt
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pShortcutManager", "pShortcutManager\pShortcutManager.csproj", "{C3FD187A-325C-478C-85DF-91992DF69780}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pShortcutManager", "pShortcutManager\pShortcutManager.csproj", "{2B504E3B-8A90-4DB0-9AD3-49C2C2D844C7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,10 +53,10 @@ Global
 		{35DD3087-E395-4D33-950F-F807AE4BDED0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{35DD3087-E395-4D33-950F-F807AE4BDED0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{35DD3087-E395-4D33-950F-F807AE4BDED0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C3FD187A-325C-478C-85DF-91992DF69780}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C3FD187A-325C-478C-85DF-91992DF69780}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C3FD187A-325C-478C-85DF-91992DF69780}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C3FD187A-325C-478C-85DF-91992DF69780}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B504E3B-8A90-4DB0-9AD3-49C2C2D844C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B504E3B-8A90-4DB0-9AD3-49C2C2D844C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B504E3B-8A90-4DB0-9AD3-49C2C2D844C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B504E3B-8A90-4DB0-9AD3-49C2C2D844C7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
