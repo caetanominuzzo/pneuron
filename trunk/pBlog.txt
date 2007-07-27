@@ -1,0 +1,14 @@
+Hello world!
+
+Isso é sobre a Primeira e sobre o prefixo p em uma pequena coleção de applicativos e ferramentas.
+
+Primeiramente eu sou um programador artesanal e acredito na alta qualidade que um projeto de software pode alcançar quando todas as partes são sólidamente planejadas e construidas por apenas uma pessoa. Também não quero fazer uma guerra sobre isso porque obviamente um software não é ruim por ter sido feito por uma equipe muito menos é bom por ter sido feito por uma pessoa. Eu apenas disse que valorizo o trabalho artesanal e amador. Todo conteudo do blog é livre, incluindo artigos, código-fonte, sob a GPL 2.0.
+
+Além disso trabalho em uma fábrica de software mas talvez eu não queira falar disso hoje.
+
+Atualmente tenho trabalhado em uma IDE para redes neurais chamada pNeuronIDE disponível em code.google.com/p/pneuron/. Como fruto secundário desse trabalho já em release tem um gerenciador de atalhos, um pequeno componente escrito em C# que traz muita agilidade ao gerencimento de atalhos. Veja mais em sobre o pShortcutManager em code.google.com/p/pshortcurmanager/.
+
+Existem mais alguns códigos sendo escritos mas nada que eu queira mostrar por enquanto.
+
+
+
