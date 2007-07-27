@@ -16,6 +16,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{90AA91D6-14A9-4E44-97D7-F46678C32B1D}"
 	ProjectSection(SolutionItems) = preProject
 		Glossary.txt = Glossary.txt
+		pBlog.txt = pBlog.txt
 		Starter Guide - XOR Problem 1.txt = Starter Guide - XOR Problem 1.txt
 		TODO.txt = TODO.txt
 		Welcome.txt = Welcome.txt
