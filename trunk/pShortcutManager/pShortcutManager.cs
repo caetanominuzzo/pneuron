@@ -348,7 +348,7 @@ namespace pShortcutManager
 
     #endregion
 
-    class pShortcutManager : Component, IMessageFilter
+    public class pShortcutManager : Component, IMessageFilter
     {
         private const int WM_HOTKEY = 0x0312;
         private IntPtr fParenthandle;
