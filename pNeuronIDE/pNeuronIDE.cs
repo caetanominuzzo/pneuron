@@ -13,11 +13,15 @@ namespace primeira.pNeuron
 {
     public partial class pNeuronIDE : Form
     {
+
+        public string ApplicationPath = Path.GetDirectoryName(Application.ExecutablePath);
+
         public pProperty fmProperty = new pProperty();
         public pToolbox fmToolbox = new pToolbox();
         public pGroupExplorer fmGroupExplorer = new pGroupExplorer();
         //DEPRECATEDpublic pNetworkExplorer fmNetworkExplorer = new pNetworkExplorer();
         public pPlotter fmPlotter = new pPlotter();
+        
 
 
         public List<pDocument> fmDocuments = new List<pDocument>();
@@ -252,6 +256,12 @@ namespace primeira.pNeuron
         
 
         #endregion
+
+        private void domainEditToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            pDomainEdit fmDomainEdit = new pDomainEdit();
+            fmDomainEdit.ShowDialog();
+        }
         
 
     }
