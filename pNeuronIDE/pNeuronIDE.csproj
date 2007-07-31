@@ -58,7 +58,7 @@
     <Compile Include="IpDocks.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="pDocDisplay.cs">
+    <Compile Include="pDocument.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="pNetworkExplorer.cs">
@@ -78,9 +78,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="pDocDisplay.resx">
+    <EmbeddedResource Include="pDocument.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>pDocDisplay.cs</DependentUpon>
+      <DependentUpon>pDocument.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="pNetworkExplorer.resx">
       <SubType>Designer</SubType>
