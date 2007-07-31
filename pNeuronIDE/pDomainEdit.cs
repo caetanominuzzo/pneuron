@@ -14,6 +14,7 @@ namespace primeira.pNeuron
 {
     public class pDomainEdit : DockContent
     {
+        private pXMLEditor.pXMLEditor pXMLEditor1;
         private string fDomainDir = "";
 
         public pDomainEdit()
@@ -24,11 +25,21 @@ namespace primeira.pNeuron
 
         private void InitializeComponent()
         {
+            this.pXMLEditor1 = new pXMLEditor.pXMLEditor();
             this.SuspendLayout();
+            // 
+            // pXMLEditor1
+            // 
+            this.pXMLEditor1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pXMLEditor1.Location = new System.Drawing.Point(0, 0);
+            this.pXMLEditor1.Name = "pXMLEditor1";
+            this.pXMLEditor1.Size = new System.Drawing.Size(570, 385);
+            this.pXMLEditor1.TabIndex = 0;
             // 
             // pDomainEdit
             // 
             this.ClientSize = new System.Drawing.Size(570, 385);
+            this.Controls.Add(this.pXMLEditor1);
             this.Name = "pDomainEdit";
             this.ShowInTaskbar = false;
             this.TabText = "Domains";
@@ -46,20 +57,20 @@ namespace primeira.pNeuron
         private void pDomainEdit_Load(object sender, EventArgs e)
         {
 
-            string[] files = Directory.GetFiles(fDomainDir, "*.xml");
-            foreach (string file in files)
-                cbDomain.Items.Add(Path.GetFileNameWithoutExtension(file));
+            //string[] files = Directory.GetFiles(fDomainDir, "*.xml");
+            //foreach (string file in files)
+            //    cbDomain.Items.Add(Path.GetFileNameWithoutExtension(file));
 
-            if(cbDomain.Items.Count>0)
-                cbDomain.SelectedIndex = 0;
+            //if(cbDomain.Items.Count>0)
+            //    cbDomain.SelectedIndex = 0;
 
         }
 
         private void cbDomain_SelectedIndexChanged(object sender, EventArgs e)
         {
-            DataSet dt = new DataSet();
-            dt.ReadXml(fDomainDir + cbDomain.Text + ".xml");
-            dgDomain.DataSource = dt.Tables[0];
+            //DataSet dt = new DataSet();
+            //dt.ReadXml(fDomainDir + cbDomain.Text + ".xml");
+            //dgDomain.DataSource = dt.Tables[0];
         }
 
     }

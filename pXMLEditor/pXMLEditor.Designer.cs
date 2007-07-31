@@ -39,18 +39,8 @@ namespace pXMLEditor
             this.btExport = new System.Windows.Forms.ToolStripButton();
             this.dgDomain = new System.Windows.Forms.DataGridView();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.sGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.dfghToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.dfghToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.dfhToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.dfghToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.dfghToolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
-            this.dfghToolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
-            this.dfghToolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgDomain)).BeginInit();
-            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStrip1
@@ -65,7 +55,7 @@ namespace pXMLEditor
             this.btImport,
             this.btExport});
             this.toolStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
-            this.toolStrip1.Location = new System.Drawing.Point(0, 24);
+            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(739, 25);
             this.toolStrip1.TabIndex = 7;
@@ -124,10 +114,10 @@ namespace pXMLEditor
             this.dgDomain.BackgroundColor = System.Drawing.Color.White;
             this.dgDomain.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgDomain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgDomain.Location = new System.Drawing.Point(0, 49);
+            this.dgDomain.Location = new System.Drawing.Point(0, 25);
             this.dgDomain.Margin = new System.Windows.Forms.Padding(0);
             this.dgDomain.Name = "dgDomain";
-            this.dgDomain.Size = new System.Drawing.Size(739, 497);
+            this.dgDomain.Size = new System.Drawing.Size(739, 499);
             this.dgDomain.TabIndex = 9;
             // 
             // statusStrip1
@@ -138,90 +128,18 @@ namespace pXMLEditor
             this.statusStrip1.TabIndex = 10;
             this.statusStrip1.Text = "statusStrip1";
             // 
-            // menuStrip1
-            // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.sGToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(739, 24);
-            this.menuStrip1.TabIndex = 11;
-            this.menuStrip1.Text = "menuStrip1";
-            // 
-            // sGToolStripMenuItem
-            // 
-            this.sGToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.dfghToolStripMenuItem,
-            this.dfghToolStripMenuItem1,
-            this.dfhToolStripMenuItem});
-            this.sGToolStripMenuItem.Name = "sGToolStripMenuItem";
-            this.sGToolStripMenuItem.Size = new System.Drawing.Size(33, 20);
-            this.sGToolStripMenuItem.Text = "s g";
-            // 
-            // dfghToolStripMenuItem
-            // 
-            this.dfghToolStripMenuItem.Name = "dfghToolStripMenuItem";
-            this.dfghToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.dfghToolStripMenuItem.Text = "dfgh ";
-            // 
-            // dfghToolStripMenuItem1
-            // 
-            this.dfghToolStripMenuItem1.Name = "dfghToolStripMenuItem1";
-            this.dfghToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
-            this.dfghToolStripMenuItem1.Text = "dfgh";
-            // 
-            // dfhToolStripMenuItem
-            // 
-            this.dfhToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.dfghToolStripMenuItem2,
-            this.dfghToolStripMenuItem4});
-            this.dfhToolStripMenuItem.Name = "dfhToolStripMenuItem";
-            this.dfhToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.dfhToolStripMenuItem.Text = "dfh";
-            // 
-            // dfghToolStripMenuItem2
-            // 
-            this.dfghToolStripMenuItem2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.dfghToolStripMenuItem3});
-            this.dfghToolStripMenuItem2.Name = "dfghToolStripMenuItem2";
-            this.dfghToolStripMenuItem2.Size = new System.Drawing.Size(152, 22);
-            this.dfghToolStripMenuItem2.Text = "dfgh";
-            // 
-            // dfghToolStripMenuItem3
-            // 
-            this.dfghToolStripMenuItem3.Name = "dfghToolStripMenuItem3";
-            this.dfghToolStripMenuItem3.Size = new System.Drawing.Size(152, 22);
-            this.dfghToolStripMenuItem3.Text = "dfgh";
-            // 
-            // dfghToolStripMenuItem4
-            // 
-            this.dfghToolStripMenuItem4.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.dfghToolStripMenuItem5});
-            this.dfghToolStripMenuItem4.Name = "dfghToolStripMenuItem4";
-            this.dfghToolStripMenuItem4.Size = new System.Drawing.Size(152, 22);
-            this.dfghToolStripMenuItem4.Text = "dfgh";
-            // 
-            // dfghToolStripMenuItem5
-            // 
-            this.dfghToolStripMenuItem5.Name = "dfghToolStripMenuItem5";
-            this.dfghToolStripMenuItem5.Size = new System.Drawing.Size(152, 22);
-            this.dfghToolStripMenuItem5.Text = "dfgh";
-            // 
             // pXMLEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.dgDomain);
+            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.toolStrip1);
-            this.Controls.Add(this.menuStrip1);
             this.Name = "pXMLEditor";
             this.Size = new System.Drawing.Size(739, 546);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgDomain)).EndInit();
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -239,14 +157,5 @@ namespace pXMLEditor
         private System.Windows.Forms.ToolStripButton btExport;
         private System.Windows.Forms.DataGridView dgDomain;
         private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem sGToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem dfghToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem dfghToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem dfhToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem dfghToolStripMenuItem2;
-        private System.Windows.Forms.ToolStripMenuItem dfghToolStripMenuItem3;
-        private System.Windows.Forms.ToolStripMenuItem dfghToolStripMenuItem4;
-        private System.Windows.Forms.ToolStripMenuItem dfghToolStripMenuItem5;
     }
 }
