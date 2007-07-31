@@ -166,6 +166,10 @@
       <Project>{D3847E8B-A4C3-49BB-B119-3F2B981C9154}</Project>
       <Name>pPanel</Name>
     </ProjectReference>
+    <ProjectReference Include="..\pXMLEditor\pXMLEditor.csproj">
+      <Project>{E60C9D24-DA24-4278-AE49-7EFDCD5E0133}</Project>
+      <Name>pXMLEditor</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WinFormsUI\WinFormsUI.csproj">
       <Project>{C75532C4-765B-418E-B09B-46D36B2ABDB1}</Project>
       <Name>WinFormsUI</Name>
