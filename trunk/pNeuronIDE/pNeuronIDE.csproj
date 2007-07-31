@@ -37,12 +37,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="fmDomainEdit.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="fmDomainEdit.Designer.cs">
-      <DependentUpon>fmDomainEdit.cs</DependentUpon>
-    </Compile>
     <Compile Include="IpDocks.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -156,6 +150,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Domain\Boolean.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="PP.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
