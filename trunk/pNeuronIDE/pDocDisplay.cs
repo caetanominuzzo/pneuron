@@ -1171,8 +1171,8 @@ namespace primeira.pNeuron
 
         private void pDisplay1_OnNewDomain()
         {
-            fmDomainEdit f = new fmDomainEdit();
-            f.ShowDialog();
+            //fmDomainEdit f = new fmDomainEdit();
+            //f.ShowDialog();
         }
 
         
