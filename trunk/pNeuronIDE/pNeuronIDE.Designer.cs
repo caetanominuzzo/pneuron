@@ -32,6 +32,8 @@ namespace primeira.pNeuron
             this.dockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
             this.status = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.statusGlobalError = new System.Windows.Forms.ToolStripStatusLabel();
+            this.statusCycles = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newNeuralNetworkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -54,8 +56,7 @@ namespace primeira.pNeuron
             this.tspViewPropertyWindow = new System.Windows.Forms.ToolStripMenuItem();
             this.nNToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tspTrain = new System.Windows.Forms.ToolStripMenuItem();
-            this.statusCycles = new System.Windows.Forms.ToolStripStatusLabel();
-            this.statusGlobalError = new System.Windows.Forms.ToolStripStatusLabel();
+            this.domainEditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.status.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -97,6 +98,34 @@ namespace primeira.pNeuron
             this.toolStripStatusLabel2.Size = new System.Drawing.Size(120, 17);
             this.toolStripStatusLabel2.Text = "Status: Idle";
             this.toolStripStatusLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // statusGlobalError
+            // 
+            this.statusGlobalError.AutoSize = false;
+            this.statusGlobalError.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
+                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)
+                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.statusGlobalError.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
+            this.statusGlobalError.Margin = new System.Windows.Forms.Padding(0, 3, 3, 2);
+            this.statusGlobalError.Name = "statusGlobalError";
+            this.statusGlobalError.Size = new System.Drawing.Size(150, 17);
+            this.statusGlobalError.Text = "Global Error:";
+            this.statusGlobalError.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.statusGlobalError.Visible = false;
+            // 
+            // statusCycles
+            // 
+            this.statusCycles.AutoSize = false;
+            this.statusCycles.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
+                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)
+                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.statusCycles.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
+            this.statusCycles.Margin = new System.Windows.Forms.Padding(0, 3, 3, 2);
+            this.statusCycles.Name = "statusCycles";
+            this.statusCycles.Size = new System.Drawing.Size(100, 17);
+            this.statusCycles.Text = "Cycles/Sec.:";
+            this.statusCycles.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.statusCycles.Visible = false;
             // 
             // toolStripStatusLabel1
             // 
@@ -226,7 +255,8 @@ namespace primeira.pNeuron
             this.viewToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tspViewToolbox,
             this.tspViewNetworkExplorer,
-            this.tspViewPropertyWindow});
+            this.tspViewPropertyWindow,
+            this.domainEditToolStripMenuItem});
             this.viewToolStripMenuItem1.Name = "viewToolStripMenuItem1";
             this.viewToolStripMenuItem1.Size = new System.Drawing.Size(41, 20);
             this.viewToolStripMenuItem1.Text = "View";
@@ -267,33 +297,12 @@ namespace primeira.pNeuron
             this.tspTrain.Text = "Train";
             this.tspTrain.Click += new System.EventHandler(this.trainToolStripMenuItem_Click);
             // 
-            // statusCycles
+            // domainEditToolStripMenuItem
             // 
-            this.statusCycles.AutoSize = false;
-            this.statusCycles.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
-                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)
-                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
-            this.statusCycles.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
-            this.statusCycles.Margin = new System.Windows.Forms.Padding(0, 3, 3, 2);
-            this.statusCycles.Name = "statusCycles";
-            this.statusCycles.Size = new System.Drawing.Size(100, 17);
-            this.statusCycles.Text = "Cycles/Sec.:";
-            this.statusCycles.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.statusCycles.Visible = false;
-            // 
-            // statusGlobalError
-            // 
-            this.statusGlobalError.AutoSize = false;
-            this.statusGlobalError.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
-                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)
-                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
-            this.statusGlobalError.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
-            this.statusGlobalError.Margin = new System.Windows.Forms.Padding(0, 3, 3, 2);
-            this.statusGlobalError.Name = "statusGlobalError";
-            this.statusGlobalError.Size = new System.Drawing.Size(150, 17);
-            this.statusGlobalError.Text = "Global Error:";
-            this.statusGlobalError.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.statusGlobalError.Visible = false;
+            this.domainEditToolStripMenuItem.Name = "domainEditToolStripMenuItem";
+            this.domainEditToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.domainEditToolStripMenuItem.Text = "Domain Edit";
+            this.domainEditToolStripMenuItem.Click += new System.EventHandler(this.domainEditToolStripMenuItem_Click);
             // 
             // pNeuronIDE
             // 
@@ -348,5 +357,6 @@ namespace primeira.pNeuron
         private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
         public System.Windows.Forms.ToolStripStatusLabel statusCycles;
         public System.Windows.Forms.ToolStripStatusLabel statusGlobalError;
+        private System.Windows.Forms.ToolStripMenuItem domainEditToolStripMenuItem;
     }
 }
