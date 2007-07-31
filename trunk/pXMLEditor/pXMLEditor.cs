@@ -9,13 +9,20 @@ using System.IO;
 
 namespace primeira.pXMLEditor
 {
-    public class pXMLEditor
+    public class pXMLEditor : Panel
     {
         private DataSet fDataSet;
 
         public pXMLEditor(DataSet ds)
         {
             fDataSet = ds;
+        }
+
+        private void InitializeComponent()
+        {
+            this.SuspendLayout();
+            this.ResumeLayout(false);
+
         }
     }
 }

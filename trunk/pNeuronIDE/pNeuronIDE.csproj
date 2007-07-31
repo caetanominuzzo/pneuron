@@ -61,6 +61,9 @@
     <Compile Include="pDocument.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="pDomainEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="pNetworkExplorer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -81,6 +84,10 @@
     <EmbeddedResource Include="pDocument.resx">
       <SubType>Designer</SubType>
       <DependentUpon>pDocument.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pDomainEdit.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>pDomainEdit.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="pNetworkExplorer.resx">
       <SubType>Designer</SubType>
