@@ -26,7 +26,7 @@ namespace primeira.pNeuron
 
     public partial class pDisplay : primeira.pExternal.CustomAutoScrollPanel.ScrollablePanel, primeira.pNeuron.IpPanels
     {
-
+        
         [DllImport("Kernel32.dll")]
         public static extern bool Beep(UInt32 frequency, UInt32 duration);
 
@@ -185,6 +185,10 @@ namespace primeira.pNeuron
 
         public pDisplay()
         {
+
+            
+
+
             InitializeComponent();
 
             //Make all this stuff slow =(

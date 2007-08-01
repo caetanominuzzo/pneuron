@@ -100,6 +100,7 @@ namespace primeira.pNeuron
 
         public pNeuronIDE()
         {
+
             InitializeComponent();
 
             fmToolbox.Show(dockPanel, DockState.DockLeft);
