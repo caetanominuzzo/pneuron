@@ -822,7 +822,7 @@ namespace primeira.pNeuron
                                             if (!target.Input.ContainsKey(n))
                                             {
                                                 n.Output.Add(target);// .Input.Add(target, new NeuralFactor(new Random(1).NextDouble()));
-                                                target.Input.Add(n, new NeuralValue(n, m_random.NextDouble())); //Output.Add(n);
+                                                target.Input.Add(n, new NeuralValue(n, Net.Random.GetDouble())); //Output.Add(n);
                                                 Invalidate();
 
                                                 if (OnNetworkChange != null)
