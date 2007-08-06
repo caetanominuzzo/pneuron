@@ -1,4 +1,4 @@
-_XOR_ é um bem conhecido problema de redes neurais. Consiste em ensinar uma rede neural a calcular o XOR de dois valores booleanos. Esse exemplo é dividido em três partes. A primeira parte trata do projeto da _rede neural_ e dos _domínios_ utilizados. NO segunda parte vamos importar um _trainning set_ e aplicá-lo em nossa rede. Na terceira parte a rede será exportada e então utilizada em um projeto Windows Forms no Visual Studio 2005. 
+_XOR_ é um bem conhecido problema de redes neurais. Consiste em ensinar uma rede neural a calcular o XOR de dois valores booleanos. Esse exemplo é dividido em três partes. A primeira parte trata do projeto da _rede neural_ e dos _domínios_ utilizados. Na segunda parte vamos importar um _trainning set_ e aplicá-lo em nossa rede. Na terceira parte a rede será exportada e então utilizada em um projeto Windows Forms no Visual Studio 2005. 
 
 Antes de começar talvez você queira conhecer os termos usados, ou a qualquer momento você pode consultar o glossário. Sempre que um conceito estiver disponível no glossário ele será mostrado como um link no texto.
 
