@@ -13,7 +13,7 @@
     <ManifestCertificateThumbprint>0FA851308D52BBF11230F756F059210BF5347B74</ManifestCertificateThumbprint>
     <ManifestKeyFile>pNeuronIDE_TemporaryKey.pfx</ManifestKeyFile>
     <GenerateManifests>true</GenerateManifests>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>C:\primeira\pNeuronIDE\</PublishUrl>
     <Install>true</Install>
