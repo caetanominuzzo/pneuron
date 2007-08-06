@@ -16,7 +16,7 @@ namespace primeira.pNeuron
             InitializeComponent();
         }
 
-        public NeuralNet net = new NeuralNet();
+        public NeuralNetwork net = new NeuralNetwork();
 
         TextBox[][] t = new TextBox[3][];
            double high, mid, low;
@@ -55,10 +55,8 @@ namespace primeira.pNeuron
             int count;
 
             count = 0;
-            net.LearningRate = .5;
+            //net.LearningRate = .5;
             
-            net.InitializeLearning();
-
             Timer t = new Timer();
             t.Interval = 1;
             t.Tick += new EventHandler(t_Tick);
@@ -188,9 +186,6 @@ namespace primeira.pNeuron
             int count;
 
             count = 0;
-            net.LearningRate = 1;
-
-            net.InitializeLearning();
 
             Timer t = new Timer();
             t.Interval = 1;

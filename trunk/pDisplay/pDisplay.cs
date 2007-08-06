@@ -30,9 +30,9 @@ namespace primeira.pNeuron
         [DllImport("Kernel32.dll")]
         public static extern bool Beep(UInt32 frequency, UInt32 duration);
 
-        NeuralNet m_net ;
+        NeuralNetwork m_net ;
 
-        public NeuralNet Net
+        public NeuralNetwork Net
         {
             get { return m_net; }
         }
@@ -213,8 +213,7 @@ namespace primeira.pNeuron
                 m_groups[i] = new List<pPanel>();
 
             //Initialize NeuralNet
-            m_net = new NeuralNet();
-            m_net.Initialize();
+            m_net = new NeuralNetwork();
 
 
         }
@@ -823,7 +822,7 @@ namespace primeira.pNeuron
                                             if (!target.Input.ContainsKey(n))
                                             {
                                                 n.Output.Add(target);// .Input.Add(target, new NeuralFactor(new Random(1).NextDouble()));
-                                                target.Input.Add(n, new NeuralFactor(m_random.NextDouble())); //Output.Add(n);
+                                                target.Input.Add(n, new NeuralValue(n, m_random.NextDouble())); //Output.Add(n);
                                                 Invalidate();
 
                                                 if (OnNetworkChange != null)

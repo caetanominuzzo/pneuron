@@ -747,7 +747,7 @@ namespace primeira.pNeuron
                             p.Location.X,
                             p.Location.Y,
                             p.Groups,
-                            (p.Neuron).Bias.Weight,
+                            (p.Neuron).Bias.Value,
                             (p.Neuron).Value,
                             (p.Neuron).NeuronType
                         }
@@ -768,7 +768,7 @@ namespace primeira.pNeuron
                                     tSynapse.Rows.Add(new object[]{
                                                         p.Name,
                                                         pp.Name,
-                                                        (pp.Neuron).Input[nn].Weight });
+                                                        (pp.Neuron).Input[nn].Value });
        
                                 break;
                             }
@@ -833,7 +833,7 @@ namespace primeira.pNeuron
             foreach (DataRow r in ds.Tables["pNeuron"].Rows)
             {
                 pPanel p = pDisplay1.Add();
-                p.Neuron.Bias.Weight = Convert.ToDouble(r["Bias"], System.Globalization.CultureInfo.InvariantCulture);
+                p.Neuron.Bias.Value = Convert.ToDouble(r["Bias"], System.Globalization.CultureInfo.InvariantCulture);
                 p.Name = r["Name"].ToString();
                 p.Location = new Point( Convert.ToInt32(r["LocationX"]), Convert.ToInt32(r["LocationY"]) );
                 pDisplay1.Add(p, Convert.ToInt32(r["Group"]));
@@ -855,7 +855,7 @@ namespace primeira.pNeuron
                             if (r["NeuronIn"].ToString() == pp.Name)
                             {
                                 p.Output.Add(pp.Neuron);
-                                pp.Input.Add(p.Neuron, new NeuralFactor(Convert.ToDouble(r["Value"], System.Globalization.CultureInfo.InvariantCulture)));
+                                pp.Input.Add(p.Neuron, new NeuralValue(p.Neuron, Convert.ToDouble(r["Value"], System.Globalization.CultureInfo.InvariantCulture)));
                                 break;
                             }
                         }
@@ -995,7 +995,7 @@ namespace primeira.pNeuron
 
                 }
 
-                NeuralNet net = pDisplay1.Net;
+                NeuralNetwork net = pDisplay1.Net;
 
                 ThreadStart starter2 = delegate { internalTrain(ref net, input, output); };
                 new Thread(starter2).Start();
@@ -1062,16 +1062,14 @@ namespace primeira.pNeuron
         }
 
 
-        private void internalTrain(ref NeuralNet net, double[][] input, double[][] output)
+        private void internalTrain(ref NeuralNetwork net, double[][] input, double[][] output)
         {
             this.Invoke(new Assinc(StartTrain));
 
             int count;
 
             count = 0;
-            net.LearningRate = .5;
 
-            net.InitializeLearning();
 
             double dGlobalError = 1;
             double dTotalError = 1;
@@ -1140,7 +1138,7 @@ namespace primeira.pNeuron
 
         private void Reset_Click(object sender, EventArgs e)
         {
-            pDisplay1.Net.ResetLearning();
+            pDisplay1.Net.ResetKnowledgment();
             Parent.fmPlotter.ClearData();
         }
 
