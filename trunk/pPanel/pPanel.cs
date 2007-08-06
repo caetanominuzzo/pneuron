@@ -80,7 +80,7 @@ namespace primeira.pNeuron
         #region Browsable
 
         [Browsable(true)]
-        public Dictionary<INeuron, NeuralFactor> Input { get { return Neuron.Input; } } 
+        public Dictionary<INeuron, NeuralValue> Input { get { return Neuron.Input; } } 
 
         [Browsable(true)]
         public List<Neuron> Output { get { return Neuron.Output; } }
@@ -109,7 +109,7 @@ namespace primeira.pNeuron
                 List<double> d = new List<double>();
                 foreach (Neuron n in Neuron.Input.Keys)
                 {
-                    d.Add(Neuron.Input[n].Weight);
+                    d.Add(Neuron.Input[n].Value);
                 }
 
                 return d.ToArray();
@@ -124,7 +124,7 @@ namespace primeira.pNeuron
                 List<double> d = new List<double>();
                 foreach (Neuron n in Neuron.Output)
                 {
-                    d.Add(n.Input[Neuron].Weight);
+                    d.Add(n.Input[Neuron].Value);
                 }
 
                 return d.ToArray();
@@ -136,7 +136,7 @@ namespace primeira.pNeuron
         {
             get
             {
-                return Neuron.Bias.Weight;
+                return Neuron.Bias.Value;
             }
         }
 
