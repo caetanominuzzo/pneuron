@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
-using System.Net;
-using System.IO;
+using primeira.pRandom;
+
 
 namespace primeira.pNeuron.Core
 {
 
-    #region Interfaces INeuralData, INeuron, INeuralNetwork
+    #region Interfaces INeuralSynapse, INeuron, INeuralNetwork
 
-    public interface INeuralIO
+    public interface INeuralSynapse
     {
         Dictionary<INeuron, NeuralValue> Input { get; }
         List<Neuron> Output { get; }
@@ -154,7 +154,7 @@ namespace primeira.pNeuron.Core
     /// <summary>
     /// Represents a neuron.
     /// </summary>
-    public class Neuron : INeuron, INeuralIO
+    public class Neuron : INeuron, INeuralSynapse
     {
 
         #region Constructors
@@ -401,11 +401,11 @@ namespace primeira.pNeuron.Core
 
             if (this.NeuronType == NeuronTypes.Output)
             {
-                this.Error = (desiredResult - this.Value) * Util.SigmoidDerivative(this.Value); //* temp * (1.0F - temp);
+                this.Error = (desiredResult - this.Value) * Util.DerivativeSigmoid(this.Value); //* temp * (1.0F - temp);
             }
             else
             {
-                this.Error = (desiredResult) * Util.SigmoidDerivative(this.Value); //* temp * (1.0F - temp);
+                this.Error = (desiredResult) * Util.DerivativeSigmoid(this.Value); //* temp * (1.0F - temp);
             }
 
 
@@ -487,10 +487,17 @@ namespace primeira.pNeuron.Core
 
         public NeuralNetwork()
         {
-            m_learningRate = .5;
+            m_learningRate = DEFAULT_LEARNING_RATE;
             m_neuron = new List<Neuron>();
-            m_random = new pRandom();
+            m_random = new pTrueRandomGenerator(TRUE_RANDOM_GENERATOR_CACHE);
         }
+
+        #endregion
+
+        #region CONSTS
+
+        double DEFAULT_LEARNING_RATE = .5;
+        int TRUE_RANDOM_GENERATOR_CACHE = 1000;
 
         #endregion
 
@@ -500,7 +507,7 @@ namespace primeira.pNeuron.Core
         private List<Neuron> m_neuron;
         private int m_inputNeuronCount = 0;
         private int m_outputNeuronCount = 0;
-        private pRandom m_random;
+        private pTrueRandomGenerator m_random;
 
         #endregion
 
@@ -567,7 +574,7 @@ namespace primeira.pNeuron.Core
         /// <summary>
         /// Gets a pRandom true random generator object.
         /// </summary>
-        public pRandom Random
+        public pTrueRandomGenerator Random
         {
             get { return m_random; }
         }
@@ -802,11 +809,11 @@ namespace primeira.pNeuron.Core
     }
 
     /// <summary>
-    /// Holds statics utilities methods.
+    /// Holds statics utility methods.
     /// </summary>
     public static class Util
     {
-        public static double SigmoidDerivative(double value)
+        public static double DerivativeSigmoid(double value)
         {
             return value * (1.0F - value);
         }
