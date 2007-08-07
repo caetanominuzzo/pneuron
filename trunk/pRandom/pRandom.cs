@@ -1,73 +1,53 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Net;
+using System.IO;
 
-namespace primeira.pNeuron.pRandom
+namespace primeira.pRandom
 {
     /// <summary>
     /// True random number generator.
     /// </summary>
-    public class pRandom
+    public class pTrueRandomGenerator
     {
+        
+        /// <summary>
+        /// Used as contingency.
+        /// </summary>
+        private Random m_pseudoRandom;
 
-        public pRandom()
+        /// <summary>
+        /// True random number generator.
+        /// </summary>
+        /// <param name="cacheSize">Number of doubles on cache.</param>
+        public pTrueRandomGenerator(int cacheSize)
         {
-            Refresh();
-        }
-
-        private String readHtmlPage(string url)
-        {
-            String result;
-            HttpWebRequest makeReq = (HttpWebRequest)WebRequest.Create("http://random.org/decimal-fractions/?num=100&dec=20&col=1&format=plain&rnd=new");
-            NetworkCredential giveCred = new NetworkCredential("caetano", "0123456789", "CWIPOA");
-            CredentialCache putCache = new CredentialCache();
-            putCache.Add(new Uri("http://10.0.101.226:8080/"), "Basic", giveCred);
-            makeReq.Credentials = putCache;
-            WebResponse objResponse;
-            objResponse = makeReq.GetResponse();
-            using (StreamReader sr = new StreamReader(objResponse.GetResponseStream()))
+            try
             {
-                result = sr.ReadToEnd();
-                // Close and clean up the StreamReader
-                sr.Close();
+                m_cache = new List<double>(cacheSize);
+                RefreshCache();
             }
-            return result;
+            catch
+            {
+                m_pseudoRandom = new Random(1);
+                //TODO:Log warning
+            }
         }
 
-        private void Refresh()
+        private void RefreshCache()
         {
-            //readHtmlPage("");
+            StringBuilder sb = new StringBuilder();
 
-            //  m_cache.Clear();
+            byte[] buf = new byte[1024];
 
-            // used to build entire input
-            System.Text.StringBuilder sb = new System.Text.StringBuilder();
-
-            // used on each read operation
-            byte[] buf = new byte[8192];
-
-            // prepare the web page we will be asking for
-            HttpWebRequest request = (HttpWebRequest)
-                WebRequest.Create(
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
                     string.Format("http://random.org/decimal-fractions/?num={0}&dec=20&col=1&format=plain&rnd=new",
                                   m_cache.Capacity - m_cache.Count));
 
 
-            //            NetworkCredential giveCred = new NetworkCredential
-            //("caetano", "0123456789", "CWIPOA"); 
+            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
-
-            //            WebProxy proxyObject = new WebProxy("http://10.0.101.226:8080/",true);
-
-
-
-            //            request.Proxy = proxyObject;
-
-            // execute the request
-            HttpWebResponse response = (HttpWebResponse)
-                request.GetResponse();
-
-            // we will read data via the response stream
             Stream resStream = response.GetResponseStream();
 
             string tempString = null;
@@ -75,20 +55,16 @@ namespace primeira.pNeuron.pRandom
 
             do
             {
-                // fill the buffer with data
                 count = resStream.Read(buf, 0, buf.Length);
 
-                // make sure we read some data
                 if (count != 0)
                 {
-                    // translate from bytes to ASCII text
                     tempString = System.Text.Encoding.ASCII.GetString(buf, 0, count);
 
-                    // continue building the string
                     sb.Append(tempString);
                 }
             }
-            while (count > 0); // any more data to read?
+            while (count > 0);
 
             string[] ss = sb.ToString().Split('\n');
             foreach (string s in ss)
@@ -101,7 +77,7 @@ namespace primeira.pNeuron.pRandom
 
         #region Fields
 
-        List<double> m_cache = new List<double>(20);
+        List<double> m_cache;
 
         Random m_random = new Random();
 
@@ -113,13 +89,21 @@ namespace primeira.pNeuron.pRandom
         /// <returns></returns>
         public double GetDouble()
         {
-            if (m_cache.Count < 10)
+            double d = 0;
+            if (m_cache.Count > 0)
             {
-                Refresh();
-            }
+                if (m_cache.Count < m_cache.Capacity / 10 )
+                {
+                    RefreshCache();
+                }
 
-            double d = m_cache[0];
-            m_cache.RemoveAt(0);
+                d = m_cache[0];
+                m_cache.RemoveAt(0);
+            }
+            else
+            {
+                d = m_pseudoRandom.NextDouble();
+            }
 
             return d;
 
