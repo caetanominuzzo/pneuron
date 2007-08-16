@@ -60,7 +60,7 @@ namespace primeira.pNeuron.Core
         public NeuralValue(INeuron neuron, double value)
         {
             m_neuron = (Neuron)neuron;
-            m_value = value;
+            m_weight = value;
             m_delta = 0;
         }
 
@@ -68,21 +68,23 @@ namespace primeira.pNeuron.Core
 
         #region Fields
 
-        private double m_value, m_delta;
+        private double m_weight, m_delta;
 
         private Neuron m_neuron;
+
+        private bool m_ready = false;
 
         #endregion
 
         #region Properties
 
         /// <summary>
-        /// Gets the value of the synapse or bias.
+        /// Gets the weight of the synapse or bias.
         /// </summary>
-        public double Value
+        public double Weight
         {
-            get { return m_value; }
-            set { m_value = value; }
+            get { return m_weight; }
+            set { m_weight = value; }
         }
 
         /// <summary>
@@ -100,6 +102,14 @@ namespace primeira.pNeuron.Core
         public Neuron Neuron
         {
             get { return m_neuron; }
+        }
+
+        /// <summary>
+        /// Gets a bool indicating if this synapse is already calculated and ready to be read.
+        /// </summary>
+        public bool Ready
+        {
+            get { return m_ready; }
         }
 
         #endregion
@@ -121,7 +131,7 @@ namespace primeira.pNeuron.Core
         /// <param name="learningRate"></param>
         public void ApplyLearning(double learningRate)
         {
-            m_value += m_delta * learningRate;
+            m_weight += m_delta * learningRate;
         }
 
         /// <summary>
@@ -139,7 +149,7 @@ namespace primeira.pNeuron.Core
         /// </summary>
         public void ResetKnowledgment()
         {
-            m_value = Neuron.Net.Random.GetDouble();
+            m_weight = Neuron.Net.Random.GetDouble();
         }
 
         #endregion
@@ -371,9 +381,9 @@ namespace primeira.pNeuron.Core
                     m_value = 0;
 
                     foreach (KeyValuePair<INeuron, NeuralValue> item in m_input)
-                        m_value += item.Key.Value * item.Value.Value;
+                        m_value += item.Key.Value * item.Value.Weight;
 
-                    m_value += m_bias.Value;
+                    m_value += m_bias.Weight;
 
                     m_value = Util.Sigmoid(m_value);
                 }
@@ -416,7 +426,7 @@ namespace primeira.pNeuron.Core
                     double error = 0;
 
                     foreach (Neuron nn in n.Output)
-                        error += (nn.Error * nn.Input[n].Value);
+                        error += (nn.Error * nn.Input[n].Weight);
 
                     n.PulseBack(error);
                 }
@@ -447,7 +457,7 @@ namespace primeira.pNeuron.Core
                 this.Input[n].CalculateDelta(this.Error);
             }
 
-            this.Bias.Delta += this.Error * this.Bias.Value;
+            this.Bias.Delta += this.Error * this.Bias.Weight;
 
         }
 
