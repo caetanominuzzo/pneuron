@@ -747,7 +747,7 @@ namespace primeira.pNeuron
                             p.Location.X,
                             p.Location.Y,
                             p.Groups,
-                            (p.Neuron).Bias.Value,
+                            (p.Neuron).Bias.Weight,
                             (p.Neuron).Value,
                             (p.Neuron).NeuronType
                         }
@@ -768,7 +768,7 @@ namespace primeira.pNeuron
                                     tSynapse.Rows.Add(new object[]{
                                                         p.Name,
                                                         pp.Name,
-                                                        (pp.Neuron).GetSynapseFrom(nn).Value });
+                                                        (pp.Neuron).GetSynapseFrom(nn).Weight });
        
                                 break;
                             }
@@ -833,7 +833,7 @@ namespace primeira.pNeuron
             foreach (DataRow r in ds.Tables["pNeuron"].Rows)
             {
                 pPanel p = pDisplay1.Add();
-                p.Neuron.Bias.Value = Convert.ToDouble(r["Bias"], System.Globalization.CultureInfo.InvariantCulture);
+                p.Neuron.Bias.Weight = Convert.ToDouble(r["Bias"], System.Globalization.CultureInfo.InvariantCulture);
                 p.Name = r["Name"].ToString();
                 p.Location = new Point( Convert.ToInt32(r["LocationX"]), Convert.ToInt32(r["LocationY"]) );
                 pDisplay1.Add(p, Convert.ToInt32(r["Group"]));
