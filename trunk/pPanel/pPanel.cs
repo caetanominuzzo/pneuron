@@ -137,7 +137,7 @@ namespace primeira.pNeuron
         {
             get
             {
-                return Neuron.Bias.Value;
+                return Neuron.Bias.Weight;
             }
         }
 
