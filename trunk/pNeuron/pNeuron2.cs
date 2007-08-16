@@ -6,13 +6,7 @@ using primeira.pRandom;
 namespace primeira.pNeuron.Core
 {
 
-    #region Interfaces INeuralSynapse, INeuron, INeuralNetwork
-
-    public interface INeuralSynapse
-    {
-        Dictionary<INeuron, NeuralValue> Input { get; }
-        List<Neuron> Output { get; }
-    }
+    #region Interfaces INeuron, INeuralNetwork
 
     public interface INeuron
     {
@@ -29,6 +23,8 @@ namespace primeira.pNeuron.Core
         NeuronTypes NeuronType { get; set;}
 
         double Value { get; set; }
+
+        NeuralNetwork Net{ get;}
     }
 
     public interface INeuralNetwork
@@ -61,9 +57,9 @@ namespace primeira.pNeuron.Core
         /// </summary>
         /// <param name="neuron">Neuron parent.</param>
         /// <param name="value">Initial value.</param>
-        public NeuralValue(Neuron neuron, double value)
+        public NeuralValue(INeuron neuron, double value)
         {
-            m_neuron = neuron;
+            m_neuron = (Neuron)neuron;
             m_value = value;
             m_delta = 0;
         }
@@ -154,7 +150,7 @@ namespace primeira.pNeuron.Core
     /// <summary>
     /// Represents a neuron.
     /// </summary>
-    public class Neuron : INeuron, INeuralSynapse
+    public class Neuron : INeuron
     {
 
         #region Constructors
@@ -220,7 +216,7 @@ namespace primeira.pNeuron.Core
         /// <summary>
         /// Gets a dictionary with all input synapses of this neuron.
         /// </summary>
-        public Dictionary<INeuron, NeuralValue> Input
+        private Dictionary<INeuron, NeuralValue> Input
         {
             get { return m_input; }
         }
@@ -228,7 +224,7 @@ namespace primeira.pNeuron.Core
         /// <summary>
         /// Gets a dictionary with all output synapses of this neuron.
         /// </summary>
-        public List<Neuron> Output
+        private List<Neuron> Output
         {
             get { return m_output; }
         }
@@ -475,11 +471,106 @@ namespace primeira.pNeuron.Core
                 m.Value.ResetKnowledgment();
         }
 
+        /// <summary>
+        /// Gets a input NeuralValue.
+        /// </summary>
+        /// <param name="neuron">The neuron starting the synapse.</param>
+        /// <returns></returns>
+        public NeuralValue GetSynapseFrom(INeuron neuron)
+        {
+            if (Input.ContainsKey(neuron))
+                return Input[neuron];
+            else
+                return null;
+        }
+
+        /// <summary>
+        /// Gets all input neurons. It's dinamically calculated so if you need to uso in a foreach prefer:
+        /// <code>
+        /// INeuron[] arInputNeuron = GetInputNeurons();
+        /// foreach(INeuron neuron in arInputNeuron)
+        /// {
+        ///     //...
+        /// }
+        /// </code>
+        /// insteed of
+        /// <code>
+        /// foreach(INeuron neuron in GetInputNeurons())
+        /// {
+        ///     //...
+        /// }
+        /// </code>
+        /// </summary>
+        /// <returns></returns>
+        public INeuron[] GetInputNeurons()
+        {
+            List<INeuron> tmp = new List<INeuron>(Input.Keys.Count);
+            foreach (INeuron n in Input.Keys)
+                tmp.Add(n);
+
+            return tmp.ToArray();
+        }
+
+        /// <summary>
+        /// Adds a new synapse between this and a neuron.
+        /// </summary>
+        /// <param name="neuron">Target neuron.</param>
+        public void AddSynapse(INeuron neuron)
+        {
+            AddSynapse(neuron, neuron.Net.Random.GetDouble());
+        }
+
+        /// <summary>
+        /// Adds a new input synapse between this and a neuron and sets its value.
+        /// Adds a new output synapse between a neuron and this.
+        /// </summary>
+        /// <param name="neuron">Target neuron.</param>
+        /// <param name="value">Synapse value.</param>
+        public void AddSynapse(INeuron neuron, double value)
+        {
+            Input.Add(neuron, new NeuralValue(neuron, value));
+            ((Neuron)neuron).Output.Add(this);
+        }
+
+        /// <summary>
+        /// Removes a input synapse between this and a neuron.
+        /// Removes a output synapse between a neuron and this.
+        /// </summary>
+        /// <param name="neuron">Target neuron.</param>
+        public void RemoveSynapse(INeuron neuron)
+        {
+            Input.Remove(neuron);
+            ((Neuron)neuron).Output.Remove(this);
+        }
+
+        /// <summary>
+        /// Gets all output neurons. It's dinamically calculated so if you need to uso in a foreach prefer:
+        /// <code>
+        /// INeuron[] arOutputNeuron = GetOutputNeurons();
+        /// foreach(INeuron neuron in arOutputNeuron)
+        /// {
+        ///     //...
+        /// }
+        /// </code>
+        /// insteed of
+        /// <code>
+        /// foreach(INeuron neuron in GetOutputNeurons())
+        /// {
+        ///     //...
+        /// }
+        /// </code>
+        /// </summary>
+        /// <returns></returns>
+        public INeuron[] GetOutputNeurons()
+        {
+            return Output.ToArray();
+        } 
+
         #endregion
     }
     
     /// <summary>
-    /// Represents a NeuralNetwork
+    /// Represents a NeuralNetwork.
     /// </summary>
     public class NeuralNetwork : INeuralNetwork
     {
