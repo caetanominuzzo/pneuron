@@ -819,10 +819,9 @@ namespace primeira.pNeuron
 
                                             Neuron target = ppp.Neuron;
 
-                                            if (!target.Input.ContainsKey(n))
+                                            if (target.GetSynapseFrom(n) == null)
                                             {
-                                                n.Output.Add(target);// .Input.Add(target, new NeuralFactor(new Random(1).NextDouble()));
-                                                target.Input.Add(n, new NeuralValue(n, Net.Random.GetDouble())); //Output.Add(n);
+                                                target.AddSynapse(n);
                                                 Invalidate();
 
                                                 if (OnNetworkChange != null)
@@ -830,8 +829,7 @@ namespace primeira.pNeuron
                                             }
                                             else
                                             {
-                                                target.Input.Remove(n);
-                                                n.Output.Remove(target);
+                                                target.RemoveSynapse(n);
 
                                                 if (OnNetworkChange != null)
                                                     OnNetworkChange();
@@ -954,7 +952,8 @@ namespace primeira.pNeuron
 
             foreach (pPanel p in m_pPanels)
             {
-                foreach (Neuron n in (p.Neuron).Input.Keys)
+                INeuron[] arNeuron = p.Neuron.GetInputNeurons();
+                foreach (Neuron n in arNeuron)
                 {
                     foreach (pPanel pp in m_pPanels)
                     {
