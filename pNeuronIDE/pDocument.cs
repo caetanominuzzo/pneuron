@@ -757,18 +757,18 @@ namespace primeira.pNeuron
 
                 foreach (pPanel pp in pDisplay1.pPanels)
                 {
-                    if (pp.Neuron.Input.ContainsKey(p.Neuron))
+                    if (pp.Neuron.GetSynapseFrom(p.Neuron)!=null)
                     {
-                        foreach (INeuron nn in (pp.Neuron).Input.Keys)
+                        INeuron[] arNeuron = (pp.Neuron).GetInputNeurons();
+                        foreach (INeuron nn in arNeuron)
                         {
-
                             if (nn == (p.Neuron))
                             {
                                 
                                     tSynapse.Rows.Add(new object[]{
                                                         p.Name,
                                                         pp.Name,
-                                                        (pp.Neuron).Input[nn].Value });
+                                                        (pp.Neuron).GetSynapseFrom(nn).Value });
        
                                 break;
                             }
@@ -854,8 +854,7 @@ namespace primeira.pNeuron
                         {
                             if (r["NeuronIn"].ToString() == pp.Name)
                             {
-                                p.Output.Add(pp.Neuron);
-                                pp.Input.Add(p.Neuron, new NeuralValue(p.Neuron, Convert.ToDouble(r["Value"], System.Globalization.CultureInfo.InvariantCulture)));
+                                pp.Neuron.AddSynapse(p.Neuron,  Convert.ToDouble(r["Value"], System.Globalization.CultureInfo.InvariantCulture));
                                 break;
                             }
                         }

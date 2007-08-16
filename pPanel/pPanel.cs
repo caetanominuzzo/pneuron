@@ -80,10 +80,10 @@ namespace primeira.pNeuron
         #region Browsable
 
         [Browsable(true)]
-        public Dictionary<INeuron, NeuralValue> Input { get { return Neuron.Input; } } 
+        public INeuron[] Input { get { return Neuron.GetInputNeurons(); } } 
 
         [Browsable(true)]
-        public List<Neuron> Output { get { return Neuron.Output; } }
+        public INeuron[] Output { get { return Neuron.GetOutputNeurons(); } }
 
         [Browsable(true)]
         public String Name { get { return Text; } set {
@@ -101,35 +101,36 @@ namespace primeira.pNeuron
         [Browsable(false)]
         public String Text { get { return m_text; } set { m_text = value; } }
 
-        [Browsable(true)]
-        public double[] SynapseIN
-        {
-            get
-            {
-                List<double> d = new List<double>();
-                foreach (Neuron n in Neuron.Input.Keys)
-                {
-                    d.Add(Neuron.Input[n].Value);
-                }
+        //[Browsable(true)]
+        //public double[] SynapseIN
+        //{
+        //    get
+        //    {
+        //        INeuron arNeuron = Neuron.GetInputNeurons();
+        //        List<double> d = new List<double>();
+        //        foreach (Neuron n in arNeuron)
+        //        {
+        //            d.Add(Neuron.GetSynapseFrom(n).Value);
+        //        }
 
-                return d.ToArray();
-            }
-        }
+        //        return d.ToArray();
+        //    }
+        //}
 
-        [Browsable(true)]
-        public double[] SynapseOUT
-        {
-            get
-            {
-                List<double> d = new List<double>();
-                foreach (Neuron n in Neuron.Output)
-                {
-                    d.Add(n.Input[Neuron].Value);
-                }
+        //[Browsable(true)]
+        //public double[] SynapseOUT
+        //{
+        //    get
+        //    {
+        //        List<double> d = new List<double>();
+        //        foreach (Neuron n in Neuron.Output)
+        //        {
+        //            d.Add(n.Input[Neuron].Value);
+        //        }
 
-                return d.ToArray();
-            }
-        }
+        //        return d.ToArray();
+        //    }
+        //}
 
         [Browsable(true)]
         public double Bias
