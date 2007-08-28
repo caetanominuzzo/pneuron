@@ -40,6 +40,13 @@ namespace primeira.pNeuron.Core
         List<Neuron> Neuron { get; }
     }
 
+    public interface ILogger
+    {
+        void Log(String msg);
+        void Flush();
+    }
+
+
     #endregion
 
     #region Classes NeuralValue, Neuron, NeuralNetwork, Util
@@ -186,6 +193,8 @@ namespace primeira.pNeuron.Core
             m_input = new Dictionary<INeuron, NeuralValue>();
             m_output = new List<Neuron>();
             m_net = net;
+            m_index = net.Neuron.Count;
+            net.Neuron.Add(this);
         }
 
         #endregion
@@ -209,6 +218,8 @@ namespace primeira.pNeuron.Core
         private NeuronTypes m_neuronType = NeuronTypes.Hidden;
 
         private DataTypes m_dataType = DataTypes.Not_Applicable;
+
+        private int m_index = 0;
 
         #endregion
 
@@ -247,6 +258,37 @@ namespace primeira.pNeuron.Core
         {
             get { return m_inputReady; }
             set { m_inputReady = value; }
+        }
+
+        /// <summary>
+        /// How many non-memory inputs this neuron has.
+        /// </summary>
+        private int InputCount
+        {
+            get {
+                int i = 0;
+                foreach (KeyValuePair<INeuron, NeuralValue> n in this.Input)
+                    if (n.Key.Value != 0)
+                        i++;
+
+                return i;
+            }
+        }
+
+        /// <summary>
+        /// How many non-memory outputs this neuron has.
+        /// </summary>
+        private int OutputCount
+        {
+            get
+            {
+                int i = 0;
+                foreach (Neuron n in this.Output)
+                    if (n.NeuronType != NeuronTypes.Memory)
+                        i++;
+
+                return i;
+            }
         }
 
         /// <summary>
@@ -314,10 +356,16 @@ namespace primeira.pNeuron.Core
                         Net.InputNeuronCount++;
                     if (value == NeuronTypes.Output)
                         Net.OutputNeuronCount++;
+                    if (value == NeuronTypes.Memory)
+                        Net.MemoryNeuronCount++;
+
                     if (m_neuronType == NeuronTypes.Input)
                         Net.InputNeuronCount--;
                     if (m_neuronType == NeuronTypes.Output)
                         Net.OutputNeuronCount--;
+                    if (m_neuronType == NeuronTypes.Memory)
+                        Net.MemoryNeuronCount--;
+
                 }
                 if (value == NeuronTypes.Input && m_neuronType != NeuronTypes.Input)
                 {
@@ -362,17 +410,31 @@ namespace primeira.pNeuron.Core
             }
         }
 
+        /// <summary>
+        /// Gets the neuron index on parent network.
+        /// Used to avoid to call FindIndex on parentNet.Neurons.
+        /// </summary>
+        public int Index
+        {
+            get { return m_index; }
+            set { m_index = value; }
+        }
+
         #endregion
 
         #region Methods
 
         /// <summary>
         /// Pulse this neuron propagating its value. Increase InputReady of all output synapses. Pulses output neurons ready to pulse.
+        /// Raises OnNeuronPulse event on Neuron.
         /// </summary>
         public void Pulse()
         {
             lock (this)
             {
+                if (OnNeuronPulse != null)
+                    OnNeuronPulse(this);
+
                 this.InputReady = 0;
 
                 if (NeuronType != NeuronTypes.Input)
@@ -390,19 +452,26 @@ namespace primeira.pNeuron.Core
 
                 foreach (Neuron n in m_output)
                 {
+                    if (n.NeuronType == NeuronTypes.Memory)
+                        continue;
+
                     n.InputReady++;
-                    if (n.InputReady == n.Input.Count)
+                    if (n.InputReady == n.InputCount)
                         n.Pulse();
                 }
             }
         }
 
         /// <summary>
-        /// Pulse this neuron backpropagating its error. Increase OutputReady of all input synapses. Pulses back inpput neurons ready to pulse back.
+        /// Pulse this neuron backpropagating its error. Increase OutputReady of all input synapses. Pulses back input neurons ready to pulse back.
+        /// Raises OnNeuronPulseBack event on Neuron.
         /// </summary>
         /// <param name="desiredResult"></param>
         public void PulseBack(double desiredResult)
         {
+            if (OnNeuronPulseBack != null)
+                OnNeuronPulseBack(this);
+
             this.OutputReady = 0;
 
             if (this.NeuronType == NeuronTypes.Output)
@@ -421,7 +490,7 @@ namespace primeira.pNeuron.Core
                     continue;
 
                 n.OutputReady++;
-                if (n.OutputReady == n.Output.Count)
+                if (n.OutputReady == n.OutputCount && n.NeuronType != NeuronTypes.Memory)
                 {
                     double error = 0;
 
@@ -482,6 +551,15 @@ namespace primeira.pNeuron.Core
         }
 
         /// <summary>
+        /// Resets the neuron value to zero. 
+        /// Util in recurrent NN.
+        /// </summary>
+        public void ResetMemory()
+        {
+            Value = 0;
+        }
+
+        /// <summary>
         /// Gets a input NeuralValue.
         /// </summary>
         /// <param name="neuron">The neuron starting the synapse.</param>
@@ -490,6 +568,19 @@ namespace primeira.pNeuron.Core
         {
             if (Input.ContainsKey(neuron))
                 return Input[neuron];
+            else
+                return null;
+        }
+
+        /// <summary>
+        /// Gets a output NeuralValue.
+        /// </summary>
+        /// <param name="neuron">The neuron ending the synapse.</param>
+        /// <returns></returns>
+        public NeuralValue GetSynapseTo(INeuron neuron)
+        {
+            if (Output.Contains((Neuron)neuron))
+                return ((Neuron)neuron).Input[this];
             else
                 return null;
         }
@@ -577,6 +668,16 @@ namespace primeira.pNeuron.Core
         } 
 
         #endregion
+
+        #region Events
+
+        public delegate void OnNeuronPulseDelegate(Neuron sender);
+        public event OnNeuronPulseDelegate OnNeuronPulse;
+
+        public delegate void OnNeuronPulseBackDelegate(Neuron sender);
+        public event OnNeuronPulseBackDelegate OnNeuronPulseBack;
+
+        #endregion
     }
     
     /// <summary>
@@ -595,9 +696,9 @@ namespace primeira.pNeuron.Core
 
         #endregion
 
-        #region CONSTS
+        #region Constants
 
-        double DEFAULT_LEARNING_RATE = .5;
+        double DEFAULT_LEARNING_RATE = 1;
         int TRUE_RANDOM_GENERATOR_CACHE = 1000;
 
         #endregion
@@ -608,6 +709,7 @@ namespace primeira.pNeuron.Core
         private List<Neuron> m_neuron;
         private int m_inputNeuronCount = 0;
         private int m_outputNeuronCount = 0;
+        private int m_memoryNeuronCount = 0;
         private pTrueRandomGenerator m_random;
 
         #endregion
@@ -620,6 +722,8 @@ namespace primeira.pNeuron.Core
         public double LearningRate
         {
             get { return m_learningRate; }
+            set { m_learningRate = value; }
+
         }
 
         /// <summary>
@@ -638,7 +742,7 @@ namespace primeira.pNeuron.Core
             get
             {
                 double dGlobalTemp = 0;
-                int iNoPerception = Neuron.Count - InputNeuronCount;
+                int iNoPerception = Neuron.Count - InputNeuronCount - MemoryNeuronCount;
 
                 foreach (Neuron n in Neuron)
                 {
@@ -673,12 +777,24 @@ namespace primeira.pNeuron.Core
         }
 
         /// <summary>
+        /// Gets the total of neurons where NeuronType is Output.
+        /// </summary>
+        public int MemoryNeuronCount
+        {
+            get { return m_memoryNeuronCount; }
+            internal set { m_memoryNeuronCount = value; }
+        }
+
+        /// <summary>
         /// Gets a pRandom true random generator object.
         /// </summary>
         public pTrueRandomGenerator Random
         {
             get { return m_random; }
         }
+
+        ///TODO
+        public ILogger Logger;
 
         #endregion
 
@@ -701,7 +817,9 @@ namespace primeira.pNeuron.Core
         /// <param name="neuron">A neuron to add.</param>
         private void AddNeuron(Neuron neuron)
         {
-            Neuron.Add(neuron);
+
+            neuron.OnNeuronPulse += new Neuron.OnNeuronPulseDelegate(neuron_OnNeuronPulse);
+            neuron.OnNeuronPulseBack += new Neuron.OnNeuronPulseBackDelegate(neuron_OnNeuronPulseBack);
 
             switch(neuron.NeuronType)
             {
@@ -709,8 +827,34 @@ namespace primeira.pNeuron.Core
                     break;
                 case NeuronTypes.Output: m_outputNeuronCount++;
                     break;
+                case NeuronTypes.Memory: m_memoryNeuronCount++;
+                    break;
             }
         }
+
+        #region Listen Neuron Delegates
+
+        /// <summary>
+        /// Listen all neuron pulses and raises OnNeuronPulseBack on Neural Network.
+        /// </summary>
+        /// <param name="sender">Neuron which pulses back.</param>
+        void neuron_OnNeuronPulseBack(Neuron sender)
+        {
+            if (OnNeuronPulseBack != null)
+                OnNeuronPulseBack(sender);
+        }
+
+        /// <summary>
+        /// Listen all neuron pulses and raises OnNeuronPulse on Neural Network.
+        /// </summary>
+        /// <param name="sender">Neuron which pulses.</param>
+        void neuron_OnNeuronPulse(Neuron sender)
+        {
+            if (OnNeuronPulse != null)
+                OnNeuronPulse(sender);
+        }
+
+        #endregion
 
         /// <summary>
         /// Removes a specified neuron.
@@ -726,6 +870,15 @@ namespace primeira.pNeuron.Core
                     break;
                 case NeuronTypes.Output: m_outputNeuronCount--;
                     break;
+                case NeuronTypes.Memory: m_memoryNeuronCount--;
+                    break;
+            }
+
+            //How do it better?
+            int i = 0;
+            foreach (Neuron n in Neuron)
+            {
+                n.Index = i++;
             }
         }
 
@@ -741,6 +894,13 @@ namespace primeira.pNeuron.Core
                     if (n.NeuronType == NeuronTypes.Input)
                         n.Pulse();
                 }
+
+                foreach (Neuron n in this.Neuron)
+                {
+                    if (n.NeuronType == NeuronTypes.Memory)
+                        n.Pulse();
+                }
+
             }
         }
 
@@ -790,6 +950,7 @@ namespace primeira.pNeuron.Core
 
         /// <summary>
         /// Calls ResetLearning of each non input neuron.
+        /// Resets Memory too.
         /// </summary>
         public void ResetLearning()
         {
@@ -801,6 +962,8 @@ namespace primeira.pNeuron.Core
                         n.ResetLearning();
                 }
             }
+
+            ResetMemory();
         }
 
         /// <summary>
@@ -813,6 +976,21 @@ namespace primeira.pNeuron.Core
                 foreach (Neuron n in this.Neuron)
                 {
                     n.ResetKnowledgment();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Calls ResetMemory in each memory neuron.
+        /// </summary>
+        public void ResetMemory()
+        {
+            lock (this)
+            {
+                foreach (Neuron n in this.Neuron)
+                {
+                    if (n.NeuronType == NeuronTypes.Memory)
+                        n.ResetMemory();
                 }
             }
         }
@@ -853,9 +1031,9 @@ namespace primeira.pNeuron.Core
 
                     for (j = 0; j < inputs.Length; j++)
                     {
-                        SetInputData(sortedInputs[j]);
+                        SetInputData(inputs[j]);
                         Pulse();
-                        PulseBack(sortedOutputs[j]);
+                        PulseBack(outputs[j]);
                         CalculateDelta();
                     }
 
@@ -907,10 +1085,20 @@ namespace primeira.pNeuron.Core
 
         #endregion
 
+        #region Events
+
+        public delegate void OnNeuronPulseDelegate(Neuron sender);
+        public event OnNeuronPulseDelegate OnNeuronPulse;
+
+        public delegate void OnNeuronPulseBackDelegate(Neuron sender);
+        public event OnNeuronPulseBackDelegate OnNeuronPulseBack;
+
+        #endregion
+
     }
 
     /// <summary>
-    /// Holds statics utility methods.
+    /// Math utility methods.
     /// </summary>
     public static class Util
     {
@@ -921,8 +1109,15 @@ namespace primeira.pNeuron.Core
 
         public static double Sigmoid(double value)
         {
-            return 1 / (1 + Math.Exp(-value));
+            return (1 / (1 + Math.Exp(-value)));
         }
+
+        public static double UnSigmoid(double value)
+        {
+            return -Math.Log((1.0 / value - 1.0));
+            
+        }
+
     }
 
     #endregion
@@ -931,9 +1126,11 @@ namespace primeira.pNeuron.Core
 
     public enum NeuronTypes
     {
+        
         Input,
         Hidden,
-        Output
+        Output,
+        Memory,
     }
 
     public enum DataTypes

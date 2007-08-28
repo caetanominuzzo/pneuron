@@ -27,6 +27,10 @@ namespace primeira.pNeuron
 
         public void AddData(double aData)
         {
+            //if (fData.Count > 0)
+            //    if (aData < fData[fData.Count - 1] / 5 || aData > fData[fData.Count - 1] * 5)
+            //        aData = fData[fData.Count - 1] - aData;
+
             if (fData.Count == 100)
                 fData.RemoveAt(0);
             fData.Add(aData);
@@ -85,6 +89,11 @@ namespace primeira.pNeuron
 
             foreach(double d in fData)
             {
+                //e.Graphics.DrawString(d.ToString("0.000000"), SystemFonts.DefaultFont, SystemBrushes.ControlDark,
+                //    new Point(
+                //            Convert.ToInt32(dMaxX * i / 100),
+                //            Convert.ToInt32(d * fZoom + dMaxY)));
+
                 e.Graphics.DrawLine(
                         new Pen(Color.Black),
                         pLast,

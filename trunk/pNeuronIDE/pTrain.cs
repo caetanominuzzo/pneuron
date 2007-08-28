@@ -5,12 +5,35 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using WeifenLuo.WinFormsUI.Docking;
 using primeira.pNeuron.Core;
+using System.IO;
+using System.Threading;
 
 namespace primeira.pNeuron
 {
-    public partial class pTrain : Form
+    public partial class pTrain : DockContent, IpDocks
     {
+
+        #region IpDocks Members
+
+        private pNeuronIDE fParent;
+
+        private bool fQueryOnClose = true;
+
+        public bool QueryOnClose
+        {
+            get { return fQueryOnClose; }
+            set { fQueryOnClose = value; }
+        }
+        public pNeuronIDE Parent
+        {
+            get { return DockPanel == null ? fParent : ((pNeuronIDE)DockPanel.Parent); }
+            set { fParent = value; }
+        }
+
+
+        #endregion
         public pTrain()
         {
             InitializeComponent();
@@ -56,8 +79,8 @@ namespace primeira.pNeuron
 
             count = 0;
             //net.LearningRate = .5;
-            
-            Timer t = new Timer();
+
+            System.Windows.Forms.Timer t = new System.Windows.Forms.Timer();
             t.Interval = 1;
             t.Tick += new EventHandler(t_Tick);
             t.Enabled = true;
@@ -139,13 +162,14 @@ namespace primeira.pNeuron
 
         private void button2_Click(object sender, EventArgs e)
         {
-            net.Neuron[0].Value = Convert.ToDouble(textBox1.Text);
+            net.Neuron[0].Value = Util.Sigmoid(Convert.ToDouble(textBox1.Text));
+
             if (net.Neuron[1].NeuronType == NeuronTypes.Input)
-                net.Neuron[1].Value = Convert.ToDouble(textBox2.Text);
+                net.Neuron[1].Value = Util.Sigmoid(Convert.ToDouble(textBox2.Text));
 
             net.Pulse();
 
-                MessageBox.Show(net.Neuron[4].Value.ToString());
+                MessageBox.Show( Util.UnSigmoid(net.Neuron[4].Value).ToString());
         }
 
         void t_Tick(object sender, EventArgs e)
@@ -187,7 +211,7 @@ namespace primeira.pNeuron
 
             count = 0;
 
-            Timer t = new Timer();
+            System.Windows.Forms.Timer t = new System.Windows.Forms.Timer();
             t.Interval = 1;
             t.Tick += new EventHandler(t_Tick);
             t.Enabled = true;
@@ -247,10 +271,52 @@ namespace primeira.pNeuron
 
             net.Pulse();
 
-            if(net.Neuron[net.Neuron.Count-2].Value > net.Neuron[net.Neuron.Count-1].Value)
+
+            if(net.Neuron[net.Neuron.Count-1].Value > .5)
                 MessageBox.Show("Impar");
             else MessageBox.Show("Par");
 
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            net.Neuron[0].Value = Util.Sigmoid(Convert.ToDouble(textBox4.Text));
+
+            net.OnNeuronPulse += new NeuralNetwork.OnNeuronPulseDelegate(net_OnNeuronPulse);
+
+            net.OnNeuronPulseBack += new NeuralNetwork.OnNeuronPulseBackDelegate(net_OnNeuronPulseBack);
+            net.Pulse();
+
+
+
+            foreach(Neuron n in net.Neuron)
+                if (n.NeuronType == NeuronTypes.Output)
+                {
+                    MessageBox.Show(Util.UnSigmoid(n.Value).ToString("0.0000"));
+                    return;
+                }
+
+
+            
+
+        }
+
+        void net_OnNeuronPulseBack(Neuron sender)
+        {
+            Parent.fmLogger.Log("Neuron pulsenack: #" + sender.Index.ToString());
+            Parent.fmLogger.Flush();
+        }
+
+        void net_OnNeuronPulse(Neuron sender)
+        {
+
+            Parent.fmLogger.Log("Neuron pulse: #" + sender.Index.ToString());
+            Parent.fmLogger.Flush();
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            net.ResetMemory();
         }
 
     }
