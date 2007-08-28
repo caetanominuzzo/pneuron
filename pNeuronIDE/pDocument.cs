@@ -991,8 +991,8 @@ namespace primeira.pNeuron
 
                 NeuralNetwork net = pDisplay1.Net;
 
-                net.OnNeuronPulse += new NeuralNetwork.OnNeuronPulseDelegate(net_OnNeuronPulse);
-                net.OnNeuronPulseBack += new NeuralNetwork.OnNeuronPulseBackDelegate(net_OnNeuronPulseBack);
+         //       net.OnNeuronPulse += new NeuralNetwork.OnNeuronPulseDelegate(net_OnNeuronPulse);
+         //       net.OnNeuronPulseBack += new NeuralNetwork.OnNeuronPulseBackDelegate(net_OnNeuronPulseBack);
 
                 ThreadStart starter2 = delegate { internalTrain(ref net, input, output); };
                 new Thread(starter2).Start();
