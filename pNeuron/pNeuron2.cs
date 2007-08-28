@@ -1005,13 +1005,14 @@ namespace primeira.pNeuron.Core
             for (int k = 0; k < inputs.Length; k++)
                 lOrder.Add(k);
 
-            lOrder.Sort(new SortCompare());
+            if (MemoryNeuronCount > 0)
+                lOrder.Sort(new SortCompare());
 
-            for (int k = 0; k < inputs.Length; k++)
-            {
-                sortedInputs[k] = inputs[lOrder[k]];
-                sortedOutputs[k] = outputs[lOrder[k]];
-            }
+                for (int k = 0; k < inputs.Length; k++)
+                {
+                    sortedInputs[k] = inputs[lOrder[k]];
+                    sortedOutputs[k] = outputs[lOrder[k]];
+                }
 
 
             lock (this)
@@ -1024,9 +1025,9 @@ namespace primeira.pNeuron.Core
 
                     for (j = 0; j < inputs.Length; j++)
                     {
-                        SetInputData(inputs[j]);
+                        SetInputData(sortedInputs[j]);
                         Pulse();
-                        PulseBack(outputs[j]);
+                        PulseBack(sortedOutputs[j]);
                         CalculateDelta();
                     }
 
