@@ -456,7 +456,7 @@ namespace primeira.pNeuron.Core
                         continue;
 
                     n.InputReady++;
-                    if (n.InputReady == n.InputCount)
+                    if (n.InputReady == n.Input.Count)
                         n.Pulse();
                 }
             }
@@ -486,11 +486,11 @@ namespace primeira.pNeuron.Core
 
             foreach (Neuron n in this.Input.Keys)
             {
-                if (n.NeuronType == NeuronTypes.Input)
+                if (n.NeuronType == NeuronTypes.Input || n.NeuronType == NeuronTypes.Memory)
                     continue;
 
                 n.OutputReady++;
-                if (n.OutputReady == n.OutputCount && n.NeuronType != NeuronTypes.Memory)
+                if (n.OutputReady == n.Output.Count)
                 {
                     double error = 0;
 
@@ -891,16 +891,9 @@ namespace primeira.pNeuron.Core
             {
                 foreach (Neuron n in this.Neuron)
                 {
-                    if (n.NeuronType == NeuronTypes.Input)
+                    if (n.NeuronType == NeuronTypes.Input || n.NeuronType == NeuronTypes.Memory)
                         n.Pulse();
                 }
-
-                foreach (Neuron n in this.Neuron)
-                {
-                    if (n.NeuronType == NeuronTypes.Memory)
-                        n.Pulse();
-                }
-
             }
         }
 
