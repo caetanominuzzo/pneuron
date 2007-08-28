@@ -64,6 +64,9 @@
     <Compile Include="pDomainEdit.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="pLogger.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="pNetworkExplorer.cs">
       <SubType>Form</SubType>
     </Compile>
