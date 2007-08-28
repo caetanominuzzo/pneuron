@@ -54,9 +54,9 @@ namespace primeira.pNeuron
             this.tspViewToolbox = new System.Windows.Forms.ToolStripMenuItem();
             this.tspViewNetworkExplorer = new System.Windows.Forms.ToolStripMenuItem();
             this.tspViewPropertyWindow = new System.Windows.Forms.ToolStripMenuItem();
+            this.domainEditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nNToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tspTrain = new System.Windows.Forms.ToolStripMenuItem();
-            this.domainEditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.status.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -70,7 +70,7 @@ namespace primeira.pNeuron
             this.dockPanel.Font = new System.Drawing.Font("Tahoma", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
             this.dockPanel.Location = new System.Drawing.Point(0, 24);
             this.dockPanel.Name = "dockPanel";
-            this.dockPanel.Size = new System.Drawing.Size(765, 264);
+            this.dockPanel.Size = new System.Drawing.Size(689, 260);
             this.dockPanel.TabIndex = 0;
             // 
             // status
@@ -79,10 +79,10 @@ namespace primeira.pNeuron
             this.toolStripStatusLabel2,
             this.statusGlobalError,
             this.statusCycles});
-            this.status.Location = new System.Drawing.Point(0, 288);
+            this.status.Location = new System.Drawing.Point(0, 284);
             this.status.Name = "status";
             this.status.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.status.Size = new System.Drawing.Size(765, 22);
+            this.status.Size = new System.Drawing.Size(689, 22);
             this.status.TabIndex = 3;
             this.status.Text = "statusStrip1";
             // 
@@ -201,7 +201,7 @@ namespace primeira.pNeuron
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.menuStrip1.Size = new System.Drawing.Size(765, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(689, 24);
             this.menuStrip1.TabIndex = 5;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -282,6 +282,13 @@ namespace primeira.pNeuron
             this.tspViewPropertyWindow.Text = "Property Window";
             this.tspViewPropertyWindow.Click += new System.EventHandler(this.propertyWindowToolStripMenuItem_Click);
             // 
+            // domainEditToolStripMenuItem
+            // 
+            this.domainEditToolStripMenuItem.Name = "domainEditToolStripMenuItem";
+            this.domainEditToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.domainEditToolStripMenuItem.Text = "Domain Edit";
+            this.domainEditToolStripMenuItem.Click += new System.EventHandler(this.domainEditToolStripMenuItem_Click);
+            // 
             // nNToolStripMenuItem
             // 
             this.nNToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -297,18 +304,11 @@ namespace primeira.pNeuron
             this.tspTrain.Text = "Train";
             this.tspTrain.Click += new System.EventHandler(this.trainToolStripMenuItem_Click);
             // 
-            // domainEditToolStripMenuItem
-            // 
-            this.domainEditToolStripMenuItem.Name = "domainEditToolStripMenuItem";
-            this.domainEditToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
-            this.domainEditToolStripMenuItem.Text = "Domain Edit";
-            this.domainEditToolStripMenuItem.Click += new System.EventHandler(this.domainEditToolStripMenuItem_Click);
-            // 
             // pNeuronIDE
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(765, 310);
+            this.ClientSize = new System.Drawing.Size(689, 306);
             this.Controls.Add(this.dockPanel);
             this.Controls.Add(this.status);
             this.Controls.Add(this.menuStrip1);
@@ -317,7 +317,6 @@ namespace primeira.pNeuron
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "pNeuronIDE";
             this.Text = "pNeuronIDE";
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.pNeuronIDE_Load);
             this.status.ResumeLayout(false);
             this.status.PerformLayout();
