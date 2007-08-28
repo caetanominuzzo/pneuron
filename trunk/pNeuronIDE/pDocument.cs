@@ -153,7 +153,7 @@ namespace primeira.pNeuron
         private ToolStripButton btImport;
         private ToolStripButton btExport;
 
-        private const int INNER_TRAINING_TIMES = 100;
+        private const int INNER_TRAINING_TIMES = 500;
 
         public pDocument(string sFileName) : this()
         {
@@ -926,16 +926,9 @@ namespace primeira.pNeuron
                 {
                     dataGridView1.DataSource = p.fDataTable;
                   
-                    int iCount = 0;
-                    foreach(pPanel pp in pDisplay1.pPanels)
-                    {
-                        if( (pp.Neuron).NeuronType != NeuronTypes.Hidden)
-                        {
-                            iCount++;
-                        }
-                    }
 
-                    if (iCount != p.fDataTable.Columns.Count)
+
+                    if (pDisplay1.Net.InputNeuronCount + pDisplay1.Net.OutputNeuronCount != p.fDataTable.Columns.Count)
                         throw new Exception("This Training Set are out of date.");
 
                 }
@@ -946,6 +939,8 @@ namespace primeira.pNeuron
             if (Parent.ActiveDocument.pDisplay1.DisplayStatus != pDisplay.pDisplayStatus.Training)
             {
                 btTrain.Text = "Stop Training";
+
+                
 
 
                 DataTable dt = (DataTable)dataGridView1.DataSource;
@@ -966,7 +961,7 @@ namespace primeira.pNeuron
                     {
                         if (iYPosition >= iPerceptionNeuronCount)
                             continue;
-                        dIn[iYPosition++] = Convert.ToDouble(r[c], System.Globalization.CultureInfo.InvariantCulture);
+                        dIn[iYPosition++] = Util.Sigmoid(Convert.ToDouble(r[c], System.Globalization.CultureInfo.InvariantCulture));
                     }
 
                     input[iXPosition++] = dIn;
@@ -986,7 +981,7 @@ namespace primeira.pNeuron
                             iYPosition++;
                             continue;
                         }
-                        dOut[iYPosition - iPerceptionNeuronCount] = Convert.ToDouble(r[c], System.Globalization.CultureInfo.InvariantCulture);
+                        dOut[iYPosition - iPerceptionNeuronCount] = Util.Sigmoid(Convert.ToDouble(r[c], System.Globalization.CultureInfo.InvariantCulture));
                         iYPosition++;
                     }
 
@@ -995,6 +990,9 @@ namespace primeira.pNeuron
                 }
 
                 NeuralNetwork net = pDisplay1.Net;
+
+                net.OnNeuronPulse += new NeuralNetwork.OnNeuronPulseDelegate(net_OnNeuronPulse);
+                net.OnNeuronPulseBack += new NeuralNetwork.OnNeuronPulseBackDelegate(net_OnNeuronPulseBack);
 
                 ThreadStart starter2 = delegate { internalTrain(ref net, input, output); };
                 new Thread(starter2).Start();
@@ -1008,6 +1006,25 @@ namespace primeira.pNeuron
             
 
 
+        }
+
+        void net_OnNeuronPulseBack(Neuron sender)
+        {
+            foreach (pPanel p in pDisplay1.pPanels)
+                if (p.Neuron == sender)
+                    p.Highlighted = true;
+
+            Thread.Sleep(2000);
+
+            Parent.fmLogger.Log("Neuron pulsenack: #" + sender.Net.Neuron.FindIndex(delegate(Neuron n) { return n == sender; }));
+            Parent.fmLogger.Flush();
+        }
+
+        void net_OnNeuronPulse(Neuron sender)
+        {
+
+            Parent.fmLogger.Log("Neuron pulse: #" + sender.Net.Neuron.FindIndex(delegate(Neuron n) { return n == sender; }));
+            Parent.fmLogger.Flush();
         }
 
         delegate void AssincP(int aCount, double aGlobalError);
@@ -1078,6 +1095,7 @@ namespace primeira.pNeuron
             {
                 if(Parent.ActiveDocument.pDisplay1.DisplayStatus != pDisplay.pDisplayStatus.Training)
                 {
+                    this.Invoke(new AssincP(RefreshCyclesSec), new object[] { count * INNER_TRAINING_TIMES, dGlobalError });
                     this.Invoke(new Assinc(StopTrain));
                     return;
                 }
@@ -1101,7 +1119,7 @@ namespace primeira.pNeuron
 
             this.Invoke(new Assinc(StopTrain));
 
-            pMessage.Alert("Done with " + count.ToString() + " cycles.\nGlobal error: " + dGlobalError.ToString());
+           // pMessage.Alert("Done with " + count.ToString() + " cycles.\nGlobal error: " + dGlobalError.ToString());
         }
 
         private void btImport_Click(object sender, EventArgs e)

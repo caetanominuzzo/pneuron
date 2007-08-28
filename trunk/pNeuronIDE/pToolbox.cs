@@ -14,6 +14,8 @@ namespace primeira.pNeuron
         public RadioButton rCursor;
         public RadioButton rSynapse;
         public RadioButton rRemove;
+        private TrackBar trackBar1;
+        private TextBox textBox1;
         public RadioButton rNeuron;
     
         public pToolbox()
@@ -27,6 +29,9 @@ namespace primeira.pNeuron
             this.rSynapse = new System.Windows.Forms.RadioButton();
             this.rNeuron = new System.Windows.Forms.RadioButton();
             this.rRemove = new System.Windows.Forms.RadioButton();
+            this.trackBar1 = new System.Windows.Forms.TrackBar();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.SuspendLayout();
             // 
             // rCursor
@@ -89,9 +94,29 @@ namespace primeira.pNeuron
             this.rRemove.UseVisualStyleBackColor = true;
             this.rRemove.CheckedChanged += new System.EventHandler(this.rCursor_CheckedChanged);
             // 
+            // trackBar1
+            // 
+            this.trackBar1.Location = new System.Drawing.Point(0, 253);
+            this.trackBar1.Maximum = 5000;
+            this.trackBar1.Name = "trackBar1";
+            this.trackBar1.Size = new System.Drawing.Size(192, 42);
+            this.trackBar1.TabIndex = 4;
+            this.trackBar1.TickFrequency = 100;
+            this.trackBar1.Value = 300;
+            this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(24, 317);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(100, 20);
+            this.textBox1.TabIndex = 5;
+            // 
             // pToolbox
             // 
             this.ClientSize = new System.Drawing.Size(192, 581);
+            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.trackBar1);
             this.Controls.Add(this.rRemove);
             this.Controls.Add(this.rNeuron);
             this.Controls.Add(this.rSynapse);
@@ -99,7 +124,9 @@ namespace primeira.pNeuron
             this.Name = "pToolbox";
             this.TabText = "Toolbox";
             this.Text = "Toolbox";
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -152,6 +179,12 @@ namespace primeira.pNeuron
                 rSynapse.Enabled = true;
                 rRemove.Enabled = true;
             }
+        }
+
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+            (((pNeuronIDE)DockPanel.Parent)).ActiveDocument.pDisplay1.Net.LearningRate = (double)trackBar1.Value / (double)50;
+            textBox1.Text = (((pNeuronIDE)DockPanel.Parent)).ActiveDocument.pDisplay1.Net.LearningRate.ToString("000.000000000000000");
         }
 
     }

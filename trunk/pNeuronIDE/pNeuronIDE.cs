@@ -21,7 +21,8 @@ namespace primeira.pNeuron
         public pGroupExplorer fmGroupExplorer = new pGroupExplorer();
         //DEPRECATEDpublic pNetworkExplorer fmNetworkExplorer = new pNetworkExplorer();
         public pPlotter fmPlotter = new pPlotter();
-        
+
+        public pLogger fmLogger = new pLogger();
 
 
         public List<pDocument> fmDocuments = new List<pDocument>();
@@ -106,16 +107,18 @@ namespace primeira.pNeuron
             fmToolbox.Show(dockPanel, DockState.DockLeft);
 
             fmPlotter.Show(dockPanel, DockState.DockBottomAutoHide);
+            fmLogger.Show(dockPanel, DockState.Document);
+            fmLogger.DockTo(fmPlotter.Pane, DockStyle.Fill, 0);
 
             fmGroupExplorer.Show(dockPanel, DockState.DockRight);
+            fmProperty.Show(dockPanel, DockState.DockRight);
+            fmProperty.DockTo(fmGroupExplorer.Pane, DockStyle.Bottom, 0);
 
             //DEPRECATEDfmNetworkExplorer.Show(dockPanel, DockState.DockRight);
             //DEPRECATEDfmNetworkExplorer.DockTo(fmGroupExplorer.Pane, DockStyle.Fill, 0);
 
-            fmProperty.Show(dockPanel, DockState.DockRight);
-            fmProperty.DockTo(fmGroupExplorer.Pane, DockStyle.Bottom, 0);
 
-            //Just to keep consistency
+            //Calling the 'set' on ActiveDocument to keep consistency
             ActiveDocument = null;
 
         }
@@ -196,7 +199,9 @@ namespace primeira.pNeuron
         {
             pTrain fmTrain = new pTrain();
             fmTrain.net = ((pDocument)ActiveDocument).pDisplay1.Net;
-            fmTrain.Show();
+            fmTrain.Show(dockPanel, DockState.Float);
+
+            
         }
 
         #endregion
