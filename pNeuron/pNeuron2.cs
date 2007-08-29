@@ -698,7 +698,7 @@ namespace primeira.pNeuron.Core
 
         #region Constants
 
-        double DEFAULT_LEARNING_RATE = 1;
+        double DEFAULT_LEARNING_RATE = 5;
         int TRUE_RANDOM_GENERATOR_CACHE = 1000;
 
         #endregion
