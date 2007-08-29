@@ -153,7 +153,7 @@ namespace primeira.pNeuron
         private ToolStripButton btImport;
         private ToolStripButton btExport;
 
-        private const int INNER_TRAINING_TIMES = 500;
+        private const int INNER_TRAINING_TIMES = 100;
 
         public pDocument(string sFileName) : this()
         {
@@ -991,8 +991,8 @@ namespace primeira.pNeuron
 
                 NeuralNetwork net = pDisplay1.Net;
 
-         //       net.OnNeuronPulse += new NeuralNetwork.OnNeuronPulseDelegate(net_OnNeuronPulse);
-         //       net.OnNeuronPulseBack += new NeuralNetwork.OnNeuronPulseBackDelegate(net_OnNeuronPulseBack);
+                //net.OnNeuronPulse += new NeuralNetwork.OnNeuronPulseDelegate(net_OnNeuronPulse);
+                //net.OnNeuronPulseBack += new NeuralNetwork.OnNeuronPulseBackDelegate(net_OnNeuronPulseBack);
 
                 ThreadStart starter2 = delegate { internalTrain(ref net, input, output); };
                 new Thread(starter2).Start();
@@ -1010,13 +1010,13 @@ namespace primeira.pNeuron
 
         void net_OnNeuronPulseBack(Neuron sender)
         {
-            foreach (pPanel p in pDisplay1.pPanels)
-                if (p.Neuron == sender)
-                    p.Highlighted = true;
+            //foreach (pPanel p in pDisplay1.pPanels)
+            //    if (p.Neuron == sender)
+            //        p.Highlighted = true;
 
-            Thread.Sleep(2000);
+            //Thread.Sleep(2000);
 
-            Parent.fmLogger.Log("Neuron pulsenack: #" + sender.Net.Neuron.FindIndex(delegate(Neuron n) { return n == sender; }));
+            Parent.fmLogger.Log("Neuron pulseback: #" + sender.Net.Neuron.FindIndex(delegate(Neuron n) { return n == sender; }));
             Parent.fmLogger.Flush();
         }
 
@@ -1074,7 +1074,7 @@ namespace primeira.pNeuron
 
             Parent.statusCycles.Text = "Cycles/Sec.: "+vFirst.ToString("#0000");
             Parent.statusGlobalError.Text = "Global Error: " + aGlobalError.ToString("#0.0000000");
-
+            Application.DoEvents();
         }
 
 
@@ -1091,7 +1091,7 @@ namespace primeira.pNeuron
             double dTotalError = 1;
 
 
-            while (dGlobalError < -.0000001 || dGlobalError > .0000001)
+            while (dGlobalError < -.0000000001 || dGlobalError > .0000000001)
             {
                 if(Parent.ActiveDocument.pDisplay1.DisplayStatus != pDisplay.pDisplayStatus.Training)
                 {

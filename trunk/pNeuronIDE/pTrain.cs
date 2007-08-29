@@ -293,6 +293,9 @@ namespace primeira.pNeuron
                 if (n.NeuronType == NeuronTypes.Output)
                 {
                     MessageBox.Show(Util.UnSigmoid(n.Value).ToString("0.0000"));
+                    net.OnNeuronPulse -= new NeuralNetwork.OnNeuronPulseDelegate(net_OnNeuronPulse);
+
+                    net.OnNeuronPulseBack -= new NeuralNetwork.OnNeuronPulseBackDelegate(net_OnNeuronPulseBack);
                     return;
                 }
 
