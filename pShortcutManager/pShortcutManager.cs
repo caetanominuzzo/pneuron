@@ -403,6 +403,7 @@ namespace pShortcutManager
 
         public void LoadFromForm(Form aForm)
         {
+            
             this.fParenthandle = aForm.Handle;
             foreach (MethodInfo m in aForm.GetType().GetMethods())
             {
