@@ -62,6 +62,8 @@ namespace primeira.pNeuron
         {
             sb.Append(msg);
             sb.Append(Environment.NewLine);
+            if(sb.Length > 3000)
+                System.Diagnostics.Debug.Assert(true);
         }
 
         private delegate void Assinc(string text);

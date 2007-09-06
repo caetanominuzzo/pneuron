@@ -153,6 +153,9 @@ namespace primeira.pNeuron
         private ToolStripButton btImport;
         private ToolStripButton btExport;
 
+        private System.Windows.Forms.Timer internalTimer = new System.Windows.Forms.Timer();
+        private NeuralNetwork net;
+
         private const int INNER_TRAINING_TIMES = 100;
 
         public pDocument(string sFileName) : this()
@@ -163,6 +166,8 @@ namespace primeira.pNeuron
         public pDocument()
         {
             InitializeComponent();
+            internalTimer.Tick += new EventHandler(internalTimer_Tick);
+            internalTimer.Interval = 1000;
         }
 
         protected override void OnShown(EventArgs e)
@@ -989,10 +994,11 @@ namespace primeira.pNeuron
 
                 }
 
-                NeuralNetwork net = pDisplay1.Net;
+                net = pDisplay1.Net;
+                //net.ResetKnowledgment();
 
-                //net.OnNeuronPulse += new NeuralNetwork.OnNeuronPulseDelegate(net_OnNeuronPulse);
-                //net.OnNeuronPulseBack += new NeuralNetwork.OnNeuronPulseBackDelegate(net_OnNeuronPulseBack);
+             //   net.OnNeuronPulse += new NeuralNetwork.OnNeuronPulseDelegate(net_OnNeuronPulse);
+             //   net.OnNeuronPulseBack += new NeuralNetwork.OnNeuronPulseBackDelegate(net_OnNeuronPulseBack);
 
                 ThreadStart starter2 = delegate { internalTrain(ref net, input, output); };
                 new Thread(starter2).Start();
@@ -1010,39 +1016,44 @@ namespace primeira.pNeuron
 
         void net_OnNeuronPulseBack(Neuron sender)
         {
-            //foreach (pPanel p in pDisplay1.pPanels)
-            //    if (p.Neuron == sender)
-            //        p.Highlighted = true;
+            Parent.fmLogger.Log("PB#" + sender.Net.Neuron.FindIndex(delegate(Neuron n) { return n == sender; }) + ": "+sender.Value.ToString("0.000000000"));
 
-            //Thread.Sleep(2000);
-
-            Parent.fmLogger.Log("Neuron pulseback: #" + sender.Net.Neuron.FindIndex(delegate(Neuron n) { return n == sender; }));
-            Parent.fmLogger.Flush();
+            foreach (Neuron input in sender.GetInputNeurons())
+                Parent.fmLogger.Log("\t#" + sender.Net.Neuron.FindIndex(delegate(Neuron n) { return n == input; }) + ": " + sender.GetSynapseFrom(input).Weight.ToString("0.000000000"));
         }
 
         void net_OnNeuronPulse(Neuron sender)
         {
-
-            Parent.fmLogger.Log("Neuron pulse: #" + sender.Net.Neuron.FindIndex(delegate(Neuron n) { return n == sender; }));
-            Parent.fmLogger.Flush();
+            Parent.fmLogger.Log(" P#" + sender.Net.Neuron.FindIndex(delegate(Neuron n) { return n == sender; }) + ": " + sender.Value.ToString("0.000000000"));
         }
 
-        delegate void AssincP(int aCount, double aGlobalError);
+        delegate void AssincP(int aCount);
         delegate void Assinc();
 
         public void StartTrain()
         {
+            
+            internalTimer.Start();
+
             pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.Training;
             Parent.statusCycles.Visible = true;
             Parent.statusGlobalError.Visible = true;
         }
 
+        void internalTimer_Tick(object sender, EventArgs e)
+        {
+            Parent.statusGlobalError.Text = "Global Error: " + net.GlobalError.ToString("#0.0000000000000");
+            Application.DoEvents();
+        }
+
         public void StopTrain()
         {
+            internalTimer.Stop();
             pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.Idle;
             Parent.statusCycles.Visible = false;
             btTrain.Text = "Start Training";
             Parent.statusCycles.Tag = null;
+            internalTimer_Tick(null, null);
         }
 
         public struct t_dates
@@ -1050,7 +1061,7 @@ namespace primeira.pNeuron
             public DateTime First;
         }
 
-        public void RefreshCyclesSec(int aCount, double aGlobalError)
+        public void RefreshCyclesSec(int aCount)
         {
             int aCycles = aCount;
             t_dates t;
@@ -1064,17 +1075,13 @@ namespace primeira.pNeuron
             
             t = ((t_dates)Parent.statusCycles.Tag);
 
-
-
-
             TimeSpan m =  DateTime.Now.Subtract(t.First);
             int iFirst = m.Seconds;
 
             double vFirst = ((double)(aCycles)) / iFirst;
 
             Parent.statusCycles.Text = "Cycles/Sec.: "+vFirst.ToString("#0000");
-            Parent.statusGlobalError.Text = "Global Error: " + aGlobalError.ToString("#0.0000000");
-            Application.DoEvents();
+
         }
 
 
@@ -1091,11 +1098,12 @@ namespace primeira.pNeuron
             double dTotalError = 1;
 
 
-            while (dGlobalError < -.0000000001 || dGlobalError > .0000000001)
+            while (dGlobalError < -.000001 || dGlobalError > .000001)
             {
                 if(Parent.ActiveDocument.pDisplay1.DisplayStatus != pDisplay.pDisplayStatus.Training)
                 {
-                    this.Invoke(new AssincP(RefreshCyclesSec), new object[] { count * INNER_TRAINING_TIMES, dGlobalError });
+                    this.Invoke(new AssincP(RefreshCyclesSec), new object[] { count * INNER_TRAINING_TIMES });
+                    
                     this.Invoke(new Assinc(StopTrain));
                     return;
                 }
@@ -1105,7 +1113,7 @@ namespace primeira.pNeuron
                 net.Train(input, output, INNER_TRAINING_TIMES);
 
                 if(count % INNER_TRAINING_TIMES == 0)
-                    this.Invoke(new AssincP(RefreshCyclesSec), new object[] { count*INNER_TRAINING_TIMES, dGlobalError });
+                    this.Invoke(new AssincP(RefreshCyclesSec), new object[] { count*INNER_TRAINING_TIMES });
 
                 dTotalError = 0;
                 foreach (Neuron n in net.Neuron)
@@ -1113,7 +1121,7 @@ namespace primeira.pNeuron
                     dTotalError += n.Error;
                 }
 
-                dGlobalError = dTotalError / net.Neuron.Count;
+                dGlobalError = net.GlobalError;
 
             }
 
@@ -1156,6 +1164,7 @@ namespace primeira.pNeuron
         private void Reset_Click(object sender, EventArgs e)
         {
             pDisplay1.Net.ResetKnowledgment();
+            pDisplay1.Net.ResetLearning();
             Parent.fmPlotter.ClearData();
         }
 

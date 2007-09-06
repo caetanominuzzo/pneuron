@@ -169,7 +169,13 @@ namespace primeira.pNeuron
 
             net.Pulse();
 
-                MessageBox.Show( Util.UnSigmoid(net.Neuron[4].Value).ToString());
+
+                foreach (Neuron n in net.Neuron)
+                    if (n.NeuronType == NeuronTypes.Output)
+                    {
+                        MessageBox.Show(Util.UnSigmoid(n.Value).ToString("0.0000"));
+                        return;
+                    }
         }
 
         void t_Tick(object sender, EventArgs e)
@@ -306,7 +312,9 @@ namespace primeira.pNeuron
 
         void net_OnNeuronPulseBack(Neuron sender)
         {
-            Parent.fmLogger.Log("Neuron pulsenack: #" + sender.Index.ToString());
+            Parent.fmLogger.Log("Neuron pulseback: #" + sender.Index.ToString());
+            Parent.fmLogger.Log("\tValue: " + sender.Value.ToString("0.000000000"));
+
             Parent.fmLogger.Flush();
         }
 
@@ -314,6 +322,7 @@ namespace primeira.pNeuron
         {
 
             Parent.fmLogger.Log("Neuron pulse: #" + sender.Index.ToString());
+            Parent.fmLogger.Log("\tValue: " + sender.Value.ToString("0.000000000"));
             Parent.fmLogger.Flush();
         }
 
