@@ -108,7 +108,7 @@ namespace primeira.pNeuron
             this.statusGlobalError.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
             this.statusGlobalError.Margin = new System.Windows.Forms.Padding(0, 3, 3, 2);
             this.statusGlobalError.Name = "statusGlobalError";
-            this.statusGlobalError.Size = new System.Drawing.Size(150, 17);
+            this.statusGlobalError.Size = new System.Drawing.Size(170, 17);
             this.statusGlobalError.Text = "Global Error:";
             this.statusGlobalError.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.statusGlobalError.Visible = false;

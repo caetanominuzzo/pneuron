@@ -442,12 +442,24 @@ namespace primeira.pNeuron.Core
 
                     m_value = 0;
 
-                    foreach (KeyValuePair<INeuron, NeuralValue> item in m_input)
-                        m_value += item.Key.Value * item.Value.Weight;
+                    if (NeuronType == NeuronTypes.Memory && false)
+                        foreach (KeyValuePair<INeuron, NeuralValue> item in m_input)
+                            m_value = item.Key.Value;
+                    else
+                    {
 
-                    m_value += m_bias.Weight;
+                        foreach (KeyValuePair<INeuron, NeuralValue> item in m_input)
+                        {
+                            if (item.Key.NeuronType == NeuronTypes.Memory && item.Key.Value == double.PositiveInfinity)
+                                continue;
 
-                    m_value = Util.Sigmoid(m_value);
+                            m_value += item.Key.Value * item.Value.Weight;
+                        }
+
+                        m_value += m_bias.Weight;
+
+                        m_value = Util.Sigmoid(m_value);
+                    }
                 }
 
                 foreach (Neuron n in m_output)
@@ -486,8 +498,8 @@ namespace primeira.pNeuron.Core
 
             foreach (Neuron n in this.Input.Keys)
             {
-                if (n.NeuronType == NeuronTypes.Input || n.NeuronType == NeuronTypes.Memory)
-                    continue;
+                //if (n.NeuronType == NeuronTypes.Input || n.NeuronType == NeuronTypes.Memory)
+                //    continue;
 
                 n.OutputReady++;
                 if (n.OutputReady == n.Output.Count)
@@ -497,7 +509,8 @@ namespace primeira.pNeuron.Core
                     foreach (Neuron nn in n.Output)
                         error += (nn.Error * nn.Input[n].Weight);
 
-                    n.PulseBack(error);
+                    if (n.NeuronType != NeuronTypes.Input && n.NeuronType != NeuronTypes.Memory)
+                        n.PulseBack(error);
                 }
 
             }
@@ -556,7 +569,7 @@ namespace primeira.pNeuron.Core
         /// </summary>
         public void ResetMemory()
         {
-            Value = 0;
+            Value = double.PositiveInfinity;
         }
 
         /// <summary>
@@ -742,15 +755,19 @@ namespace primeira.pNeuron.Core
             get
             {
                 double dGlobalTemp = 0;
-                int iNoPerception = Neuron.Count - InputNeuronCount - MemoryNeuronCount;
+                int iNoPerception = Neuron.Count - InputNeuronCount;
+
+                double tmp = 10000000000000000;
 
                 foreach (Neuron n in Neuron)
                 {
                     if (n.NeuronType != NeuronTypes.Input)
                     {
-                        dGlobalTemp += n.Error;
+                        dGlobalTemp += Math.Pow(Math.Abs(n.Error * tmp), 2) / (tmp * tmp);
                     }
                 }
+
+                
 
                 return dGlobalTemp / (double)iNoPerception;
 
