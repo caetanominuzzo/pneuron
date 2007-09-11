@@ -28,7 +28,7 @@ namespace primeira.pNeuron
             get { return fQueryOnClose; }
             set { fQueryOnClose = value; }
         }
-        public pNeuronIDE Parent
+        public new pNeuronIDE Parent
         {
             get { return DockPanel == null ? fParent : ((pNeuronIDE)DockPanel.Parent); }
             set { fParent = value; }
@@ -134,7 +134,6 @@ namespace primeira.pNeuron
             }
         }
 
-        private IContainer components;
         public pDisplay pDisplay1;
         private TabControl tcDesigner;
         private TabPage tbDesigner;
@@ -644,7 +643,6 @@ namespace primeira.pNeuron
                             Parent.PreRemoveDocument(this);
                         }
                         return;
-                        break;
                     case DialogResult.Cancel:
                         e.Cancel = true;
                         break;
@@ -805,7 +803,7 @@ namespace primeira.pNeuron
            
         }
 
-        public DialogResult Load()
+        public new DialogResult Load()
         {
             if (Modificated )
                 Save();
@@ -1037,12 +1035,23 @@ namespace primeira.pNeuron
 
             pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.Training;
             Parent.statusCycles.Visible = true;
-            Parent.statusGlobalError.Visible = true;
+
         }
 
         void internalTimer_Tick(object sender, EventArgs e)
         {
             Parent.statusGlobalError.Text = "Global Error: " + net.GlobalError.ToString("#0.0000000000000");
+
+            double[] data = Parent.fmPlotter.pPlot.Data;
+            if (data.Length > 0)
+            {
+                double media = 0;
+                foreach (double d in data)
+                    media += d;
+
+                media = media / data.Length;
+                Parent.statusMediaError.Text = "Media Error: " + media.ToString("#0.0000000000000");
+            }
             Application.DoEvents();
         }
 
@@ -1098,7 +1107,7 @@ namespace primeira.pNeuron
             double dTotalError = 1;
 
 
-            while (dGlobalError < -.000001 || dGlobalError > .000001)
+            while (dGlobalError < -.0000000001 || dGlobalError > .00000000001)
             {
                 if(Parent.ActiveDocument.pDisplay1.DisplayStatus != pDisplay.pDisplayStatus.Training)
                 {

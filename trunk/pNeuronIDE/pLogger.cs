@@ -18,7 +18,12 @@ namespace primeira.pNeuron
 
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(pLogger));
             this.txtLogger = new System.Windows.Forms.TextBox();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.tspAttach = new System.Windows.Forms.ToolStripButton();
+            this.tspClear = new System.Windows.Forms.ToolStripButton();
+            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtLogger
@@ -31,25 +36,61 @@ namespace primeira.pNeuron
             this.txtLogger.Size = new System.Drawing.Size(292, 273);
             this.txtLogger.TabIndex = 0;
             // 
-            // Form2
+            // toolStrip1
+            // 
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tspAttach,
+            this.tspClear});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(292, 25);
+            this.toolStrip1.TabIndex = 1;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
+            // tspAttach
+            // 
+            this.tspAttach.Image = ((System.Drawing.Image)(resources.GetObject("tspAttach.Image")));
+            this.tspAttach.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tspAttach.Name = "tspAttach";
+            this.tspAttach.Size = new System.Drawing.Size(59, 22);
+            this.tspAttach.Text = "Attach";
+            this.tspAttach.Click += new System.EventHandler(this.tspAttach_Click);
+            // 
+            // tspClear
+            // 
+            this.tspClear.Image = ((System.Drawing.Image)(resources.GetObject("tspClear.Image")));
+            this.tspClear.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tspClear.Name = "tspClear";
+            this.tspClear.Size = new System.Drawing.Size(52, 22);
+            this.tspClear.Text = "Clear";
+            this.tspClear.Click += new System.EventHandler(this.tspClear_Click);
+            // 
+            // pLogger
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(292, 273);
+            this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.txtLogger);
-            this.Name = "fmLooger";
-            this.Text = "pLogger";
+            this.Name = "pLogger";
             this.TabText = "pLogger";
+            this.Text = "pLogger";
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         private System.Windows.Forms.TextBox txtLogger;
+        private ToolStrip toolStrip1;
+        private ToolStripButton tspAttach;
+        private ToolStripButton tspClear;
         private StringBuilder sb = new StringBuilder();
 
         #region IpDocks Members
 
-        public pNeuronIDE Parent
+        public new pNeuronIDE Parent
         {
             get { return ((pNeuronIDE)DockPanel.Parent); }
         }
@@ -70,15 +111,54 @@ namespace primeira.pNeuron
 
         private void assincFlush(string text)
         {
-            txtLogger.Text = text;
+            txtLogger.Text += text;
         }
 
 
         public void Flush()
         {
             this.Invoke(new Assinc(assincFlush), new object[] { sb.ToString() });
+            sb.Length = 0;
         }
 
         #endregion
+
+        private void tspAttach_Click(object sender, EventArgs e)
+        {
+            if (tspAttach.Text == "Attach")
+            {
+                tspAttach.Text = "Dettach";
+                Parent.ActiveDocument.pDisplay1.Net.OnNeuronPulse += new primeira.pNeuron.Core.NeuralNetwork.OnNeuronPulseDelegate(Net_OnNeuronPulse);
+                Parent.ActiveDocument.pDisplay1.Net.OnNeuronPulseBack += new primeira.pNeuron.Core.NeuralNetwork.OnNeuronPulseBackDelegate(Net_OnNeuronPulseBack);
+            }
+            else
+            {
+                tspAttach.Text = "Attach";
+
+                Parent.ActiveDocument.pDisplay1.Net.OnNeuronPulse -= new primeira.pNeuron.Core.NeuralNetwork.OnNeuronPulseDelegate(Net_OnNeuronPulse);
+                Parent.ActiveDocument.pDisplay1.Net.OnNeuronPulseBack -= new primeira.pNeuron.Core.NeuralNetwork.OnNeuronPulseBackDelegate(Net_OnNeuronPulseBack);
+            }
+        }
+
+        void Net_OnNeuronPulseBack(primeira.pNeuron.Core.Neuron sender)
+        {
+            Log("Neuron pulseback: #" + sender.Index.ToString());
+            Log("\tValue: " + sender.Value.ToString("0.000000000"));
+
+            Flush();
+        }
+
+        void Net_OnNeuronPulse(primeira.pNeuron.Core.Neuron sender)
+        {
+            Log("Neuron pulse: #" + sender.Index.ToString());
+            Log("\tValue: " + sender.Value.ToString("0.000000000"));
+            Flush();
+        }
+
+        private void tspClear_Click(object sender, EventArgs e)
+        {
+            sb.Length = 0;
+            txtLogger.Text = "";
+        }
     }
 }

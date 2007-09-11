@@ -164,7 +164,7 @@ namespace primeira.pNeuron
 
         #region IpDocks Members
 
-        public pNeuronIDE Parent
+        public new pNeuronIDE Parent
         {
             get { return ((pNeuronIDE)DockPanel.Parent); }
         }

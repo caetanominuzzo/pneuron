@@ -143,6 +143,16 @@ namespace primeira.pNeuron
         }
 
         [Browsable(true)]
+        public double Value
+        {
+            get
+            {
+                return Neuron.Value;
+            }
+        }
+
+
+        [Browsable(true)]
         public DataTypes DataType
         {
             get
@@ -190,7 +200,6 @@ namespace primeira.pNeuron
 
         public Pen GetPenStyle()
         {
-            pColorBase p;
 
             pColorBase lp = null;
             Pen lpp = null;
@@ -214,7 +223,6 @@ namespace primeira.pNeuron
 
         public Brush GetBrushtyle()
         {
-            pColorBase p;
 
             pColorBase lp = null;
             Brush lpp = null;

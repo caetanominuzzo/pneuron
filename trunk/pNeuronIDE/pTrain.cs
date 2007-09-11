@@ -26,7 +26,7 @@ namespace primeira.pNeuron
             get { return fQueryOnClose; }
             set { fQueryOnClose = value; }
         }
-        public pNeuronIDE Parent
+        public new pNeuronIDE Parent
         {
             get { return DockPanel == null ? fParent : ((pNeuronIDE)DockPanel.Parent); }
             set { fParent = value; }
@@ -42,7 +42,7 @@ namespace primeira.pNeuron
         public NeuralNetwork net = new NeuralNetwork();
 
         TextBox[][] t = new TextBox[3][];
-           double high, mid, low;
+           double high,  low;
 
         int gI = 0;
 
@@ -54,7 +54,6 @@ namespace primeira.pNeuron
 
             low = .00000000000000000001;
 
-            mid = .5;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -211,8 +210,6 @@ namespace primeira.pNeuron
 
             //  net.Initialize(1, 0);
 
-            double ll, lh, hl, hh;
-
             int count;
 
             count = 0;
@@ -287,45 +284,17 @@ namespace primeira.pNeuron
         private void button5_Click(object sender, EventArgs e)
         {
             net.Neuron[0].Value = Util.Sigmoid(Convert.ToDouble(textBox4.Text));
-
-            net.OnNeuronPulse += new NeuralNetwork.OnNeuronPulseDelegate(net_OnNeuronPulse);
-
-            net.OnNeuronPulseBack += new NeuralNetwork.OnNeuronPulseBackDelegate(net_OnNeuronPulseBack);
             net.Pulse();
-
-
 
             foreach(Neuron n in net.Neuron)
                 if (n.NeuronType == NeuronTypes.Output)
                 {
                     MessageBox.Show(Util.UnSigmoid(n.Value).ToString("0.0000"));
-                    net.OnNeuronPulse -= new NeuralNetwork.OnNeuronPulseDelegate(net_OnNeuronPulse);
-
-                    net.OnNeuronPulseBack -= new NeuralNetwork.OnNeuronPulseBackDelegate(net_OnNeuronPulseBack);
                     return;
                 }
-
-
-            
-
         }
 
-        void net_OnNeuronPulseBack(Neuron sender)
-        {
-            Parent.fmLogger.Log("Neuron pulseback: #" + sender.Index.ToString());
-            Parent.fmLogger.Log("\tValue: " + sender.Value.ToString("0.000000000"));
-
-            Parent.fmLogger.Flush();
-        }
-
-        void net_OnNeuronPulse(Neuron sender)
-        {
-
-            Parent.fmLogger.Log("Neuron pulse: #" + sender.Index.ToString());
-            Parent.fmLogger.Log("\tValue: " + sender.Value.ToString("0.000000000"));
-            Parent.fmLogger.Flush();
-        }
-
+     
         private void button6_Click(object sender, EventArgs e)
         {
             net.ResetMemory();

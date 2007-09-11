@@ -254,7 +254,7 @@ namespace primeira.pNeuron.Core
         /// How many inputs of this neuron are already calculated and are able to be read.
         /// When InputReady are equal to item in Input thus all Input are ready and the neuron can pulses.
         /// </summary>
-        private int InputReady
+        public int InputReady
         {
             get { return m_inputReady; }
             set { m_inputReady = value; }
@@ -442,24 +442,20 @@ namespace primeira.pNeuron.Core
 
                     m_value = 0;
 
-                    if (NeuronType == NeuronTypes.Memory && false)
-                        foreach (KeyValuePair<INeuron, NeuralValue> item in m_input)
-                            m_value = item.Key.Value;
-                    else
+
+
+                    foreach (KeyValuePair<INeuron, NeuralValue> item in m_input)
                     {
+                        if (item.Key.NeuronType == NeuronTypes.Memory && item.Key.Value == double.PositiveInfinity)
+                            continue;
 
-                        foreach (KeyValuePair<INeuron, NeuralValue> item in m_input)
-                        {
-                            if (item.Key.NeuronType == NeuronTypes.Memory && item.Key.Value == double.PositiveInfinity)
-                                continue;
+                        m_value += item.Key.Value * item.Value.Weight;
+                    }
 
-                            m_value += item.Key.Value * item.Value.Weight;
-                        }
-
-                        m_value += m_bias.Weight;
+                    m_value += m_bias.Weight;
 
                         m_value = Util.Sigmoid(m_value);
-                    }
+
                 }
 
                 foreach (Neuron n in m_output)
@@ -569,7 +565,7 @@ namespace primeira.pNeuron.Core
         /// </summary>
         public void ResetMemory()
         {
-            Value = double.PositiveInfinity;
+            Value = 0.9;// double.PositiveInfinity;
         }
 
         /// <summary>
@@ -724,6 +720,8 @@ namespace primeira.pNeuron.Core
         private int m_outputNeuronCount = 0;
         private int m_memoryNeuronCount = 0;
         private pTrueRandomGenerator m_random;
+
+        private delegate void AssincP(INeuron sender);
 
         #endregion
 
@@ -935,6 +933,18 @@ namespace primeira.pNeuron.Core
         }
 
         /// <summary>
+        /// Set zero on InputReady, OutputReady counter of each neuron. 
+        /// </summary>
+        public void ResetInputOutputReadyCount()
+        {
+            foreach (Neuron n in Neuron)
+            {
+                n.InputReady = 0;
+                n.OutputReady = 0;
+            }
+        }
+
+        /// <summary>
         /// Calls ApplyLearning of each neuron.
         /// </summary>
         public void ApplyLearning()
@@ -997,11 +1007,36 @@ namespace primeira.pNeuron.Core
         {
             lock (this)
             {
+                List<INeuron> MemoriesInput = new List<INeuron>();
+
                 foreach (Neuron n in this.Neuron)
                 {
                     if (n.NeuronType == NeuronTypes.Memory)
-                        n.ResetMemory();
+                    {
+                        INeuron[] inputs = n.GetInputNeurons();
+
+                        foreach (INeuron nn in inputs)
+                            if (!MemoriesInput.Contains(nn))
+                                MemoriesInput.Add(nn);
+
+                        foreach (INeuron nn in MemoriesInput)
+                        {
+                            nn.Value = 1;
+                        }
+
+                    }
                 }
+
+                foreach (Neuron n in this.Neuron)
+                {
+                    if (n.NeuronType == NeuronTypes.Memory)
+                    {
+                        n.Pulse();
+                    }
+                }
+
+                ResetInputOutputReadyCount();
+
             }
         }
 
