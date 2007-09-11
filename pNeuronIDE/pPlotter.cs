@@ -13,12 +13,13 @@ namespace primeira.pNeuron
     {
         private Timer tmRefresh;
         private IContainer components;
-        private pGraphicPlotter pPlot;
+        public pGraphicPlotter pPlot;
 
         public pPlotter()
         {
             InitializeComponent();
         }
+
 
         private void InitializeComponent()
         {
@@ -73,7 +74,7 @@ namespace primeira.pNeuron
 
         #region IpDocks Members
 
-        public pNeuronIDE Parent
+        public new pNeuronIDE Parent
         {
             get { return ((pNeuronIDE)DockPanel.Parent); }
         }
