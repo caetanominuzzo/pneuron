@@ -92,6 +92,10 @@
       <SubType>Designer</SubType>
       <DependentUpon>pDomainEdit.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="pLogger.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>pLogger.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="pNetworkExplorer.resx">
       <SubType>Designer</SubType>
       <DependentUpon>pNetworkExplorer.cs</DependentUpon>

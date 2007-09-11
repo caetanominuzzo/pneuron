@@ -16,7 +16,10 @@ namespace primeira.pNeuron
         private double fMaxValue = double.NegativeInfinity;
         private double fMinValue = double.PositiveInfinity;
 
-
+        public Double[] Data
+        {
+            get { return fData.ToArray(); }
+        }
 
         public pGraphicPlotter()
         {

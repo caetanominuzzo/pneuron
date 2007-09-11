@@ -1199,11 +1199,8 @@ namespace primeira.pNeuron
 
         private void pPanelMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            bool bShowEditList = true;
             if(HighlightedpPanels.Length == 1)
             {
-                if(HighlightedpPanels[0].DataType != DataTypes.List)
-                    bShowEditList = false;
             }
             else 
             {

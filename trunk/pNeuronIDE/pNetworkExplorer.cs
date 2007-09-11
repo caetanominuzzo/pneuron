@@ -30,7 +30,7 @@ namespace primeira.pNeuron
         public TreeView treeView1;
         #region IpDocks Members
 
-        public pNeuronIDE Parent 
+        public new pNeuronIDE Parent 
         {
             get { return ((pNeuronIDE)DockPanel.Parent); }
         }
