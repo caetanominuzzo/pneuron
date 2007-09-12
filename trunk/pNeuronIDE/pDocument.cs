@@ -143,9 +143,6 @@ namespace primeira.pNeuron
         private FlowLayoutPanel flowLayoutPanel1;
         private ToolStrip toolStrip1;
         private ToolStripComboBox cbTrainingSets;
-        private ToolStripButton btTrain;
-        private ToolStripButton btReset;
-        private ToolStripSeparator toolStripSeparator1;
         private ToolStripButton btNewTrainingSet;
         private ToolStripButton btRemoveTrainingSet;
         private ToolStripSeparator toolStripSeparator2;
@@ -154,6 +151,10 @@ namespace primeira.pNeuron
 
         private System.Windows.Forms.Timer internalTimer = new System.Windows.Forms.Timer();
         private NeuralNetwork net;
+        private ToolStrip toolStrip2;
+        private ToolStripButton tspAttach;
+        private System.Windows.Forms.Timer refreshTimer;
+        private IContainer components;
 
         private const int INNER_TRAINING_TIMES = 100;
 
@@ -176,25 +177,28 @@ namespace primeira.pNeuron
 
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(pDocument));
             this.tcDesigner = new System.Windows.Forms.TabControl();
             this.tbDesigner = new System.Windows.Forms.TabPage();
             this.pDisplay1 = new primeira.pNeuron.pDisplay();
+            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
+            this.tspAttach = new System.Windows.Forms.ToolStripButton();
             this.tbTrainingSet = new System.Windows.Forms.TabPage();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.cbTrainingSets = new System.Windows.Forms.ToolStripComboBox();
-            this.btTrain = new System.Windows.Forms.ToolStripButton();
-            this.btReset = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.btNewTrainingSet = new System.Windows.Forms.ToolStripButton();
             this.btRemoveTrainingSet = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.btImport = new System.Windows.Forms.ToolStripButton();
             this.btExport = new System.Windows.Forms.ToolStripButton();
+            this.refreshTimer = new System.Windows.Forms.Timer(this.components);
             this.tcDesigner.SuspendLayout();
             this.tbDesigner.SuspendLayout();
+            this.pDisplay1.SuspendLayout();
+            this.toolStrip2.SuspendLayout();
             this.tbTrainingSet.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.flowLayoutPanel1.SuspendLayout();
@@ -238,6 +242,7 @@ namespace primeira.pNeuron
             this.pDisplay1.BackColor = System.Drawing.Color.White;
             this.pDisplay1.Bezier = true;
             this.pDisplay1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pDisplay1.Controls.Add(this.toolStrip2);
             this.pDisplay1.CtrlKey = false;
             this.pDisplay1.Cursor = System.Windows.Forms.Cursors.Default;
             this.pDisplay1.DisplayStatus = primeira.pNeuron.pDisplay.pDisplayStatus.Idle;
@@ -256,6 +261,25 @@ namespace primeira.pNeuron
             this.pDisplay1.OnSelectedPanelsChange += new primeira.pNeuron.pDisplay.SelectedPanelsChangeDelegate(this.pDisplay1_OnSelectedPanelsChange);
             this.pDisplay1.OnNetworkChange += new primeira.pNeuron.pDisplay.NetworkChangeDelegate(this.pDisplay1_OnNetworkChange);
             this.pDisplay1.OnNewDomain += new primeira.pNeuron.pDisplay.NewDomainDelegate(this.pDisplay1_OnNewDomain);
+            // 
+            // toolStrip2
+            // 
+            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tspAttach});
+            this.toolStrip2.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip2.Name = "toolStrip2";
+            this.toolStrip2.Size = new System.Drawing.Size(712, 25);
+            this.toolStrip2.TabIndex = 0;
+            this.toolStrip2.Text = "toolStrip2";
+            // 
+            // tspAttach
+            // 
+            this.tspAttach.Image = ((System.Drawing.Image)(resources.GetObject("tspAttach.Image")));
+            this.tspAttach.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tspAttach.Name = "tspAttach";
+            this.tspAttach.Size = new System.Drawing.Size(59, 22);
+            this.tspAttach.Text = "Attach";
+            this.tspAttach.Click += new System.EventHandler(this.tspAttach_Click);
             // 
             // tbTrainingSet
             // 
@@ -297,9 +321,6 @@ namespace primeira.pNeuron
             this.toolStrip1.AllowDrop = true;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.cbTrainingSets,
-            this.btTrain,
-            this.btReset,
-            this.toolStripSeparator1,
             this.btNewTrainingSet,
             this.btRemoveTrainingSet,
             this.toolStripSeparator2,
@@ -308,7 +329,7 @@ namespace primeira.pNeuron
             this.toolStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(553, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(402, 25);
             this.toolStrip1.TabIndex = 6;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -318,29 +339,6 @@ namespace primeira.pNeuron
             this.cbTrainingSets.Name = "cbTrainingSets";
             this.cbTrainingSets.Size = new System.Drawing.Size(121, 25);
             this.cbTrainingSets.SelectedIndexChanged += new System.EventHandler(this.cbTrainingSets_SelectedIndexChanged);
-            // 
-            // btTrain
-            // 
-            this.btTrain.Image = ((System.Drawing.Image)(resources.GetObject("btTrain.Image")));
-            this.btTrain.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btTrain.Name = "btTrain";
-            this.btTrain.Size = new System.Drawing.Size(92, 22);
-            this.btTrain.Text = "Start Training";
-            this.btTrain.Click += new System.EventHandler(this.btTrain_Click);
-            // 
-            // btReset
-            // 
-            this.btReset.Image = ((System.Drawing.Image)(resources.GetObject("btReset.Image")));
-            this.btReset.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btReset.Name = "btReset";
-            this.btReset.Size = new System.Drawing.Size(82, 22);
-            this.btReset.Text = "Reset Train";
-            this.btReset.Click += new System.EventHandler(this.Reset_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
             // btNewTrainingSet
             // 
@@ -383,6 +381,11 @@ namespace primeira.pNeuron
             this.btExport.Text = "Export";
             this.btExport.Click += new System.EventHandler(this.btExport_Click);
             // 
+            // refreshTimer
+            // 
+            this.refreshTimer.Interval = 500;
+            this.refreshTimer.Tick += new System.EventHandler(this.refreshTimer_Tick);
+            // 
             // pDocument
             // 
             this.ClientSize = new System.Drawing.Size(744, 422);
@@ -396,6 +399,10 @@ namespace primeira.pNeuron
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.pDocument_KeyDown);
             this.tcDesigner.ResumeLayout(false);
             this.tbDesigner.ResumeLayout(false);
+            this.pDisplay1.ResumeLayout(false);
+            this.pDisplay1.PerformLayout();
+            this.toolStrip2.ResumeLayout(false);
+            this.toolStrip2.PerformLayout();
             this.tbTrainingSet.ResumeLayout(false);
             this.tbTrainingSet.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
@@ -937,14 +944,11 @@ namespace primeira.pNeuron
                 }
         }
 
-        private void btTrain_Click(object sender, EventArgs e)
+        public void StartTrain()
         {
             if (Parent.ActiveDocument.pDisplay1.DisplayStatus != pDisplay.pDisplayStatus.Training)
             {
-                btTrain.Text = "Stop Training";
-
-                
-
+                Parent.tspStartTrain.Text = "Stop Training";
 
                 DataTable dt = (DataTable)dataGridView1.DataSource;
 
@@ -1028,7 +1032,7 @@ namespace primeira.pNeuron
         delegate void AssincP(int aCount);
         delegate void Assinc();
 
-        public void StartTrain()
+        private void internalStartTrain()
         {
             
             internalTimer.Start();
@@ -1060,7 +1064,7 @@ namespace primeira.pNeuron
             internalTimer.Stop();
             pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.Idle;
             Parent.statusCycles.Visible = false;
-            btTrain.Text = "Start Training";
+            Parent.tspStartTrain.Text = "Start Training";
             Parent.statusCycles.Tag = null;
             internalTimer_Tick(null, null);
         }
@@ -1096,7 +1100,7 @@ namespace primeira.pNeuron
 
         private void internalTrain(ref NeuralNetwork net, double[][] input, double[][] output)
         {
-            this.Invoke(new Assinc(StartTrain));
+            this.Invoke(new Assinc(internalStartTrain));
 
             int count;
 
@@ -1170,7 +1174,7 @@ namespace primeira.pNeuron
                 }
         }
 
-        private void Reset_Click(object sender, EventArgs e)
+        public void ResetLearning()
         {
             pDisplay1.Net.ResetKnowledgment();
             pDisplay1.Net.ResetLearning();
@@ -1207,6 +1211,29 @@ namespace primeira.pNeuron
             //fmDomainEdit f = new fmDomainEdit();
             //f.ShowDialog();
         }
+
+        private void tspAttach_Click(object sender, EventArgs e)
+        {
+            if (tspAttach.Text == "Attach")
+            {
+                tspAttach.Text = "Dettach";
+                refreshTimer.Start();
+            }
+            else
+            {
+                tspAttach.Text = "Attach";
+
+                refreshTimer.Stop();
+            }
+        }
+
+        private void refreshTimer_Tick(object sender, EventArgs e)
+        {
+            pDisplay1.Refresh();
+        }
+
+
+
 
         
 

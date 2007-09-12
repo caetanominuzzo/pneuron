@@ -87,6 +87,7 @@ namespace primeira.pNeuron
         private ToolStripButton tspAttach;
         private ToolStripButton tspClear;
         private StringBuilder sb = new StringBuilder();
+        private int iNeuronCount = 0;
 
         #region IpDocks Members
 
@@ -103,8 +104,6 @@ namespace primeira.pNeuron
         {
             sb.Append(msg);
             sb.Append(Environment.NewLine);
-            if(sb.Length > 3000)
-                System.Diagnostics.Debug.Assert(true);
         }
 
         private delegate void Assinc(string text);
@@ -123,6 +122,8 @@ namespace primeira.pNeuron
 
         #endregion
 
+        delegate void AssincP(string msg);
+
         private void tspAttach_Click(object sender, EventArgs e)
         {
             if (tspAttach.Text == "Attach")
@@ -137,22 +138,30 @@ namespace primeira.pNeuron
 
                 Parent.ActiveDocument.pDisplay1.Net.OnNeuronPulse -= new primeira.pNeuron.Core.NeuralNetwork.OnNeuronPulseDelegate(Net_OnNeuronPulse);
                 Parent.ActiveDocument.pDisplay1.Net.OnNeuronPulseBack -= new primeira.pNeuron.Core.NeuralNetwork.OnNeuronPulseBackDelegate(Net_OnNeuronPulseBack);
+
+                iNeuronCount = 0;
+                
+                Flush();
             }
         }
 
         void Net_OnNeuronPulseBack(primeira.pNeuron.Core.Neuron sender)
         {
-            Log("Neuron pulseback: #" + sender.Index.ToString());
-            Log("\tValue: " + sender.Value.ToString("0.000000000"));
+            this.Invoke(new AssincP(Log), new object[] { "Neuron pulseback: #" + sender.Index.ToString() });
+            this.Invoke(new AssincP(Log), new object[] { "\tValue: " + sender.Value.ToString("0.000000000") });
 
-            Flush();
+            iNeuronCount++;
+
+            if (iNeuronCount == sender.Net.Neuron.Count * 2)
+                tspAttach_Click(null, null);
+
         }
 
         void Net_OnNeuronPulse(primeira.pNeuron.Core.Neuron sender)
         {
-            Log("Neuron pulse: #" + sender.Index.ToString());
-            Log("\tValue: " + sender.Value.ToString("0.000000000"));
-            Flush();
+            this.Invoke(new AssincP(Log), new object[] { "Neuron pulse: #" + sender.Index.ToString() });
+            this.Invoke(new AssincP(Log), new object[] { "\tValue: " + sender.Value.ToString("0.000000000") });
+
         }
 
         private void tspClear_Click(object sender, EventArgs e)

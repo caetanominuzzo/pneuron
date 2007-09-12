@@ -53,6 +53,8 @@ namespace primeira.pNeuron
             {
                 fmToolbox.SetToolSet(value);
                 fActiveDocument = value;
+
+                tspStartTrain.Enabled = tspResetLearning.Enabled = (fActiveDocument != null);
             }
         }
 
@@ -267,6 +269,16 @@ namespace primeira.pNeuron
         {
             pDomainEdit fmDomainEdit = new pDomainEdit();
             fmDomainEdit.ShowDialog();
+        }
+
+        private void tspStartTrain_Click(object sender, EventArgs e)
+        {
+            ActiveDocument.StartTrain();
+        }
+
+        private void tspResetLearning_Click(object sender, EventArgs e)
+        {
+            ActiveDocument.ResetLearning();
         }
         
 

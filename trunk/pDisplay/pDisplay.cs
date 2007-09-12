@@ -934,10 +934,31 @@ namespace primeira.pNeuron
             base.OnPaint(e);
             DrawLines(e);
 
-            if(DisplayStatus == pDisplayStatus.Training)
+            if(DisplayStatus == pDisplayStatus.Training && false)
             {
-                e.Graphics.DrawString(m_net.GlobalError.ToString("#00.00000000"), SystemFonts.DefaultFont, new SolidBrush(Color.Black), new Point(10, 10));
-              //  return;
+
+                double dZoom = 1;
+                double dMaxY = 50;
+
+                double dMaxV = double.NegativeInfinity;
+
+                foreach (pPanel p in pPanels)
+                {
+                    if (p.Neuron.Value > dMaxV)
+                        dMaxV = p.Neuron.Value;
+                }
+
+                dZoom = dMaxY / dMaxV;
+
+                if (double.IsInfinity(dZoom))
+                {
+                    dZoom = 1;
+                }
+
+                foreach (pPanel p in pPanels)
+                    p.Size = new Size(
+                                Convert.ToInt32(Math.Max(1, Math.Abs(p.Neuron.Value) * dZoom)),
+                                Convert.ToInt32(Math.Max(1, Math.Abs(p.Neuron.Value) * dZoom)));
             }
 
 
@@ -1101,6 +1122,32 @@ namespace primeira.pNeuron
             if (c.Location == d.Location)
                 return;
 
+            double dZoom = 1;
+
+            if (DisplayStatus == pDisplayStatus.Training)
+            {
+                
+                double dMaxY = 10;
+
+                double dMaxV = double.NegativeInfinity;
+
+                foreach (pPanel pp in pPanels)
+                    foreach (double dd in pp.SynapseIN)
+                    {
+                        if (dd > dMaxV)
+                            dMaxV = dd;
+                    }
+
+                dZoom = dMaxY / dMaxV;
+
+                if (double.IsInfinity(dZoom))
+                {
+                    dZoom = 1;
+                }
+
+
+            }
+
             Rectangle cBounds = c.Bounds;
 
             cBounds = new Rectangle(cBounds.X + AutoScrollPosition.X,
@@ -1118,7 +1165,12 @@ namespace primeira.pNeuron
                 dBounds.Height);
 
             Pen p = ((pPanel)c).GetPenStyle();
+            
             p.Width = 1;
+            if (d.Neuron != null)
+                if(c.Neuron.GetSynapseTo(d.Neuron) != null)
+                    p.Width = Convert.ToInt32(Math.Max(1, Math.Abs(c.Neuron.GetSynapseTo(d.Neuron).Weight) * dZoom));
+            
             SolidBrush b = new SolidBrush(Color.Red);
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
 
