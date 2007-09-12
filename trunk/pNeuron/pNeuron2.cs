@@ -910,6 +910,9 @@ namespace primeira.pNeuron.Core
                         n.Pulse();
                 }
             }
+
+            if (OnPulse != null)
+                OnPulse();
         }
 
         /// <summary>
@@ -1138,6 +1141,9 @@ namespace primeira.pNeuron.Core
 
         public delegate void OnNeuronPulseBackDelegate(Neuron sender);
         public event OnNeuronPulseBackDelegate OnNeuronPulseBack;
+
+        public delegate void OnPulseDelegate();
+        public event OnPulseDelegate OnPulse;
 
         #endregion
 
