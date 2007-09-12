@@ -1111,7 +1111,7 @@ namespace primeira.pNeuron
             double dTotalError = 1;
 
 
-            while (dGlobalError < -.0000000001 || dGlobalError > .00000000001)
+            while (dGlobalError < -.0000000000000001 || dGlobalError > .0000000000000001)
             {
                 if(Parent.ActiveDocument.pDisplay1.DisplayStatus != pDisplay.pDisplayStatus.Training)
                 {
