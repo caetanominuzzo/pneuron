@@ -50,7 +50,7 @@ namespace primeira.pNeuron
                     fMinValue = d;
             }
 
-            double dMaxY = Height / 2;
+            double dMaxY = Height;
             double dMaxX = Width;
 
             fZoom = dMaxY / fMaxValue;
@@ -82,13 +82,18 @@ namespace primeira.pNeuron
 
             e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
 
-            double dMaxY = Height / 2;
+            double dMaxY = Height;
             double dMaxX = Width;
 
             Point pLast = new Point(0,  Convert.ToInt32(dMaxY));
-            
+            Point pNew;
+
+            Point pLastMedia = new Point(0, Convert.ToInt32(dMaxY));
+            Point pNewMedia;
 
             double i = 0;
+
+            double dMedia = 0;
 
             foreach(double d in fData)
             {
@@ -97,18 +102,47 @@ namespace primeira.pNeuron
                 //            Convert.ToInt32(dMaxX * i / 100),
                 //            Convert.ToInt32(d * fZoom + dMaxY)));
 
+                pNew = new Point(
+                            Convert.ToInt32(dMaxX * i / 100),
+                            Convert.ToInt32(d * fZoom));
+
                 e.Graphics.DrawLine(
                         new Pen(Color.Black),
                         pLast,
-                        new Point(
-                            Convert.ToInt32(dMaxX * i / 100),
-                            Convert.ToInt32( d * fZoom + dMaxY)));
+                        pNew);
 
-                pLast = new Point(
-                            Convert.ToInt32(dMaxX * i / 100),
-                            Convert.ToInt32(d * fZoom + dMaxY));
+                pLast = pNew;
 
+                dMedia += d;
+                
                 i++;
+
+                if (i % 20 == 0)
+                {
+                    dMedia = dMedia / 20;
+
+                    pNewMedia = new Point(
+                            Convert.ToInt32(dMaxX * i / 100),
+                            Convert.ToInt32(dMedia * fZoom));
+
+                    e.Graphics.DrawLine(
+                            new Pen(Color.FromArgb(70, Color.Red), 3),
+                            pLastMedia,
+                            pNewMedia);
+
+                    e.Graphics.DrawString(dMedia.ToString("0.000000"), SystemFonts.DefaultFont, new SolidBrush(Color.FromArgb(90, Color.Black)),
+                        pNewMedia);
+
+
+                    pLastMedia  = pNewMedia;
+
+                    dMedia = 0;
+
+                }
+
+               
+
+
             }
         }
 
