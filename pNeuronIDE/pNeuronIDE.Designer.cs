@@ -33,6 +33,7 @@ namespace primeira.pNeuron
             this.status = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusGlobalError = new System.Windows.Forms.ToolStripStatusLabel();
+            this.statusMediaError = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusCycles = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -57,9 +58,12 @@ namespace primeira.pNeuron
             this.domainEditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nNToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tspTrain = new System.Windows.Forms.ToolStripMenuItem();
-            this.statusMediaError = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.tspStartTrain = new System.Windows.Forms.ToolStripButton();
+            this.tspResetLearning = new System.Windows.Forms.ToolStripButton();
             this.status.SuspendLayout();
             this.menuStrip1.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // dockPanel
@@ -113,6 +117,19 @@ namespace primeira.pNeuron
             this.statusGlobalError.Size = new System.Drawing.Size(170, 17);
             this.statusGlobalError.Text = "Global Error:";
             this.statusGlobalError.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // statusMediaError
+            // 
+            this.statusMediaError.AutoSize = false;
+            this.statusMediaError.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
+                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)
+                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.statusMediaError.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
+            this.statusMediaError.Margin = new System.Windows.Forms.Padding(0, 3, 3, 2);
+            this.statusMediaError.Name = "statusMediaError";
+            this.statusMediaError.Size = new System.Drawing.Size(170, 17);
+            this.statusMediaError.Text = "Media Error:";
+            this.statusMediaError.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // statusCycles
             // 
@@ -304,24 +321,41 @@ namespace primeira.pNeuron
             this.tspTrain.Text = "Train";
             this.tspTrain.Click += new System.EventHandler(this.trainToolStripMenuItem_Click);
             // 
-            // statusMediaError
+            // toolStrip1
             // 
-            this.statusMediaError.AutoSize = false;
-            this.statusMediaError.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
-                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)
-                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
-            this.statusMediaError.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
-            this.statusMediaError.Margin = new System.Windows.Forms.Padding(0, 3, 3, 2);
-            this.statusMediaError.Name = "statusMediaError";
-            this.statusMediaError.Size = new System.Drawing.Size(170, 17);
-            this.statusMediaError.Text = "Media Error:";
-            this.statusMediaError.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tspStartTrain,
+            this.tspResetLearning});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 24);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(689, 25);
+            this.toolStrip1.TabIndex = 7;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
+            // tspStartTrain
+            // 
+            this.tspStartTrain.Image = ((System.Drawing.Image)(resources.GetObject("tspStartTrain.Image")));
+            this.tspStartTrain.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tspStartTrain.Name = "tspStartTrain";
+            this.tspStartTrain.Size = new System.Drawing.Size(78, 22);
+            this.tspStartTrain.Text = "Start Train";
+            this.tspStartTrain.Click += new System.EventHandler(this.tspStartTrain_Click);
+            // 
+            // tspResetLearning
+            // 
+            this.tspResetLearning.Image = ((System.Drawing.Image)(resources.GetObject("tspResetLearning.Image")));
+            this.tspResetLearning.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tspResetLearning.Name = "tspResetLearning";
+            this.tspResetLearning.Size = new System.Drawing.Size(99, 22);
+            this.tspResetLearning.Text = "Reset Learning";
+            this.tspResetLearning.Click += new System.EventHandler(this.tspResetLearning_Click);
             // 
             // pNeuronIDE
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(689, 306);
+            this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.dockPanel);
             this.Controls.Add(this.status);
             this.Controls.Add(this.menuStrip1);
@@ -335,6 +369,8 @@ namespace primeira.pNeuron
             this.status.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -371,5 +407,8 @@ namespace primeira.pNeuron
         public System.Windows.Forms.ToolStripStatusLabel statusGlobalError;
         private System.Windows.Forms.ToolStripMenuItem domainEditToolStripMenuItem;
         public System.Windows.Forms.ToolStripStatusLabel statusMediaError;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        public System.Windows.Forms.ToolStripButton tspStartTrain;
+        public System.Windows.Forms.ToolStripButton tspResetLearning;
     }
 }

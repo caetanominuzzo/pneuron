@@ -9,7 +9,7 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace primeira.pNeuron
 {
-    public class pToolbox : DockContent
+    public class pToolbox : DockContent, IpDocks
     {
         public RadioButton rCursor;
         public RadioButton rSynapse;
@@ -187,5 +187,17 @@ namespace primeira.pNeuron
             textBox1.Text = (((pNeuronIDE)DockPanel.Parent)).ActiveDocument.pDisplay1.Net.LearningRate.ToString("000.000000000000000");
         }
 
+       
+
+        #region IpDocks Members
+
+        public new pNeuronIDE Parent
+        {
+            get { return ((pNeuronIDE)DockPanel.Parent); }
+        }
+
+        #endregion
+
+       
     }
 }
