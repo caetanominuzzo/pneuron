@@ -1018,15 +1018,15 @@ namespace primeira.pNeuron
 
         void net_OnNeuronPulseBack(Neuron sender)
         {
-            Parent.fmLogger.Log("PB#" + sender.Net.Neuron.FindIndex(delegate(Neuron n) { return n == sender; }) + ": "+sender.Value.ToString("0.000000000"));
+            Parent.fmLogger.Log("PB#" + sender.NeuralNetwork.Neuron.FindIndex(delegate(Neuron n) { return n == sender; }) + ": "+sender.Value.ToString("0.000000000"));
 
             foreach (Neuron input in sender.GetInputNeurons())
-                Parent.fmLogger.Log("\t#" + sender.Net.Neuron.FindIndex(delegate(Neuron n) { return n == input; }) + ": " + sender.GetSynapseFrom(input).Weight.ToString("0.000000000"));
+                Parent.fmLogger.Log("\t#" + sender.NeuralNetwork.Neuron.FindIndex(delegate(Neuron n) { return n == input; }) + ": " + sender.GetSynapseFrom(input).Weight.ToString("0.000000000"));
         }
 
         void net_OnNeuronPulse(Neuron sender)
         {
-            Parent.fmLogger.Log(" P#" + sender.Net.Neuron.FindIndex(delegate(Neuron n) { return n == sender; }) + ": " + sender.Value.ToString("0.000000000"));
+            Parent.fmLogger.Log(" P#" + sender.NeuralNetwork.Neuron.FindIndex(delegate(Neuron n) { return n == sender; }) + ": " + sender.Value.ToString("0.000000000"));
         }
 
         delegate void AssincP(int aCount);
@@ -1111,7 +1111,7 @@ namespace primeira.pNeuron
             double dTotalError = 1;
 
 
-            while (dGlobalError < -.0000000000000001 || dGlobalError > .0000000000000001)
+            while (dGlobalError > .000000000000001)
             {
                 if(Parent.ActiveDocument.pDisplay1.DisplayStatus != pDisplay.pDisplayStatus.Training)
                 {
@@ -1123,7 +1123,7 @@ namespace primeira.pNeuron
                 
                 count++;
 
-                net.Train(input, output, INNER_TRAINING_TIMES);
+                net.TrainSession(input, output, INNER_TRAINING_TIMES);
 
                 if(count % INNER_TRAINING_TIMES == 0)
                     this.Invoke(new AssincP(RefreshCyclesSec), new object[] { count*INNER_TRAINING_TIMES });

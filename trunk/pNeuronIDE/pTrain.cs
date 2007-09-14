@@ -91,7 +91,7 @@ namespace primeira.pNeuron
                 count++;
 
 
-                net.Train(input, output, 1);
+                net.TrainSession(input, output, 1);
 
                 dTotalError = 0;
                 foreach (Neuron n in net.Neuron)
@@ -228,7 +228,7 @@ namespace primeira.pNeuron
 
 
 
-                net.Train(input, output, 100);
+                net.TrainSession(input, output, 100);
 
                 // net.ApplyLearning();
 
