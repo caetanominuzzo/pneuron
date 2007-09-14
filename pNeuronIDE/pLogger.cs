@@ -129,15 +129,10 @@ namespace primeira.pNeuron
             if (tspAttach.Text == "Attach")
             {
                 tspAttach.Text = "Dettach";
-                Parent.ActiveDocument.pDisplay1.Net.OnNeuronPulse += new primeira.pNeuron.Core.NeuralNetwork.OnNeuronPulseDelegate(Net_OnNeuronPulse);
-                Parent.ActiveDocument.pDisplay1.Net.OnNeuronPulseBack += new primeira.pNeuron.Core.NeuralNetwork.OnNeuronPulseBackDelegate(Net_OnNeuronPulseBack);
             }
             else
             {
                 tspAttach.Text = "Attach";
-
-                Parent.ActiveDocument.pDisplay1.Net.OnNeuronPulse -= new primeira.pNeuron.Core.NeuralNetwork.OnNeuronPulseDelegate(Net_OnNeuronPulse);
-                Parent.ActiveDocument.pDisplay1.Net.OnNeuronPulseBack -= new primeira.pNeuron.Core.NeuralNetwork.OnNeuronPulseBackDelegate(Net_OnNeuronPulseBack);
 
                 iNeuronCount = 0;
                 
@@ -147,20 +142,20 @@ namespace primeira.pNeuron
 
         void Net_OnNeuronPulseBack(primeira.pNeuron.Core.Neuron sender)
         {
-            this.Invoke(new AssincP(Log), new object[] { "Neuron pulseback: #" + sender.Index.ToString() });
-            this.Invoke(new AssincP(Log), new object[] { "\tValue: " + sender.Value.ToString("0.000000000") });
+//            this.Invoke(new AssincP(Log), new object[] { "Neuron pulseback: #" + sender.Index.ToString() });
+  //          this.Invoke(new AssincP(Log), new object[] { "\tValue: " + sender.Value.ToString("0.000000000") });
 
             iNeuronCount++;
 
-            if (iNeuronCount == sender.Net.Neuron.Count * 2)
+            if (iNeuronCount == sender.NeuralNetwork.Neuron.Count * 2)
                 tspAttach_Click(null, null);
 
         }
 
         void Net_OnNeuronPulse(primeira.pNeuron.Core.Neuron sender)
         {
-            this.Invoke(new AssincP(Log), new object[] { "Neuron pulse: #" + sender.Index.ToString() });
-            this.Invoke(new AssincP(Log), new object[] { "\tValue: " + sender.Value.ToString("0.000000000") });
+    //        this.Invoke(new AssincP(Log), new object[] { "Neuron pulse: #" + sender.Index.ToString() });
+      //      this.Invoke(new AssincP(Log), new object[] { "\tValue: " + sender.Value.ToString("0.000000000") });
 
         }
 
