@@ -9,125 +9,11 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace primeira.pNeuron
 {
-    public class pToolbox : DockContent, IpDocks
+    public partial class pToolbox : DockContent, IpDocks
     {
-        public RadioButton rCursor;
-        public RadioButton rSynapse;
-        public RadioButton rRemove;
-        private TrackBar trackBar1;
-        private TextBox textBox1;
-        public RadioButton rNeuron;
-    
         public pToolbox()
         {
             InitializeComponent();
-        }
-
-        private void InitializeComponent()
-        {
-            this.rCursor = new System.Windows.Forms.RadioButton();
-            this.rSynapse = new System.Windows.Forms.RadioButton();
-            this.rNeuron = new System.Windows.Forms.RadioButton();
-            this.rRemove = new System.Windows.Forms.RadioButton();
-            this.trackBar1 = new System.Windows.Forms.TrackBar();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
-            this.SuspendLayout();
-            // 
-            // rCursor
-            // 
-            this.rCursor.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.rCursor.Appearance = System.Windows.Forms.Appearance.Button;
-            this.rCursor.AutoEllipsis = true;
-            this.rCursor.Location = new System.Drawing.Point(0, 4);
-            this.rCursor.Name = "rCursor";
-            this.rCursor.Size = new System.Drawing.Size(192, 22);
-            this.rCursor.TabIndex = 0;
-            this.rCursor.TabStop = true;
-            this.rCursor.Text = "Cursor";
-            this.rCursor.UseVisualStyleBackColor = true;
-            this.rCursor.CheckedChanged += new System.EventHandler(this.rCursor_CheckedChanged);
-            // 
-            // rSynapse
-            // 
-            this.rSynapse.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.rSynapse.Appearance = System.Windows.Forms.Appearance.Button;
-            this.rSynapse.AutoEllipsis = true;
-            this.rSynapse.Location = new System.Drawing.Point(0, 28);
-            this.rSynapse.Name = "rSynapse";
-            this.rSynapse.Size = new System.Drawing.Size(192, 22);
-            this.rSynapse.TabIndex = 1;
-            this.rSynapse.TabStop = true;
-            this.rSynapse.Text = "Add Synapse";
-            this.rSynapse.UseVisualStyleBackColor = true;
-            this.rSynapse.CheckedChanged += new System.EventHandler(this.rCursor_CheckedChanged);
-            // 
-            // rNeuron
-            // 
-            this.rNeuron.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.rNeuron.Appearance = System.Windows.Forms.Appearance.Button;
-            this.rNeuron.AutoEllipsis = true;
-            this.rNeuron.Location = new System.Drawing.Point(0, 52);
-            this.rNeuron.Name = "rNeuron";
-            this.rNeuron.Size = new System.Drawing.Size(192, 22);
-            this.rNeuron.TabIndex = 2;
-            this.rNeuron.TabStop = true;
-            this.rNeuron.Text = "Add Neuron";
-            this.rNeuron.UseVisualStyleBackColor = true;
-            this.rNeuron.CheckedChanged += new System.EventHandler(this.rCursor_CheckedChanged);
-            // 
-            // rRemove
-            // 
-            this.rRemove.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.rRemove.Appearance = System.Windows.Forms.Appearance.Button;
-            this.rRemove.AutoEllipsis = true;
-            this.rRemove.Location = new System.Drawing.Point(0, 77);
-            this.rRemove.Name = "rRemove";
-            this.rRemove.Size = new System.Drawing.Size(192, 22);
-            this.rRemove.TabIndex = 3;
-            this.rRemove.TabStop = true;
-            this.rRemove.Text = "Remove Neuron";
-            this.rRemove.UseVisualStyleBackColor = true;
-            this.rRemove.CheckedChanged += new System.EventHandler(this.rCursor_CheckedChanged);
-            // 
-            // trackBar1
-            // 
-            this.trackBar1.Location = new System.Drawing.Point(0, 253);
-            this.trackBar1.Maximum = 5000;
-            this.trackBar1.Name = "trackBar1";
-            this.trackBar1.Size = new System.Drawing.Size(192, 42);
-            this.trackBar1.TabIndex = 4;
-            this.trackBar1.TickFrequency = 100;
-            this.trackBar1.Value = 300;
-            this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(24, 317);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 20);
-            this.textBox1.TabIndex = 5;
-            // 
-            // pToolbox
-            // 
-            this.ClientSize = new System.Drawing.Size(192, 581);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.trackBar1);
-            this.Controls.Add(this.rRemove);
-            this.Controls.Add(this.rNeuron);
-            this.Controls.Add(this.rSynapse);
-            this.Controls.Add(this.rCursor);
-            this.Name = "pToolbox";
-            this.TabText = "Toolbox";
-            this.Text = "Toolbox";
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
         }
 
         private void rCursor_CheckedChanged(object sender, EventArgs e)
@@ -135,7 +21,7 @@ namespace primeira.pNeuron
             if (sender == rCursor && rCursor.Checked)
             {
                 if((((pNeuronIDE)DockPanel.Parent).ActiveDocumentExists()))
-                    ((pDocument)((pNeuronIDE)DockPanel.Parent).ActiveDocument).pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.Idle;
+                    ((pDocument)((pNeuronIDE)DockPanel.Parent).ActiveDocument).MainDisplay.DisplayStatus = pDisplay.pDisplayStatus.Idle;
                 return;
             }
 
@@ -145,13 +31,13 @@ namespace primeira.pNeuron
                 if (((pNeuronIDE)DockPanel.Parent).ActiveDocument != null)
                 {
                     if (rSynapse.Checked)
-                        ((pDocument)((pNeuronIDE)DockPanel.Parent).ActiveDocument).pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.Linking_Paused;
+                        ((pDocument)((pNeuronIDE)DockPanel.Parent).ActiveDocument).MainDisplay.DisplayStatus = pDisplay.pDisplayStatus.Linking_Paused;
 
                     if (rNeuron.Checked)
-                        ((pDocument)((pNeuronIDE)DockPanel.Parent).ActiveDocument).pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.Add_Neuron;
+                        ((pDocument)((pNeuronIDE)DockPanel.Parent).ActiveDocument).MainDisplay.DisplayStatus = pDisplay.pDisplayStatus.Add_Neuron;
 
                     if (rRemove.Checked)
-                        ((pDocument)((pNeuronIDE)DockPanel.Parent).ActiveDocument).pDisplay1.DisplayStatus = pDisplay.pDisplayStatus.Remove_Neuron;
+                        ((pDocument)((pNeuronIDE)DockPanel.Parent).ActiveDocument).MainDisplay.DisplayStatus = pDisplay.pDisplayStatus.Remove_Neuron;
                 }
 
 
@@ -178,16 +64,26 @@ namespace primeira.pNeuron
                 rNeuron.Enabled = true;
                 rSynapse.Enabled = true;
                 rRemove.Enabled = true;
+
+                switch (aActiveDocument.MainDisplay.DisplayStatus)
+                {
+
+                    case pDisplay.pDisplayStatus.Add_Neuron:
+                        rNeuron.Checked = true;
+                        break;
+                    case pDisplay.pDisplayStatus.Linking:
+                    case pDisplay.pDisplayStatus.Linking_Paused:
+                        rSynapse.Checked = true;
+                        break;
+                    case pDisplay.pDisplayStatus.Remove_Neuron:
+                        rRemove.Checked = true;
+                        break;
+                    default:
+                        rCursor.Checked = true;
+                        break;
+                }
             }
         }
-
-        private void trackBar1_Scroll(object sender, EventArgs e)
-        {
-            (((pNeuronIDE)DockPanel.Parent)).ActiveDocument.pDisplay1.Net.LearningRate = (double)trackBar1.Value / (double)50;
-            textBox1.Text = (((pNeuronIDE)DockPanel.Parent)).ActiveDocument.pDisplay1.Net.LearningRate.ToString("000.000000000000000");
-        }
-
-       
 
         #region IpDocks Members
 
@@ -197,6 +93,8 @@ namespace primeira.pNeuron
         }
 
         #endregion
+
+
 
        
     }

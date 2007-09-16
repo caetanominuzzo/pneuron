@@ -69,7 +69,7 @@ namespace primeira.pNeuron
 
         private void tmRefresh_Tick(object sender, EventArgs e)
         {
-            pPlot.AddData(Parent.ActiveDocument.pDisplay1.Net.GlobalError);
+            pPlot.AddData(Parent.ActiveDocument.MainDisplay.Net.GlobalError);
         }
 
         #region IpDocks Members

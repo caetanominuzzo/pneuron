@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>primeira.pNeuron</RootNamespace>
     <AssemblyName>pNeuronIDE</AssemblyName>
-    <ApplicationIcon>PP.ico</ApplicationIcon>
+    <ApplicationIcon>pNeuronIDE2.ico</ApplicationIcon>
     <ManifestCertificateThumbprint>0FA851308D52BBF11230F756F059210BF5347B74</ManifestCertificateThumbprint>
     <ManifestKeyFile>pNeuronIDE_TemporaryKey.pfx</ManifestKeyFile>
     <GenerateManifests>true</GenerateManifests>
@@ -60,6 +60,9 @@
     </Compile>
     <Compile Include="pDocument.cs">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="pDocument.Designer.cs">
+      <DependentUpon>pDocument.cs</DependentUpon>
     </Compile>
     <Compile Include="pDomainEdit.cs">
       <SubType>Form</SubType>
@@ -121,10 +124,6 @@
       <SubType>Designer</SubType>
       <DependentUpon>pToolbox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="pTrain.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>pTrain.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="pGroupExplorer.resx">
       <SubType>Designer</SubType>
       <DependentUpon>pGroupExplorer.cs</DependentUpon>
@@ -146,11 +145,8 @@
     <Compile Include="pToolbox.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="pTrain.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="pTrain.Designer.cs">
-      <DependentUpon>pTrain.cs</DependentUpon>
+    <Compile Include="pToolbox.Designer.cs">
+      <DependentUpon>pToolbox.cs</DependentUpon>
     </Compile>
     <Compile Include="pGroupExplorer.cs">
       <SubType>Form</SubType>
@@ -183,7 +179,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="PP.ico" />
+    <Content Include="pNeuronIDE2.ico" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">

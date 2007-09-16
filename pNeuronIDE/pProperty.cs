@@ -63,8 +63,7 @@ namespace primeira.pNeuron
         {
             if ((pDocument)Parent.ActiveDocument!=null)
             {
-                ((pDocument)Parent.ActiveDocument).pDisplay1_OnTreeViewChange(null, pTreeviewRefresh.pFullRefreh);
-                ((pDocument)Parent.ActiveDocument).pDisplay1.Invalidate(((pPanel)Property.SelectedObject).Bounds);
+                ((pDocument)Parent.ActiveDocument).MainDisplay.Invalidate(((pPanel)Property.SelectedObject).Bounds);
             }
 
         }
