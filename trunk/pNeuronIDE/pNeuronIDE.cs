@@ -13,29 +13,20 @@ namespace primeira.pNeuron
 {
     public partial class pNeuronIDE : Form
     {
+        #region Fields
 
-        public string ApplicationPath = Path.GetDirectoryName(Application.ExecutablePath);
+        private pProperty fmProperty = new pProperty();
+        private pToolbox fmToolbox = new pToolbox();
+        private pGroupExplorer fmGroupExplorer = new pGroupExplorer();
+        private pPlotter fmPlotter = new pPlotter();
+        private pLogger fmLogger = new pLogger();
 
-        public pProperty fmProperty = new pProperty();
-        public pToolbox fmToolbox = new pToolbox();
-        public pGroupExplorer fmGroupExplorer = new pGroupExplorer();
-        //DEPRECATEDpublic pNetworkExplorer fmNetworkExplorer = new pNetworkExplorer();
-        public pPlotter fmPlotter = new pPlotter();
-
-        public pLogger fmLogger = new pLogger();
-
-
-        public List<pDocument> fmDocuments = new List<pDocument>();
+        private List<pDocument> fmDocuments = new List<pDocument>();
         private pDocument fActiveDocument;
 
-        public pDocument GetDocByName(String sName)
-        {
-            foreach (pDocument p in fmDocuments)
-                if (p.Filename == sName)
-                    return p;
+        #endregion
 
-            return null;
-        }
+        #region Properties
 
         public pDocument ActiveDocument
         {
@@ -55,14 +46,30 @@ namespace primeira.pNeuron
                 fActiveDocument = value;
 
                 tspStartTrain.Enabled = tspResetLearning.Enabled = (fActiveDocument != null);
+
+                fmToolbox.SetToolSet(ActiveDocument);
+
+                fmGroupExplorer.treeView1.Items.Clear();
             }
+        }
+
+        #endregion
+
+        #region Methods
+
+        public pDocument GetDocByName(String sName)
+        {
+            foreach (pDocument p in fmDocuments)
+                if (p.Filename == sName)
+                    return p;
+
+            return null;
         }
 
         public bool ActiveDocumentExists()
         {
             return fActiveDocument != null;
         }
-
 
         public void SetActiveDocument(pDocument aActiveDocument)
         {
@@ -100,6 +107,156 @@ namespace primeira.pNeuron
 
         }
 
+        public void OpenAny(string sFilename, TreeNode FilenameParent)
+        {
+            foreach (pDocument p in fmDocuments)
+            {
+                if (p.Filename == sFilename)
+                {
+                    p.Show();
+                    return;
+                }
+            }
+
+            switch (Path.GetExtension(sFilename))
+            {
+                case ".pne": fmDocuments.Add(new pDocument(sFilename));
+                    ActiveDocument = fmDocuments[fmDocuments.Count - 1];
+                    ((pDocument)ActiveDocument).Show(dockPanel, DockState.Document);
+                    ((pDocument)ActiveDocument).internalLoad(((pDocument)ActiveDocument).Filename);
+                    break;
+
+
+            }
+
+            ActiveDocument.Modificated = false;
+            ActiveDocument.DefaultNamedFile = false;
+        }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            //Avoid base
+        }
+
+        private void pNeuronIDE_Load(object sender, EventArgs e)
+        {
+            //Create Environment
+            if (!Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.Personal) + "\\pNeuron Projects"))
+            {
+                Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.Personal) + "\\pNeuron Projects");
+            }
+        }
+
+        #region New/Open/Save network
+
+        private void AddDocument(pDocument document)
+        {
+            ((pDocument)ActiveDocument).Show(dockPanel, DockState.Document);
+            ((pDocument)ActiveDocument).Modificated = true;
+            ActiveDocument = fmDocuments[fmDocuments.Count - 1];
+            document.OnDisplayStatusChanged += new pDocument.OnDisplayStatusChangedDelegate(p_OnDisplayStatusChanged);
+            document.OnSelectedObjectChanged += new pDocument.OnSelectedObjectChangedDelegate(document_OnSelectedObjectChanged);
+            document.Parent = this;
+        }
+
+        void document_OnSelectedObjectChanged()
+        {
+            if (ActiveDocument.MainDisplay.SelectedpPanels.Length == 0)
+                fmProperty.Property.SelectedObject = ActiveDocument.MainDisplay;
+            else if (ActiveDocument.MainDisplay.SelectedpPanels.Length == 1)
+                fmProperty.Property.SelectedObject = ActiveDocument.MainDisplay.SelectedpPanels;
+            else if (ActiveDocument.MainDisplay.SelectedpPanels.Length > 1)
+                fmProperty.Property.SelectedObjects = ActiveDocument.MainDisplay.SelectedpPanels;
+        }
+
+        private pDocument AddDocument()
+        {
+            int i = fmDocuments.Count + 1;
+            pDocument d = new pDocument("NeuralNetwork " + i.ToString());
+            AddDocument(d);
+
+            return d;
+        }
+
+        public void NewNetwork()
+        {
+            AddDocument();
+        }
+
+        public void OpenNetwork()
+        {
+            pDocument p = AddDocument();
+
+            if (p.Load() != DialogResult.OK)
+            {
+                p.Close();
+            }
+        }
+
+        void p_OnDisplayStatusChanged()
+        {
+            status.Items[0].Text = "Status: " + ActiveDocument.MainDisplay.DisplayStatus.ToString().Replace("_", " ");
+
+
+
+            if (ActiveDocument.MainDisplay.DisplayStatus == pDisplay.pDisplayStatus.Training)
+            {
+                fmPlotter.StartTimer();
+            }
+            else
+                fmPlotter.StopTimer();
+        }
+
+        public void SaveNetwork()
+        {
+            ActiveDocument.Save();
+        }
+
+        public void SaveNetworkAs()
+        {
+            bool bDefaul = ActiveDocument.DefaultNamedFile;
+            string old = ActiveDocument.Filename;
+
+            ActiveDocument.DefaultNamedFile = true;
+            if (ActiveDocument.Save() == DialogResult.Cancel)
+            {
+                ActiveDocument.DefaultNamedFile = bDefaul;
+            }
+
+        }
+
+        #endregion
+
+        private void domainEditToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            pDomainEdit fmDomainEdit = new pDomainEdit();
+            fmDomainEdit.ShowDialog();
+        }
+
+        private void tspStartTrain_Click(object sender, EventArgs e)
+        {
+            ActiveDocument.StartTrain();
+        }
+
+        private void tspResetLearning_Click(object sender, EventArgs e)
+        {
+            ActiveDocument.ResetLearning();
+        }
+
+        private void pNeuronIDE_OnDocumentContainerChange()
+        {
+            fmToolbox.SetToolSet(ActiveDocument);
+        }
+
+        public void RefreshErrorStatus()
+        {
+            statusGlobalError.Text = "Global Error: " + ActiveDocument.MainDisplay.Net.GlobalError.ToString("#0.0000000000000");
+            //TODO:statusMediaError.Text = "Media Error: " + media.ToString("#0.0000000000000");
+        }
+
+        #endregion
+
+        #region Constructors
 
         public pNeuronIDE()
         {
@@ -125,36 +282,7 @@ namespace primeira.pNeuron
 
         }
 
-        public void OpenAny(string sFilename, TreeNode FilenameParent)
-        {
-            foreach (pDocument p in fmDocuments)
-            {
-                if (p.Filename == sFilename)
-                {
-                    p.Show();
-                    return;
-                }
-            }
-
-            switch (Path.GetExtension(sFilename))
-            {
-                case ".pne": fmDocuments.Add(new pDocument(sFilename));
-                    ActiveDocument = fmDocuments[fmDocuments.Count - 1];
-                    ((pDocument)ActiveDocument).Show(dockPanel, DockState.Document);
-                    ((pDocument)ActiveDocument).internalLoad(((pDocument)ActiveDocument).Filename);
-                    break;
-                    
-
-            }
-            
-            ActiveDocument.Modificated = false;
-            ActiveDocument.DefaultNamedFile = false;
-        }
-
-        protected override void OnFormClosing(FormClosingEventArgs e)
-        {
-            //Avoid base
-        }
+        #endregion
 
         #region ToolStrip
 
@@ -199,88 +327,11 @@ namespace primeira.pNeuron
         //TRAIN
         private void trainToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            pTrain fmTrain = new pTrain();
-            fmTrain.net = ((pDocument)ActiveDocument).pDisplay1.Net;
-            fmTrain.Show(dockPanel, DockState.Float);
 
             
         }
 
         #endregion
-
-        private void pNeuronIDE_Load(object sender, EventArgs e)
-        {
-            //Create Environment
-            if (!Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.Personal) + "\\pNeuron Projects"))
-            {
-                Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.Personal) + "\\pNeuron Projects");
-            }
-        }
-
-        #region New/Open/Save network
-
-        public void NewNetwork()
-        {
-            int i = fmDocuments.Count + 1;
-            fmDocuments.Add(new pDocument("NeuralNetwork " + i.ToString()));
-            ActiveDocument = fmDocuments[fmDocuments.Count - 1];
-            ((pDocument)ActiveDocument).Show(dockPanel, DockState.Document);
-            ((pDocument)ActiveDocument).Modificated = true;
-            //DEPRECATEDfmNetworkExplorer.AddNode(((pDocument)ActiveDocument).Filename);
-        }
-
-        public void OpenNetwork()
-        {
-            pDocument p = new pDocument();
-            p.Parent = this;
-            if (p.Load() == DialogResult.OK)
-            {
-                fmDocuments.Add(p);
-                ActiveDocument = fmDocuments[fmDocuments.Count - 1];
-                ((pDocument)ActiveDocument).Show(dockPanel, DockState.Document);
-                ((pDocument)ActiveDocument).Modificated = false;
-            }
-            //DEPRECATEDfmNetworkExplorer.AddNode(((pDocument)ActiveDocument).Filename);
-        }
-        
-        public void SaveNetwork()
-        {
-            ActiveDocument.Save();
-        }
-
-        public void SaveNetworkAs()
-        {
-            bool bDefaul = ActiveDocument.DefaultNamedFile;
-            string old = ActiveDocument.Filename;
-
-            ActiveDocument.DefaultNamedFile = true;
-            if (ActiveDocument.Save() == DialogResult.Cancel)
-            {
-                ActiveDocument.DefaultNamedFile = bDefaul;
-            }
-
-        }
-
-        
-
-        #endregion
-
-        private void domainEditToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            pDomainEdit fmDomainEdit = new pDomainEdit();
-            fmDomainEdit.ShowDialog();
-        }
-
-        private void tspStartTrain_Click(object sender, EventArgs e)
-        {
-            ActiveDocument.StartTrain();
-        }
-
-        private void tspResetLearning_Click(object sender, EventArgs e)
-        {
-            ActiveDocument.ResetLearning();
-        }
-        
 
     }
 }
