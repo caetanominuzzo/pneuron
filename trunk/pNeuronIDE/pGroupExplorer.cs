@@ -106,7 +106,7 @@ namespace primeira.pNeuron
         {
             base.OnActivated(e);
 
-            foreach (pPanel p in ((pDocument)Parent.ActiveDocument).pDisplay1.SelectedpPanels)
+            foreach (pPanel p in ((pDocument)Parent.ActiveDocument).MainDisplay.SelectedpPanels)
             {
 
                 int i = p.Groups;
@@ -136,7 +136,7 @@ namespace primeira.pNeuron
             if (((pPanel)e.Item.Tag).Selected != e.IsSelected)
             {
                 ((pPanel)e.Item.Tag).Selected = e.IsSelected;
-                ((pDocument)Parent.ActiveDocument).pDisplay1.Invalidate(((pPanel)e.Item.Tag).Bounds);
+                ((pDocument)Parent.ActiveDocument).MainDisplay.Invalidate(((pPanel)e.Item.Tag).Bounds);
             }
 
 

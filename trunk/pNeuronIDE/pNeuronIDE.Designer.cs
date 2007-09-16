@@ -376,6 +376,8 @@ namespace primeira.pNeuron
 
         }
 
+
+
         #endregion
 
         public  WeifenLuo.WinFormsUI.Docking.DockPanel dockPanel;
