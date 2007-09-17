@@ -666,6 +666,7 @@ namespace primeira.pNeuron.Core
 
         double DEFAULT_LEARNING_RATE = 5;
         int TRUE_RANDOM_GENERATOR_CACHE = 1000;
+        int INNER_TRAINING_TIMES = 100;
 
         #endregion
 
@@ -678,6 +679,7 @@ namespace primeira.pNeuron.Core
         private int m_memoryNeuronCount = 0;
         private pTrueRandomGenerator m_random;
         private int m_generatorID = 0;
+        private bool m_stopOnNextCycle = false;
 
         private delegate void AssincP(INeuron sender);
 
@@ -783,6 +785,14 @@ namespace primeira.pNeuron.Core
         #region Methods
 
         /// <summary>
+        /// Tells to stop trainig on next train cycle.
+        /// </summary>
+        public void StopOnNextCycle()
+        {
+            m_stopOnNextCycle = true;
+        }
+
+        /// <summary>
         /// Adds a new neuron and returns it.
         /// </summary>
         /// <returns></returns>
@@ -810,10 +820,6 @@ namespace primeira.pNeuron.Core
                     break;
             }
         }
-
-        #region Listen Neuron Delegates
-
-        #endregion
 
         /// <summary>
         /// Removes a specified neuron.
@@ -984,6 +990,46 @@ namespace primeira.pNeuron.Core
             }
         }
 
+
+        public void Train(double[][] input, double[][] output)
+        {
+            if (OnStartTraing != null)
+                OnStartTraing();
+
+            int count = 0;
+            double dTotalError = 1;
+
+            while (GlobalError > .000000000000001)
+            {
+                if (m_stopOnNextCycle)
+                {
+                    if (OnRefreshCyclesSec != null)
+                        OnRefreshCyclesSec(count * INNER_TRAINING_TIMES);
+
+                    if (OnStopTraing != null)
+                        OnStopTraing();
+
+                    return;
+                }
+
+                count++;
+
+                TrainSession(input, output, INNER_TRAINING_TIMES);
+
+                if (count % INNER_TRAINING_TIMES == 0)
+                    if (OnRefreshCyclesSec != null)
+                        OnRefreshCyclesSec(count * INNER_TRAINING_TIMES);
+
+                dTotalError = 0;
+                foreach (Neuron n in Neuron)
+                {
+                    dTotalError += n.Error;
+                }
+
+
+            }
+        }
+        
         /// <summary>
         /// Trains the Neural Network.
         /// </summary>
@@ -1077,6 +1123,15 @@ namespace primeira.pNeuron.Core
 
         public delegate void OnPulseBackDelegate();
         public event OnPulseBackDelegate OnPulseBack;
+
+        public delegate void OnRefreshCyclesSecDelegate(int Times);
+        public event OnRefreshCyclesSecDelegate OnRefreshCyclesSec;
+
+        public delegate void OnStartTraingDelegate();
+        public event OnStartTraingDelegate OnStartTraing;
+
+        public delegate void OnStopTraingDelegate();
+        public event OnStopTraingDelegate OnStopTraing;
 
         #endregion
 
