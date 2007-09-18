@@ -81,8 +81,6 @@ namespace primeira.pNeuron.Core
 
         private Neuron m_neuron;
 
-        private bool m_ready = false;
-
         #endregion
 
         #region Properties
@@ -111,14 +109,6 @@ namespace primeira.pNeuron.Core
         public Neuron Neuron
         {
             get { return m_neuron; }
-        }
-
-        /// <summary>
-        /// Gets a bool indicating if this synapse is already calculated and ready to be read.
-        /// </summary>
-        public bool Ready
-        {
-            get { return m_ready; }
         }
 
         #endregion
