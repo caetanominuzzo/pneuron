@@ -9,6 +9,7 @@ using WeifenLuo.WinFormsUI.Docking;
 using primeira.pNeuron.Core;
 using System.IO;
 using System.Threading;
+using primeira.pRandom;
 
 namespace primeira.pNeuron
 {
@@ -30,7 +31,6 @@ namespace primeira.pNeuron
         private ToolStripButton btImport;
         private ToolStripButton btExport;
 
-        private NeuralNetwork net;
         private ToolStrip tspDesigner;
         private ToolStripButton tspAutoRefresh;
         private System.Windows.Forms.Timer refreshTimer;
@@ -42,7 +42,7 @@ namespace primeira.pNeuron
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(pDocument));
             this.tcDesigner = new System.Windows.Forms.TabControl();
             this.tbDesigner = new System.Windows.Forms.TabPage();
-            this.MainDisplay = new primeira.pNeuron.pDisplay();
+            this.MainDisplay = new primeira.pNeuron.pDisplay(this.cache==null?new pTrueRandomGenerator(1) : this.cache );
             this.tspDesigner = new System.Windows.Forms.ToolStrip();
             this.tspAutoRefresh = new System.Windows.Forms.ToolStripButton();
             this.tbTrainingSet = new System.Windows.Forms.TabPage();
@@ -152,7 +152,6 @@ namespace primeira.pNeuron
             this.tbTrainingSet.TabIndex = 1;
             this.tbTrainingSet.Text = "Training Sets";
             this.tbTrainingSet.UseVisualStyleBackColor = true;
-            this.tbTrainingSet.Enter += new System.EventHandler(this.tbTrainingSet_Enter);
             // 
             // dataGridView1
             // 

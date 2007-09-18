@@ -61,9 +61,14 @@ namespace primeira.pNeuron
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.tspStartTrain = new System.Windows.Forms.ToolStripButton();
             this.tspResetLearning = new System.Windows.Forms.ToolStripButton();
+            this.learninRate = new System.Windows.Forms.ToolStripStatusLabel();
+            this.pnTrackBar = new System.Windows.Forms.Panel();
+            this.trackLR = new System.Windows.Forms.TrackBar();
             this.status.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
+            this.pnTrackBar.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackLR)).BeginInit();
             this.SuspendLayout();
             // 
             // dockPanel
@@ -75,7 +80,7 @@ namespace primeira.pNeuron
             this.dockPanel.Font = new System.Drawing.Font("Tahoma", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
             this.dockPanel.Location = new System.Drawing.Point(0, 24);
             this.dockPanel.Name = "dockPanel";
-            this.dockPanel.Size = new System.Drawing.Size(689, 260);
+            this.dockPanel.Size = new System.Drawing.Size(753, 260);
             this.dockPanel.TabIndex = 0;
             // 
             // status
@@ -84,11 +89,12 @@ namespace primeira.pNeuron
             this.toolStripStatusLabel2,
             this.statusGlobalError,
             this.statusMediaError,
-            this.statusCycles});
+            this.statusCycles,
+            this.learninRate});
             this.status.Location = new System.Drawing.Point(0, 284);
             this.status.Name = "status";
             this.status.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.status.Size = new System.Drawing.Size(689, 22);
+            this.status.Size = new System.Drawing.Size(753, 22);
             this.status.TabIndex = 3;
             this.status.Text = "statusStrip1";
             // 
@@ -218,7 +224,7 @@ namespace primeira.pNeuron
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.menuStrip1.Size = new System.Drawing.Size(689, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(753, 24);
             this.menuStrip1.TabIndex = 5;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -317,9 +323,7 @@ namespace primeira.pNeuron
             // tspTrain
             // 
             this.tspTrain.Name = "tspTrain";
-            this.tspTrain.Size = new System.Drawing.Size(109, 22);
-            this.tspTrain.Text = "Train";
-            this.tspTrain.Click += new System.EventHandler(this.trainToolStripMenuItem_Click);
+            this.tspTrain.Size = new System.Drawing.Size(78, 22);
             // 
             // toolStrip1
             // 
@@ -328,7 +332,7 @@ namespace primeira.pNeuron
             this.tspResetLearning});
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(689, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(753, 25);
             this.toolStrip1.TabIndex = 7;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -350,11 +354,49 @@ namespace primeira.pNeuron
             this.tspResetLearning.Text = "Reset Learning";
             this.tspResetLearning.Click += new System.EventHandler(this.tspResetLearning_Click);
             // 
+            // learninRate
+            // 
+            this.learninRate.AutoSize = false;
+            this.learninRate.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
+                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)
+                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.learninRate.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
+            this.learninRate.Margin = new System.Windows.Forms.Padding(0, 3, 3, 2);
+            this.learninRate.Name = "learninRate";
+            this.learninRate.Size = new System.Drawing.Size(110, 17);
+            this.learninRate.Text = "Learning Rate:";
+            this.learninRate.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.learninRate.MouseHover += new System.EventHandler(this.learninRate_MouseHover);
+            // 
+            // pnTrackBar
+            // 
+            this.pnTrackBar.Controls.Add(this.trackLR);
+            this.pnTrackBar.Location = new System.Drawing.Point(645, 158);
+            this.pnTrackBar.Name = "pnTrackBar";
+            this.pnTrackBar.Size = new System.Drawing.Size(38, 125);
+            this.pnTrackBar.TabIndex = 11;
+            this.pnTrackBar.Visible = false;
+            // 
+            // trackLR
+            // 
+            this.trackLR.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.trackLR.Location = new System.Drawing.Point(0, 0);
+            this.trackLR.Maximum = 100;
+            this.trackLR.Name = "trackLR";
+            this.trackLR.Orientation = System.Windows.Forms.Orientation.Vertical;
+            this.trackLR.Size = new System.Drawing.Size(38, 125);
+            this.trackLR.TabIndex = 0;
+            this.trackLR.TickFrequency = 10;
+            this.trackLR.Value = 5;
+            this.trackLR.MouseLeave += new System.EventHandler(this.trackLR_MouseLeave);
+            this.trackLR.Scroll += new System.EventHandler(this.trackLR_Scroll);
+            // 
             // pNeuronIDE
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(689, 306);
+            this.ClientSize = new System.Drawing.Size(753, 306);
+            this.Controls.Add(this.pnTrackBar);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.dockPanel);
             this.Controls.Add(this.status);
@@ -364,13 +406,16 @@ namespace primeira.pNeuron
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "pNeuronIDE";
             this.Text = "pNeuronIDE";
-            this.Load += new System.EventHandler(this.pNeuronIDE_Load);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.pNeuronIDE_FormClosing);
             this.status.ResumeLayout(false);
             this.status.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            this.pnTrackBar.ResumeLayout(false);
+            this.pnTrackBar.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackLR)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -380,8 +425,8 @@ namespace primeira.pNeuron
 
         #endregion
 
-        public  WeifenLuo.WinFormsUI.Docking.DockPanel dockPanel;
-        public System.Windows.Forms.StatusStrip status;
+        private WeifenLuo.WinFormsUI.Docking.DockPanel dockPanel;
+        private System.Windows.Forms.StatusStrip status;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newNeuralNetworkToolStripMenuItem;
@@ -405,12 +450,15 @@ namespace primeira.pNeuron
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
-        public System.Windows.Forms.ToolStripStatusLabel statusCycles;
-        public System.Windows.Forms.ToolStripStatusLabel statusGlobalError;
+        private System.Windows.Forms.ToolStripStatusLabel statusCycles;
+        private System.Windows.Forms.ToolStripStatusLabel statusGlobalError;
         private System.Windows.Forms.ToolStripMenuItem domainEditToolStripMenuItem;
         public System.Windows.Forms.ToolStripStatusLabel statusMediaError;
         private System.Windows.Forms.ToolStrip toolStrip1;
-        public System.Windows.Forms.ToolStripButton tspStartTrain;
-        public System.Windows.Forms.ToolStripButton tspResetLearning;
+        private System.Windows.Forms.ToolStripButton tspStartTrain;
+        private System.Windows.Forms.ToolStripButton tspResetLearning;
+        private System.Windows.Forms.ToolStripStatusLabel learninRate;
+        private System.Windows.Forms.Panel pnTrackBar;
+        private System.Windows.Forms.TrackBar trackLR;
     }
 }

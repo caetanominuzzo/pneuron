@@ -11,7 +11,7 @@ namespace primeira.pNeuron
 {
     public class pGroupExplorer : DockContent, IpDocks
     {
-        public ListView treeView1;
+        private ListView treeView1;
     
         public pGroupExplorer()
         {
@@ -79,9 +79,7 @@ namespace primeira.pNeuron
             this.treeView1.TabIndex = 0;
             this.treeView1.UseCompatibleStateImageBehavior = false;
             this.treeView1.View = System.Windows.Forms.View.SmallIcon;
-            this.treeView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.treeView1_KeyDown);
             this.treeView1.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.treeView1_ItemSelectionChanged);
-            this.treeView1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.treeView1_KeyUp);
             // 
             // pGroupExplorer
             // 
@@ -142,14 +140,9 @@ namespace primeira.pNeuron
 
         }
 
-        private void treeView1_KeyDown(object sender, KeyEventArgs e)
+        public void Clear()
         {
-            ((pDocument)Parent.ActiveDocument).pDocument_KeyDown(sender, e);
-        }
-
-        private void treeView1_KeyUp(object sender, KeyEventArgs e)
-        {
-            ((pDocument)Parent.ActiveDocument).pDocument_KeyUp(sender, e);
+            treeView1.Items.Clear();
         }
 
         public bool Contains(ListViewGroup g, pPanel p)

@@ -450,11 +450,11 @@ namespace primeira.pNeuron.Core
 
             if (this.NeuronType == NeuronTypes.Output)
             {
-                this.Error = (desiredResult - this.Value) * Util.DerivativeSigmoid(this.Value); //* temp * (1.0F - temp);
+                this.Error = (desiredResult - this.Value) * Util.DerivativeSigmoid(this.Value); 
             }
             else
             {
-                this.Error = (desiredResult) * Util.DerivativeSigmoid(this.Value); //* temp * (1.0F - temp);
+                this.Error = (desiredResult) * Util.DerivativeSigmoid(this.Value); 
             }
 
 
@@ -653,11 +653,11 @@ namespace primeira.pNeuron.Core
     {
         #region Constructors
 
-        public NeuralNetwork()
+        public NeuralNetwork(pTrueRandomGenerator cache)
         {
             m_learningRate = DEFAULT_LEARNING_RATE;
             m_neuron = new List<Neuron>();
-            m_random = new pTrueRandomGenerator(TRUE_RANDOM_GENERATOR_CACHE);
+            m_random = cache;
         }
 
         #endregion
@@ -665,7 +665,7 @@ namespace primeira.pNeuron.Core
         #region Constants
 
         double DEFAULT_LEARNING_RATE = 5;
-        int TRUE_RANDOM_GENERATOR_CACHE = 1000;
+        
         int INNER_TRAINING_TIMES = 100;
 
         #endregion
@@ -680,8 +680,6 @@ namespace primeira.pNeuron.Core
         private pTrueRandomGenerator m_random;
         private int m_generatorID = 0;
         private bool m_stopOnNextCycle = false;
-
-        private delegate void AssincP(INeuron sender);
 
         #endregion
 
@@ -971,7 +969,7 @@ namespace primeira.pNeuron.Core
 
                         foreach (INeuron nn in MemoriesInput)
                         {
-                            nn.Value = 1;
+                            nn.Value = Util.Sigmoid(1);
                         }
 
                     }
@@ -996,20 +994,30 @@ namespace primeira.pNeuron.Core
             if (OnStartTraing != null)
                 OnStartTraing();
 
-            int count = 0;
-            double dTotalError = 1;
+            for (int i = 0; i < input.Length; i++)
+                for (int j = 0; j < input[i].Length; j++)
+                    input[i][j] = Util.Sigmoid(input[i][j]);
 
-            while (GlobalError > .000000000000001)
+            for (int i = 0; i < output.Length; i++)
+                for (int j = 0; j < output[i].Length; j++)
+                    output[i][j] = Util.Sigmoid(output[i][j]);
+          
+
+
+
+            int count = 0;
+            double dGlobalError = 1;
+
+
+            while (true)
             {
                 if (m_stopOnNextCycle)
                 {
+                    m_stopOnNextCycle = false;
                     if (OnRefreshCyclesSec != null)
                         OnRefreshCyclesSec(count * INNER_TRAINING_TIMES);
 
-                    if (OnStopTraing != null)
-                        OnStopTraing();
-
-                    return;
+                    break;
                 }
 
                 count++;
@@ -1020,14 +1028,14 @@ namespace primeira.pNeuron.Core
                     if (OnRefreshCyclesSec != null)
                         OnRefreshCyclesSec(count * INNER_TRAINING_TIMES);
 
-                dTotalError = 0;
-                foreach (Neuron n in Neuron)
-                {
-                    dTotalError += n.Error;
-                }
 
-
+                dGlobalError = GlobalError;
+                if(dGlobalError < .00000000000000000000000001)
+                    m_stopOnNextCycle = true;
             }
+
+            if (OnStopTraing != null)
+                OnStopTraing();
         }
         
         /// <summary>
@@ -1110,7 +1118,7 @@ namespace primeira.pNeuron.Core
             static Random m_random = new Random(DateTime.Now.Second);
             public int Compare(int x, int y)
             {
-                return m_random.Next(2)-1;
+                return m_random.Next(1);
             }
         }
 

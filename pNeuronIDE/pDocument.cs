@@ -9,13 +9,12 @@ using WeifenLuo.WinFormsUI.Docking;
 using primeira.pNeuron.Core;
 using System.IO;
 using System.Threading;
+using primeira.pRandom;
 
 namespace primeira.pNeuron
 {
     public partial class pDocument : DockContent, IpDocks
     {
-
-        private const int INNER_TRAINING_TIMES = 100;
 
         #region IpDocks Members
 
@@ -43,6 +42,8 @@ namespace primeira.pNeuron
         private string m_filename;
 
         private bool m_defaultNamedFile = true;
+
+        private pTrueRandomGenerator cache;
 
         #endregion
 
@@ -95,6 +96,15 @@ namespace primeira.pNeuron
         public delegate void OnSelectedObjectChangedDelegate();
         public event OnSelectedObjectChangedDelegate OnSelectedObjectChanged;
 
+        public delegate void OnStartTraingDelegate();
+        public event OnStartTraingDelegate OnStartTraing;
+
+        public delegate void OnStopTraingDelegate();
+        public event OnStopTraingDelegate OnStopTraing;
+
+        public delegate void OnRefreshCyclesSecDelegate(int Times);
+        public event OnRefreshCyclesSecDelegate OnRefreshCyclesSec;
+
         #endregion
 
         internal class pTrainingSet
@@ -146,22 +156,49 @@ namespace primeira.pNeuron
 
         #region Constructors
 
-        public pDocument(string sFileName) : this()
+        public pDocument(pTrueRandomGenerator cache, string sFileName) : this(cache)
         {
             Filename = sFileName;
         }
 
-        public pDocument()
+        public pDocument(pTrueRandomGenerator cache)
         {
+            this.cache = cache;
             InitializeComponent();
+            MainDisplay.Net.OnStartTraing += new NeuralNetwork.OnStartTraingDelegate(Net_OnStartTraing);
+            MainDisplay.Net.OnStopTraing += new NeuralNetwork.OnStopTraingDelegate(Net_OnStopTraing);
+            MainDisplay.Net.OnRefreshCyclesSec += new NeuralNetwork.OnRefreshCyclesSecDelegate(Net_OnRefreshCyclesSec);
         }
 
         #endregion
 
-        protected override void OnShown(EventArgs e)
+        #region Net Events
+
+        private void Net_OnRefreshCyclesSec(int Times)
         {
-            base.OnShown(e);
+            if (OnRefreshCyclesSec != null)
+                OnRefreshCyclesSec(Times);
         }
+
+        private void Net_OnStopTraing()
+        {
+            MainDisplay.DisplayStatus = pDisplay.pDisplayStatus.Idle;
+
+            if (OnStopTraing != null)
+                OnStopTraing();
+
+        }
+
+        private void Net_OnStartTraing()
+        {
+            MainDisplay.DisplayStatus = pDisplay.pDisplayStatus.Training;
+            if (OnStartTraing != null)
+                OnStartTraing();
+        }
+
+        #endregion
+
+        #region MainDisplay Events
 
         private void pDisplay1_OnDisplayStatusChange()
         {
@@ -169,7 +206,23 @@ namespace primeira.pNeuron
                 OnDisplayStatusChanged();
         }
 
-        public void pDocument_KeyUp(object sender, KeyEventArgs e)
+        private void pDisplay1_OnSelectedPanelsChange()
+        {
+            if (OnSelectedObjectChanged != null)
+                OnSelectedObjectChanged();
+
+        }
+
+        private void pDisplay1_OnNetworkChange()
+        {
+            this.Modificated = true;
+        }
+
+        #endregion
+
+        #region Key Up/Down Events
+
+        private void pDocument_KeyUp(object sender, KeyEventArgs e)
         {
             switch (e.KeyCode)
             {
@@ -238,7 +291,7 @@ namespace primeira.pNeuron
                 MainDisplay.CtrlKey = false;
         }
 
-        public void pDocument_KeyDown(object sender, KeyEventArgs e)
+        private void pDocument_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.ShiftKey)
             {
@@ -251,15 +304,23 @@ namespace primeira.pNeuron
             }
         }
 
-        private void pDisplay1_OnSelectedPanelsChange()
-        {
-            if (OnSelectedObjectChanged != null)
-                OnSelectedObjectChanged();
+        #endregion
 
+        #region pDocument Events
+
+        protected override void OnShown(EventArgs e)
+        {
+            base.OnShown(e);
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
+            if (MainDisplay.DisplayStatus == pDisplay.pDisplayStatus.Training)
+            {
+                pMessage.Error("Invalid operation on training status.");
+                e.Cancel = true;
+                return;
+            }
             if (Modificated)
             {
                 DialogResult r = pMessage.Confirm("Save changes on " + this.Filename + "?", MessageBoxButtons.YesNoCancel);
@@ -283,17 +344,61 @@ namespace primeira.pNeuron
                 }
             }
 
-
+           
 
             Parent.PreRemoveDocument(this);
-  
+
 
         }
 
-        private void pDisplay1_OnNetworkChange()
+        protected override void OnMouseEnter(EventArgs e)
         {
-            this.Modificated = true;
+            this.Focus();
+            base.OnMouseEnter(e);
         }
+
+        private void tcDesigner_Selecting(object sender, TabControlCancelEventArgs e)
+        {
+            if (Modificated)
+            {
+                DialogResult r = pMessage.Confirm("You must save the network design before add or edit a training set.\nDo you want to save now?", MessageBoxButtons.YesNoCancel);
+                if (r == DialogResult.Yes)
+                {
+                    Save();
+                }
+                else
+                {
+                    e.Cancel = true;
+                    return;
+                }
+            }
+
+            if (fpTrainingSet.Count > 0)
+            {
+                cbTrainingSets.SelectedIndex = 0;
+            }
+            else
+                btRemoveTrainingSet.Enabled = false;
+        }
+
+        private void cbTrainingSets_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            foreach (pTrainingSet p in fpTrainingSet)
+                if (p.Name == cbTrainingSets.SelectedItem.ToString())
+                {
+                    dgTrainingSet.DataSource = p.fDataTable;
+
+
+
+                    if (MainDisplay.Net.InputNeuronCount + MainDisplay.Net.OutputNeuronCount != p.fDataTable.Columns.Count)
+                        throw new Exception("This Training Set are out of date.");
+
+                }
+        }
+
+        #endregion
+
+        #region Save/Load & Add Training Set
 
         public void AddTrainingSet()
         {
@@ -302,7 +407,7 @@ namespace primeira.pNeuron
             pTrainingSet fm = fpTrainingSet[fpTrainingSet.Count - 1];
             dgTrainingSet.DataSource = fm.NewDataTable();
 
-            if(tcDesigner.SelectedTab == tbDesigner)
+            if (tcDesigner.SelectedTab == tbDesigner)
             {
                 tcDesigner.SelectedTab = tbTrainingSet;
             }
@@ -314,8 +419,6 @@ namespace primeira.pNeuron
 
             //DEPRECATEDParent.fmNetworkExplorer.AddNode(fm.Name, ((pDocument)Parent.ActiveDocument).Filename);
         }
-
-        #region Save/Load
 
         public DialogResult Save()
         {
@@ -457,7 +560,7 @@ namespace primeira.pNeuron
             } 
         }
 
-        public void internalLoad(string aFilename)
+        private void internalLoad(string aFilename)
         {
             DataSet ds = new DataSet();
             ds.ReadXml(aFilename);
@@ -515,72 +618,25 @@ namespace primeira.pNeuron
 
         #endregion
 
-
-        protected override void OnMouseEnter(EventArgs e)
-        {
-            this.Focus();
-            base.OnMouseEnter(e);
-        }
-
-
-        private void tcDesigner_Selecting(object sender, TabControlCancelEventArgs e)
-        {
-            if(Modificated)
-            {
-                DialogResult r = pMessage.Confirm("You must save the network design before add or edit a training set.\nDo you want to save now?", MessageBoxButtons.YesNoCancel);
-                if (r == DialogResult.Yes)
-                {
-                    Save();
-                }
-                else
-                {
-                    e.Cancel = true;
-                    return;
-                }
-            }
-
-            if (fpTrainingSet.Count > 0)
-            {
-                cbTrainingSets.SelectedIndex = 0;
-            }
-            else
-                btRemoveTrainingSet.Enabled = false;
-        }
-
-        private void tbTrainingSet_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void cbTrainingSets_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            foreach (pTrainingSet p in fpTrainingSet)
-                if (p.Name == cbTrainingSets.SelectedItem.ToString())
-                {
-                    dgTrainingSet.DataSource = p.fDataTable;
-                  
-
-
-                    if (MainDisplay.Net.InputNeuronCount + MainDisplay.Net.OutputNeuronCount != p.fDataTable.Columns.Count)
-                        throw new Exception("This Training Set are out of date.");
-
-                }
-        }
-
         public void StartTrain()
         {
-            if (Parent.ActiveDocument.MainDisplay.DisplayStatus != pDisplay.pDisplayStatus.Training)
+            if (MainDisplay.DisplayStatus != pDisplay.pDisplayStatus.Training)
             {
-                Parent.tspStartTrain.Text = "Stop Training";
 
                 if (dgTrainingSet.DataSource == null)
-                    cbTrainingSets.SelectedIndex = 0;
+                    if (cbTrainingSets.Items.Count == 0)
+                        throw new Exception("Please add a new Training Set to train.");
+                    else
+                        cbTrainingSets.SelectedIndex = 0;
 
                 DataTable dt = (DataTable)dgTrainingSet.DataSource;
 
                 double[][] input = new double[dt.Rows.Count][];
 
                 double[][] output = new double[dt.Rows.Count][];
+
+               
+
 
                 int iPerceptionNeuronCount = MainDisplay.Net.InputNeuronCount;
 
@@ -594,7 +650,7 @@ namespace primeira.pNeuron
                     {
                         if (iYPosition >= iPerceptionNeuronCount)
                             continue;
-                        dIn[iYPosition++] = Util.Sigmoid(Convert.ToDouble(r[c], System.Globalization.CultureInfo.InvariantCulture));
+                        dIn[iYPosition++] = Convert.ToDouble(r[c], System.Globalization.CultureInfo.InvariantCulture);
                     }
 
                     input[iXPosition++] = dIn;
@@ -614,7 +670,7 @@ namespace primeira.pNeuron
                             iYPosition++;
                             continue;
                         }
-                        dOut[iYPosition - iPerceptionNeuronCount] = Util.Sigmoid(Convert.ToDouble(r[c], System.Globalization.CultureInfo.InvariantCulture));
+                        dOut[iYPosition - iPerceptionNeuronCount] =Convert.ToDouble(r[c], System.Globalization.CultureInfo.InvariantCulture);
                         iYPosition++;
                     }
 
@@ -622,18 +678,13 @@ namespace primeira.pNeuron
 
                 }
 
-                net = MainDisplay.Net;
-                //net.ResetKnowledgment();
-
-             //   net.OnNeuronPulse += new NeuralNetwork.OnNeuronPulseDelegate(net_OnNeuronPulse);
-             //   net.OnNeuronPulseBack += new NeuralNetwork.OnNeuronPulseBackDelegate(net_OnNeuronPulseBack);
-
-                ThreadStart starter2 = delegate { internalTrain(ref net, input, output); };
+                ThreadStart starter2 = delegate { MainDisplay.Net.Train(input, output); };
                 new Thread(starter2).Start();
+
             }
             else
             {
-                Parent.ActiveDocument.MainDisplay.DisplayStatus = pDisplay.pDisplayStatus.Idle;
+                MainDisplay.Net.StopOnNextCycle();
 
             }
 
@@ -642,97 +693,10 @@ namespace primeira.pNeuron
 
         }
 
-        delegate void AssincP(int aCount);
-        delegate void Assinc();
-
-        private void internalStartTrain()
+        public void ResetLearning()
         {
-            MainDisplay.DisplayStatus = pDisplay.pDisplayStatus.Training;
-            Parent.statusCycles.Visible = true;
-        }
-
-        
-
-        public void StopTrain()
-        {
-            MainDisplay.DisplayStatus = pDisplay.pDisplayStatus.Idle;
-            Parent.statusCycles.Visible = false;
-            Parent.tspStartTrain.Text = "Start Training";
-            Parent.statusCycles.Tag = null;
-        }
-
-        public struct t_dates
-        {
-            public DateTime First;
-        }
-
-        public void RefreshCyclesSec(int aCount)
-        {
-            int aCycles = aCount;
-            t_dates t;
-            if (Parent.statusCycles.Tag == null)
-            {
-                t = new t_dates();
-                t.First = DateTime.Now;
-                Parent.statusCycles.Tag = t;
-                return;
-            }
-            
-            t = ((t_dates)Parent.statusCycles.Tag);
-
-            TimeSpan m =  DateTime.Now.Subtract(t.First);
-            int iFirst = m.Seconds;
-
-            double vFirst = ((double)(aCycles)) / iFirst;
-
-            Parent.statusCycles.Text = "Cycles/Sec.: "+vFirst.ToString("#0000");
-
-        }
-
-
-        private void internalTrain(ref NeuralNetwork net, double[][] input, double[][] output)
-        {
-            this.Invoke(new Assinc(internalStartTrain));
-
-            int count;
-
-            count = 0;
-
-
-            double dGlobalError = 1;
-            double dTotalError = 1;
-
-
-            while (dGlobalError > .000000000000001)
-            {
-                if(Parent.ActiveDocument.MainDisplay.DisplayStatus != pDisplay.pDisplayStatus.Training)
-                {
-                    this.Invoke(new AssincP(RefreshCyclesSec), new object[] { count * INNER_TRAINING_TIMES });
-                    
-                    this.Invoke(new Assinc(StopTrain));
-                    return;
-                }
-                
-                count++;
-
-                net.TrainSession(input, output, INNER_TRAINING_TIMES);
-
-                if(count % INNER_TRAINING_TIMES == 0)
-                    this.Invoke(new AssincP(RefreshCyclesSec), new object[] { count*INNER_TRAINING_TIMES });
-
-                dTotalError = 0;
-                foreach (Neuron n in net.Neuron)
-                {
-                    dTotalError += n.Error;
-                }
-
-                dGlobalError = net.GlobalError;
-
-            }
-
-            this.Invoke(new Assinc(StopTrain));
-
-           // pMessage.Alert("Done with " + count.ToString() + " cycles.\nGlobal error: " + dGlobalError.ToString());
+            MainDisplay.Net.ResetKnowledgment();
+            MainDisplay.Net.ResetLearning();
         }
 
         private void btImport_Click(object sender, EventArgs e)
@@ -764,12 +728,6 @@ namespace primeira.pNeuron
                 {
                     ((DataTable)dgTrainingSet.DataSource).WriteXml(s.FileName);
                 }
-        }
-
-        public void ResetLearning()
-        {
-            MainDisplay.Net.ResetKnowledgment();
-            MainDisplay.Net.ResetLearning();
         }
 
         private void btNewTrainingSet_Click(object sender, EventArgs e)
