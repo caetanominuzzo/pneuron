@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
+using primeira.pNeuron.Core;
 
 namespace primeira.pNeuron
 {
@@ -106,23 +107,22 @@ namespace primeira.pNeuron
             sb.Append(Environment.NewLine);
         }
 
-        private delegate void Assinc(string text);
+       
 
-        private void assincFlush(string text)
+        private void assincFlush(object o)
         {
-            txtLogger.Text += text;
+            txtLogger.Text += o.ToString();
         }
 
 
         public void Flush()
         {
-            this.Invoke(new Assinc(assincFlush), new object[] { sb.ToString() });
+            this.Invoke(new AssincP(assincFlush), new object[] { sb.ToString() });
             sb.Length = 0;
         }
 
         #endregion
 
-        delegate void AssincP(string msg);
 
         private void tspAttach_Click(object sender, EventArgs e)
         {
@@ -140,24 +140,7 @@ namespace primeira.pNeuron
             }
         }
 
-        void Net_OnNeuronPulseBack(primeira.pNeuron.Core.Neuron sender)
-        {
-//            this.Invoke(new AssincP(Log), new object[] { "Neuron pulseback: #" + sender.Index.ToString() });
-  //          this.Invoke(new AssincP(Log), new object[] { "\tValue: " + sender.Value.ToString("0.000000000") });
-
-            iNeuronCount++;
-
-            if (iNeuronCount == sender.NeuralNetwork.Neuron.Count * 2)
-                tspAttach_Click(null, null);
-
-        }
-
-        void Net_OnNeuronPulse(primeira.pNeuron.Core.Neuron sender)
-        {
-    //        this.Invoke(new AssincP(Log), new object[] { "Neuron pulse: #" + sender.Index.ToString() });
-      //      this.Invoke(new AssincP(Log), new object[] { "\tValue: " + sender.Value.ToString("0.000000000") });
-
-        }
+      
 
         private void tspClear_Click(object sender, EventArgs e)
         {

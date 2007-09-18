@@ -29,7 +29,7 @@ namespace primeira.pNeuron
             Application.Run(m_splash);
         }
 
-        private delegate void Assinc();
+        
 
         static public void CloseSplash()
         {

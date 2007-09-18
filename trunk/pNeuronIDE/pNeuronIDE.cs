@@ -13,6 +13,8 @@ using primeira.pNeuron;
 
 namespace primeira.pNeuron
 {
+    
+
     public partial class pNeuronIDE : Form
     {
         static int TRUE_RANDOM_GENERATOR_CACHE = 20;
@@ -232,7 +234,6 @@ namespace primeira.pNeuron
 
         #region Constructors
 
-        private delegate void Assinc();
 
         public pNeuronIDE()
         {

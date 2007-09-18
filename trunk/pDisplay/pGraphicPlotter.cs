@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using primeira.pNeuron.Core;
 
 namespace primeira.pNeuron
 {
@@ -26,17 +27,9 @@ namespace primeira.pNeuron
         public pGraphicPlotter()
         {
             fData = new List<double>(100);
-            DoubleBuffered = true;
-            Graphics g = CreateGraphics();
-            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            PaintArgs = new PaintEventArgs(g, Bounds);
-
+           // DoubleBuffered = true;
         }
 
-        private delegate void Assinc();
-        private delegate void AssincP(PaintEventArgs e);
-        PaintEventArgs PaintArgs;
-        
         public void AddData(double aData)
         {
             if (aData == 0)
@@ -67,7 +60,6 @@ namespace primeira.pNeuron
                 fZoom = 1;
             }
 
-            //this.Invoke(new Assinc(OnPaint), PaintArgs);
             this.Invoke(new Assinc(Refresh));
         }
 

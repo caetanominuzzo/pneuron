@@ -5,6 +5,8 @@ using primeira.pRandom;
 
 namespace primeira.pNeuron.Core
 {
+    public delegate void Assinc();
+    public delegate void AssincP(object o);
 
     #region Interfaces INeuron, INeuralNetwork
 
