@@ -8,11 +8,15 @@ using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 using primeira.pNeuron.Core;
 using System.IO;
+using primeira.pRandom;
+using primeira.pNeuron;
 
 namespace primeira.pNeuron
 {
     public partial class pNeuronIDE : Form
     {
+        static int TRUE_RANDOM_GENERATOR_CACHE = 20;
+
         #region Fields
 
         private pProperty fmProperty = new pProperty();
@@ -23,6 +27,8 @@ namespace primeira.pNeuron
 
         private List<pDocument> fmDocuments = new List<pDocument>();
         private pDocument fActiveDocument;
+
+        private pTrueRandomGenerator m_cache = new pTrueRandomGenerator(TRUE_RANDOM_GENERATOR_CACHE);
 
         #endregion
 
@@ -47,33 +53,69 @@ namespace primeira.pNeuron
 
                 tspStartTrain.Enabled = tspResetLearning.Enabled = (fActiveDocument != null);
 
-                fmToolbox.SetToolSet(ActiveDocument);
+                fmToolbox.SetToolSet(null);
 
-                fmGroupExplorer.treeView1.Items.Clear();
+                fmGroupExplorer.Clear();
             }
+        }
+
+        #endregion
+
+        #region Document Events
+
+        private void document_OnStopTraing()
+        {
+            tspStartTrain.Text = "Start Training";
+            statusCycles.Tag = null;
+        }
+
+        private void document_OnStartTraing()
+        {
+            tspStartTrain.Text = "Stop Training";
+        }
+
+        private void document_OnRefreshCyclesSec(int Times)
+        {
+            int aCycles = Times;
+            DateTime t;
+            if (statusCycles.Tag == null)
+            {
+                t = new DateTime();
+                t = DateTime.Now;
+                statusCycles.Tag = t;
+                return;
+            }
+
+            t = ((DateTime)statusCycles.Tag);
+
+            TimeSpan m = DateTime.Now.Subtract(t);
+            int iFirst = m.Seconds;
+
+            double vFirst = ((double)(aCycles)) / iFirst;
+
+            statusCycles.Text = "Cycles/Sec.: " + vFirst.ToString("#0000");
+            statusGlobalError.Text = "Global Error: " + ActiveDocument.MainDisplay.Net.GlobalError.ToString("#0.0000000000000");
+            //TODO:statusMediaError.Text = "Media Error: " + media.ToString("#0.0000000000000");
+        }
+
+        private void document_OnSelectedObjectChanged()
+        {
+            if (ActiveDocument.MainDisplay.SelectedpPanels.Length == 0)
+                fmProperty.Property.SelectedObject = ActiveDocument.MainDisplay;
+            else fmProperty.Property.SelectedObjects = ActiveDocument.MainDisplay.SelectedpPanels;
         }
 
         #endregion
 
         #region Methods
 
-        public pDocument GetDocByName(String sName)
-        {
-            foreach (pDocument p in fmDocuments)
-                if (p.Filename == sName)
-                    return p;
-
-            return null;
-        }
-
-        public bool ActiveDocumentExists()
+        /// <summary>
+        /// To avoid the "Please create a new document or open one before try this." message on ActiveDocument property.
+        /// </summary>
+        /// <returns>True if there is an active document.</returns>
+        public bool ThereIsAnActiveDocument()
         {
             return fActiveDocument != null;
-        }
-
-        public void SetActiveDocument(pDocument aActiveDocument)
-        {
-            ActiveDocument = aActiveDocument;
         }
 
         /// <summary>
@@ -84,19 +126,7 @@ namespace primeira.pNeuron
         public void PreRemoveDocument(pDocument aRemoveDocument)
         {
             fmDocuments.Remove(aRemoveDocument);
-            fmGroupExplorer.treeView1.Clear();
-
-            //DEPRECATED
-            //if(fmNetworkExplorer.treeView1.Nodes!=null)
-            //    if(fmNetworkExplorer.treeView1.Nodes[aRemoveDocument.Filename]!=null)
-            //        foreach (TreeNode n in fmNetworkExplorer.treeView1.Nodes[aRemoveDocument.Filename].Nodes)
-            //        {
-            //            pDocument p = GetDocByName(n.Name);
-            //            p.QueryOnClose = false;
-            //            p.Close();
-            //        }
-
-            //fmNetworkExplorer.RemoveNode(aRemoveDocument.Filename);
+            fmGroupExplorer.Clear();
 
             if (fmDocuments.Count > 0)
             {
@@ -107,97 +137,56 @@ namespace primeira.pNeuron
 
         }
 
-        public void OpenAny(string sFilename, TreeNode FilenameParent)
-        {
-            foreach (pDocument p in fmDocuments)
-            {
-                if (p.Filename == sFilename)
-                {
-                    p.Show();
-                    return;
-                }
-            }
+        #endregion
 
-            switch (Path.GetExtension(sFilename))
-            {
-                case ".pne": fmDocuments.Add(new pDocument(sFilename));
-                    ActiveDocument = fmDocuments[fmDocuments.Count - 1];
-                    ((pDocument)ActiveDocument).Show(dockPanel, DockState.Document);
-                    ((pDocument)ActiveDocument).internalLoad(((pDocument)ActiveDocument).Filename);
-                    break;
-
-
-            }
-
-            ActiveDocument.Modificated = false;
-            ActiveDocument.DefaultNamedFile = false;
-        }
-
-        protected override void OnFormClosing(FormClosingEventArgs e)
-        {
-            //Avoid base
-        }
-
-        private void pNeuronIDE_Load(object sender, EventArgs e)
-        {
-            //Create Environment
-            if (!Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.Personal) + "\\pNeuron Projects"))
-            {
-                Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.Personal) + "\\pNeuron Projects");
-            }
-        }
-
-        #region New/Open/Save network
+        #region New/Open/Save Document
 
         private void AddDocument(pDocument document)
         {
-            ((pDocument)ActiveDocument).Show(dockPanel, DockState.Document);
-            ((pDocument)ActiveDocument).Modificated = true;
+            fmDocuments.Add(document);
             ActiveDocument = fmDocuments[fmDocuments.Count - 1];
             document.OnDisplayStatusChanged += new pDocument.OnDisplayStatusChangedDelegate(p_OnDisplayStatusChanged);
             document.OnSelectedObjectChanged += new pDocument.OnSelectedObjectChangedDelegate(document_OnSelectedObjectChanged);
+            document.OnStartTraing += new pDocument.OnStartTraingDelegate(document_OnStartTraing);
+            document.OnStopTraing += new pDocument.OnStopTraingDelegate(document_OnStopTraing);
+            document.OnRefreshCyclesSec += new pDocument.OnRefreshCyclesSecDelegate(document_OnRefreshCyclesSec);
             document.Parent = this;
-        }
 
-        void document_OnSelectedObjectChanged()
-        {
-            if (ActiveDocument.MainDisplay.SelectedpPanels.Length == 0)
-                fmProperty.Property.SelectedObject = ActiveDocument.MainDisplay;
-            else if (ActiveDocument.MainDisplay.SelectedpPanels.Length == 1)
-                fmProperty.Property.SelectedObject = ActiveDocument.MainDisplay.SelectedpPanels;
-            else if (ActiveDocument.MainDisplay.SelectedpPanels.Length > 1)
-                fmProperty.Property.SelectedObjects = ActiveDocument.MainDisplay.SelectedpPanels;
-        }
+            ActiveDocument.Show(dockPanel, DockState.Document);
+            ActiveDocument.Modificated = false;
 
+            fmToolbox.SetToolSet(ActiveDocument);
+        }
+        
         private pDocument AddDocument()
         {
-            int i = fmDocuments.Count + 1;
-            pDocument d = new pDocument("NeuralNetwork " + i.ToString());
+             int i = 1;
+             foreach (pDocument doc in fmDocuments)
+             {
+                 if (doc.DefaultNamedFile)
+                     i++;
+             }
+
+            pDocument d = new pDocument(m_cache, "NeuralNetwork " + i.ToString());
             AddDocument(d);
 
             return d;
         }
 
-        public void NewNetwork()
+        private void OpenDocument()
         {
-            AddDocument();
-        }
-
-        public void OpenNetwork()
-        {
-            pDocument p = AddDocument();
+            pDocument p = new pDocument(this.m_cache);
 
             if (p.Load() != DialogResult.OK)
             {
                 p.Close();
             }
+            else AddDocument(p);
         }
 
-        void p_OnDisplayStatusChanged()
+        private void p_OnDisplayStatusChanged()
         {
             status.Items[0].Text = "Status: " + ActiveDocument.MainDisplay.DisplayStatus.ToString().Replace("_", " ");
-
-
 
             if (ActiveDocument.MainDisplay.DisplayStatus == pDisplay.pDisplayStatus.Training)
             {
@@ -207,12 +196,12 @@ namespace primeira.pNeuron
                 fmPlotter.StopTimer();
         }
 
-        public void SaveNetwork()
+        private void SaveDocument()
         {
             ActiveDocument.Save();
         }
 
-        public void SaveNetworkAs()
+        private void SaveDocumentAs()
         {
             bool bDefaul = ActiveDocument.DefaultNamedFile;
             string old = ActiveDocument.Filename;
@@ -226,6 +215,8 @@ namespace primeira.pNeuron
         }
 
         #endregion
+
+        #region Menus Events
 
         private void domainEditToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -243,20 +234,11 @@ namespace primeira.pNeuron
             ActiveDocument.ResetLearning();
         }
 
-        private void pNeuronIDE_OnDocumentContainerChange()
-        {
-            fmToolbox.SetToolSet(ActiveDocument);
-        }
-
-        public void RefreshErrorStatus()
-        {
-            statusGlobalError.Text = "Global Error: " + ActiveDocument.MainDisplay.Net.GlobalError.ToString("#0.0000000000000");
-            //TODO:statusMediaError.Text = "Media Error: " + media.ToString("#0.0000000000000");
-        }
-
         #endregion
 
         #region Constructors
+
+        private delegate void Assinc();
 
         public pNeuronIDE()
         {
@@ -273,13 +255,18 @@ namespace primeira.pNeuron
             fmProperty.Show(dockPanel, DockState.DockRight);
             fmProperty.DockTo(fmGroupExplorer.Pane, DockStyle.Bottom, 0);
 
-            //DEPRECATEDfmNetworkExplorer.Show(dockPanel, DockState.DockRight);
-            //DEPRECATEDfmNetworkExplorer.DockTo(fmGroupExplorer.Pane, DockStyle.Fill, 0);
+            fmToolbox.SetToolSet(null);
 
+            this.Invoke(new Assinc(Splasher.CloseSplash));
 
-            //Calling the 'set' on ActiveDocument to keep consistency
-            ActiveDocument = null;
+        }
 
+        private void pNeuronIDE_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            
+
+            //To save non used cache
+            m_cache.Dispose();
         }
 
         #endregion
@@ -290,22 +277,22 @@ namespace primeira.pNeuron
 
         private void newNetworkToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            NewNetwork();
+            AddDocument();
         }
 
         private void openNetworkToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenNetwork();
+            OpenDocument();
         }
 
         private void saveToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            SaveNetwork();
+            SaveDocument();
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveNetworkAs();
+            SaveDocumentAs();
         }
 
         //VIEW
@@ -324,14 +311,24 @@ namespace primeira.pNeuron
             fmToolbox.Show();
         }
 
-        //TRAIN
-        private void trainToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-            
-        }
-
         #endregion
 
+        private void learninRate_MouseHover(object sender, EventArgs e)
+        {
+            pnTrackBar.Top = status.Top - pnTrackBar.Height;
+            pnTrackBar.Visible = true;
+            pnTrackBar.BringToFront();
+        }
+
+        private void trackLR_MouseLeave(object sender, EventArgs e)
+        {
+            pnTrackBar.Visible = false;
+        }
+
+        private void trackLR_Scroll(object sender, EventArgs e)
+        {
+            learninRate.Text = "Learning Rate: " + trackLR.Value;
+            ActiveDocument.MainDisplay.Net.LearningRate = trackLR.Value;
+        }
     }
 }

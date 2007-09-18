@@ -20,24 +20,24 @@ namespace primeira.pNeuron
         {
             if (sender == rCursor && rCursor.Checked)
             {
-                if((((pNeuronIDE)DockPanel.Parent).ActiveDocumentExists()))
-                    ((pDocument)((pNeuronIDE)DockPanel.Parent).ActiveDocument).MainDisplay.DisplayStatus = pDisplay.pDisplayStatus.Idle;
+                if(Parent.ThereIsAnActiveDocument())
+                    Parent.ActiveDocument.MainDisplay.DisplayStatus = pDisplay.pDisplayStatus.Idle;
                 return;
             }
 
             if (((RadioButton)sender).Checked) //To pass here just one time.
             {
 
-                if (((pNeuronIDE)DockPanel.Parent).ActiveDocument != null)
+                if (Parent.ActiveDocument != null)
                 {
                     if (rSynapse.Checked)
-                        ((pDocument)((pNeuronIDE)DockPanel.Parent).ActiveDocument).MainDisplay.DisplayStatus = pDisplay.pDisplayStatus.Linking_Paused;
+                        Parent.ActiveDocument.MainDisplay.DisplayStatus = pDisplay.pDisplayStatus.Linking_Paused;
 
                     if (rNeuron.Checked)
-                        ((pDocument)((pNeuronIDE)DockPanel.Parent).ActiveDocument).MainDisplay.DisplayStatus = pDisplay.pDisplayStatus.Add_Neuron;
+                        Parent.ActiveDocument.MainDisplay.DisplayStatus = pDisplay.pDisplayStatus.Add_Neuron;
 
                     if (rRemove.Checked)
-                        ((pDocument)((pNeuronIDE)DockPanel.Parent).ActiveDocument).MainDisplay.DisplayStatus = pDisplay.pDisplayStatus.Remove_Neuron;
+                        Parent.ActiveDocument.MainDisplay.DisplayStatus = pDisplay.pDisplayStatus.Remove_Neuron;
                 }
 
 
@@ -87,9 +87,11 @@ namespace primeira.pNeuron
 
         #region IpDocks Members
 
+        private pNeuronIDE fParent;
+
         public new pNeuronIDE Parent
         {
-            get { return ((pNeuronIDE)DockPanel.Parent); }
+            get { return (pNeuronIDE)DockPanel.Parent; }
         }
 
         #endregion

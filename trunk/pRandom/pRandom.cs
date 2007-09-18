@@ -9,7 +9,7 @@ namespace primeira.pRandom
     /// <summary>
     /// True random number generator.
     /// </summary>
-    public class pTrueRandomGenerator
+    public class pTrueRandomGenerator : IDisposable
     {
         
         /// <summary>
@@ -35,8 +35,20 @@ namespace primeira.pRandom
             }
         }
 
+   
         private void RefreshCache()
         {
+            if(System.IO.File.Exists(AppDomain.CurrentDomain.RelativeSearchPath + @"\pTrueRandomGenerator.cache"))
+            {
+                string[] text = System.IO.File.ReadAllLines(AppDomain.CurrentDomain.RelativeSearchPath + @"\pTrueRandomGenerator.cache");
+                foreach(string s in text)
+                {
+                    m_cache.Add(double.Parse(s));
+                }
+
+                System.IO.File.Delete(AppDomain.CurrentDomain.RelativeSearchPath + @"\pTrueRandomGenerator.cache");
+            }
+
             StringBuilder sb = new StringBuilder();
 
             byte[] buf = new byte[1024];
@@ -108,6 +120,25 @@ namespace primeira.pRandom
             return d;
 
         }
+
+        #region IDisposable Members
+
+        public void Dispose()
+        {
+            if (m_cache.Count > 0)
+            {
+                StringBuilder sb = new StringBuilder();
+                foreach (double d in m_cache)
+                {
+                    sb.Append(d);
+                    sb.Append("\n");
+                }
+                System.IO.File.WriteAllText(AppDomain.CurrentDomain.RelativeSearchPath + @"\pTrueRandomGenerator.cache", sb.ToString());
+            }
+
+        }
+
+        #endregion
     }
 
 }

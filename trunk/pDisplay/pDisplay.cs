@@ -8,6 +8,7 @@ using System.Drawing.Imaging;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Collections;
+using primeira.pRandom;
 
 namespace primeira.pNeuron
 {
@@ -147,7 +148,7 @@ namespace primeira.pNeuron
         /// <summary>
         /// Main status of pDisplay. Has a get/set on DisplayStatus.
         /// </summary>
-        private pDisplayStatus m_displayStatus;
+        private pDisplayStatus m_displayStatus = pDisplayStatus.Idle;
 
         #endregion
 
@@ -183,18 +184,14 @@ namespace primeira.pNeuron
 
         #region Constructor
 
-        public pDisplay()
+        public pDisplay(pTrueRandomGenerator cache)
         {
-
-            
-
-
             InitializeComponent();
 
-            //Make all this stuff slow =(
+            //Makes all this stuff slow =(
             DoubleBuffered = true;
 
-            //Intialize neuron list
+            //Initialize neuron list
             m_pPanels = new List<pPanel>();
 
             //Initialize with no neurons selected
@@ -203,9 +200,6 @@ namespace primeira.pNeuron
             //Initialize with pColors.Colors.Length
             m_groups = new List<pPanel>[pColors.Colors.Length];
 
-            //Set initial DisplayStatus
-            DisplayStatus = pDisplayStatus.Idle;
-
             m_graphics = CreateGraphics();
 
             //Initialize all groups
@@ -213,7 +207,7 @@ namespace primeira.pNeuron
                 m_groups[i] = new List<pPanel>();
 
             //Initialize NeuralNet
-            m_net = new NeuralNetwork();
+            m_net = new NeuralNetwork(cache);
 
 
         }
@@ -385,6 +379,8 @@ namespace primeira.pNeuron
             }
         }
 
+        private delegate void Assinc();
+
         public pDisplayStatus DisplayStatus
         {
             get { return m_displayStatus; }
@@ -408,7 +404,7 @@ namespace primeira.pNeuron
                             break;
                         case pDisplayStatus.Linking: Cursor = Cursors.Cross;
                             break;
-                        default: Cursor = Cursors.Default;
+                        default: this.Invoke(new Assinc(SetCursorDefaultCrossThread));
                             break;
 
                     }
@@ -416,6 +412,11 @@ namespace primeira.pNeuron
                 if (OnDisplayStatusChange != null)
                     OnDisplayStatusChange();
             }
+        }
+
+        private void SetCursorDefaultCrossThread()
+        {
+            Cursor = Cursors.Default;
         }
 
         #endregion
