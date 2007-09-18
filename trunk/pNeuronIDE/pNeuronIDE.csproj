@@ -160,10 +160,6 @@
       <Project>{35DD3087-E395-4D33-950F-F807AE4BDED0}</Project>
       <Name>pDisplay</Name>
     </ProjectReference>
-    <ProjectReference Include="..\pExternal\pExternal.csproj">
-      <Project>{C29ECEF4-786D-43C7-BA68-DBCD648B93F5}</Project>
-      <Name>pExternal</Name>
-    </ProjectReference>
     <ProjectReference Include="..\pNeuron\pNeuron.csproj">
       <Project>{464378C1-CF56-486D-84F0-DC564A99901D}</Project>
       <Name>pNeuron</Name>
