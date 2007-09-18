@@ -42,7 +42,7 @@ namespace primeira.pNeuron
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(pDocument));
             this.tcDesigner = new System.Windows.Forms.TabControl();
             this.tbDesigner = new System.Windows.Forms.TabPage();
-            this.MainDisplay = new primeira.pNeuron.pDisplay(this.cache==null?new pTrueRandomGenerator(1) : this.cache );
+            this.MainDisplay = new primeira.pNeuron.pDisplay();
             this.tspDesigner = new System.Windows.Forms.ToolStrip();
             this.tspAutoRefresh = new System.Windows.Forms.ToolStripButton();
             this.tbTrainingSet = new System.Windows.Forms.TabPage();
@@ -91,15 +91,9 @@ namespace primeira.pNeuron
             this.tbDesigner.Text = "Network Designer";
             this.tbDesigner.UseVisualStyleBackColor = true;
             // 
-            // pDisplay1
+            // MainDisplay
             // 
             this.MainDisplay.AutoScroll = true;
-            this.MainDisplay.AutoScrollHorizontalMaximum = 100;
-            this.MainDisplay.AutoScrollHorizontalMinimum = 0;
-            this.MainDisplay.AutoScrollHPos = 0;
-            this.MainDisplay.AutoScrollVerticalMaximum = 100;
-            this.MainDisplay.AutoScrollVerticalMinimum = 0;
-            this.MainDisplay.AutoScrollVPos = 0;
             this.MainDisplay.BackColor = System.Drawing.Color.White;
             this.MainDisplay.Bezier = true;
             this.MainDisplay.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -108,18 +102,14 @@ namespace primeira.pNeuron
             this.MainDisplay.Cursor = System.Windows.Forms.Cursors.Default;
             this.MainDisplay.DisplayStatus = primeira.pNeuron.pDisplay.pDisplayStatus.Idle;
             this.MainDisplay.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.MainDisplay.EnableAutoScrollHorizontal = true;
-            this.MainDisplay.EnableAutoScrollVertical = true;
             this.MainDisplay.Location = new System.Drawing.Point(3, 3);
-            this.MainDisplay.Name = "pDisplay1";
+            this.MainDisplay.Name = "MainDisplay";
             this.MainDisplay.ShiftKey = false;
             this.MainDisplay.Size = new System.Drawing.Size(730, 390);
             this.MainDisplay.TabIndex = 0;
-            this.MainDisplay.VisibleAutoScrollHorizontal = true;
-            this.MainDisplay.VisibleAutoScrollVertical = true;
-            this.MainDisplay.OnDisplayStatusChange += new primeira.pNeuron.pDisplay.DisplayStatusChangeDelegate(this.pDisplay1_OnDisplayStatusChange);
-            this.MainDisplay.OnSelectedPanelsChange += new primeira.pNeuron.pDisplay.SelectedPanelsChangeDelegate(this.pDisplay1_OnSelectedPanelsChange);
-            this.MainDisplay.OnNetworkChange += new primeira.pNeuron.pDisplay.NetworkChangeDelegate(this.pDisplay1_OnNetworkChange);
+            this.MainDisplay.OnDisplayStatusChange += new primeira.pNeuron.pDisplay.DisplayStatusChangeDelegate(this.MainDisplay_OnDisplayStatusChange);
+            this.MainDisplay.OnSelectedPanelsChange += new primeira.pNeuron.pDisplay.SelectedPanelsChangeDelegate(this.MainDisplay_OnSelectedPanelsChange);
+            this.MainDisplay.OnNetworkChange += new primeira.pNeuron.pDisplay.NetworkChangeDelegate(this.MainDisplay_OnNetworkChange);
             // 
             // toolStrip2
             // 

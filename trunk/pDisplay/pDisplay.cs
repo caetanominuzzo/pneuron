@@ -25,7 +25,7 @@ namespace primeira.pNeuron
 
     #endregion
 
-    public partial class pDisplay : primeira.pExternal.CustomAutoScrollPanel.ScrollablePanel, primeira.pNeuron.IpPanels
+    public partial class pDisplay : Panel, primeira.pNeuron.IpPanels
     {
         
         [DllImport("Kernel32.dll")]
@@ -184,7 +184,7 @@ namespace primeira.pNeuron
 
         #region Constructor
 
-        public pDisplay(pTrueRandomGenerator cache)
+        public pDisplay()
         {
             InitializeComponent();
 
@@ -207,7 +207,7 @@ namespace primeira.pNeuron
                 m_groups[i] = new List<pPanel>();
 
             //Initialize NeuralNet
-            m_net = new NeuralNetwork(cache);
+            m_net = new NeuralNetwork();
 
 
         }
