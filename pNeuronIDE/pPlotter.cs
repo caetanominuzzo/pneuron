@@ -56,7 +56,8 @@ namespace primeira.pNeuron
 
         public void StopTimer()
         {
-            this.tmRefresh.Dispose();
+            if (tmRefresh != null)
+                this.tmRefresh.Dispose();
         }
 
         public void ClearData()

@@ -653,11 +653,10 @@ namespace primeira.pNeuron.Core
     {
         #region Constructors
 
-        public NeuralNetwork(pTrueRandomGenerator cache)
+        public NeuralNetwork()
         {
             m_learningRate = DEFAULT_LEARNING_RATE;
             m_neuron = new List<Neuron>();
-            m_random = cache;
         }
 
         #endregion
@@ -781,6 +780,15 @@ namespace primeira.pNeuron.Core
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Sets the internal random generator.
+        /// </summary>
+        /// <param name="random"></param>
+        public void SetRandomGenerator(pTrueRandomGenerator random)
+        {
+            m_random = random;
+        }
 
         /// <summary>
         /// Tells to stop trainig on next train cycle.

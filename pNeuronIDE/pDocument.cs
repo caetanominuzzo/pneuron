@@ -43,8 +43,6 @@ namespace primeira.pNeuron
 
         private bool m_defaultNamedFile = true;
 
-        private pTrueRandomGenerator cache;
-
         #endregion
 
         #region Properties
@@ -107,53 +105,6 @@ namespace primeira.pNeuron
 
         #endregion
 
-        internal class pTrainingSet
-        {
-            public String Name;
-            public DataTable fDataTable = new DataTable();
-            private List<pPanel> fpPanel;
-            private string fParentFilename;
-
-            public pTrainingSet(List<pPanel> apPanel, String aName, string aParentFilename)
-            {
-                Name = aName;
-                fpPanel = apPanel;
-                fParentFilename = aParentFilename;
-            }
-
-            public DataTable NewDataTable()
-            {
-                fDataTable = new DataTable(Name);
-
-                foreach (pPanel p in fpPanel)
-                {
-                    if( (p.Neuron).NeuronType == NeuronTypes.Input)
-                    {
-                        fDataTable.Columns.Add(p.Text, typeof(double));
-                    }
-                }
-
-                foreach (pPanel p in fpPanel)
-                {
-                    if ((p.Neuron).NeuronType == NeuronTypes.Output)
-                    {
-                        fDataTable.Columns.Add(p.Text, typeof(double));
-                    }
-                }
-
-                return fDataTable;
-            }
-
-            public DataTable LoadDataTable()
-            {
-                DataSet ds = new DataSet();
-                ds.ReadXml(fParentFilename);
-
-                fDataTable = ds.Tables[this.Name];
-                return fDataTable;
-            }
-        }
-
         #region Constructors
 
         public pDocument(pTrueRandomGenerator cache, string sFileName) : this(cache)
@@ -163,8 +114,8 @@ namespace primeira.pNeuron
 
         public pDocument(pTrueRandomGenerator cache)
         {
-            this.cache = cache;
             InitializeComponent();
+            MainDisplay.Net.SetRandomGenerator(cache);
             MainDisplay.Net.OnStartTraing += new NeuralNetwork.OnStartTraingDelegate(Net_OnStartTraing);
             MainDisplay.Net.OnStopTraing += new NeuralNetwork.OnStopTraingDelegate(Net_OnStopTraing);
             MainDisplay.Net.OnRefreshCyclesSec += new NeuralNetwork.OnRefreshCyclesSecDelegate(Net_OnRefreshCyclesSec);
@@ -200,20 +151,20 @@ namespace primeira.pNeuron
 
         #region MainDisplay Events
 
-        private void pDisplay1_OnDisplayStatusChange()
+        private void MainDisplay_OnDisplayStatusChange()
         {
             if (OnDisplayStatusChanged != null)
                 OnDisplayStatusChanged();
         }
 
-        private void pDisplay1_OnSelectedPanelsChange()
+        private void MainDisplay_OnSelectedPanelsChange()
         {
             if (OnSelectedObjectChanged != null)
                 OnSelectedObjectChanged();
 
         }
 
-        private void pDisplay1_OnNetworkChange()
+        private void MainDisplay_OnNetworkChange()
         {
             this.Modificated = true;
         }
@@ -618,6 +569,8 @@ namespace primeira.pNeuron
 
         #endregion
 
+        #region Menu
+
         public void StartTrain()
         {
             if (MainDisplay.DisplayStatus != pDisplay.pDisplayStatus.Training)
@@ -771,5 +724,54 @@ namespace primeira.pNeuron
             MainDisplay.Refresh();
         }
 
+        #endregion
+
+    }
+
+    internal class pTrainingSet
+    {
+        public String Name;
+        public DataTable fDataTable = new DataTable();
+        private List<pPanel> fpPanel;
+        private string fParentFilename;
+
+        public pTrainingSet(List<pPanel> apPanel, String aName, string aParentFilename)
+        {
+            Name = aName;
+            fpPanel = apPanel;
+            fParentFilename = aParentFilename;
+        }
+
+        public DataTable NewDataTable()
+        {
+            fDataTable = new DataTable(Name);
+
+            foreach (pPanel p in fpPanel)
+            {
+                if ((p.Neuron).NeuronType == NeuronTypes.Input)
+                {
+                    fDataTable.Columns.Add(p.Text, typeof(double));
+                }
+            }
+
+            foreach (pPanel p in fpPanel)
+            {
+                if ((p.Neuron).NeuronType == NeuronTypes.Output)
+                {
+                    fDataTable.Columns.Add(p.Text, typeof(double));
+                }
+            }
+
+            return fDataTable;
+        }
+
+        public DataTable LoadDataTable()
+        {
+            DataSet ds = new DataSet();
+            ds.ReadXml(fParentFilename);
+
+            fDataTable = ds.Tables[this.Name];
+            return fDataTable;
+        }
     }
 }

@@ -86,7 +86,7 @@ namespace primeira.pNeuron
             double dMaxY = Height;
             double dMaxX = Width;
 
-            Point pLast = new Point(0,  Convert.ToInt32(dMaxY));
+            Point pLast = new Point(0, Convert.ToInt32(dMaxY));
             Point pNew;
 
             Point pLastMedia = new Point(0, Convert.ToInt32(dMaxY));
@@ -96,7 +96,9 @@ namespace primeira.pNeuron
 
             double dMedia = 0;
 
-            foreach(double d in fData)
+            double[] dd = fData.ToArray();
+
+            foreach (double d in dd)
             {
                 //e.Graphics.DrawString(d.ToString("0.000000"), SystemFonts.DefaultFont, SystemBrushes.ControlDark,
                 //    new Point(
@@ -115,7 +117,7 @@ namespace primeira.pNeuron
                 pLast = pNew;
 
                 dMedia += d;
-                
+
                 i++;
 
                 if (i % 20 == 0)
@@ -135,13 +137,13 @@ namespace primeira.pNeuron
                         pNewMedia);
 
 
-                    pLastMedia  = pNewMedia;
+                    pLastMedia = pNewMedia;
 
                     dMedia = 0;
 
                 }
 
-               
+
 
 
             }
