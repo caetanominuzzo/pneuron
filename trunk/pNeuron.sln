@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pPanel", "pPanel\pPanel.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pNeuron", "pNeuron\pNeuron.csproj", "{464378C1-CF56-486D-84F0-DC564A99901D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pExternal", "pExternal\pExternal.csproj", "{C29ECEF4-786D-43C7-BA68-DBCD648B93F5}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinFormsUI", "WinFormsUI\WinFormsUI.csproj", "{C75532C4-765B-418E-B09B-46D36B2ABDB1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pDisplay", "pDisplay\pDisplay.csproj", "{35DD3087-E395-4D33-950F-F807AE4BDED0}"
@@ -24,8 +22,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pShortcutManager", "pShortcutManager\pShortcutManager.csproj", "{2B504E3B-8A90-4DB0-9AD3-49C2C2D844C7}"
-EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "pNeuronIDEsetup", "pNeuronIDEsetup\pNeuronIDEsetup.vdproj", "{984DB565-A647-487C-9D57-37AA5C94722E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pXMLEditor", "pXMLEditor\pXMLEditor.csproj", "{E60C9D24-DA24-4278-AE49-7EFDCD5E0133}"
 EndProject
@@ -51,10 +47,6 @@ Global
 		{464378C1-CF56-486D-84F0-DC564A99901D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{464378C1-CF56-486D-84F0-DC564A99901D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{464378C1-CF56-486D-84F0-DC564A99901D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C29ECEF4-786D-43C7-BA68-DBCD648B93F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C29ECEF4-786D-43C7-BA68-DBCD648B93F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C29ECEF4-786D-43C7-BA68-DBCD648B93F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C29ECEF4-786D-43C7-BA68-DBCD648B93F5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C75532C4-765B-418E-B09B-46D36B2ABDB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C75532C4-765B-418E-B09B-46D36B2ABDB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C75532C4-765B-418E-B09B-46D36B2ABDB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -67,8 +59,6 @@ Global
 		{2B504E3B-8A90-4DB0-9AD3-49C2C2D844C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B504E3B-8A90-4DB0-9AD3-49C2C2D844C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2B504E3B-8A90-4DB0-9AD3-49C2C2D844C7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{984DB565-A647-487C-9D57-37AA5C94722E}.Debug|Any CPU.ActiveCfg = Debug
-		{984DB565-A647-487C-9D57-37AA5C94722E}.Release|Any CPU.ActiveCfg = Release
 		{E60C9D24-DA24-4278-AE49-7EFDCD5E0133}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E60C9D24-DA24-4278-AE49-7EFDCD5E0133}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E60C9D24-DA24-4278-AE49-7EFDCD5E0133}.Release|Any CPU.ActiveCfg = Release|Any CPU
