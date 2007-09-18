@@ -1030,7 +1030,7 @@ namespace primeira.pNeuron.Core
 
 
                 dGlobalError = GlobalError;
-                if(dGlobalError < .00000000000000000000000001)
+                if(dGlobalError < .0000000000000000001)
                     m_stopOnNextCycle = true;
             }
 
