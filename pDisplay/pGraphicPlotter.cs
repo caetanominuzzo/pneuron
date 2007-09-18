@@ -11,10 +11,12 @@ namespace primeira.pNeuron
     public class pGraphicPlotter : Control
     {
         private List<Double> fData;
+
         private Double fZoom = 1;
 
         private double fMaxValue = double.NegativeInfinity;
         private double fMinValue = double.PositiveInfinity;
+
 
         public Double[] Data
         {
@@ -25,23 +27,27 @@ namespace primeira.pNeuron
         {
             fData = new List<double>(100);
             DoubleBuffered = true;
+            Graphics g = CreateGraphics();
+            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            PaintArgs = new PaintEventArgs(g, Bounds);
+
         }
 
         private delegate void Assinc();
-
+        private delegate void AssincP(PaintEventArgs e);
+        PaintEventArgs PaintArgs;
+        
         public void AddData(double aData)
         {
-            //if (fData.Count > 0)
-            //    if (aData < fData[fData.Count - 1] / 5 || aData > fData[fData.Count - 1] * 5)
-            //        aData = fData[fData.Count - 1] - aData;
-
+            if (aData == 0)
+                return; 
             if (fData.Count == 100)
                 fData.RemoveAt(0);
+
             fData.Add(aData);
 
             fMaxValue = double.NegativeInfinity;
             fMinValue = double.PositiveInfinity;
-
 
             foreach(double d in fData)
             {
@@ -61,8 +67,10 @@ namespace primeira.pNeuron
                 fZoom = 1;
             }
 
+            //this.Invoke(new Assinc(OnPaint), PaintArgs);
             this.Invoke(new Assinc(Refresh));
         }
+
 
         public void ClearData()
         {
@@ -81,7 +89,7 @@ namespace primeira.pNeuron
 
             DrawLines(e.Graphics);
 
-            e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            
 
             double dMaxY = Height;
             double dMaxX = Width;
@@ -100,11 +108,6 @@ namespace primeira.pNeuron
 
             foreach (double d in dd)
             {
-                //e.Graphics.DrawString(d.ToString("0.000000"), SystemFonts.DefaultFont, SystemBrushes.ControlDark,
-                //    new Point(
-                //            Convert.ToInt32(dMaxX * i / 100),
-                //            Convert.ToInt32(d * fZoom + dMaxY)));
-
                 pNew = new Point(
                             Convert.ToInt32(dMaxX * i / 100),
                             Convert.ToInt32(d * fZoom));
@@ -132,10 +135,6 @@ namespace primeira.pNeuron
                             new Pen(Color.FromArgb(70, Color.Red), 3),
                             pLastMedia,
                             pNewMedia);
-
-                    e.Graphics.DrawString(dMedia.ToString("0.000000"), SystemFonts.DefaultFont, new SolidBrush(Color.FromArgb(90, Color.Black)),
-                        pNewMedia);
-
 
                     pLastMedia = pNewMedia;
 
@@ -169,8 +168,6 @@ namespace primeira.pNeuron
 
             }
 
-            g.DrawString("0", SystemFonts.DefaultFont, new SolidBrush(Color.Black), new Point(10, (Height / 2) - 12));
-            g.DrawString("0", SystemFonts.DefaultFont, new SolidBrush(Color.Black), new Point(Width - 20, (Height / 2) - 12));
         }
     }
 }
