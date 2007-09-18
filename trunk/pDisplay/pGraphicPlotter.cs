@@ -27,6 +27,7 @@ namespace primeira.pNeuron
             DoubleBuffered = true;
         }
 
+        private delegate void Assinc();
 
         public void AddData(double aData)
         {
@@ -60,7 +61,7 @@ namespace primeira.pNeuron
                 fZoom = 1;
             }
 
-            Refresh();
+            this.Invoke(new Assinc(Refresh));
         }
 
         public void ClearData()

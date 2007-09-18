@@ -6,14 +6,15 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
+using System.Threading;
 
 namespace primeira.pNeuron
 {
     public class pPlotter : DockContent, IpDocks
     {
-        private Timer tmRefresh;
+        private System.Threading.Timer tmRefresh;
         private IContainer components;
-        public pGraphicPlotter pPlot;
+        private pGraphicPlotter pPlot;
 
         public pPlotter()
         {
@@ -24,13 +25,9 @@ namespace primeira.pNeuron
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.tmRefresh = new System.Windows.Forms.Timer(this.components);
+           
             this.pPlot = new primeira.pNeuron.pGraphicPlotter();
             this.SuspendLayout();
-            // 
-            // tmRefresh
-            // 
-            this.tmRefresh.Tick += new System.EventHandler(this.tmRefresh_Tick);
             // 
             // pPlot
             // 
@@ -54,12 +51,12 @@ namespace primeira.pNeuron
 
         public void StartTimer()
         {
-            tmRefresh.Start();
+            this.tmRefresh = new System.Threading.Timer(new TimerCallback(tmRefresh_Tick), null, 0, 250);
         }
 
         public void StopTimer()
         {
-            tmRefresh.Stop();
+            this.tmRefresh.Dispose();
         }
 
         public void ClearData()
@@ -67,7 +64,7 @@ namespace primeira.pNeuron
             pPlot.ClearData();
         }
 
-        private void tmRefresh_Tick(object sender, EventArgs e)
+        private void tmRefresh_Tick(object state)
         {
             pPlot.AddData(Parent.ActiveDocument.MainDisplay.Net.GlobalError);
         }
