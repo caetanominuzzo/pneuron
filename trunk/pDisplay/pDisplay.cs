@@ -379,7 +379,6 @@ namespace primeira.pNeuron
             }
         }
 
-        private delegate void Assinc();
 
         public pDisplayStatus DisplayStatus
         {
