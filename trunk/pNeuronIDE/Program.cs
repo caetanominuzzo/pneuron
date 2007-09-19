@@ -15,10 +15,8 @@ namespace primeira.pNeuron
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            
+
             #if RELEASE
-                MessageBox.Show("");    
-            #else 
                 Splasher.ShowSplashScreen();
             #endif
             Application.Run(new pNeuronIDE());
