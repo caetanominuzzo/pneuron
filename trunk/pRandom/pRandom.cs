@@ -23,6 +23,8 @@ namespace primeira.pRandom
         /// <param name="cacheSize">Number of doubles on cache.</param>
         public pTrueRandomGenerator(int cacheSize)
         {
+            m_pseudoRandom = new Random(1);
+            return;
             try
             {
                 m_cache = new List<double>(cacheSize);
@@ -102,7 +104,7 @@ namespace primeira.pRandom
         public double GetDouble()
         {
             double d = 0;
-            if (m_cache.Count > 0)
+            if (m_cache != null)
             {
                 if (m_cache.Count < m_cache.Capacity / 10 )
                 {
@@ -125,7 +127,7 @@ namespace primeira.pRandom
 
         public void Dispose()
         {
-            if (m_cache.Count > 0)
+            if (m_cache!=null)
             {
                 StringBuilder sb = new StringBuilder();
                 foreach (double d in m_cache)
