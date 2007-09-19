@@ -64,6 +64,9 @@
     <Compile Include="IpDocks.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="pDataGridView.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="pDocument.cs">
       <SubType>Form</SubType>
     </Compile>

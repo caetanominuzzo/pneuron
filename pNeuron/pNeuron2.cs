@@ -390,8 +390,6 @@ namespace primeira.pNeuron.Core
         {
             lock (this)
             {
-                if (OnNeuronPulse != null)
-                    OnNeuronPulse(this);
 
                 InputReady = 0;
 
@@ -435,8 +433,6 @@ namespace primeira.pNeuron.Core
         /// <param name="desiredResult"></param>
         public void PulseBack(double desiredResult)
         {
-            if (OnNeuronPulseBack != null)
-                OnNeuronPulseBack(this);
 
             this.OutputReady = 0;
 
@@ -629,11 +625,11 @@ namespace primeira.pNeuron.Core
 
         #region Events
 
-        internal delegate void OnNeuronPulseDelegate(Neuron sender);
-        internal event OnNeuronPulseDelegate OnNeuronPulse;
+      //  internal delegate void OnNeuronPulseDelegate(Neuron sender);
+      //  internal event OnNeuronPulseDelegate OnNeuronPulse;
 
-        internal delegate void OnNeuronPulseBackDelegate(Neuron sender);
-        internal event OnNeuronPulseBackDelegate OnNeuronPulseBack;
+     //   internal delegate void OnNeuronPulseBackDelegate(Neuron sender);
+     //   internal event OnNeuronPulseBackDelegate OnNeuronPulseBack;
 
         #endregion
     }
