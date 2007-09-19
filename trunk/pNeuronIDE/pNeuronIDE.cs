@@ -252,8 +252,9 @@ namespace primeira.pNeuron
 
             fmToolbox.SetToolSet(null);
 
-            this.Invoke(new Assinc(Splasher.CloseSplash));
-
+            #if RELEASE
+              this.Invoke(new Assinc(Splasher.CloseSplash));
+            #endif
         }
 
         private void pNeuronIDE_FormClosing(object sender, FormClosingEventArgs e)

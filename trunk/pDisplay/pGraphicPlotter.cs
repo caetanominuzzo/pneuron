@@ -27,7 +27,7 @@ namespace primeira.pNeuron
         public pGraphicPlotter()
         {
             fData = new List<double>(100);
-           // DoubleBuffered = true;
+            DoubleBuffered = true;
         }
 
         public void AddData(double aData)

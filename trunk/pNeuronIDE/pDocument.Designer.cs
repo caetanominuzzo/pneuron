@@ -20,7 +20,7 @@ namespace primeira.pNeuron
         private TabControl tcDesigner;
         private TabPage tbDesigner;
         private TabPage tbTrainingSet;
-        private DataGridView dgTrainingSet;
+        private pDataGridView dgTrainingSet;
         private List<pTrainingSet> fpTrainingSet = new List<pTrainingSet>();
         private FlowLayoutPanel flowLayoutPanel1;
         private ToolStrip tspTrainingSet;
@@ -46,7 +46,7 @@ namespace primeira.pNeuron
             this.tspDesigner = new System.Windows.Forms.ToolStrip();
             this.tspAutoRefresh = new System.Windows.Forms.ToolStripButton();
             this.tbTrainingSet = new System.Windows.Forms.TabPage();
-            this.dgTrainingSet = new System.Windows.Forms.DataGridView();
+            this.dgTrainingSet = new pDataGridView();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.tspTrainingSet = new System.Windows.Forms.ToolStrip();
             this.cbTrainingSets = new System.Windows.Forms.ToolStripComboBox();
