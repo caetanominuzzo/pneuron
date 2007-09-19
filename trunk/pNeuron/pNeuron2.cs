@@ -700,7 +700,7 @@ namespace primeira.pNeuron.Core
                 double dGlobalTemp = 0;
                 int iNoPerception = Neuron.Count - InputNeuronCount;
 
-                double tmp = 10000000000000000;
+                double tmp = 10000000000000000000;
 
                 foreach (Neuron n in Neuron)
                 {
