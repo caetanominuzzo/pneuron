@@ -55,7 +55,7 @@ namespace primeira.pNeuron
                 fmToolbox.SetToolSet(value);
                 fActiveDocument = value;
 
-                tspStartTrain.Enabled = tspResetLearning.Enabled = (fActiveDocument != null);
+                tspStartTrain.Enabled = tspKnowledgement.Enabled = (fActiveDocument != null);
 
                 fmToolbox.SetToolSet(null);
 
@@ -66,6 +66,16 @@ namespace primeira.pNeuron
         #endregion
 
         #region Document Events
+
+        private void document_OnResetLearning()
+        {
+            
+        }
+
+        private void document_OnResetKnowledgement()
+        {
+            fmPlotter.ClearData();
+        }
 
         private void document_OnStopTraing()
         {
@@ -89,7 +99,7 @@ namespace primeira.pNeuron
             double vFirst = ((double)(aCycles)) / dFirst;
 
             this.Invoke(new Assinc(delegate { statusCycles.Text = "Cycles/Sec.: " + vFirst.ToString("#0000"); }));
-            this.Invoke(new Assinc(delegate { statusGlobalError.Text = "Global Error: " + ActiveDocument.MainDisplay.Net.GlobalError.ToString("#0.0000000000000"); }));
+            this.Invoke(new Assinc(delegate { statusGlobalError.Text = "Global Error: " + ActiveDocument.MainDisplay.Net.GlobalError.ToString(); }));
             
             //TODO:statusMediaError.Text = "Media Error: " + media.ToString("#0.0000000000000");
         }
@@ -146,6 +156,8 @@ namespace primeira.pNeuron
             document.OnStartTraing += new pDocument.OnStartTraingDelegate(document_OnStartTraing);
             document.OnStopTraing += new pDocument.OnStopTraingDelegate(document_OnStopTraing);
             document.OnRefreshCyclesSec += new pDocument.OnRefreshCyclesSecDelegate(document_OnRefreshCyclesSec);
+            document.OnResetLearning += new pDocument.OnResetLearningDelegate(document_OnResetLearning);
+            document.OnResetKnowledgement += new pDocument.OnResetKnowledgementDelegate(document_OnResetKnowledgement);
             document.Parent = this;
 
             ActiveDocument.Show(dockPanel, DockState.Document);
@@ -153,7 +165,8 @@ namespace primeira.pNeuron
 
             fmToolbox.SetToolSet(ActiveDocument);
         }
-        
+
+       
         private pDocument AddDocument()
         {
              int i = 1;
@@ -225,11 +238,12 @@ namespace primeira.pNeuron
             ActiveDocument.StartTrain();
         }
 
-        private void tspResetLearning_Click(object sender, EventArgs e)
+        private void tspResetKnowledgement_Click(object sender, EventArgs e)
         {
+            //its calls Reset Knowledgement too
             ActiveDocument.ResetLearning();
         }
-
+          
         #endregion
 
         #region Constructors
@@ -326,5 +340,6 @@ namespace primeira.pNeuron
             learninRate.Text = "Learning Rate: " + trackLR.Value;
             ActiveDocument.MainDisplay.Net.LearningRate = trackLR.Value;
         }
+
     }
 }
