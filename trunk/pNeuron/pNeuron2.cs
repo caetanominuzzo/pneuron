@@ -148,7 +148,7 @@ namespace primeira.pNeuron.Core
         /// Reset value of this synapse or bias.
         /// Sets value to random.
         /// </summary>
-        public void ResetKnowledgment()
+        public void ResetKnowledgement()
         {
             m_weight = Neuron.NeuralNetwork.Random.GetDouble();
         }
@@ -505,12 +505,14 @@ namespace primeira.pNeuron.Core
         }
 
         /// <summary>
-        /// Call ResetKnowledgment of each input synapses.
+        /// Call ResetKnowledgement of each input synapses.
         /// </summary>
-        public void ResetKnowledgment()
+        public void ResetKnowledgement()
         {
             foreach (KeyValuePair<INeuron, NeuralValue> m in m_input)
-                m.Value.ResetKnowledgment();
+                m.Value.ResetKnowledgement();
+
+            m_bias.ResetKnowledgement();
         }
 
         /// <summary>
@@ -653,7 +655,7 @@ namespace primeira.pNeuron.Core
 
         double DEFAULT_LEARNING_RATE = 5;
         
-        int INNER_TRAINING_TIMES = 100;
+        int INNER_TRAINING_TIMES = 5;
 
         #endregion
 
@@ -700,20 +702,15 @@ namespace primeira.pNeuron.Core
                 double dGlobalTemp = 0;
                 int iNoPerception = Neuron.Count - InputNeuronCount;
 
-                double tmp = 10000000000000000000;
-
                 foreach (Neuron n in Neuron)
                 {
                     if (n.NeuronType != NeuronTypes.Input)
                     {
-                        dGlobalTemp += Math.Pow(Math.Abs(n.Error * tmp), 2) / (tmp * tmp);
+                        dGlobalTemp += n.Error;
                     }
                 }
 
-                
-
                 return dGlobalTemp / (double)iNoPerception;
-
             }
         }
 
@@ -918,6 +915,9 @@ namespace primeira.pNeuron.Core
         /// </summary>
         public void ResetLearning()
         {
+            if(OnResetLearning != null)
+               OnResetLearning();
+
             lock (this)
             {
                 foreach (Neuron n in this.Neuron)
@@ -931,15 +931,18 @@ namespace primeira.pNeuron.Core
         }
 
         /// <summary>
-        /// Calls ResetKnowledgment of each neuron.
+        /// Calls ResetKnowledgement of each neuron.
         /// </summary>
-        public void ResetKnowledgment()
+        public void ResetKnowledgement()
         {
+            if (OnResetKnowledgement != null)
+                OnResetKnowledgement();
+
             lock (this)
             {
                 foreach (Neuron n in this.Neuron)
                 {
-                    n.ResetKnowledgment();
+                    n.ResetKnowledgement();
                 }
             }
         }
@@ -990,13 +993,13 @@ namespace primeira.pNeuron.Core
             if (OnStartTraing != null)
                 OnStartTraing();
 
-            for (int i = 0; i < input.Length; i++)
-                for (int j = 0; j < input[i].Length; j++)
-                    input[i][j] = Util.Sigmoid(input[i][j]);
+            //for (int i = 0; i < input.Length; i++)
+            //    for (int j = 0; j < input[i].Length; j++)
+            //        input[i][j] = Util.Sigmoid(input[i][j]);
 
-            for (int i = 0; i < output.Length; i++)
-                for (int j = 0; j < output[i].Length; j++)
-                    output[i][j] = Util.Sigmoid(output[i][j]);
+            //for (int i = 0; i < output.Length; i++)
+            //    for (int j = 0; j < output[i].Length; j++)
+            //        output[i][j] = Util.Sigmoid(output[i][j]);
           
 
 
@@ -1024,9 +1027,8 @@ namespace primeira.pNeuron.Core
                     if (OnRefreshCyclesSec != null)
                         OnRefreshCyclesSec(count * INNER_TRAINING_TIMES);
 
-
-                dGlobalError = GlobalError;
-                if(dGlobalError < .0000000000000000001)
+                     dGlobalError = GlobalError;
+                if (dGlobalError < 1.6815072121061794E-259)//0.000000000000000000000000000000001)
                     m_stopOnNextCycle = true;
             }
 
@@ -1136,6 +1138,12 @@ namespace primeira.pNeuron.Core
 
         public delegate void OnStopTraingDelegate();
         public event OnStopTraingDelegate OnStopTraing;
+
+        public delegate void OnResetLearningDelegate();
+        public event OnResetLearningDelegate OnResetLearning;
+
+        public delegate void OnResetKnowledgementDelegate();
+        public event OnResetKnowledgementDelegate OnResetKnowledgement;
 
         #endregion
 

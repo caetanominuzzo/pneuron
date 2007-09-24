@@ -103,6 +103,14 @@ namespace primeira.pNeuron
         public delegate void OnRefreshCyclesSecDelegate(int Times);
         public event OnRefreshCyclesSecDelegate OnRefreshCyclesSec;
 
+        public delegate void OnResetLearningDelegate();
+        public event OnResetLearningDelegate OnResetLearning;
+
+        public delegate void OnResetKnowledgementDelegate();
+        public event OnResetKnowledgementDelegate OnResetKnowledgement;
+
+
+
         #endregion
 
         #region Constructors
@@ -119,8 +127,11 @@ namespace primeira.pNeuron
             MainDisplay.Net.OnStartTraing += new NeuralNetwork.OnStartTraingDelegate(Net_OnStartTraing);
             MainDisplay.Net.OnStopTraing += new NeuralNetwork.OnStopTraingDelegate(Net_OnStopTraing);
             MainDisplay.Net.OnRefreshCyclesSec += new NeuralNetwork.OnRefreshCyclesSecDelegate(Net_OnRefreshCyclesSec);
+            MainDisplay.Net.OnResetLearning += new NeuralNetwork.OnResetLearningDelegate(Net_OnResetLearning);
+            MainDisplay.Net.OnResetKnowledgement += new NeuralNetwork.OnResetKnowledgementDelegate(Net_OnResetKnowledgement);
         }
 
+        
         #endregion
 
         #region Net Events
@@ -146,6 +157,19 @@ namespace primeira.pNeuron
             if (OnStartTraing != null)
                 OnStartTraing();
         }
+
+        private void Net_OnResetLearning()
+        {
+            if (OnResetLearning != null)
+                OnResetLearning();
+        }
+
+        private void Net_OnResetKnowledgement()
+        {
+            if (OnResetKnowledgement != null)
+                OnResetKnowledgement();
+        }
+
 
         #endregion
 
@@ -648,7 +672,7 @@ namespace primeira.pNeuron
 
         public void ResetLearning()
         {
-            MainDisplay.Net.ResetKnowledgment();
+            MainDisplay.Net.ResetKnowledgement();
             MainDisplay.Net.ResetLearning();
         }
 
@@ -724,7 +748,18 @@ namespace primeira.pNeuron
             MainDisplay.Refresh();
         }
 
+
+        private void tspSQL_Click(object sender, EventArgs e)
+        {
+            fmImportFromSQL f = new fmImportFromSQL(this.dgTrainingSet);
+            f.ShowDialog();
+        }
+
+
         #endregion
+
+
+       
 
     }
 

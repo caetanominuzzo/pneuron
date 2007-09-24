@@ -35,6 +35,7 @@ namespace primeira.pNeuron
             this.statusGlobalError = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusMediaError = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusCycles = new System.Windows.Forms.ToolStripStatusLabel();
+            this.learninRate = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newNeuralNetworkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -60,8 +61,7 @@ namespace primeira.pNeuron
             this.tspTrain = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.tspStartTrain = new System.Windows.Forms.ToolStripButton();
-            this.tspResetLearning = new System.Windows.Forms.ToolStripButton();
-            this.learninRate = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tspKnowledgement = new System.Windows.Forms.ToolStripButton();
             this.pnTrackBar = new System.Windows.Forms.Panel();
             this.trackLR = new System.Windows.Forms.TrackBar();
             this.status.SuspendLayout();
@@ -120,7 +120,7 @@ namespace primeira.pNeuron
             this.statusGlobalError.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
             this.statusGlobalError.Margin = new System.Windows.Forms.Padding(0, 3, 3, 2);
             this.statusGlobalError.Name = "statusGlobalError";
-            this.statusGlobalError.Size = new System.Drawing.Size(170, 17);
+            this.statusGlobalError.Size = new System.Drawing.Size(290, 17);
             this.statusGlobalError.Text = "Global Error:";
             this.statusGlobalError.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -136,6 +136,7 @@ namespace primeira.pNeuron
             this.statusMediaError.Size = new System.Drawing.Size(170, 17);
             this.statusMediaError.Text = "Media Error:";
             this.statusMediaError.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.statusMediaError.Visible = false;
             // 
             // statusCycles
             // 
@@ -149,6 +150,20 @@ namespace primeira.pNeuron
             this.statusCycles.Size = new System.Drawing.Size(100, 17);
             this.statusCycles.Text = "Cycles/Sec.:";
             this.statusCycles.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // learninRate
+            // 
+            this.learninRate.AutoSize = false;
+            this.learninRate.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
+                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)
+                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.learninRate.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
+            this.learninRate.Margin = new System.Windows.Forms.Padding(0, 3, 3, 2);
+            this.learninRate.Name = "learninRate";
+            this.learninRate.Size = new System.Drawing.Size(110, 17);
+            this.learninRate.Text = "Learning Rate:";
+            this.learninRate.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.learninRate.MouseHover += new System.EventHandler(this.learninRate_MouseHover);
             // 
             // toolStripStatusLabel1
             // 
@@ -323,13 +338,13 @@ namespace primeira.pNeuron
             // tspTrain
             // 
             this.tspTrain.Name = "tspTrain";
-            this.tspTrain.Size = new System.Drawing.Size(78, 22);
+            this.tspTrain.Size = new System.Drawing.Size(152, 22);
             // 
             // toolStrip1
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tspStartTrain,
-            this.tspResetLearning});
+            this.tspKnowledgement});
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(753, 25);
@@ -345,33 +360,19 @@ namespace primeira.pNeuron
             this.tspStartTrain.Text = "Start Train";
             this.tspStartTrain.Click += new System.EventHandler(this.tspStartTrain_Click);
             // 
-            // tspResetLearning
+            // tspKnowledgement
             // 
-            this.tspResetLearning.Image = ((System.Drawing.Image)(resources.GetObject("tspResetLearning.Image")));
-            this.tspResetLearning.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tspResetLearning.Name = "tspResetLearning";
-            this.tspResetLearning.Size = new System.Drawing.Size(99, 22);
-            this.tspResetLearning.Text = "Reset Learning";
-            this.tspResetLearning.Click += new System.EventHandler(this.tspResetLearning_Click);
-            // 
-            // learninRate
-            // 
-            this.learninRate.AutoSize = false;
-            this.learninRate.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
-                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)
-                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
-            this.learninRate.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
-            this.learninRate.Margin = new System.Windows.Forms.Padding(0, 3, 3, 2);
-            this.learninRate.Name = "learninRate";
-            this.learninRate.Size = new System.Drawing.Size(110, 17);
-            this.learninRate.Text = "Learning Rate:";
-            this.learninRate.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.learninRate.MouseHover += new System.EventHandler(this.learninRate_MouseHover);
+            this.tspKnowledgement.Image = ((System.Drawing.Image)(resources.GetObject("tspKnowledgement.Image")));
+            this.tspKnowledgement.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tspKnowledgement.Name = "tspKnowledgement";
+            this.tspKnowledgement.Size = new System.Drawing.Size(137, 22);
+            this.tspKnowledgement.Text = "Reset Knowledgement ";
+            this.tspKnowledgement.Click += new System.EventHandler(this.tspResetKnowledgement_Click);
             // 
             // pnTrackBar
             // 
             this.pnTrackBar.Controls.Add(this.trackLR);
-            this.pnTrackBar.Location = new System.Drawing.Point(645, 158);
+            this.pnTrackBar.Location = new System.Drawing.Point(590, 158);
             this.pnTrackBar.Name = "pnTrackBar";
             this.pnTrackBar.Size = new System.Drawing.Size(38, 125);
             this.pnTrackBar.TabIndex = 11;
@@ -456,7 +457,7 @@ namespace primeira.pNeuron
         public System.Windows.Forms.ToolStripStatusLabel statusMediaError;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton tspStartTrain;
-        private System.Windows.Forms.ToolStripButton tspResetLearning;
+        private System.Windows.Forms.ToolStripButton tspKnowledgement;
         private System.Windows.Forms.ToolStripStatusLabel learninRate;
         private System.Windows.Forms.Panel pnTrackBar;
         private System.Windows.Forms.TrackBar trackLR;
