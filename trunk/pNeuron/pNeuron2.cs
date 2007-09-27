@@ -412,8 +412,12 @@ namespace primeira.pNeuron.Core
 
                 }
 
-                foreach (Neuron n in m_output)
+                for(int i =0; i<m_output.Count; i++)
                 {
+                    Neuron n = m_output[i];
+
+                //foreach (Neuron n in m_output)
+                //{
                     if (n.NeuronType == NeuronTypes.Memory)
                         continue;
 
