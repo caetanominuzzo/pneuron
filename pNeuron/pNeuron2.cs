@@ -655,7 +655,7 @@ namespace primeira.pNeuron.Core
 
         double DEFAULT_LEARNING_RATE = 5;
         
-        int INNER_TRAINING_TIMES = 5;
+        int INNER_TRAINING_TIMES = 100;
 
         #endregion
 
@@ -706,7 +706,7 @@ namespace primeira.pNeuron.Core
                 {
                     if (n.NeuronType != NeuronTypes.Input)
                     {
-                        dGlobalTemp += n.Error;
+                        dGlobalTemp += Math.Abs(n.Error);
                     }
                 }
 
@@ -1028,7 +1028,7 @@ namespace primeira.pNeuron.Core
                         OnRefreshCyclesSec(count * INNER_TRAINING_TIMES);
 
                      dGlobalError = GlobalError;
-                if (dGlobalError < 1.6815072121061794E-259)//0.000000000000000000000000000000001)
+                if (dGlobalError < 0.000000000000000000000000000000001)
                     m_stopOnNextCycle = true;
             }
 
