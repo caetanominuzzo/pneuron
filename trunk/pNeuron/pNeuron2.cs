@@ -708,7 +708,7 @@ namespace primeira.pNeuron.Core
                 {
                     if (n.NeuronType != NeuronTypes.Input)
                     {
-                        dGlobalTemp += Math.Abs(n.Error);
+                        dGlobalTemp += Math.Abs(n.Error * n.Error);
                     }
                 }
 
