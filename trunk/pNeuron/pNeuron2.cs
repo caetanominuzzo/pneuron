@@ -398,8 +398,6 @@ namespace primeira.pNeuron.Core
 
                     m_value = 0;
 
-
-
                     foreach (KeyValuePair<INeuron, NeuralValue> item in m_input)
                     {
                         if (item.Key.NeuronType == NeuronTypes.Memory && item.Key.Value == double.PositiveInfinity)

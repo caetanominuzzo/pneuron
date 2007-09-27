@@ -81,9 +81,9 @@ namespace primeira.pNeuron
 
             DrawLines(e.Graphics);
 
-            e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed;
+            e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 
-            double dMaxY = Height - 1; //this -1 are a bottom margin
+            double dMaxY = Height - 2; //this -2 are a bottom margin
             double dMaxX = Width;
 
             Point pLast = new Point(0, Convert.ToInt32(dMaxY));
