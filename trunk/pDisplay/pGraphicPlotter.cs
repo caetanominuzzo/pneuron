@@ -101,8 +101,8 @@ namespace primeira.pNeuron
             foreach (double d in dd)
             {
                 pNew = new Point(
-                            Convert.ToInt32(Math.Min(int.MinValue, Math.Max(int.MaxValue, dMaxX * i / 100))),
-                            Convert.ToInt32(Math.Min(int.MinValue, Math.Max(int.MaxValue, d * fZoom))));
+                            Convert.ToInt32( dMaxX * i / 100),
+                            Convert.ToInt32( d * fZoom));
 
                 e.Graphics.DrawLine(
                         new Pen(Color.Black),
