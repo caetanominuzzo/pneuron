@@ -147,7 +147,7 @@ namespace primeira.pNeuron
             this.statusCycles.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
             this.statusCycles.Margin = new System.Windows.Forms.Padding(0, 3, 3, 2);
             this.statusCycles.Name = "statusCycles";
-            this.statusCycles.Size = new System.Drawing.Size(100, 17);
+            this.statusCycles.Size = new System.Drawing.Size(200, 17);
             this.statusCycles.Text = "Cycles/Sec.:";
             this.statusCycles.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -338,7 +338,7 @@ namespace primeira.pNeuron
             // tspTrain
             // 
             this.tspTrain.Name = "tspTrain";
-            this.tspTrain.Size = new System.Drawing.Size(152, 22);
+            this.tspTrain.Size = new System.Drawing.Size(78, 22);
             // 
             // toolStrip1
             // 
@@ -407,6 +407,7 @@ namespace primeira.pNeuron
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "pNeuronIDE";
             this.Text = "pNeuronIDE";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.pNeuronIDE_FormClosing);
             this.status.ResumeLayout(false);
             this.status.PerformLayout();

@@ -10,6 +10,7 @@ using primeira.pNeuron.Core;
 using System.IO;
 using primeira.pRandom;
 using primeira.pNeuron;
+using System.Diagnostics;
 
 namespace primeira.pNeuron
 {
@@ -32,7 +33,7 @@ namespace primeira.pNeuron
 
         private pTrueRandomGenerator m_cache = new pTrueRandomGenerator(TRUE_RANDOM_GENERATOR_CACHE);
 
-        private DateTime m_timeOnPreviousRefreshCycle = DateTime.Now;
+        private Stopwatch m_refreshCycleTimer;
 
         #endregion
 
@@ -85,7 +86,13 @@ namespace primeira.pNeuron
         private void document_OnStartTraing()
         {
             tspStartTrain.Text = "Stop Training";
-            m_timeOnPreviousRefreshCycle = DateTime.Now;
+            if (m_refreshCycleTimer == null)
+                m_refreshCycleTimer = Stopwatch.StartNew();
+            else
+            {
+                m_refreshCycleTimer.Reset();
+                m_refreshCycleTimer.Start();
+            }
         }
 
         private void document_OnRefreshCyclesSec(int Times)
@@ -93,12 +100,9 @@ namespace primeira.pNeuron
             int aCycles = Times;
             DateTime t;
 
-            TimeSpan m = DateTime.Now.Subtract(m_timeOnPreviousRefreshCycle);
-            double dFirst = m.TotalSeconds;
+            double vFirst = ((double)(aCycles)) / (double)m_refreshCycleTimer.ElapsedMilliseconds;
 
-            double vFirst = ((double)(aCycles)) / dFirst;
-
-            this.Invoke(new Assinc(delegate { statusCycles.Text = "Cycles/Sec.: " + vFirst.ToString("#0000"); }));
+            this.Invoke(new Assinc(delegate { statusCycles.Text = "Cycles/MSec.: " + vFirst.ToString("#0000"); }));
             this.Invoke(new Assinc(delegate { statusGlobalError.Text = "Global Error: " + ActiveDocument.MainDisplay.Net.GlobalError.ToString(); }));
             
             //TODO:statusMediaError.Text = "Media Error: " + media.ToString("#0.0000000000000");
