@@ -102,8 +102,8 @@ namespace primeira.pNeuron
 
             double vFirst = ((double)(aCycles)) / (double)m_refreshCycleTimer.ElapsedMilliseconds;
 
-            this.Invoke(new Assinc(delegate { statusCycles.Text = "Cycles/MSec.: " + vFirst.ToString("#0000"); }));
-            this.Invoke(new Assinc(delegate { statusGlobalError.Text = "Global Error: " + ActiveDocument.MainDisplay.Net.GlobalError.ToString(); }));
+            this.Invoke(new Assinc(delegate { statusCycles.Text = "Cycles/MSec.: " + vFirst.ToString("#0000.000"); }));
+            this.Invoke(new Assinc(delegate { statusGlobalError.Text = "Global Error: " + ActiveDocument.MainDisplay.Net.LastCalculatedGlobalError.ToString(); }));
             
             //TODO:statusMediaError.Text = "Media Error: " + media.ToString("#0.0000000000000");
         }

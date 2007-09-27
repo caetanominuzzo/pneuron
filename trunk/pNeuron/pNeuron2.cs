@@ -670,6 +670,8 @@ namespace primeira.pNeuron.Core
         private int m_generatorID = 0;
         private bool m_stopOnNextCycle = false;
 
+        private double m_lastCalculatedGlobalError;
+
         #endregion
 
         #region Properties
@@ -695,7 +697,7 @@ namespace primeira.pNeuron.Core
         /// <summary>
         /// Gets the neural network global error.
         /// </summary>
-        public double GlobalError
+        internal double GlobalError
         {
             get
             {
@@ -710,8 +712,15 @@ namespace primeira.pNeuron.Core
                     }
                 }
 
-                return dGlobalTemp / (double)iNoPerception;
+                m_lastCalculatedGlobalError = dGlobalTemp / (double)iNoPerception;
+
+                return m_lastCalculatedGlobalError;
             }
+        }
+
+        public double LastCalculatedGlobalError
+        {
+            get { return m_lastCalculatedGlobalError; }
         }
 
         /// <summary>
@@ -1028,7 +1037,7 @@ namespace primeira.pNeuron.Core
                         OnRefreshCyclesSec(count * INNER_TRAINING_TIMES);
 
                      dGlobalError = GlobalError;
-                if (dGlobalError < 0.000000000000000000000000000000001)
+                if (dGlobalError < 0.00000000000000000001)
                     m_stopOnNextCycle = true;
             }
 

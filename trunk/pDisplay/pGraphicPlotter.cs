@@ -102,7 +102,7 @@ namespace primeira.pNeuron
             {
                 pNew = new Point(
                             Convert.ToInt32( dMaxX * i / 100),
-                            Convert.ToInt32( d * fZoom));
+                            Convert.ToInt32( -(d * fZoom) + dMaxY ));
 
                 e.Graphics.DrawLine(
                         new Pen(Color.Black),
