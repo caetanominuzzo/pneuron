@@ -83,13 +83,13 @@ namespace primeira.pNeuron
 
             e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed;
 
-            double dMaxY = Height;
+            double dMaxY = Height - 1; //this -1 are a bottom margin
             double dMaxX = Width;
 
             Point pLast = new Point(0, Convert.ToInt32(dMaxY));
             Point pNew;
 
-            Point pLastMedia = new Point(0, Convert.ToInt32(dMaxY));
+            Point pLastMedia = new Point(0, 0);
             Point pNewMedia;
 
             double i = 0;
@@ -101,8 +101,8 @@ namespace primeira.pNeuron
             foreach (double d in dd)
             {
                 pNew = new Point(
-                            Convert.ToInt32( dMaxX * i / 100),
-                            Convert.ToInt32( -(d * fZoom) + dMaxY ));
+                            Convert.ToInt32(Math.Max(1, Math.Min(int.MaxValue, dMaxX * i / 100))),
+                            Convert.ToInt32(Math.Max(1, Math.Min(int.MaxValue, -(d * fZoom) + dMaxY ))));
 
                 e.Graphics.DrawLine(
                         new Pen(Color.Black),
@@ -120,8 +120,8 @@ namespace primeira.pNeuron
                     dMedia = dMedia / 20;
 
                     pNewMedia = new Point(
-                            Convert.ToInt32(Math.Min(int.MinValue, Math.Max(int.MaxValue, dMaxX * i / 100))),
-                            Convert.ToInt32(Math.Min(int.MinValue, Math.Max(int.MaxValue, dMedia * fZoom))));
+                            Convert.ToInt32(Math.Max(1, Math.Min(int.MaxValue, dMaxX * i / 100))),
+                            Convert.ToInt32(Math.Max(1, Math.Min(int.MaxValue, -(dMedia * fZoom) + dMaxY))) );
 
                     e.Graphics.DrawLine(
                             new Pen(Color.FromArgb(70, Color.Red), 3),
