@@ -129,7 +129,7 @@ namespace primeira.pNeuron
             this.tspAutoRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tspAutoRefresh.Name = "tspAutoRefresh";
             this.tspAutoRefresh.Size = new System.Drawing.Size(59, 22);
-            this.tspAutoRefresh.Text = "Attach";
+            this.tspAutoRefresh.Text = "Start Refresh";
             this.tspAutoRefresh.Click += new System.EventHandler(this.tspAutoRefresh_Click);
             // 
             // tbTrainingSet
