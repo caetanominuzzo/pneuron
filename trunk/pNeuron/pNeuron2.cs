@@ -395,29 +395,40 @@ namespace primeira.pNeuron.Core
 
                 if (NeuronType != NeuronTypes.Input)
                 {
-
-                    m_value = 0;
-
-                    foreach (KeyValuePair<INeuron, NeuralValue> item in m_input)
+                    if (NeuronType == NeuronTypes.Memory && Value == NeuralNetwork.CMD_RESET_MEMORY_AND_NO_PULSE)
                     {
-                        if (item.Key.NeuronType == NeuronTypes.Memory && item.Key.Value == double.PositiveInfinity)
-                            continue;
-
-                        m_value += item.Key.Value * item.Value.Weight;
+                        m_value = NeuralNetwork.CMD_NORMAL_STATE_BUT_DONT_USE_VALUE;
                     }
+                    else
+                    {
 
-                    m_value += m_bias.Weight;
+                        m_value = 0;
+
+                        foreach (KeyValuePair<INeuron, NeuralValue> item in m_input)
+                        {
+                            if (item.Key.NeuronType == NeuronTypes.Memory)
+                            {
+                                if (item.Key.Value == NeuralNetwork.CMD_NORMAL_STATE_BUT_DONT_USE_VALUE
+                                    || item.Key.Value == NeuralNetwork.CMD_RESET_MEMORY_AND_NO_PULSE)
+                                {
+                                    continue;
+                                }
+                            }
+
+                            m_value += item.Key.Value * item.Value.Weight;
+                        }
+
+                        m_value += m_bias.Weight;
 
                         m_value = Util.Sigmoid(m_value);
-
+                    }
                 }
 
+                Neuron n;
                 for(int i =0; i<m_output.Count; i++)
                 {
-                    Neuron n = m_output[i];
+                    n = m_output[i];
 
-                //foreach (Neuron n in m_output)
-                //{
                     if (n.NeuronType == NeuronTypes.Memory)
                         continue;
 
@@ -659,6 +670,9 @@ namespace primeira.pNeuron.Core
         
         int INNER_TRAINING_TIMES = 100;
 
+        public double CMD_RESET_MEMORY_AND_NO_PULSE = 0;
+        public double CMD_NORMAL_STATE_BUT_DONT_USE_VALUE = 1;
+
         #endregion
 
         #region Fields
@@ -671,6 +685,9 @@ namespace primeira.pNeuron.Core
         private pTrueRandomGenerator m_random;
         private int m_generatorID = 0;
         private bool m_stopOnNextCycle = false;
+
+
+        private double[] m_initialMemoryData = null;
 
         private double m_lastCalculatedGlobalError;
 
@@ -965,21 +982,32 @@ namespace primeira.pNeuron.Core
         {
             lock (this)
             {
+
                 List<INeuron> MemoriesInput = new List<INeuron>();
 
                 foreach (Neuron n in this.Neuron)
                 {
                     if (n.NeuronType == NeuronTypes.Memory)
                     {
-                        INeuron[] inputs = n.GetInputNeurons();
-
-                        foreach (INeuron nn in inputs)
-                            if (!MemoriesInput.Contains(nn))
-                                MemoriesInput.Add(nn);
-
-                        foreach (INeuron nn in MemoriesInput)
+                        if (m_initialMemoryData != null)
                         {
-                            nn.Value = Util.Sigmoid(1);
+                            INeuron[] inputs = n.GetInputNeurons();
+
+                            foreach (INeuron nn in inputs)
+                                if (!MemoriesInput.Contains(nn))
+                                    MemoriesInput.Add(nn);
+
+                            foreach (INeuron nn in MemoriesInput)
+                            {
+                                nn.Value = 0;
+                                nn.Value = Util.Sigmoid(1);
+                            }
+
+                        }
+                        else
+                        {
+                            n.Value = CMD_RESET_MEMORY_AND_NO_PULSE;
+                            return;
                         }
 
                     }
@@ -1019,6 +1047,24 @@ namespace primeira.pNeuron.Core
             double dGlobalError = 1;
 
 
+            int i, j;
+
+            double[][] sortedInputs = new double[input.Length][];
+            double[][] sortedOutputs = new double[output.Length][];
+
+            List<int> lOrder = new List<int>(input.Length);
+            for (int k = 0; k < input.Length; k++)
+                lOrder.Add(k);
+
+            if (MemoryNeuronCount > 0)
+                lOrder.Sort(new SortCompare());
+
+            for (int k = 0; k < input.Length; k++)
+            {
+                sortedInputs[k] = input[lOrder[k]];
+                sortedOutputs[k] = output[lOrder[k]];
+            }
+
             while (true)
             {
                 if (m_stopOnNextCycle)
@@ -1032,7 +1078,7 @@ namespace primeira.pNeuron.Core
 
                 count++;
 
-                TrainSession(input, output, INNER_TRAINING_TIMES);
+                TrainSession(sortedInputs, sortedOutputs, INNER_TRAINING_TIMES);
 
                 if (count % INNER_TRAINING_TIMES == 0)
                     if (OnRefreshCyclesSec != null)
@@ -1055,39 +1101,30 @@ namespace primeira.pNeuron.Core
         /// <param name="iterations">Number of internal cycles.</param>
         public void TrainSession(double[][] inputs, double[][] outputs, int iterations)
         {
-            int i, j;
-
-            double[][] sortedInputs = new double[inputs.Length][];
-            double[][] sortedOutputs = new double[outputs.Length][];
-
-            List<int> lOrder = new List<int>(inputs.Length);
-            for (int k = 0; k < inputs.Length; k++)
-                lOrder.Add(k);
-
-            if (MemoryNeuronCount > 0)
-                lOrder.Sort(new SortCompare());
-
-                for (int k = 0; k < inputs.Length; k++)
-                {
-                    sortedInputs[k] = inputs[lOrder[k]];
-                    sortedOutputs[k] = outputs[lOrder[k]];
-                }
+           
 
 
             lock (this)
             {
 
-                for (i = 0; i < iterations; i++)
+                for (int i = 0; i < iterations; i++)
                 {
 
                     ResetLearning();
 
-                    for (j = 0; j < inputs.Length; j++)
+                    for (int j = 0; j < inputs.Length; j++)
                     {
-                        SetInputData(sortedInputs[j]);
-                        Pulse();
-                        PulseBack(sortedOutputs[j]);
-                        CalculateDelta();
+                        if (inputs[j][0] == 0) //Reset Memory Command
+                        {
+                            ResetMemory();
+                        }
+                        else
+                        {
+                            SetInputData(inputs[j]);
+                            Pulse();
+                            PulseBack(outputs[j]);
+                            CalculateDelta();
+                        }
                     }
 
                     ApplyLearning();
@@ -1117,6 +1154,15 @@ namespace primeira.pNeuron.Core
                     i++;
                 }
             }
+        }
+
+        /// <summary>
+        /// Set specified input data on memory neurons on reset memory.
+        /// </summary>
+        /// <param name="input">Memory data.</param>
+        public void SetInitialMemoryData(double[] memory)
+        {
+            m_initialMemoryData = memory;
         }
 
         /// <summary>

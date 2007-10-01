@@ -64,6 +64,8 @@ namespace primeira.pNeuron
             this.tspKnowledgement = new System.Windows.Forms.ToolStripButton();
             this.pnTrackBar = new System.Windows.Forms.Panel();
             this.trackLR = new System.Windows.Forms.TrackBar();
+            this.tspResetMemory = new System.Windows.Forms.ToolStripButton();
+            this.tspPulse = new System.Windows.Forms.ToolStripButton();
             this.status.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -344,7 +346,9 @@ namespace primeira.pNeuron
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tspStartTrain,
-            this.tspKnowledgement});
+            this.tspKnowledgement,
+            this.tspResetMemory,
+            this.tspPulse});
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(753, 25);
@@ -391,6 +395,24 @@ namespace primeira.pNeuron
             this.trackLR.Value = 5;
             this.trackLR.MouseLeave += new System.EventHandler(this.trackLR_MouseLeave);
             this.trackLR.Scroll += new System.EventHandler(this.trackLR_Scroll);
+            // 
+            // tspResetMemory
+            // 
+            this.tspResetMemory.Image = ((System.Drawing.Image)(resources.GetObject("tspResetMemory.Image")));
+            this.tspResetMemory.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tspResetMemory.Name = "tspResetMemory";
+            this.tspResetMemory.Size = new System.Drawing.Size(96, 22);
+            this.tspResetMemory.Text = "Reset Memory";
+            this.tspResetMemory.Click += new System.EventHandler(this.tspResetMemory_Click);
+            // 
+            // tspPulse
+            // 
+            this.tspPulse.Image = ((System.Drawing.Image)(resources.GetObject("tspPulse.Image")));
+            this.tspPulse.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tspPulse.Name = "tspPulse";
+            this.tspPulse.Size = new System.Drawing.Size(56, 22);
+            this.tspPulse.Text = "Pulse!";
+            this.tspPulse.Click += new System.EventHandler(this.tspPulse_Click);
             // 
             // pNeuronIDE
             // 
@@ -462,5 +484,7 @@ namespace primeira.pNeuron
         private System.Windows.Forms.ToolStripStatusLabel learninRate;
         private System.Windows.Forms.Panel pnTrackBar;
         private System.Windows.Forms.TrackBar trackLR;
+        private System.Windows.Forms.ToolStripButton tspResetMemory;
+        private System.Windows.Forms.ToolStripButton tspPulse;
     }
 }
