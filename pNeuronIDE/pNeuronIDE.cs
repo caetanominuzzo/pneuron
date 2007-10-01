@@ -247,6 +247,49 @@ namespace primeira.pNeuron
             //its calls Reset Knowledgement too
             ActiveDocument.ResetLearning();
         }
+
+        private void tspResetMemory_Click(object sender, EventArgs e)
+        {
+            ActiveDocument.ResetMemory();
+        }
+
+        private void tspPulse_Click(object sender, EventArgs e)
+        {
+            List<double> input = new List<double>();
+            List<double> memory = null;
+
+            using (fmInputData f = new fmInputData(ActiveDocument.MainDisplay.Net.InputNeuronCount, ActiveDocument.MainDisplay.Net.MemoryNeuronCount))
+            {
+                int iInput = 0;
+                int iMemory = 0;
+                if(f.ShowDialog() == DialogResult.OK);
+                    foreach (Control c in f.Controls)
+                    {
+                        if (c is TextBox)
+                        {
+                            if (c.Left == 12)
+                            {
+                                input.Add(double.Parse(c.Text, System.Globalization.CultureInfo.InvariantCulture));
+                                iInput++;
+                            }
+                            else
+                            {
+                                if (c.Text == "")
+                                    continue;
+                                if (memory == null)
+                                    memory = new List<double>();
+
+                                memory.Add(double.Parse(c.Text, System.Globalization.CultureInfo.InvariantCulture));
+                                iMemory++;
+                            }
+                        }
+                    }
+            }
+
+            ActiveDocument.SetInitialMemoryValue(memory==null?null: memory.ToArray());
+
+            ActiveDocument.Pulse(input.ToArray());
+        }
           
         #endregion
 
@@ -344,6 +387,10 @@ namespace primeira.pNeuron
             learninRate.Text = "Learning Rate: " + trackLR.Value;
             ActiveDocument.MainDisplay.Net.LearningRate = trackLR.Value;
         }
+
+
+
+
 
     }
 }

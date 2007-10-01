@@ -62,6 +62,12 @@
     <Compile Include="fmImportFromSQL.Designer.cs">
       <DependentUpon>fmImportFromSQL.cs</DependentUpon>
     </Compile>
+    <Compile Include="fmInputData.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fmInputData.Designer.cs">
+      <DependentUpon>fmInputData.cs</DependentUpon>
+    </Compile>
     <Compile Include="fmSplash.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -103,6 +109,10 @@
     <EmbeddedResource Include="fmImportFromSQL.resx">
       <SubType>Designer</SubType>
       <DependentUpon>fmImportFromSQL.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fmInputData.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>fmInputData.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="fmSplash.resx">
       <SubType>Designer</SubType>
