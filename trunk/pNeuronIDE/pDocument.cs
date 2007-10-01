@@ -676,6 +676,22 @@ namespace primeira.pNeuron
             MainDisplay.Net.ResetLearning();
         }
 
+        public void ResetMemory()
+        {
+            MainDisplay.Net.ResetMemory();
+        }
+
+        public void Pulse(double[] input)
+        {
+            MainDisplay.Net.SetInputData(input);
+            MainDisplay.Net.Pulse();
+        }
+
+        public void SetInitialMemoryValue(double[] memory)
+        {
+            MainDisplay.Net.SetInitialMemoryData(memory);
+        }
+
         private void btImport_Click(object sender, EventArgs e)
         {
             OpenFileDialog s = new OpenFileDialog();

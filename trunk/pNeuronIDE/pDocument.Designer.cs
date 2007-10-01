@@ -151,7 +151,7 @@ namespace primeira.pNeuron
             this.dgTrainingSet.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
             this.dgTrainingSet.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgTrainingSet.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgTrainingSet.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnF2;
+            this.dgTrainingSet.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnKeystroke;
             this.dgTrainingSet.Location = new System.Drawing.Point(3, 28);
             this.dgTrainingSet.Margin = new System.Windows.Forms.Padding(0);
             this.dgTrainingSet.Name = "dgTrainingSet";
@@ -183,7 +183,7 @@ namespace primeira.pNeuron
             this.tspTrainingSet.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
             this.tspTrainingSet.Location = new System.Drawing.Point(0, 0);
             this.tspTrainingSet.Name = "tspTrainingSet";
-            this.tspTrainingSet.Size = new System.Drawing.Size(514, 25);
+            this.tspTrainingSet.Size = new System.Drawing.Size(483, 25);
             this.tspTrainingSet.TabIndex = 6;
             this.tspTrainingSet.Text = "toolStrip1";
             // 
