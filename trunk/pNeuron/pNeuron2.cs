@@ -1017,14 +1017,15 @@ namespace primeira.pNeuron.Core
         {
             if (OnStartTraing != null)
                 OnStartTraing();
+            int i, j;
 
-            //for (int i = 0; i < input.Length; i++)
-            //    for (int j = 0; j < input[i].Length; j++)
-            //        input[i][j] = Util.Sigmoid(input[i][j]);
+            for ( i = 0; i < input.Length; i++)
+                for ( j = 0; j < input[i].Length; j++)
+                    input[i][j] = Util.Sigmoid(input[i][j]);
 
-            //for (int i = 0; i < output.Length; i++)
-            //    for (int j = 0; j < output[i].Length; j++)
-            //        output[i][j] = Util.Sigmoid(output[i][j]);
+            for ( i = 0; i < output.Length; i++)
+                for ( j = 0; j < output[i].Length; j++)
+                    output[i][j] = Util.Sigmoid(output[i][j]);
           
 
 
@@ -1033,8 +1034,7 @@ namespace primeira.pNeuron.Core
             double dGlobalError = 1;
 
 
-            int i, j;
-
+           
             double[][] sortedInputs = new double[input.Length][];
             double[][] sortedOutputs = new double[output.Length][];
 

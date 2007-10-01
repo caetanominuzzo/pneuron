@@ -257,7 +257,7 @@ namespace primeira.pNeuron
         {
             List<double> input = new List<double>();
 
-            using (fmInputData f = new fmInputData(ActiveDocument.MainDisplay.Net.InputNeuronCount, ActiveDocument.MainDisplay.Net.MemoryNeuronCount))
+            using (fmInputData f = new fmInputData(ActiveDocument.MainDisplay.Net.InputNeuronCount))
             {
                 int iInput = 0;
                 if(f.ShowDialog() == DialogResult.OK);
@@ -265,7 +265,7 @@ namespace primeira.pNeuron
                     {
                         if (c is TextBox)
                         {
-                                input.Add(double.Parse(c.Text, System.Globalization.CultureInfo.InvariantCulture));
+                                input.Add(Util.Sigmoid(double.Parse(c.Text, System.Globalization.CultureInfo.InvariantCulture)));
                                 iInput++;
                         }
                     }
