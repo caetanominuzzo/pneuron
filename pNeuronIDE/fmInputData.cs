@@ -18,24 +18,17 @@ namespace primeira.pNeuron
             get { return m_inputCount; }
             set { m_inputCount = value; }
         }
-        private int m_memoryCount;
 
-        public int MemoryCount
-        {
-            get { return m_memoryCount; }
-            set { m_memoryCount = value; }
-        }
 
         public fmInputData()
         {
             InitializeComponent();
         }
 
-        public fmInputData(int InputCount, int MemoryCount)
+        public fmInputData(int InputCount)
         {
             DialogResult = DialogResult.Cancel;
             m_inputCount = InputCount;
-            m_memoryCount = MemoryCount;
 
             InitializeComponent();
             SuspendLayout();
@@ -54,26 +47,11 @@ namespace primeira.pNeuron
             }
 
 
-            for (int i = 0; i < MemoryCount; i++)
-            {
-                TextBox t = new TextBox();
-
-                t.Location = new System.Drawing.Point(142, 12 + (i * 30));
-                t.Size = new System.Drawing.Size(100, 20);
-                t.TabIndex = i + InputCount;
-
-                Controls.Add(t);
-            }
-
-
             ResumeLayout(false);
             PerformLayout();
         }
 
-        public fmInputData(int InputCount)
-            : this(InputCount, 0)
-        {
-        }
+
 
         private void bOk_Click(object sender, EventArgs e)
         {
@@ -83,11 +61,11 @@ namespace primeira.pNeuron
 
     public static class GetInputData
     {
-        public static double[] Show(int InputCount, int MemoryCount)
+        public static double[] Show(int InputCount)
         {
-            double[] result = new double[InputCount + MemoryCount];
+            double[] result = new double[InputCount ];
 
-            using (fmInputData f = new fmInputData(InputCount, MemoryCount))
+            using (fmInputData f = new fmInputData(InputCount))
             {
                 int iInput = 0;
                 if(f.ShowDialog() == DialogResult.OK);
