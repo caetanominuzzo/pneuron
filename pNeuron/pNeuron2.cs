@@ -29,6 +29,8 @@ namespace primeira.pNeuron.Core
         NeuralNetwork NeuralNetwork{ get;}
 
         int ID { get; }
+
+        int Command { get; }
     }
 
     public interface INeuralNetwork
@@ -215,6 +217,10 @@ namespace primeira.pNeuron.Core
 
         private int m_id = 0;
 
+        private int m_command = NeuralNetwork.CMD_NOTHING;
+
+        
+
         #endregion
 
         #region Properties
@@ -301,9 +307,20 @@ namespace primeira.pNeuron.Core
             get { return m_neuralNetwork; }
         }
 
+        /// <summary>
+        /// Gets the neuron ID.
+        /// </summary>
         public int ID
         {
             get { return m_id; }
+        }
+
+        /// <summary>
+        /// Gets the current neuron command .
+        /// </summary>
+        public int Command
+        {
+            get { return m_command; }
         }
 
         /// <summary>
@@ -395,9 +412,9 @@ namespace primeira.pNeuron.Core
 
                 if (NeuronType != NeuronTypes.Input)
                 {
-                    if (NeuronType == NeuronTypes.Memory && Value == NeuralNetwork.CMD_RESET_MEMORY_AND_NO_PULSE)
+                    if (NeuronType == NeuronTypes.Memory && m_command == NeuralNetwork.CMD_RESET_MEMORY_AND_NO_PULSE)
                     {
-                        m_value = NeuralNetwork.CMD_NORMAL_STATE_BUT_DONT_USE_VALUE;
+                        m_command = NeuralNetwork.CMD_NORMAL_STATE_BUT_DONT_USE_VALUE;
                     }
                     else
                     {
@@ -408,8 +425,8 @@ namespace primeira.pNeuron.Core
                         {
                             if (item.Key.NeuronType == NeuronTypes.Memory)
                             {
-                                if (item.Key.Value == NeuralNetwork.CMD_NORMAL_STATE_BUT_DONT_USE_VALUE
-                                    || item.Key.Value == NeuralNetwork.CMD_RESET_MEMORY_AND_NO_PULSE)
+                                if (item.Key.Command == NeuralNetwork.CMD_NORMAL_STATE_BUT_DONT_USE_VALUE
+                                    || item.Key.Command == NeuralNetwork.CMD_RESET_MEMORY_AND_NO_PULSE)
                                 {
                                     continue;
                                 }
@@ -526,6 +543,11 @@ namespace primeira.pNeuron.Core
                 m.Value.ResetKnowledgement();
 
             m_bias.ResetKnowledgement();
+        }
+
+        public void ResetMemory()
+        {
+            m_command = NeuralNetwork.CMD_RESET_MEMORY_AND_NO_PULSE;
         }
 
         /// <summary>
@@ -670,8 +692,9 @@ namespace primeira.pNeuron.Core
         
         int INNER_TRAINING_TIMES = 100;
 
-        public double CMD_RESET_MEMORY_AND_NO_PULSE = 0;
-        public double CMD_NORMAL_STATE_BUT_DONT_USE_VALUE = 1;
+        public static int CMD_NOTHING = 0;
+        public static int CMD_RESET_MEMORY_AND_NO_PULSE = 1;
+        public static int CMD_NORMAL_STATE_BUT_DONT_USE_VALUE = 2;
 
         #endregion
 
@@ -685,9 +708,6 @@ namespace primeira.pNeuron.Core
         private pTrueRandomGenerator m_random;
         private int m_generatorID = 0;
         private bool m_stopOnNextCycle = false;
-
-
-        private double[] m_initialMemoryData = null;
 
         private double m_lastCalculatedGlobalError;
 
@@ -976,52 +996,18 @@ namespace primeira.pNeuron.Core
         }
 
         /// <summary>
-        /// Sets initial value on Memories' Inputs and pulses it.
+        /// Calls ResetMemory of each memory neuron.
         /// </summary>
         public void ResetMemory()
         {
             lock (this)
             {
 
-                List<INeuron> MemoriesInput = new List<INeuron>();
-
                 foreach (Neuron n in this.Neuron)
                 {
                     if (n.NeuronType == NeuronTypes.Memory)
-                    {
-                        if (m_initialMemoryData != null)
-                        {
-                            INeuron[] inputs = n.GetInputNeurons();
-
-                            foreach (INeuron nn in inputs)
-                                if (!MemoriesInput.Contains(nn))
-                                    MemoriesInput.Add(nn);
-
-                            foreach (INeuron nn in MemoriesInput)
-                            {
-                                nn.Value = 0;
-                                nn.Value = Util.Sigmoid(1);
-                            }
-
-                        }
-                        else
-                        {
-                            n.Value = CMD_RESET_MEMORY_AND_NO_PULSE;
-                            return;
-                        }
-
-                    }
+                        n.ResetMemory();
                 }
-
-                foreach (Neuron n in this.Neuron)
-                {
-                    if (n.NeuronType == NeuronTypes.Memory)
-                    {
-                        n.Pulse();
-                    }
-                }
-
-                ResetInputOutputReadyCount();
 
             }
         }
@@ -1154,15 +1140,6 @@ namespace primeira.pNeuron.Core
                     i++;
                 }
             }
-        }
-
-        /// <summary>
-        /// Set specified input data on memory neurons on reset memory.
-        /// </summary>
-        /// <param name="input">Memory data.</param>
-        public void SetInitialMemoryData(double[] memory)
-        {
-            m_initialMemoryData = memory;
         }
 
         /// <summary>

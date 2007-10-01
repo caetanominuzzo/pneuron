@@ -100,9 +100,9 @@ namespace primeira.pNeuron
             int aCycles = Times;
             DateTime t;
 
-            double vFirst = ((double)(aCycles)) / (double)m_refreshCycleTimer.ElapsedMilliseconds;
+            double vFirst = ((double)(aCycles)) / (double)(m_refreshCycleTimer.ElapsedMilliseconds / 1000) ;
 
-            this.Invoke(new Assinc(delegate { statusCycles.Text = "Cycles/MSec.: " + vFirst.ToString("#0000.000"); }));
+            this.Invoke(new Assinc(delegate { statusCycles.Text = "Cycles/Sec.: " + vFirst.ToString("#00000"); }));
             this.Invoke(new Assinc(delegate { statusGlobalError.Text = "Global Error: " + ActiveDocument.MainDisplay.Net.LastCalculatedGlobalError.ToString(); }));
             
             //TODO:statusMediaError.Text = "Media Error: " + media.ToString("#0.0000000000000");
@@ -256,37 +256,20 @@ namespace primeira.pNeuron
         private void tspPulse_Click(object sender, EventArgs e)
         {
             List<double> input = new List<double>();
-            List<double> memory = null;
 
             using (fmInputData f = new fmInputData(ActiveDocument.MainDisplay.Net.InputNeuronCount, ActiveDocument.MainDisplay.Net.MemoryNeuronCount))
             {
                 int iInput = 0;
-                int iMemory = 0;
                 if(f.ShowDialog() == DialogResult.OK);
                     foreach (Control c in f.Controls)
                     {
                         if (c is TextBox)
                         {
-                            if (c.Left == 12)
-                            {
                                 input.Add(double.Parse(c.Text, System.Globalization.CultureInfo.InvariantCulture));
                                 iInput++;
-                            }
-                            else
-                            {
-                                if (c.Text == "")
-                                    continue;
-                                if (memory == null)
-                                    memory = new List<double>();
-
-                                memory.Add(double.Parse(c.Text, System.Globalization.CultureInfo.InvariantCulture));
-                                iMemory++;
-                            }
                         }
                     }
             }
-
-            ActiveDocument.SetInitialMemoryValue(memory==null?null: memory.ToArray());
 
             ActiveDocument.Pulse(input.ToArray());
         }
