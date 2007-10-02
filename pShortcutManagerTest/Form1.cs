@@ -11,11 +11,14 @@ namespace pShortcutManagerTest
 {
     public partial class Form1 : Form
     {
+        pShortcutManager.pShortcutManager p = new pShortcutManager.pShortcutManager();
         public Form1()
         {
             InitializeComponent();
-            pShortcutManager.pShortcutManager p = new pShortcutManager.pShortcutManager();
+             
             p.LoadFromForm(this);
+
+            p.LoadConfigFile("");
         }
 
         [pShortcutManagerVisible("Main.ShowA", "Show an 'A' MessageBox", Keys.A, KeyModifiers.Control)]
@@ -24,10 +27,21 @@ namespace pShortcutManagerTest
             MessageBox.Show("A");
         }
 
-        [pShortcutManagerVisible("Main.ShowA", "Show a 'B' MessageBox", Keys.B, KeyModifiers.Control)]
+        [pShortcutManagerVisible("Main.ShowB", "Show a 'B' MessageBox", Keys.B, KeyModifiers.Control)]
         public void button2_Click(object sender, EventArgs e)
         {
             MessageBox.Show("B");
+        }
+
+        [pShortcutManagerVisible("Main.ShowC", "Show a 'C' MessageBox", Keys.C, KeyModifiers.Control)]
+        public void button3_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("C");
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            p.ShowConfig();
         }
     }
 }

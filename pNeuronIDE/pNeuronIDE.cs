@@ -244,7 +244,7 @@ namespace primeira.pNeuron
 
         private void tspResetKnowledgement_Click(object sender, EventArgs e)
         {
-            //its calls Reset Knowledgement too
+            //its calls ResetKnowledgement too
             ActiveDocument.ResetLearning();
         }
 

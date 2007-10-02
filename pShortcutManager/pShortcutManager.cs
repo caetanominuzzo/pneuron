@@ -41,17 +41,20 @@ namespace pShortcutManager
         private Button btOk;
         private Button btCancel;
         private pShortcutTextBox txtShortcut;
+        private Label lbDescription;
 
         List<pShortcut> fpShortcut;
+        pShortcutManager fpShorcutManager;
 
-        public pShortcutManagerEditor(ref List<pShortcut> aShorcutList)
+        public pShortcutManagerEditor(pShortcutManager aShorcutManager)
         {
-            fpShortcut = aShorcutList;
+            fpShortcut = aShorcutManager.pShorcut;
+            fpShorcutManager = aShorcutManager;
+            InitializeComponent();
         }
 
         private void InitializeComponent()
         {
-            #region
             this.label1 = new System.Windows.Forms.Label();
             this.txtCommand = new System.Windows.Forms.TextBox();
             this.lsCommand = new System.Windows.Forms.ListBox();
@@ -66,6 +69,7 @@ namespace pShortcutManager
             this.btCancel = new System.Windows.Forms.Button();
             this.btOk = new System.Windows.Forms.Button();
             this.txtShortcut = new pShortcutTextBox();
+            this.lbDescription = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -96,13 +100,15 @@ namespace pShortcutManager
             this.lsCommand.Name = "lsCommand";
             this.lsCommand.Size = new System.Drawing.Size(428, 69);
             this.lsCommand.TabIndex = 2;
+            this.lsCommand.SelectedIndexChanged += new System.EventHandler(this.lsCommand_SelectedIndexChanged);
             // 
             // cbShortcut
             // 
             this.cbShortcut.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbShortcut.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbShortcut.FormattingEnabled = true;
-            this.cbShortcut.Location = new System.Drawing.Point(15, 139);
+            this.cbShortcut.Location = new System.Drawing.Point(15, 159);
             this.cbShortcut.Name = "cbShortcut";
             this.cbShortcut.Size = new System.Drawing.Size(347, 21);
             this.cbShortcut.TabIndex = 3;
@@ -110,7 +116,7 @@ namespace pShortcutManager
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 123);
+            this.label2.Location = new System.Drawing.Point(12, 143);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(151, 13);
             this.label2.TabIndex = 4;
@@ -119,17 +125,18 @@ namespace pShortcutManager
             // btRemove
             // 
             this.btRemove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btRemove.Location = new System.Drawing.Point(368, 139);
+            this.btRemove.Location = new System.Drawing.Point(368, 159);
             this.btRemove.Name = "btRemove";
             this.btRemove.Size = new System.Drawing.Size(75, 23);
             this.btRemove.TabIndex = 5;
             this.btRemove.Text = "&Remove";
             this.btRemove.UseVisualStyleBackColor = true;
+            this.btRemove.Click += new System.EventHandler(this.btRemove_Click);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 163);
+            this.label3.Location = new System.Drawing.Point(12, 183);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(117, 13);
             this.label3.TabIndex = 6;
@@ -138,17 +145,18 @@ namespace pShortcutManager
             // btAssign
             // 
             this.btAssign.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btAssign.Location = new System.Drawing.Point(368, 179);
+            this.btAssign.Location = new System.Drawing.Point(368, 199);
             this.btAssign.Name = "btAssign";
             this.btAssign.Size = new System.Drawing.Size(75, 23);
             this.btAssign.TabIndex = 8;
             this.btAssign.Text = "Assign";
             this.btAssign.UseVisualStyleBackColor = true;
+            this.btAssign.Click += new System.EventHandler(this.btAssign_Click);
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 202);
+            this.label4.Location = new System.Drawing.Point(12, 222);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(130, 13);
             this.label4.TabIndex = 9;
@@ -159,7 +167,7 @@ namespace pShortcutManager
             this.cbCurrently.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.cbCurrently.FormattingEnabled = true;
-            this.cbCurrently.Location = new System.Drawing.Point(15, 218);
+            this.cbCurrently.Location = new System.Drawing.Point(15, 238);
             this.cbCurrently.Name = "cbCurrently";
             this.cbCurrently.Size = new System.Drawing.Size(428, 21);
             this.cbCurrently.TabIndex = 10;
@@ -171,7 +179,7 @@ namespace pShortcutManager
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panel1.Controls.Add(this.btCancel);
             this.panel1.Controls.Add(this.btOk);
-            this.panel1.Location = new System.Drawing.Point(-8, 258);
+            this.panel1.Location = new System.Drawing.Point(-8, 287);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(470, 55);
             this.panel1.TabIndex = 11;
@@ -179,6 +187,7 @@ namespace pShortcutManager
             // btCancel
             // 
             this.btCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btCancel.Location = new System.Drawing.Point(374, 9);
             this.btCancel.Name = "btCancel";
             this.btCancel.Size = new System.Drawing.Size(75, 23);
@@ -195,19 +204,33 @@ namespace pShortcutManager
             this.btOk.TabIndex = 0;
             this.btOk.Text = "Ok";
             this.btOk.UseVisualStyleBackColor = true;
+            this.btOk.Click += new System.EventHandler(this.btOk_Click);
             // 
             // txtShortcut
             // 
             this.txtShortcut.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtShortcut.Location = new System.Drawing.Point(15, 179);
+            this.txtShortcut.Location = new System.Drawing.Point(15, 199);
             this.txtShortcut.Name = "txtShortcut";
             this.txtShortcut.Size = new System.Drawing.Size(347, 20);
             this.txtShortcut.TabIndex = 12;
+            this.txtShortcut.TextChanged += new System.EventHandler(this.txtShortcut_TextChanged);
+            // 
+            // lbDescription
+            // 
+            this.lbDescription.AutoSize = true;
+            this.lbDescription.Location = new System.Drawing.Point(12, 123);
+            this.lbDescription.Name = "lbDescription";
+            this.lbDescription.Size = new System.Drawing.Size(60, 13);
+            this.lbDescription.TabIndex = 13;
+            this.lbDescription.Text = "Description";
             // 
             // pShortcutManagerEditor
             // 
-            this.ClientSize = new System.Drawing.Size(455, 302);
+            this.AcceptButton = this.btOk;
+            this.CancelButton = this.btCancel;
+            this.ClientSize = new System.Drawing.Size(455, 331);
+            this.Controls.Add(this.lbDescription);
             this.Controls.Add(this.txtShortcut);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.cbCurrently);
@@ -220,6 +243,7 @@ namespace pShortcutManager
             this.Controls.Add(this.lsCommand);
             this.Controls.Add(this.txtCommand);
             this.Controls.Add(this.label1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "pShortcutManagerEditor";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Shortcut Manager";
@@ -228,15 +252,75 @@ namespace pShortcutManager
             this.ResumeLayout(false);
             this.PerformLayout();
 
-            #endregion
         }
 
         private void pShortcutManagerEditor_Load(object sender, EventArgs e)
         {
             foreach (pShortcut p in fpShortcut)
             {
-
+                    if (!lsCommand.Items.Contains(p.Name))
+                        lsCommand.Items.Add(p.Name);
             }
+
+        }
+
+        private void lsCommand_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            cbShortcut.Items.Clear();
+            foreach(pShortcut p in fpShortcut)
+            {
+                if(p.Name == lsCommand.SelectedItem.ToString())
+                {
+                    
+                    lbDescription.Text = p.Description;
+                    if (p.AtomID != 0)
+                        cbShortcut.Items.Add(p.ToString());
+                }
+            }
+
+            if (cbShortcut.Items.Count > 0)
+                cbShortcut.SelectedIndex = 0;
+        }
+
+        private void btRemove_Click(object sender, EventArgs e)
+        {
+            if(cbShortcut.SelectedItem != null)
+                foreach (pShortcut p in fpShortcut)
+                {
+                    if (p.ToString() == cbShortcut.SelectedItem.ToString())
+                    {
+                        fpShorcutManager.Unassign(p);
+                       
+                    }
+                }
+
+            lsCommand_SelectedIndexChanged(null, null);
+        }
+
+        private void btAssign_Click(object sender, EventArgs e)
+        {
+            fpShorcutManager.Assign(lsCommand.SelectedItem.ToString(), txtShortcut.Key, txtShortcut.Modifiers);
+            lsCommand_SelectedIndexChanged(null, null);
+        }
+
+        private void btOk_Click(object sender, EventArgs e)
+        {
+            fpShorcutManager.WriteConfigFile("");
+        }
+
+        private void txtShortcut_TextChanged(object sender, EventArgs e)
+        {
+            cbCurrently.Items.Clear();
+            foreach (pShortcut p in fpShortcut)
+            {
+                if (p.Key == txtShortcut.Key && p.KeyModifier == txtShortcut.Modifiers && p.AtomID != 0)
+                {
+                    cbCurrently.Items.Add(p.Name);
+                }
+            }
+
+            if (cbCurrently.Items.Count > 0)
+                cbCurrently.SelectedIndex = 0;
         }
     }
 
@@ -253,7 +337,7 @@ namespace pShortcutManager
 
         protected override void OnKeyDown(KeyEventArgs e)
         {
-            Key = e.KeyData;
+            Key = e.KeyCode;
             Modifiers = KeyModifiers.None;
 
             switch (e.Modifiers)
@@ -328,11 +412,13 @@ namespace pShortcutManager
 
     #region pShortcut
 
-    public struct pShortcut
+    public class pShortcut
     {
         internal int AtomID;
         public Keys Key;
         public KeyModifiers KeyModifier;
+        public string Name;
+        public string Description;
         internal MethodInfo Method;
         internal object Object;
 
@@ -344,6 +430,11 @@ namespace pShortcutManager
 
             return sb.ToString();
         }
+
+        public void Register(IntPtr ParentHandle)
+        {
+            pShortcutManager.RegisterHotKey(ParentHandle, AtomID, KeyModifier, Key);
+        }
     }
 
     #endregion
@@ -351,20 +442,26 @@ namespace pShortcutManager
     public class pShortcutManager : Component, IMessageFilter
     {
         private const int WM_HOTKEY = 0x0312;
-        private IntPtr fParenthandle;
+        private IntPtr fParenthandle = (IntPtr)0;
 
         private List<pShortcut> fpShorcut = new List<pShortcut>();
+
+        public List<pShortcut> pShorcut
+        {
+            get { return fpShorcut; }
+            set { fpShorcut = value; }
+        }
 
         #region Native win32 API
 
         [DllImport("user32.dll", SetLastError = true)]
-        private static extern bool RegisterHotKey(IntPtr hWnd, int id, KeyModifiers fsModifiers, Keys vk);
+        public static extern bool RegisterHotKey(IntPtr hWnd, int id, KeyModifiers fsModifiers, Keys vk);
 
         [DllImport("user32.dll", SetLastError = true)]
-        private static extern bool UnregisterHotKey(IntPtr hWnd, int id);
+        public static extern bool UnregisterHotKey(IntPtr hWnd, int id);
 
         [DllImport("kernel32.dll", SetLastError = true)]
-        private static extern int GlobalAddAtom(string LPCTSTR);
+        public static extern int GlobalAddAtom(string LPCTSTR);
 
         #endregion
 
@@ -389,16 +486,83 @@ namespace pShortcutManager
             Application.AddMessageFilter(this);
         }
 
-        public void AddShortcut(Keys aKey, KeyModifiers aKeyModifiers, MethodInfo aMethod, object aObject)
+        public void AddShortcut(string Name, string Description, Keys aKey, KeyModifiers aKeyModifiers, MethodInfo aMethod, object aObject)
         {
             pShortcut s = new pShortcut();
+            s.Name = Name;
+            s.Description = Description;
             s.Key = aKey;
             s.KeyModifier = aKeyModifiers;
             s.AtomID = GlobalAddAtom(s.ToString());
             s.Method = aMethod;
             s.Object = aObject;
             fpShorcut.Add(s);
-            RegisterHotKey(fParenthandle, s.AtomID, s.KeyModifier, s.Key);
+            s.Register(fParenthandle);
+        }
+
+        public void WriteConfigFile(string aFilename)
+        {
+            if (fParenthandle == (IntPtr)0)
+                throw new InvalidOperationException("Use LoadFromForm before try it.");
+
+            string Filename = "";
+            if (aFilename == "")
+                Filename = System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "\\shortcuts.xml";
+            else Filename = aFilename;
+
+            DataTable dt = new DataTable("pShorCut", "pShortcutManager");
+            dt.Columns.Add("Name", typeof(string));
+            dt.Columns.Add("Key", typeof(Keys));
+            dt.Columns.Add("KeyModifier", typeof(KeyModifiers));
+
+
+            foreach (pShortcut p in fpShorcut)
+            {
+                if (p.AtomID == 0)
+                    continue;
+                dt.Rows.Add(
+                    new object[]
+                {
+                    p.Name,
+                    p.Key,
+                    p.KeyModifier
+                });
+            }
+
+            dt.WriteXml(Filename);
+            dt.Dispose();
+
+        }
+
+        public void LoadConfigFile(string aFilename)
+        {
+            if (fParenthandle == (IntPtr)0)
+                throw new InvalidOperationException("Use LoadFromForm before try it.");
+
+            foreach (pShortcut p in fpShorcut)
+                Unassign(p);
+
+            DataSet ds = new DataSet();
+
+             string Filename = "";
+            if (aFilename == "")
+                Filename = System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "\\shortcuts.xml";
+            else Filename = aFilename;
+
+            ds.ReadXml(Filename);
+
+            foreach (DataRow r in ds.Tables[0].Rows)
+            {
+                foreach (pShortcut p in fpShorcut)
+                {
+                    if(p.Name == r["Name"].ToString())
+                    {
+                        AddShortcut(p.Name, p.Description, (Keys)int.Parse(r["Key"].ToString()), (KeyModifiers)int.Parse(r["KeyModifier"].ToString()), p.Method, p.Object);
+                        break;
+                    }
+                }
+            }
+
         }
 
         public void LoadFromForm(Form aForm)
@@ -411,11 +575,53 @@ namespace pShortcutManager
                     if (o is pShortcutManagerVisible)
                     {
                         pShortcutManagerVisible v = (pShortcutManagerVisible)o;
-                        AddShortcut(v.DefaultKey, v.DefaultKeyModifiers, m, aForm);
+                        AddShortcut(v.Name, v.Description, v.DefaultKey, v.DefaultKeyModifiers, m, aForm);
                     }
             }
 
         }
 
+
+        public void Assign(string aName, Keys aKey, KeyModifiers aKeyModifiers)
+        {
+            pShortcut shortcut = new pShortcut();
+
+            foreach (pShortcut p in fpShorcut)
+            {
+                if (p.Key == aKey && p.KeyModifier == aKeyModifiers && p.AtomID != 0)
+                {
+                    Unassign(p);
+                    shortcut = p;
+                    break;
+                }
+            }
+
+
+
+            foreach (pShortcut p in fpShorcut)
+            {
+                if (p.Name == aName)
+                {
+                    shortcut = p;
+                    break;
+                    
+                }
+            }
+
+            AddShortcut(shortcut.Name, shortcut.Description, aKey, aKeyModifiers, shortcut.Method, shortcut.Object);
+
+        }
+
+        public void Unassign(pShortcut aShorcut)
+        {
+            UnregisterHotKey(fParenthandle, aShorcut.AtomID);
+            aShorcut.AtomID = 0;
+        }
+
+        public void ShowConfig()
+        {
+            pShortcutManagerEditor p = new pShortcutManagerEditor(this);
+            p.ShowDialog();
+        }
     }
 }
