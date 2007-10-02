@@ -43,12 +43,10 @@ namespace pShortcutManager
         private pShortcutTextBox txtShortcut;
         private Label lbDescription;
 
-        List<pShortcut> fpShortcut;
         pShortcutManager fpShorcutManager;
 
         public pShortcutManagerEditor(pShortcutManager aShorcutManager)
         {
-            fpShortcut = aShorcutManager.pShorcut;
             fpShorcutManager = aShorcutManager;
             InitializeComponent();
         }
@@ -256,7 +254,7 @@ namespace pShortcutManager
 
         private void pShortcutManagerEditor_Load(object sender, EventArgs e)
         {
-            foreach (pShortcut p in fpShortcut)
+            foreach (pShortcut p in fpShorcutManager.pShorcut)
             {
                     if (!lsCommand.Items.Contains(p.Name))
                         lsCommand.Items.Add(p.Name);
@@ -267,7 +265,7 @@ namespace pShortcutManager
         private void lsCommand_SelectedIndexChanged(object sender, EventArgs e)
         {
             cbShortcut.Items.Clear();
-            foreach(pShortcut p in fpShortcut)
+            foreach (pShortcut p in fpShorcutManager.pShorcut)
             {
                 if(p.Name == lsCommand.SelectedItem.ToString())
                 {
@@ -285,7 +283,7 @@ namespace pShortcutManager
         private void btRemove_Click(object sender, EventArgs e)
         {
             if(cbShortcut.SelectedItem != null)
-                foreach (pShortcut p in fpShortcut)
+                foreach (pShortcut p in fpShorcutManager.pShorcut)
                 {
                     if (p.ToString() == cbShortcut.SelectedItem.ToString())
                     {
@@ -311,7 +309,7 @@ namespace pShortcutManager
         private void txtShortcut_TextChanged(object sender, EventArgs e)
         {
             cbCurrently.Items.Clear();
-            foreach (pShortcut p in fpShortcut)
+            foreach (pShortcut p in fpShorcutManager.pShorcut)
             {
                 if (p.Key == txtShortcut.Key && p.KeyModifier == txtShortcut.Modifiers && p.AtomID != 0)
                 {
