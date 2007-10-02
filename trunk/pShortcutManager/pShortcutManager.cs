@@ -192,6 +192,7 @@ namespace pShortcutManager
             this.btCancel.TabIndex = 1;
             this.btCancel.Text = "Cancel";
             this.btCancel.UseVisualStyleBackColor = true;
+            this.btCancel.Click += new System.EventHandler(this.btCancel_Click);
             // 
             // btOk
             // 
@@ -304,6 +305,7 @@ namespace pShortcutManager
         private void btOk_Click(object sender, EventArgs e)
         {
             fpShorcutManager.WriteConfigFile("");
+            this.Close();
         }
 
         private void txtShortcut_TextChanged(object sender, EventArgs e)
@@ -319,6 +321,11 @@ namespace pShortcutManager
 
             if (cbCurrently.Items.Count > 0)
                 cbCurrently.SelectedIndex = 0;
+        }
+
+        private void btCancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 
@@ -348,7 +355,7 @@ namespace pShortcutManager
                     break;
             }
 
-            this.Text = e.KeyData.ToString();
+            this.Text = (Modifiers == KeyModifiers.None? "" : Modifiers.ToString() + "+") + e.KeyCode.ToString();
             e.SuppressKeyPress = true;
         }
 
@@ -423,9 +430,9 @@ namespace pShortcutManager
         public string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append(this.Key.ToString());
             sb.Append(this.KeyModifier.ToString());
-
+            sb.Append("+");
+            sb.Append(this.Key.ToString());
             return sb.ToString();
         }
 
