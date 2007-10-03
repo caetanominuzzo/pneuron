@@ -740,7 +740,7 @@ namespace primeira.pNeuron
             }
         }
 
-        private void tspAutoRefresh_Click(object sender, EventArgs e)
+        private void  tspAutoRefresh_Click(object sender, EventArgs e)
         {
             if (tspAutoRefresh.Text == "Start Refresh")
             {
