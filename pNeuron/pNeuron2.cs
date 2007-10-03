@@ -418,7 +418,7 @@ namespace primeira.pNeuron.Core
                     }
                     else
                     {
-
+                        m_command = NeuralNetwork.CMD_NOTHING; 
                         m_value = 0;
 
                         foreach (KeyValuePair<INeuron, NeuralValue> item in m_input)
@@ -747,7 +747,7 @@ namespace primeira.pNeuron.Core
                 {
                     if (n.NeuronType != NeuronTypes.Input)
                     {
-                        dGlobalTemp += Math.Abs(n.Error * n.Error);
+                        dGlobalTemp += Math.Abs(n.Error);
                     }
                 }
 
@@ -1019,13 +1019,13 @@ namespace primeira.pNeuron.Core
                 OnStartTraing();
             int i, j;
 
-            for ( i = 0; i < input.Length; i++)
-                for ( j = 0; j < input[i].Length; j++)
-                    input[i][j] = Util.Sigmoid(input[i][j]);
+            //for ( i = 0; i < input.Length; i++)
+            //    for ( j = 0; j < input[i].Length; j++)
+            //        input[i][j] = Util.Sigmoid(input[i][j]);
 
-            for ( i = 0; i < output.Length; i++)
-                for ( j = 0; j < output[i].Length; j++)
-                    output[i][j] = Util.Sigmoid(output[i][j]);
+            //for ( i = 0; i < output.Length; i++)
+            //    for ( j = 0; j < output[i].Length; j++)
+            //        output[i][j] = Util.Sigmoid(output[i][j]);
           
 
 
@@ -1070,7 +1070,8 @@ namespace primeira.pNeuron.Core
                     if (OnRefreshCyclesSec != null)
                         OnRefreshCyclesSec(count * INNER_TRAINING_TIMES);
 
-                     dGlobalError = GlobalError;
+                dGlobalError = GlobalError;
+
                 if (dGlobalError < 0.00000000000000000001)
                     m_stopOnNextCycle = true;
             }

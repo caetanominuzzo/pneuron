@@ -42,8 +42,8 @@ namespace primeira.pNeuron
 
                 Controls.Add(t);
 
-                if (Height < 12 + (i * 30) + 50)
-                    Height = 12 + (i * 30) + 50;
+                if (Height < 12 + (i * 30) + 100)
+                    Height = 12 + (i * 30) + 100;
             }
 
 
