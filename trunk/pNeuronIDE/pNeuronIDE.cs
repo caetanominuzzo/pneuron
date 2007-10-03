@@ -265,7 +265,7 @@ namespace primeira.pNeuron
                     {
                         if (c is TextBox)
                         {
-                                input.Add(Util.Sigmoid(double.Parse(c.Text, System.Globalization.CultureInfo.InvariantCulture)));
+                                input.Add(double.Parse(c.Text, System.Globalization.CultureInfo.InvariantCulture));
                                 iInput++;
                         }
                     }
@@ -290,9 +290,9 @@ namespace primeira.pNeuron
             fmLogger.Show(dockPanel, DockState.Document);
             fmLogger.DockTo(fmPlotter.Pane, DockStyle.Fill, 0);
 
-            fmGroupExplorer.Show(dockPanel, DockState.DockRight);
+          //  fmGroupExplorer.Show(dockPanel, DockState.DockRight);
             fmProperty.Show(dockPanel, DockState.DockRight);
-            fmProperty.DockTo(fmGroupExplorer.Pane, DockStyle.Bottom, 0);
+         //   fmProperty.DockTo(fmGroupExplorer.Pane, DockStyle.Bottom, 0);
 
             fmToolbox.SetToolSet(null);
 
