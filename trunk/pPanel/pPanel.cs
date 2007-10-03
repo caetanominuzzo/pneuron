@@ -151,6 +151,14 @@ namespace primeira.pNeuron
             }
         }
 
+        [Browsable(true)]
+        public double Command
+        {
+            get
+            {
+                return Neuron.Command;
+            }
+        }
 
         [Browsable(true)]
         public DataTypes DataType
