@@ -1196,7 +1196,7 @@ namespace primeira.pNeuron.Core
 
         public static double Sigmoid(double value)
         {
-            return (1 / (1 + Math.Exp(-value)));
+            return (1 / (1 + Exp(-value)));
         }
 
         public static double UnSigmoid(double value)
