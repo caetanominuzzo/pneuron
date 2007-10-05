@@ -42,6 +42,8 @@ namespace pShortcutManager
         private Button btCancel;
         private pShortcutTextBox txtShortcut;
         private Label lbDescription;
+        private Label label5;
+        private ComboBox cbEscope;
 
         pShortcutManager fpShorcutManager;
 
@@ -68,6 +70,8 @@ namespace pShortcutManager
             this.btOk = new System.Windows.Forms.Button();
             this.txtShortcut = new pShortcutTextBox();
             this.lbDescription = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.cbEscope = new System.Windows.Forms.ComboBox();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -134,7 +138,7 @@ namespace pShortcutManager
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 183);
+            this.label3.Location = new System.Drawing.Point(180, 183);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(117, 13);
             this.label3.TabIndex = 6;
@@ -209,9 +213,9 @@ namespace pShortcutManager
             // 
             this.txtShortcut.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtShortcut.Location = new System.Drawing.Point(15, 199);
+            this.txtShortcut.Location = new System.Drawing.Point(183, 199);
             this.txtShortcut.Name = "txtShortcut";
-            this.txtShortcut.Size = new System.Drawing.Size(347, 20);
+            this.txtShortcut.Size = new System.Drawing.Size(179, 20);
             this.txtShortcut.TabIndex = 12;
             this.txtShortcut.TextChanged += new System.EventHandler(this.txtShortcut_TextChanged);
             // 
@@ -224,11 +228,33 @@ namespace pShortcutManager
             this.lbDescription.TabIndex = 13;
             this.lbDescription.Text = "Description";
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(12, 183);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(97, 13);
+            this.label5.TabIndex = 14;
+            this.label5.Text = "Use this shortcut in";
+            // 
+            // cbEscope
+            // 
+            this.cbEscope.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbEscope.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbEscope.FormattingEnabled = true;
+            this.cbEscope.Location = new System.Drawing.Point(15, 198);
+            this.cbEscope.Name = "cbEscope";
+            this.cbEscope.Size = new System.Drawing.Size(162, 21);
+            this.cbEscope.TabIndex = 15;
+            // 
             // pShortcutManagerEditor
             // 
             this.AcceptButton = this.btOk;
             this.CancelButton = this.btCancel;
             this.ClientSize = new System.Drawing.Size(455, 331);
+            this.Controls.Add(this.cbEscope);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.lbDescription);
             this.Controls.Add(this.txtShortcut);
             this.Controls.Add(this.panel1);
@@ -255,10 +281,18 @@ namespace pShortcutManager
 
         private void pShortcutManagerEditor_Load(object sender, EventArgs e)
         {
-            foreach (pShortcut p in fpShorcutManager.pShorcut)
+            foreach (pShortcutCommand p in fpShorcutManager.Command)
             {
                     if (!lsCommand.Items.Contains(p.Name))
                         lsCommand.Items.Add(p.Name);
+
+                
+            }
+
+            foreach (pShortcut p in fpShorcutManager.pShorcut)
+            {
+                if (!cbEscope.Items.Contains(p.Escope))
+                    cbEscope.Items.Add(p.Escope);
             }
 
         }
@@ -266,14 +300,16 @@ namespace pShortcutManager
         private void lsCommand_SelectedIndexChanged(object sender, EventArgs e)
         {
             cbShortcut.Items.Clear();
-            foreach (pShortcut p in fpShorcutManager.pShorcut)
+            foreach (pShortcutCommand p in fpShorcutManager.Command)
             {
                 if(p.Name == lsCommand.SelectedItem.ToString())
                 {
-                    
                     lbDescription.Text = p.Description;
-                    if (p.AtomID != 0)
-                        cbShortcut.Items.Add(p.ToString());
+                    foreach (pShortcut pp in fpShorcutManager.pShorcut)
+                    {
+                        if (pp.Command == p && pp.AtomID != 0)
+                            cbShortcut.Items.Add(pp.ToString());
+                    }
                 }
             }
 
@@ -298,7 +334,7 @@ namespace pShortcutManager
 
         private void btAssign_Click(object sender, EventArgs e)
         {
-            fpShorcutManager.Assign(lsCommand.SelectedItem.ToString(), txtShortcut.Key, txtShortcut.Modifiers);
+            fpShorcutManager.Assign(lsCommand.SelectedItem.ToString(), cbEscope.Text, txtShortcut.Key, txtShortcut.Modifiers);
             lsCommand_SelectedIndexChanged(null, null);
         }
 
@@ -313,9 +349,9 @@ namespace pShortcutManager
             cbCurrently.Items.Clear();
             foreach (pShortcut p in fpShorcutManager.pShorcut)
             {
-                if (p.Key == txtShortcut.Key && p.KeyModifier == txtShortcut.Modifiers && p.AtomID != 0)
+                if (p.Key == txtShortcut.Key && p.KeyModifier == txtShortcut.Modifiers && p.AtomID != 0 && p.Escope == cbEscope.Text)
                 {
-                    cbCurrently.Items.Add(p.Name);
+                    cbCurrently.Items.Add(p.Command.Name);
                 }
             }
 
@@ -358,7 +394,7 @@ namespace pShortcutManager
             this.Text = (Modifiers == KeyModifiers.None? "" : Modifiers.ToString() + "+") + e.KeyCode.ToString();
             e.SuppressKeyPress = true;
         }
-
+    
     }
 
 
@@ -372,6 +408,14 @@ namespace pShortcutManager
         private string fDescription;
         private Keys fDefaultKey;
         private KeyModifiers fDefaultKeyModifiers;
+        private string fEscope;
+
+        public string Escope
+        {
+            get { return fEscope; }
+            set { fEscope = value; }
+        }
+
 
         public Keys DefaultKey
         {
@@ -397,17 +441,16 @@ namespace pShortcutManager
             set { fDescription = value; }
         }
 
-        public pShortcutManagerVisible(string aName, string aDescription, Keys aDefaultKey)
+        public pShortcutManagerVisible(string aName, string aDescription, string aEscope, Keys aDefaultKey)
         {
             Name = aName;
             Description = aDescription;
             DefaultKey = aDefaultKey;
-            if (DefaultKeyModifiers == null)
-                DefaultKeyModifiers = KeyModifiers.None;
+            Escope = aEscope;
         }
 
-        public pShortcutManagerVisible(string aName, string aDescription, Keys aDefaultKey, KeyModifiers aDefaultKeyModifiers)
-            : this(aName, aDescription, aDefaultKey)
+        public pShortcutManagerVisible(string aName, string aDescription, string aEscope, Keys aDefaultKey, KeyModifiers aDefaultKeyModifiers)
+            : this(aName, aDescription, aEscope, aDefaultKey)
         {
             DefaultKeyModifiers = aDefaultKeyModifiers;
         }
@@ -415,24 +458,34 @@ namespace pShortcutManager
 
     #endregion
 
-    #region pShortcut
-
-    public class pShortcut
+    internal class pShortcutCommand
     {
-        internal int AtomID;
-        public Keys Key;
-        public KeyModifiers KeyModifier;
-        public string Name;
-        public string Description;
+        internal string Name;
+        internal string Description;
         internal MethodInfo Method;
         internal object Object;
+    }
 
-        public string ToString()
+    #region pShortcut
+
+    internal class pShortcut
+    {
+        internal int AtomID;
+        internal Keys Key;
+        internal KeyModifiers KeyModifier;
+        internal string Escope;
+        internal pShortcutCommand Command;
+
+        public new string ToString()
         {
             StringBuilder sb = new StringBuilder();
             sb.Append(this.KeyModifier.ToString());
             sb.Append("+");
             sb.Append(this.Key.ToString());
+            sb.Append(" (");
+            sb.Append(Escope);
+            sb.Append(")");
+
             return sb.ToString();
         }
 
@@ -448,10 +501,19 @@ namespace pShortcutManager
     {
         private const int WM_HOTKEY = 0x0312;
         private IntPtr fParenthandle = (IntPtr)0;
+        private List<string> fEscope = new List<string>();
 
         private List<pShortcut> fpShorcut = new List<pShortcut>();
 
-        public List<pShortcut> pShorcut
+        private List<pShortcutCommand> fCommand = new List<pShortcutCommand>();
+
+        internal List<pShortcutCommand> Command
+        {
+            get { return fCommand; }
+            set { fCommand = value; }
+        }
+
+        internal List<pShortcut> pShorcut
         {
             get { return fpShorcut; }
             set { fpShorcut = value; }
@@ -473,15 +535,23 @@ namespace pShortcutManager
 
         public bool PreFilterMessage(ref Message m)
         {
+            bool KeepMessage = false;
+
+            if (fEscope.Count == 0)
+                return false;
+
             switch (m.Msg)
             {
                 case WM_HOTKEY:
                     foreach (pShortcut p in fpShorcut)
                     {
-                        if (p.AtomID == (int)m.WParam)
-                            p.Method.Invoke(p.Object, new object[] { this, new EventArgs() });
+                        if (p.AtomID == (int)m.WParam && fEscope.Contains(p.Escope))
+                        {
+                            p.Command.Method.Invoke(p.Command.Object, new object[] { this, new EventArgs() });
+                            return true;
+                        }
                     }
-                    return true;
+                    break;
             }
             return false;
         }
@@ -491,16 +561,25 @@ namespace pShortcutManager
             Application.AddMessageFilter(this);
         }
 
-        public void AddShortcut(string Name, string Description, Keys aKey, KeyModifiers aKeyModifiers, MethodInfo aMethod, object aObject)
+        internal pShortcutCommand AddCommand(string Name, string Description, MethodInfo aMethod, object aObject)
+        {
+            pShortcutCommand c = new pShortcutCommand();
+            c.Name = Name;
+            c.Description = Description;
+            c.Method = aMethod;
+            c.Object = aObject;
+            fCommand.Add(c);
+            return c;
+        }
+
+        internal void AddShortcut(string aEscope, Keys aKey, KeyModifiers aKeyModifiers, pShortcutCommand aCommand)
         {
             pShortcut s = new pShortcut();
-            s.Name = Name;
-            s.Description = Description;
             s.Key = aKey;
             s.KeyModifier = aKeyModifiers;
             s.AtomID = GlobalAddAtom(s.ToString());
-            s.Method = aMethod;
-            s.Object = aObject;
+            s.Escope = aEscope;
+            s.Command = aCommand;
             fpShorcut.Add(s);
             s.Register(fParenthandle);
         }
@@ -519,6 +598,7 @@ namespace pShortcutManager
             dt.Columns.Add("Name", typeof(string));
             dt.Columns.Add("Key", typeof(Keys));
             dt.Columns.Add("KeyModifier", typeof(KeyModifiers));
+            dt.Columns.Add("Escope", typeof(string));
 
 
             foreach (pShortcut p in fpShorcut)
@@ -528,9 +608,10 @@ namespace pShortcutManager
                 dt.Rows.Add(
                     new object[]
                 {
-                    p.Name,
+                    p.Command.Name,
                     p.Key,
-                    p.KeyModifier
+                    p.KeyModifier,
+                    p.Escope
                 });
             }
 
@@ -558,11 +639,11 @@ namespace pShortcutManager
 
             foreach (DataRow r in ds.Tables[0].Rows)
             {
-                foreach (pShortcut p in fpShorcut)
+                foreach (pShortcutCommand p in fCommand)
                 {
                     if(p.Name == r["Name"].ToString())
                     {
-                        AddShortcut(p.Name, p.Description, (Keys)int.Parse(r["Key"].ToString()), (KeyModifiers)int.Parse(r["KeyModifier"].ToString()), p.Method, p.Object);
+                        AddShortcut(r["Escope"].ToString(), (Keys)int.Parse(r["Key"].ToString()), (KeyModifiers)int.Parse(r["KeyModifier"].ToString()), p);
                         break;
                     }
                 }
@@ -580,20 +661,35 @@ namespace pShortcutManager
                     if (o is pShortcutManagerVisible)
                     {
                         pShortcutManagerVisible v = (pShortcutManagerVisible)o;
-                        AddShortcut(v.Name, v.Description, v.DefaultKey, v.DefaultKeyModifiers, m, aForm);
+
+                        pShortcutCommand command = null;
+
+                        foreach (pShortcutCommand cc in fCommand)
+                        {
+                            if (cc.Name == v.Name)
+                            {
+                                command = cc;
+                                break;
+                            }
+                        }
+
+                        if(command == null) 
+                            command = AddCommand(v.Name, v.Description, m, aForm);
+
+                        AddShortcut(v.Escope, v.DefaultKey, v.DefaultKeyModifiers, command);
                     }
             }
 
         }
 
 
-        public void Assign(string aName, Keys aKey, KeyModifiers aKeyModifiers)
+        public void Assign(string aName, string aEscope, Keys aKey, KeyModifiers aKeyModifiers)
         {
             pShortcut shortcut = new pShortcut();
 
             foreach (pShortcut p in fpShorcut)
             {
-                if (p.Key == aKey && p.KeyModifier == aKeyModifiers && p.AtomID != 0)
+                if (p.Key == aKey && p.KeyModifier == aKeyModifiers && p.AtomID != 0 && p.Escope == aEscope)
                 {
                     Unassign(p);
                     shortcut = p;
@@ -601,23 +697,23 @@ namespace pShortcutManager
                 }
             }
 
+            pShortcutCommand command = new pShortcutCommand();
 
-
-            foreach (pShortcut p in fpShorcut)
+            foreach (pShortcutCommand p in fCommand)
             {
                 if (p.Name == aName)
                 {
-                    shortcut = p;
+                    command = p;
                     break;
                     
                 }
             }
 
-            AddShortcut(shortcut.Name, shortcut.Description, aKey, aKeyModifiers, shortcut.Method, shortcut.Object);
+            AddShortcut(aEscope, aKey, aKeyModifiers, command);
 
         }
 
-        public void Unassign(pShortcut aShorcut)
+        internal void Unassign(pShortcut aShorcut)
         {
             UnregisterHotKey(fParenthandle, aShorcut.AtomID);
             aShorcut.AtomID = 0;
@@ -625,8 +721,22 @@ namespace pShortcutManager
 
         public void ShowConfig()
         {
+            List<string> pEscope = this.fEscope;
+            fEscope.Clear();
             pShortcutManagerEditor p = new pShortcutManagerEditor(this);
             p.ShowDialog();
+            fEscope.AddRange(pEscope);
+        }
+
+        public void AddEscope(string aEscope)
+        {
+            fEscope.Add(aEscope);
+        }
+
+        public void RemoveEscope(string aEscope)
+        {
+            fEscope.Remove(aEscope);
         }
     }
+
 }
