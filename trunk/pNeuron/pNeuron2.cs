@@ -892,6 +892,8 @@ namespace primeira.pNeuron.Core
                     if (n.NeuronType == NeuronTypes.Input || n.NeuronType == NeuronTypes.Memory)
                         n.Pulse();
                 }
+
+
             }
 
             if (OnPulse != null)
