@@ -434,6 +434,7 @@ namespace primeira.pNeuron.Core
                     else
                     {
                         m_command = NeuralNetwork.CMD_NOTHING; 
+
                         m_value = 0;
 
                         NeuralNetwork.Log(2, "Getting inputs for {0}.", this.ID);
