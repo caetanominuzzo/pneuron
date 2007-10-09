@@ -265,7 +265,7 @@ namespace primeira.pNeuron
                     {
                         if (c is TextBox)
                         {
-                                input.Add(double.Parse(c.Text, System.Globalization.CultureInfo.InvariantCulture));
+                                input.Add(Util.Sigmoid(double.Parse(c.Text, System.Globalization.CultureInfo.InvariantCulture)));
                                 iInput++;
                         }
                     }
