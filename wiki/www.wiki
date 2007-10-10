@@ -51,7 +51,7 @@ false	false	false
 true	false	true
 false	true	true
 
-É importante entender que fornecendo apenas três dos quatro casos a rede neural não é capaz de deduzir por mágica o caso faltante. Todos o conhecimento de uma rede neural é baseada nos dados apresentados no training set. Uma boa escolha dos dados é fundamental para o sucesso do projeto.
+É importante entender que fornecendo apenas três dos quatro casos a rede neural não é capaz de deduzir por mágica o caso faltante. Todos o conhecimento de uma rede neural é baseada nos dados apresentados no training set. Uma boa escolha dos casos é fundamental para o sucesso do projeto.
 
 Temos então o seguinte cenário.
 
@@ -59,10 +59,12 @@ Temos então o seguinte cenário.
 
 Agora você pode salvar novamente sua rede neural.
 
-Agora não há mais nada a fazer senão clicar no botão "Start Train". A IDE oferece muitos recursos que otimizam o treinamento e facilitam a análise pro progresso. Por enquanto repare apenas na janela Global Error Plotter, se tudo deu certo após alguns segundos o plotter deve apresentar um gráfico parecido com este.
+Agora não há mais nada a fazer senão clicar no botão "Start Train". A IDE oferece muitos recursos que otimizam o treinamento e facilitam a análise do progresso. Por enquanto repare apenas na janela Global Error Plotter, se tudo deu certo após alguns segundos o plotter deve apresentar um gráfico parecido com este.
 
 (Imagem do plotter bem treinado).
 
 Então é hora de usarmos esses dados em nossa aplicação.
 
 Terceira parte
+
+No menu superior clique em "Export Trained Network"
