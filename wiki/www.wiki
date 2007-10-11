@@ -1,8 +1,12 @@
-pNeuron Starter Guide. Do iniciante ao avançado.
+pNeuron Starter Guide. Do iniciante ao avançado em três capítulos.
 
-O objetivo desse guia é cobrir os principais recursos da pNeuron IDE e apresentar todos os conceitos necessários para a implementação de uma rede neural. Assim ele está dividido em três partes, cada uma delas explica passo-a-passo como resolver um problema específico de redes neurais. 
+O objetivo desse guia é cobrir os principais recursos da pNeuron IDE e apresentar alguns dos conceitos necessários para a implementação de uma rede neural. Assim ele está dividido em três partes, cada uma delas explica passo-a-passo como resolver um problema específico de redes neurais. Além disso é interessante olhar o prólogo onde a 
 
-Na primeira parte, projetamos uma rede que aprenda a calcular o XOR entre dois booleanos.
+Na primeira parte, projetamos uma rede que aprenda a calcular o XOR entre dois booleanos. Depois exportamos a rede como assembly .Net e a utilizamos em uma aplicação Windows Forms no Visual Studio 2005.
+
+A segunda parte criamos um sistema genérico de cálculo do tempo estimado restante. Esse sistema poderá ser fácil e livremente utilizado por qualquer programa que necessite estimar o tempo para a conclusão de uma tarefa. 
+
+Na terceira parte eu ainda não pensei, idéias incluem o Netflix Prize e o jogo da velha.
 
 _XOR_ é um bem conhecido problema de redes neurais. Consiste em ensinar uma rede neural a calcular o XOR de dois valores booleanos dados. 
 
