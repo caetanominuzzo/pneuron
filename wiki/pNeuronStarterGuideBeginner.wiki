@@ -40,7 +40,11 @@ Repare que o novo training set tem três colunas chamadas 0, 1 e 4. As colunas r
 
 As linhas, inicialmente vazias, do training set representam os casos de treinamento que precisam ser fornecidas à rede. Uma vez que definimos o DataType? para boolean tanto nos neurônios de entrada quanto no de saída temos então uma lista com as opções para o preechimento de cada campo (no caso, verdadeiro ou falso). 
 
-Voltando ao primeiro grau temos os quatro casos possíveis para o XOR, são esses dados que devemos fornecer à nossa rede. true true false false false false true false true false true true 
+Voltando ao primeiro grau temos os quatro casos possíveis para o XOR, são esses dados que devemos fornecer à nossa rede.
+true true false
+false false false
+true false true
+false true true 
 
 É importante entender que fornecendo apenas três dos quatro casos a rede neural não é capaz de deduzir por mágica o caso faltante. Todos o conhecimento de uma rede neural é baseada nos dados apresentados no training set. Uma boa escolha dos casos é fundamental para o sucesso do projeto. 
 
@@ -58,4 +62,21 @@ Então é hora de usarmos esses dados em nossa aplicação.
 
 Terceira parte 
 
-No menu superior clique em "Export Trained Network" 
+3.1 No menu superior clique em "Export Trained Network", defina onde o arquivo será salvo e clique em Ok. 
+
+A partir de agora vamos utilizar apenas o Visual Studio 2005, caso você não saiba como executar uma das ações envolvendo esta IDE clique no botão de ajuda apresentado ao lado de cada passo que envolva ações no Visual Studio.
+
+3.2 Abra o Visual Studio 2005 e abra um novo projeto Windows Forms em C#. [?]
+
+3.3 Clique com o botão direito em References, vá na aba "Browser" e procure pelo arquivo com a extensão .dll gerado no passo 3.1.
+
+3.4 Adicione dois checkbox e um botão conforme a imagem.
+
+(Imagem do form com os objetos acima)
+
+3.5 Clique duas vezes no botão e cole o seguinte código:
+
+`  MessageBox.Show((primeira.pNeuron.[Nome da sua rede].Pulse(checkBox1.Checked, checkBox2.Checked));`
+
+3.6 Execute o programa. Se tudo deu certo ao clicar no botão você deve receber uma mensagem conforme a tabela 
+    
