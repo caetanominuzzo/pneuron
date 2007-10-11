@@ -1,0 +1,61 @@
+#summary The XOR problem
+
+XOR é um bem conhecido problema de redes neurais. Consiste em ensinar uma rede neural a calcular o XOR de dois valores booleanos dados. 
+
+Esse exemplo é dividido em três partes. A primeira parte trata do projeto da rede neural e dos domínios utilizados. Na segunda parte vamos importar um trainning set e aplicá-lo em nossa rede. Na terceira parte a rede será exportada e então utilizada em um projeto Windows Forms no Visual Studio 2005. 
+
+Primeira parte 
+
+Ao iniciar uma rede neural devemos responder as seguintes perguntas: 1. Quantos entradas a rede deve ter? 2. Que tipo de dados são esperados nas entradas? 3. Quantos dados a rede deve retornar como resultado? 
+
+Todas essas perguntas podem ser respondidas simplificadamente pelo próprio enunciado do problema: A rede deve retornar o XOR entre dois booleanos. Assim ela precisará de duas entradas (uma para cada valor booleano), o tipo de dado de entrada é booleano e como resultado precisamos de um booleano. Com isso em mente vamos começar a desenhar nossa rede. Clique em Arquivo\Nova Rede Neural. Abaixo você pode ver como deve estar a IDE nesse ponto bem como uma descrição das ferramentas disponíveis. Para uma visão mais detalhada da IDE consulte o tópico relacionado. 
+
+(Imagem da IDE) 
+
+No toolbox clique em Novo Neurônio e clique na área de design da rede neural. Adicione cinco neurônios dessa forma 
+
+(Imagem do layout basico) 
+
+Selecione os dois neurônios da esquerda. Na janela de propriedades e altere o NeuronType_? pra Input. DICA: Para saber mais sobre NeuronType_? consulte o glossário seguindo o link. Com os dois neurônios ainda selecionados altere a propriedade DataType_? para boolean. 
+
+Selecione o neurônio da direita, altere o NeuronType? pra Output e a DataType? para boolean. 
+
+Agora vamos definir as sinapses entre os neurônios. Na toolbox clique em Adicionar Sinapse. Selecione os dois neurônios de entrada (a esquerda), agora clique em cada um dos dois neurônios ocultos (no centro). Agora repita a operação ligando os neurônios ocultos ao neurônio de saida. Você deve ter algo parecido com isso 
+
+(Imagem da rede com sinaspses) 
+
+Agora precisamos definir o tipo de dado de entrada. Selecione os dois neurônios de entrada, na janela de propriedades altere DataType_? pra Boolean. 
+
+Segunda parte Antes de iniciar o processo de treinamento é necessário salvar a rede neural. Clique em Arquivo\Salvar. 
+
+Logo abaixo a área de design existem duas abas "Network Design" e "Trainig Sets". Clique em "Training Sets". 
+
+(Imagem das abas inferiores) 
+
+No menu superior, dentro da aba de Training Sets, clique em "Novo". Isso irá adicionar um novo training set compatível com o layout especificado na primeira parte. 
+
+(Imagem do menu superior) 
+
+Repare que o novo training set tem três colunas chamadas 0, 1 e 4. As colunas representam os neurônios de entrada/saída e são nomeadas conforme os nomes dos neurônios. Don´t care about the hidden neurons for now. 
+
+As linhas, inicialmente vazias, do training set representam os casos de treinamento que precisam ser fornecidas à rede. Uma vez que definimos o DataType? para boolean tanto nos neurônios de entrada quanto no de saída temos então uma lista com as opções para o preechimento de cada campo (no caso, verdadeiro ou falso). 
+
+Voltando ao primeiro grau temos os quatro casos possíveis para o XOR, são esses dados que devemos fornecer à nossa rede. true true false false false false true false true false true true 
+
+É importante entender que fornecendo apenas três dos quatro casos a rede neural não é capaz de deduzir por mágica o caso faltante. Todos o conhecimento de uma rede neural é baseada nos dados apresentados no training set. Uma boa escolha dos casos é fundamental para o sucesso do projeto. 
+
+Temos então o seguinte cenário. 
+
+(Imagem do training set preechido) 
+
+Agora você pode salvar novamente sua rede neural. 
+
+Agora não há mais nada a fazer senão clicar no botão "Start Train". A IDE oferece muitos recursos que otimizam o treinamento e facilitam a análise do progresso. Por enquanto repare apenas na janela Global Error Plotter, se tudo deu certo após alguns segundos o plotter deve apresentar um gráfico parecido com este. 
+
+(Imagem do plotter bem treinado). 
+
+Então é hora de usarmos esses dados em nossa aplicação. 
+
+Terceira parte 
+
+No menu superior clique em "Export Trained Network" 
