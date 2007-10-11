@@ -1,6 +1,6 @@
 pNeuron Starter Guide. Do iniciante ao avançado em três capítulos.
 
-O objetivo desse guia é cobrir os principais recursos da pNeuron IDE e apresentar alguns dos conceitos necessários para a implementação de uma rede neural. Assim ele está dividido em três partes, cada uma delas explica passo-a-passo como resolver um problema específico de redes neurais. Além disso é interessante olhar o prólogo onde a 
+O objetivo desse guia é cobrir os principais recursos da pNeuron IDE e apresentar alguns dos conceitos necessários para a implementação de uma rede neural. Assim ele está dividido em três partes, cada uma delas explica passo-a-passo como resolver um problema específico de redes neurais. Além disso é interessante olhar o prólogo onde a interface é apresentada.
 
 Na primeira parte, projetamos uma rede que aprenda a calcular o XOR entre dois booleanos. Depois exportamos a rede como assembly .Net e a utilizamos em uma aplicação Windows Forms no Visual Studio 2005.
 
@@ -8,11 +8,14 @@ A segunda parte criamos um sistema genérico de cálculo do tempo estimado resta
 
 Na terceira parte eu ainda não pensei, idéias incluem o Netflix Prize e o jogo da velha.
 
+Antes de começar talvez você queira conhecer alguns termos usados, ou a qualquer momento você pode consultar o glossário. Sempre que um conceito estiver disponível no glossário ele será mostrado como um link no texto.
+
+
 _XOR_ é um bem conhecido problema de redes neurais. Consiste em ensinar uma rede neural a calcular o XOR de dois valores booleanos dados. 
 
 Esse exemplo é dividido em três partes. A primeira parte trata do projeto da _rede neural_ e dos _domínios_ utilizados. Na segunda parte vamos importar um _trainning set_ e aplicá-lo em nossa rede. Na terceira parte a rede será exportada e então utilizada em um projeto Windows Forms no Visual Studio 2005. 
 
-Antes de começar talvez você queira conhecer os termos usados, ou a qualquer momento você pode consultar o glossário. Sempre que um conceito estiver disponível no glossário ele será mostrado como um link no texto.
+
 
 Primeira parte
 
