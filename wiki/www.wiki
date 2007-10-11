@@ -1,4 +1,10 @@
-_XOR_ é um bem conhecido problema de redes neurais. Consiste em ensinar uma rede neural a calcular o XOR de dois valores booleanos dados.
+pNeuron Starter Guide. Do iniciante ao avançado.
+
+O objetivo desse guia é cobrir os principais recursos da pNeuron IDE e apresentar todos os conceitos necessários para a implementação de uma rede neural. Assim ele está dividido em três partes, cada uma delas explica passo-a-passo como resolver um problema específico dado. 
+
+Na primeira parte, 
+
+_XOR_ é um bem conhecido problema de redes neurais. Consiste em ensinar uma rede neural a calcular o XOR de dois valores booleanos dados. 
 
 Esse exemplo é dividido em três partes. A primeira parte trata do projeto da _rede neural_ e dos _domínios_ utilizados. Na segunda parte vamos importar um _trainning set_ e aplicá-lo em nossa rede. Na terceira parte a rede será exportada e então utilizada em um projeto Windows Forms no Visual Studio 2005. 
 
