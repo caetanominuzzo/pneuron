@@ -1,7 +1,5 @@
 #summary Do iniciante ao avançado em três capítulos.
 
-= Introduction =
-
 O objetivo desse guia é cobrir os principais recursos da pNeuron IDE e apresentar os conceitos necessários para a implementação de uma rede neural. Ele está dividido em três partes, cada uma delas explica passo-a-passo como resolver um problema específico de redes neurais. Além disso é interessante olhar o prólogo onde a interface é apresentada. 
 
 Na primeira parte, projetamos uma rede que aprenda a calcular o XOR entre dois booleanos. Depois exportamos a rede como assembly .Net e a utilizamos em uma aplicação Windows Forms no Visual Studio 2005. 
