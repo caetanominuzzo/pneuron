@@ -74,6 +74,12 @@
     <Compile Include="fmSplash.Designer.cs">
       <DependentUpon>fmSplash.cs</DependentUpon>
     </Compile>
+    <Compile Include="fmTrainingSetName.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fmTrainingSetName.Designer.cs">
+      <DependentUpon>fmTrainingSetName.cs</DependentUpon>
+    </Compile>
     <Compile Include="IpDocks.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -117,6 +123,10 @@
     <EmbeddedResource Include="fmSplash.resx">
       <SubType>Designer</SubType>
       <DependentUpon>fmSplash.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fmTrainingSetName.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>fmTrainingSetName.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="pDocument.resx">
       <SubType>Designer</SubType>
