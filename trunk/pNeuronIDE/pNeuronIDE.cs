@@ -11,6 +11,7 @@ using System.IO;
 using primeira.pRandom;
 using primeira.pNeuron;
 using System.Diagnostics;
+using System.Threading;
 
 namespace primeira.pNeuron
 {
@@ -18,7 +19,9 @@ namespace primeira.pNeuron
 
     public partial class pNeuronIDE : Form
     {
-        static int TRUE_RANDOM_GENERATOR_CACHE = 20;
+        public static int TRUE_RANDOM_GENERATOR_CACHE = 20;
+        public  int PLOTTER_REFRESH_INTERVAL = 750;
+        public  int STATUS_REFRESH_INTERVAL = 750;
 
         #region Fields
 
@@ -34,6 +37,8 @@ namespace primeira.pNeuron
         private pTrueRandomGenerator m_cache = new pTrueRandomGenerator(TRUE_RANDOM_GENERATOR_CACHE);
 
         private Stopwatch m_refreshCycleTimer;
+
+        private System.Threading.Timer tmRefresh;
 
         #endregion
 
@@ -81,6 +86,8 @@ namespace primeira.pNeuron
         private void document_OnStopTraing()
         {
             tspStartTrain.Text = "Start Training";
+
+            StopTimer();
         }
 
         private void document_OnStartTraing()
@@ -93,22 +100,11 @@ namespace primeira.pNeuron
                 m_refreshCycleTimer.Reset();
                 m_refreshCycleTimer.Start();
             }
+
+            StartTimer();
         }
 
-        private void document_OnRefreshCyclesSec(int Times)
-        {
-            int aCycles = Times;
-            DateTime t;
-
-            double vFirst = ((double)(aCycles)) / (double)(m_refreshCycleTimer.ElapsedMilliseconds / 1000) ;
-
-            this.Invoke(new Assinc(delegate { statusCycles.Text = "Cycles/Sec.: " + vFirst.ToString("#00000"); }));
-            this.Invoke(new Assinc(delegate { statusGlobalError.Text = "Global Error: " + ActiveDocument.MainDisplay.Net.LastCalculatedGlobalError.ToString(); }));
-            
-            //TODO:statusMediaError.Text = "Media Error: " + media.ToString("#0.0000000000000");
-        }
-
-        private void document_OnSelectedObjectChanged()
+         private void document_OnSelectedObjectChanged()
         {
             if (ActiveDocument.MainDisplay.SelectedpPanels.Length == 0)
                 fmProperty.Property.SelectedObject = ActiveDocument.MainDisplay;
@@ -118,6 +114,27 @@ namespace primeira.pNeuron
         #endregion
 
         #region Methods
+
+        public void StartTimer()
+        {
+            this.tmRefresh = new System.Threading.Timer(new TimerCallback(tmRefresh_Tick), null, 0, STATUS_REFRESH_INTERVAL);
+        }
+
+        public void StopTimer()
+        {
+            if (tmRefresh != null)
+                this.tmRefresh.Dispose();
+        }
+
+        private void tmRefresh_Tick(object state)
+        {
+            DateTime t;
+            double vFirst = ((double)(ActiveDocument.MainDisplay.Net.Cycles )) / (double)(m_refreshCycleTimer.ElapsedMilliseconds / 1000);
+
+            statusCycles.Text = "Cycles/Sec.: " + vFirst.ToString("#00000");
+            statusGlobalError.Text = "Global Error: " + ActiveDocument.MainDisplay.Net.LastCalculatedGlobalError.ToString();
+            
+        }
 
         /// <summary>
         /// To avoid the "Please create a new document or open one before try this." message on ActiveDocument property.
@@ -159,7 +176,6 @@ namespace primeira.pNeuron
             document.OnSelectedObjectChanged += new pDocument.OnSelectedObjectChangedDelegate(document_OnSelectedObjectChanged);
             document.OnStartTraing += new pDocument.OnStartTraingDelegate(document_OnStartTraing);
             document.OnStopTraing += new pDocument.OnStopTraingDelegate(document_OnStopTraing);
-            document.OnRefreshCyclesSec += new pDocument.OnRefreshCyclesSecDelegate(document_OnRefreshCyclesSec);
             document.OnResetLearning += new pDocument.OnResetLearningDelegate(document_OnResetLearning);
             document.OnResetKnowledgement += new pDocument.OnResetKnowledgementDelegate(document_OnResetKnowledgement);
             document.Parent = this;
