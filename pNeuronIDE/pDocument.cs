@@ -356,7 +356,7 @@ namespace primeira.pNeuron
 
 
                     if (MainDisplay.Net.InputNeuronCount + MainDisplay.Net.OutputNeuronCount != p.fDataTable.Columns.Count)
-                        throw new Exception("This Training Set are out of date.");
+                        pMessage.Error("This Training Set are out of date.");
 
                 }
         }
@@ -559,6 +559,7 @@ namespace primeira.pNeuron
                 (p.Neuron).Value = Convert.ToDouble(r["Value"], System.Globalization.CultureInfo.InvariantCulture);
                 (p.Neuron).NeuronType = (NeuronTypes)Convert.ToInt16(r["NeuronType"]);
 
+                p.Neuron.NeuralNetwork.AdjustGeneratorID(p.Name);
             }
 
             if(ds.Tables["pSynapse"]!=null)
@@ -581,13 +582,14 @@ namespace primeira.pNeuron
                 }
             }
 
+        cbTrainingSets.Items.Clear();
             foreach(DataTable dt in ds.Tables)
             {
                 if (dt.TableName == "pSynapse" || dt.TableName == "pNeuron")
                     continue;
 
                 fpTrainingSet.Add(new pTrainingSet(this.MainDisplay.pPanels, dt.TableName, this.Filename));
-                cbTrainingSets.Items.Clear();
+               
                 cbTrainingSets.Items.Add(dt.TableName);
 
                 fpTrainingSet[fpTrainingSet.Count - 1].LoadDataTable();
@@ -608,10 +610,14 @@ namespace primeira.pNeuron
             {
 
                 if (dgTrainingSet.DataSource == null)
+                {
                     if (cbTrainingSets.Items.Count == 0)
                         throw new Exception("Please add a new Training Set to train.");
                     else
                         cbTrainingSets.SelectedIndex = 0;
+                }
+
+                
 
                 DataTable dt = (DataTable)dgTrainingSet.DataSource;
 
@@ -660,6 +666,18 @@ namespace primeira.pNeuron
 
                     output[iXPosition++] = dOut;
 
+                }
+
+                if (input.Length != MainDisplay.Net.InputNeuronCount)
+                {
+                    pMessage.Error("The number of input must be equal to number of perception neurons.");
+                    return;
+                }
+
+                if (output.Length != MainDisplay.Net.InputNeuronCount)
+                {
+                     pMessage.Error("The number of output must be equal to number of output neurons.");
+                    return;
                 }
 
                 ThreadStart starter2 = delegate { MainDisplay.Net.Train(input, output); };

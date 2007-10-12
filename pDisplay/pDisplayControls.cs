@@ -396,8 +396,7 @@ namespace primeira.pNeuron
 
             
 
-            int i = m_pPanels.Count - 1;
-            p.Text = i.ToString();
+            p.Text = p.Neuron.ID.ToString();
 
             if (OnTreeViewChange != null)
                 OnTreeViewChange(p, pTreeviewRefresh.pPanelAdd);
