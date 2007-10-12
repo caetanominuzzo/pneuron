@@ -794,7 +794,7 @@ namespace primeira.pNeuron
 
                     switch (DisplayStatus)
                     {
-
+                        case pDisplayStatus.Training:
                         case pDisplayStatus.Linking_Paused:
                         case pDisplayStatus.Linking:
 

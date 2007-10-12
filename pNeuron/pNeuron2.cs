@@ -420,7 +420,7 @@ namespace primeira.pNeuron.Core
         public void Pulse()
         {
 #if NNDEBUGNEURON || NNDEBUG
-            NeuralNetwork.Log(this);
+            NeuralNetwork.Log(this.GetHashCode());
             //NeuralNetwork.Log(1, "Start Neuron {0} Pulse.", this.ToString());
 #endif
 
@@ -498,7 +498,7 @@ namespace primeira.pNeuron.Core
         public void PulseBack(double desiredResult)
         {
 #if NNDEBUGNEURON || NNDEBUG
-            NeuralNetwork.Log(this);
+            NeuralNetwork.Log(this.GetHashCode());
             //NeuralNetwork.Log(1, "Start Neuron {0} PulseBack.", this.ToString());
 #endif
             this.OutputReady = 0;
@@ -549,7 +549,7 @@ namespace primeira.pNeuron.Core
             foreach (KeyValuePair<INeuron, NeuralValue> m in m_input)
                 m.Value.ApplyLearning(learningRate);
 
-            m_bias.ApplyLearning(learningRate);
+           //m_bias.ApplyLearning(learningRate);
 
             NeuralNetwork.Log(1, "End Neuron {0} ApplyLearning.", this.ToString());
         }
@@ -567,7 +567,7 @@ namespace primeira.pNeuron.Core
                 this.Input[n].CalculateDelta(this.Error);
             }
 
-            this.Bias.Delta += this.Error * this.Bias.Weight;
+          //  this.Bias.Delta += this.Error * this.Bias.Weight;
 #if NNDEBUG
             NeuralNetwork.Log(1, "End Neuron {0} CalculateDelta.", this.ToString());
 #endif
@@ -754,7 +754,7 @@ namespace primeira.pNeuron.Core
 
         double DEFAULT_LEARNING_RATE = 5;
 
-        int INNER_TRAINING_TIMES = 100;
+        int INNER_TRAINING_TIMES = 200;
 
         public static int CMD_NOTHING = 0;
         public static int CMD_RESET_MEMORY_AND_NO_PULSE = 1;
@@ -861,7 +861,7 @@ namespace primeira.pNeuron.Core
         {
             get
             {
-                return m_cycles;
+                return m_cycles * INNER_TRAINING_TIMES;
             }
         }
 
@@ -1278,7 +1278,7 @@ namespace primeira.pNeuron.Core
             }
         }
 
-        private List<object> logcore = new List<object>();
+        private List<int> logcore = new List<int>();
 
         public void Log(string msg)
         {
@@ -1314,9 +1314,13 @@ namespace primeira.pNeuron.Core
             Log(Indent, string.Format(format, args));
         }
 
-        public void Log(object o)
+        public void Log(int Handle)
         {
-            logcore.Add(o);
+            logcore.Add(Handle);
+            if (logcore.Count > 10000)
+            {
+                logcore.Clear();
+            }
         }
 
 
