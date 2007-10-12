@@ -1,3 +1,5 @@
+#define NNDEBUGNEURON
+
 using System;
 using System.Text;
 using System.Collections.Generic;
@@ -27,7 +29,7 @@ namespace primeira.pNeuron.Core
 
         double Value { get;  set; }
 
-        NeuralNetwork NeuralNetwork{ get;}
+        NeuralNetwork NeuralNetwork { get;}
 
         int ID { get; }
 
@@ -41,7 +43,7 @@ namespace primeira.pNeuron.Core
         void ApplyLearning();
         void ResetLearning();
         void PulseBack(double[] desiredResults);
-        
+
         double LearningRate { get; }
 
         List<Neuron> Neuron { get; }
@@ -173,9 +175,10 @@ namespace primeira.pNeuron.Core
         /// Represents a neuron.
         /// </summary>
         /// <param name="net">Parent Neural Network.</param>
-        public Neuron(NeuralNetwork net) : this(net.Random.GetDouble(), net)
+        public Neuron(NeuralNetwork net)
+            : this(net.Random.GetDouble(), net)
         {
-         
+
         }
 
         /// <summary>
@@ -197,7 +200,7 @@ namespace primeira.pNeuron.Core
         #endregion
 
         #region Fields
-        
+
         private int m_inputReady = 0;
 
         private int m_outputReady = 0;
@@ -220,7 +223,7 @@ namespace primeira.pNeuron.Core
 
         private int m_command = NeuralNetwork.CMD_NOTHING;
 
-        
+
 
         #endregion
 
@@ -416,8 +419,9 @@ namespace primeira.pNeuron.Core
         /// </summary>
         public void Pulse()
         {
-#if DEBUG
-            NeuralNetwork.Log(1, "Start Neuron {0} Pulse.", this.ToString());
+#if NNDEBUGNEURON || NNDEBUG
+            NeuralNetwork.Log(this);
+            //NeuralNetwork.Log(1, "Start Neuron {0} Pulse.", this.ToString());
 #endif
 
             lock (this)
@@ -430,17 +434,17 @@ namespace primeira.pNeuron.Core
                     if (NeuronType == NeuronTypes.Memory && m_command == NeuralNetwork.CMD_RESET_MEMORY_AND_NO_PULSE)
                     {
                         m_command = NeuralNetwork.CMD_NORMAL_STATE_BUT_DONT_USE_VALUE;
-#if DEBUG
+#if NNDEBUG
                         NeuralNetwork.Log(2, "Dont pulse, reseted memory.");
 #endif
 
                     }
                     else
                     {
-                        m_command = NeuralNetwork.CMD_NOTHING; 
+                        m_command = NeuralNetwork.CMD_NOTHING;
 
                         m_value = 0;
-#if DEBUG
+#if NNDEBUG
                         NeuralNetwork.Log(2, "Getting inputs for {0}.", this.ID);
 #endif
                         foreach (KeyValuePair<INeuron, NeuralValue> item in m_input)
@@ -450,13 +454,13 @@ namespace primeira.pNeuron.Core
                                 if (item.Key.Command == NeuralNetwork.CMD_NORMAL_STATE_BUT_DONT_USE_VALUE
                                     || item.Key.Command == NeuralNetwork.CMD_RESET_MEMORY_AND_NO_PULSE)
                                 {
-#if DEBUG
+#if NNDEBUG
                                     NeuralNetwork.Log(3, "Input {0}, reseted memory, dont use value.", this.ToString());
 #endif
                                     continue;
                                 }
                             }
-#if DEBUG
+#if NNDEBUG
                             NeuralNetwork.Log(3, "Input {0}.", this.ToString());
 #endif
                             m_value += item.Key.Value * item.Value.Weight;
@@ -469,7 +473,7 @@ namespace primeira.pNeuron.Core
                 }
 
                 Neuron n;
-                for(int i =0; i<m_output.Count; i++)
+                for (int i = 0; i < m_output.Count; i++)
                 {
                     n = m_output[i];
 
@@ -481,7 +485,7 @@ namespace primeira.pNeuron.Core
                         n.Pulse();
                 }
             }
-#if DEBUG
+#if NNDEBUG
             NeuralNetwork.Log(1, "End Neuron {0} Pulse.", this.ToString());
 #endif
         }
@@ -493,18 +497,19 @@ namespace primeira.pNeuron.Core
         /// <param name="desiredResult"></param>
         public void PulseBack(double desiredResult)
         {
-#if DEBUG            
-            NeuralNetwork.Log(1, "Start Neuron {0} PulseBack.", this.ToString());
+#if NNDEBUGNEURON || NNDEBUG
+            NeuralNetwork.Log(this);
+            //NeuralNetwork.Log(1, "Start Neuron {0} PulseBack.", this.ToString());
 #endif
             this.OutputReady = 0;
 
             if (this.NeuronType == NeuronTypes.Output)
             {
-                this.Error = (desiredResult - this.Value) * Util.DerivativeSigmoid(this.Value); 
+                this.Error = (desiredResult - this.Value) * Util.DerivativeSigmoid(this.Value);
             }
             else
             {
-                this.Error = (desiredResult) * Util.DerivativeSigmoid(this.Value); 
+                this.Error = (desiredResult) * Util.DerivativeSigmoid(this.Value);
             }
 
 
@@ -526,7 +531,7 @@ namespace primeira.pNeuron.Core
                 }
 
             }
-#if DEBUG
+#if NNDEBUG
             NeuralNetwork.Log(1, "End Neuron {0} PulseBack.", this.ToString());
 #endif
         }
@@ -537,7 +542,7 @@ namespace primeira.pNeuron.Core
         /// <param name="learningRate"></param>
         public void ApplyLearning(double learningRate)
         {
-#if DEBUG
+#if NNDEBUG
             NeuralNetwork.Log(1, "Start Neuron {0} ApplyLearning.", this.ToString());
 #endif
 
@@ -554,7 +559,7 @@ namespace primeira.pNeuron.Core
         /// </summary>
         public void CalculateDelta()
         {
-#if DEBUG
+#if NNDEBUG
             NeuralNetwork.Log(1, "Start Neuron {0} CalculateDelta.", this.ToString());
 #endif
             foreach (Neuron n in this.Input.Keys)
@@ -563,7 +568,7 @@ namespace primeira.pNeuron.Core
             }
 
             this.Bias.Delta += this.Error * this.Bias.Weight;
-#if DEBUG
+#if NNDEBUG
             NeuralNetwork.Log(1, "End Neuron {0} CalculateDelta.", this.ToString());
 #endif
         }
@@ -573,14 +578,14 @@ namespace primeira.pNeuron.Core
         /// </summary>
         public void ResetLearning()
         {
-#if DEBUG
+#if NNDEBUG
             NeuralNetwork.Log(1, "Start Neuron {0} ResetLearning.", this.ToString());
 #endif
             foreach (KeyValuePair<INeuron, NeuralValue> m in m_input)
                 m.Value.ResetLearning();
 
             m_bias.ResetLearning();
-#if DEBUG
+#if NNDEBUG
             NeuralNetwork.Log(1, "End Neuron {0} ResetLearning.", this.ToString());
 #endif
         }
@@ -590,7 +595,7 @@ namespace primeira.pNeuron.Core
         /// </summary>
         public void ResetKnowledgement()
         {
-#if DEBUG
+#if NNDEBUG
             NeuralNetwork.Log(1, "Start Neuron {0} ResetKnowledgement.", this.ToString());
 #endif
             foreach (KeyValuePair<INeuron, NeuralValue> m in m_input)
@@ -603,7 +608,7 @@ namespace primeira.pNeuron.Core
 
         public void ResetMemory()
         {
-#if DEBUG
+#if NNDEBUG
             NeuralNetwork.Log(1, "Neuron {0} ResetMemory.", this.ToString());
 #endif
             m_command = NeuralNetwork.CMD_RESET_MEMORY_AND_NO_PULSE;
@@ -715,21 +720,21 @@ namespace primeira.pNeuron.Core
         public INeuron[] GetOutputNeurons()
         {
             return Output.ToArray();
-        } 
+        }
 
         #endregion
 
         #region Events
 
-      //  internal delegate void OnNeuronPulseDelegate(Neuron sender);
-      //  internal event OnNeuronPulseDelegate OnNeuronPulse;
+        //  internal delegate void OnNeuronPulseDelegate(Neuron sender);
+        //  internal event OnNeuronPulseDelegate OnNeuronPulse;
 
-     //   internal delegate void OnNeuronPulseBackDelegate(Neuron sender);
-     //   internal event OnNeuronPulseBackDelegate OnNeuronPulseBack;
+        //   internal delegate void OnNeuronPulseBackDelegate(Neuron sender);
+        //   internal event OnNeuronPulseBackDelegate OnNeuronPulseBack;
 
         #endregion
     }
-    
+
     /// <summary>
     /// Represents a NeuralNetwork.
     /// </summary>
@@ -748,8 +753,8 @@ namespace primeira.pNeuron.Core
         #region Constants
 
         double DEFAULT_LEARNING_RATE = 5;
-        
-        int INNER_TRAINING_TIMES = 500;
+
+        int INNER_TRAINING_TIMES = 100;
 
         public static int CMD_NOTHING = 0;
         public static int CMD_RESET_MEMORY_AND_NO_PULSE = 1;
@@ -768,8 +773,11 @@ namespace primeira.pNeuron.Core
         private int m_generatorID = 0;
         private bool m_stopOnNextCycle = false;
         private StringBuilder m_logger = new StringBuilder();
+        private int m_cycles = 0;
 
         private double m_lastCalculatedGlobalError;
+
+        private List<double> m_logGlobalError = new List<double>();
 
         #endregion
 
@@ -794,32 +802,11 @@ namespace primeira.pNeuron.Core
         }
 
         /// <summary>
-        /// Gets the neural network global error.
+        /// Gets the last calculated neural network global error.
         /// </summary>
-        internal double GlobalError
-        {
-            get
-            {
-                double dGlobalTemp = 0;
-                int iNoPerception = Neuron.Count - InputNeuronCount;
-
-                foreach (Neuron n in Neuron)
-                {
-                    if (n.NeuronType != NeuronTypes.Input)
-                    {
-                        dGlobalTemp += Math.Abs(n.Error);
-                    }
-                }
-
-                m_lastCalculatedGlobalError = dGlobalTemp / (double)iNoPerception;
-
-                return m_lastCalculatedGlobalError;
-            }
-        }
-
         public double LastCalculatedGlobalError
         {
-            get { return m_lastCalculatedGlobalError; }
+            get { return m_logGlobalError.Count > 0 ? m_logGlobalError[m_logGlobalError.Count - 1] : 0; }
         }
 
         /// <summary>
@@ -870,9 +857,48 @@ namespace primeira.pNeuron.Core
             }
         }
 
+        public int Cycles
+        {
+            get
+            {
+                return m_cycles;
+            }
+        }
+
         #endregion
 
         #region Methods
+
+        private double CalculateGlobalError()
+        {
+            double dGlobalTemp = 0;
+            int iNoPerception = Neuron.Count - InputNeuronCount;
+
+            foreach (Neuron n in Neuron)
+            {
+                if (n.NeuronType != NeuronTypes.Input)
+                {
+                    dGlobalTemp += Math.Abs(n.Error);
+                }
+            }
+
+            double v = dGlobalTemp / (double)iNoPerception;
+
+            m_logGlobalError.Add(v);
+
+            return v;
+        }
+
+        /// <summary>
+        /// Gets a range of Global Errors
+        /// </summary>
+        /// <param name="Index"></param>
+        /// <param name="Count"></param>
+        /// <returns></returns>
+        public double[] GetGlobalErrors(int Index, int Count)
+        {
+            return m_logGlobalError.GetRange(Index, Count).ToArray();
+        }
 
         /// <summary>
         /// Sets the internal random generator.
@@ -909,9 +935,9 @@ namespace primeira.pNeuron.Core
         private void AddNeuron(Neuron neuron)
         {
 
-            switch(neuron.NeuronType)
+            switch (neuron.NeuronType)
             {
-                case NeuronTypes.Input: m_inputNeuronCount++; 
+                case NeuronTypes.Input: m_inputNeuronCount++;
                     break;
                 case NeuronTypes.Output: m_outputNeuronCount++;
                     break;
@@ -945,7 +971,9 @@ namespace primeira.pNeuron.Core
         /// </summary>
         public void Pulse()
         {
+#if NNDEBUG
             Log("Start Network Pulse.");
+#endif
 
             lock (this)
             {
@@ -961,7 +989,9 @@ namespace primeira.pNeuron.Core
             if (OnPulse != null)
                 OnPulse();
 
+#if NNDEBUG
             Log("End Network Pulse.");
+#endif
         }
 
         /// <summary>
@@ -973,7 +1003,9 @@ namespace primeira.pNeuron.Core
             if (desiredResults.Length != OutputNeuronCount)
                 throw new Exception("The number of desiredResults must be equal to number of output neurons.");
 
+#if NNDEBUG
             Log("Start Network PulseBack.");
+#endif
 
             int ni = 0;
             foreach (Neuron n in this.Neuron)
@@ -988,7 +1020,9 @@ namespace primeira.pNeuron.Core
             if (OnPulseBack != null)
                 OnPulseBack();
 
+#if NNDEBUG
             Log("End Network PulseBack.");
+#endif
         }
 
         /// <summary>
@@ -996,7 +1030,9 @@ namespace primeira.pNeuron.Core
         /// </summary>
         public void ResetInputOutputReadyCount()
         {
-            Log("ResetInputOutputReadyCount."); 
+#if NNDEBUG
+            Log("ResetInputOutputReadyCount.");
+#endif
             foreach (Neuron n in Neuron)
             {
                 n.InputReady = 0;
@@ -1009,7 +1045,9 @@ namespace primeira.pNeuron.Core
         /// </summary>
         public void ApplyLearning()
         {
+#if NNDEBUG
             Log("Start Network ApplyLearning.");
+#endif
             lock (this)
             {
                 foreach (Neuron n in this.Neuron)
@@ -1018,7 +1056,9 @@ namespace primeira.pNeuron.Core
                         n.ApplyLearning(LearningRate);
                 }
             }
+#if NNDEBUG
             Log("End Network ApplyLearning.");
+#endif
         }
 
         /// <summary>
@@ -1026,7 +1066,9 @@ namespace primeira.pNeuron.Core
         /// </summary>
         public void CalculateDelta()
         {
+#if NNDEBUG
             Log("Network CalculateDelta.");
+#endif
             foreach (Neuron n in this.Neuron)
                 n.CalculateDelta();
         }
@@ -1037,10 +1079,12 @@ namespace primeira.pNeuron.Core
         /// </summary>
         public void ResetLearning()
         {
-            if(OnResetLearning != null)
-               OnResetLearning();
+            if (OnResetLearning != null)
+                OnResetLearning();
 
-           Log("Network ResetLearning.");
+#if NNDEBUG
+            Log("Network ResetLearning.");
+#endif
 
             lock (this)
             {
@@ -1062,7 +1106,9 @@ namespace primeira.pNeuron.Core
             if (OnResetKnowledgement != null)
                 OnResetKnowledgement();
 
+#if NNDEBUG
             Log("Network ResetKnowledgement.");
+#endif
 
             lock (this)
             {
@@ -1071,6 +1117,8 @@ namespace primeira.pNeuron.Core
                     n.ResetKnowledgement();
                 }
             }
+
+            m_logGlobalError.Clear();
         }
 
         /// <summary>
@@ -1078,7 +1126,9 @@ namespace primeira.pNeuron.Core
         /// </summary>
         public void ResetMemory()
         {
+#if NNDEBUG
             Log("Network ResetMemory.");
+#endif
             lock (this)
             {
 
@@ -1105,15 +1155,14 @@ namespace primeira.pNeuron.Core
             for (i = 0; i < output.Length; i++)
                 for (j = 0; j < output[i].Length; j++)
                     output[i][j] = Util.Sigmoid(output[i][j]);
-          
 
 
 
-            int count = 0;
+
             double dGlobalError = 1;
 
 
-           
+
             double[][] sortedInputs = new double[input.Length][];
             double[][] sortedOutputs = new double[output.Length][];
 
@@ -1135,30 +1184,25 @@ namespace primeira.pNeuron.Core
                 if (m_stopOnNextCycle)
                 {
                     m_stopOnNextCycle = false;
-                    if (OnRefreshCyclesSec != null)
-                        OnRefreshCyclesSec(count * INNER_TRAINING_TIMES);
-
                     break;
                 }
 
-                count++;
+                m_cycles++;
 
                 TrainSession(sortedInputs, sortedOutputs, INNER_TRAINING_TIMES);
 
-                if (count % INNER_TRAINING_TIMES == 0)
-                    if (OnRefreshCyclesSec != null)
-                        OnRefreshCyclesSec(count * INNER_TRAINING_TIMES);
-
-                dGlobalError = GlobalError;
+                dGlobalError = CalculateGlobalError();
 
                 if (dGlobalError < 0.00000000000000000001)
                     m_stopOnNextCycle = true;
             }
 
+            m_cycles = 0;
+
             if (OnStopTraing != null)
                 OnStopTraing();
         }
-        
+
         /// <summary>
         /// Trains the Neural Network.
         /// </summary>
@@ -1167,7 +1211,7 @@ namespace primeira.pNeuron.Core
         /// <param name="iterations">Number of internal cycles.</param>
         public void TrainSession(double[][] inputs, double[][] outputs, int iterations)
         {
-           
+
 
 
             lock (this)
@@ -1234,6 +1278,8 @@ namespace primeira.pNeuron.Core
             }
         }
 
+        private List<object> logcore = new List<object>();
+
         public void Log(string msg)
         {
             Log(0, msg);
@@ -1241,12 +1287,13 @@ namespace primeira.pNeuron.Core
 
         public void Log(int Indent, string msg)
         {
+#if NNDEBUG
             return;
             for (int i = 0; i < Indent; i++)
                 m_logger.Append("\t");
 
             m_logger.Append(msg);
-            
+
             m_logger.Append(Environment.NewLine);
 
             if (m_logger.Length > 10000)
@@ -1254,6 +1301,7 @@ namespace primeira.pNeuron.Core
                 System.IO.File.AppendAllText("c:\\logger.txt", m_logger.ToString());
                 m_logger.Length = 0;
             }
+#endif
         }
 
         public void Log(string format, object args)
@@ -1266,6 +1314,12 @@ namespace primeira.pNeuron.Core
             Log(Indent, string.Format(format, args));
         }
 
+        public void Log(object o)
+        {
+            logcore.Add(o);
+        }
+
+
         #endregion
 
         #region Events
@@ -1275,9 +1329,6 @@ namespace primeira.pNeuron.Core
 
         public delegate void OnPulseBackDelegate();
         public event OnPulseBackDelegate OnPulseBack;
-
-        public delegate void OnRefreshCyclesSecDelegate(int Times);
-        public event OnRefreshCyclesSecDelegate OnRefreshCyclesSec;
 
         public delegate void OnStartTraingDelegate();
         public event OnStartTraingDelegate OnStartTraing;
@@ -1313,7 +1364,7 @@ namespace primeira.pNeuron.Core
         public static double UnSigmoid(double value)
         {
             return -Math.Log((1.0 / value + 1.0));
-            
+
         }
 
         /// <summary>
@@ -1351,7 +1402,7 @@ namespace primeira.pNeuron.Core
 
     public enum NeuronTypes
     {
-        
+
         Input,
         Hidden,
         Output,
