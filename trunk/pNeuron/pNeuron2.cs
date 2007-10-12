@@ -869,6 +869,19 @@ namespace primeira.pNeuron.Core
 
         #region Methods
 
+        public void AdjustGeneratorID(string Id)
+        {
+            try
+            {
+                int i = int.Parse(Id);
+                if (i >= m_generatorID)
+                    m_generatorID = i++;
+            }
+            catch
+            {
+            }
+        }
+
         private double CalculateGlobalError()
         {
             double dGlobalTemp = 0;
@@ -1000,9 +1013,6 @@ namespace primeira.pNeuron.Core
         /// <param name="desiredResults"></param>
         public void PulseBack(double[] desiredResults)
         {
-            if (desiredResults.Length != OutputNeuronCount)
-                throw new Exception("The number of desiredResults must be equal to number of output neurons.");
-
 #if NNDEBUG
             Log("Start Network PulseBack.");
 #endif
@@ -1250,11 +1260,6 @@ namespace primeira.pNeuron.Core
         /// <param name="input">Input data.</param>
         public void SetInputData(double[] input)
         {
-
-            //TODO:Moves it to Train()
-            if (input.Length != InputNeuronCount)
-                throw new Exception("The number of input must be equal to number of perception neurons.");
-
             int i = 0;
             foreach (Neuron n in this.Neuron)
             {

@@ -228,18 +228,22 @@ namespace primeira.pNeuron
 
         private void SaveDocument()
         {
-            ActiveDocument.Save();
+            if(ThereIsAnActiveDocument())
+                ActiveDocument.Save();
         }
 
         private void SaveDocumentAs()
         {
-            bool bDefaul = ActiveDocument.DefaultNamedFile;
-            string old = ActiveDocument.Filename;
-
-            ActiveDocument.DefaultNamedFile = true;
-            if (ActiveDocument.Save() == DialogResult.Cancel)
+            if (ThereIsAnActiveDocument())
             {
-                ActiveDocument.DefaultNamedFile = bDefaul;
+                bool bDefaul = ActiveDocument.DefaultNamedFile;
+                string old = ActiveDocument.Filename;
+
+                ActiveDocument.DefaultNamedFile = true;
+                if (ActiveDocument.Save() == DialogResult.Cancel)
+                {
+                    ActiveDocument.DefaultNamedFile = bDefaul;
+                }
             }
 
         }
