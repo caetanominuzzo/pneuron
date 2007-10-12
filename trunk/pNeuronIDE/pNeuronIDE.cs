@@ -131,8 +131,9 @@ namespace primeira.pNeuron
             DateTime t;
             double vFirst = ((double)(ActiveDocument.MainDisplay.Net.Cycles )) / (double)(m_refreshCycleTimer.ElapsedMilliseconds / 1000);
 
-            statusCycles.Text = "Cycles/Sec.: " + vFirst.ToString("#00000");
-            statusGlobalError.Text = "Global Error: " + ActiveDocument.MainDisplay.Net.LastCalculatedGlobalError.ToString();
+            this.Invoke(new Assinc(delegate { statusCycles.Text = "Cycles/Sec.: " + vFirst.ToString("#00000"); }));
+            this.Invoke(new Assinc(delegate { statusGlobalError.Text = "Global Error: " + ActiveDocument.MainDisplay.Net.LastCalculatedGlobalError.ToString(); }));
+
             
         }
 
