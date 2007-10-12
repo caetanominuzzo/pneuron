@@ -365,22 +365,39 @@ namespace primeira.pNeuron
 
         #region Save/Load & Add Training Set
 
-        public void AddTrainingSet()
+        public void AddTrainingSet(string InitialName)
         {
-            int i = fpTrainingSet.Count + 1;
-            fpTrainingSet.Add(new pTrainingSet(MainDisplay.pPanels, "Training Set " + i.ToString(), this.Filename));
-            pTrainingSet fm = fpTrainingSet[fpTrainingSet.Count - 1];
-            dgTrainingSet.DataSource = fm.NewDataTable();
-
-            if (tcDesigner.SelectedTab == tbDesigner)
+            using (fmTrainingSetName f = new fmTrainingSetName(InitialName))
             {
-                tcDesigner.SelectedTab = tbTrainingSet;
+                if (f.ShowDialog() == DialogResult.OK)
+                {
+                    foreach (object o in cbTrainingSets.Items)
+                    {
+                        if (o.ToString() == f.txtName.Text)
+                        {
+                            pMessage.Error("Invalid duplicated name.");
+                            AddTrainingSet(f.txtName.Text);
+                            return;
+                        }
+                    }
+
+                    fpTrainingSet.Add(new pTrainingSet(MainDisplay.pPanels, f.txtName.Text, this.Filename));
+                    pTrainingSet fm = fpTrainingSet[fpTrainingSet.Count - 1];
+                    dgTrainingSet.DataSource = fm.NewDataTable();
+
+                    if (tcDesigner.SelectedTab == tbDesigner)
+                    {
+                        tcDesigner.SelectedTab = tbTrainingSet;
+                    }
+
+                    cbTrainingSets.Items.Add(fm.Name);
+                    cbTrainingSets.SelectedIndex = cbTrainingSets.Items.Count - 1;
+
+                    btRemoveTrainingSet.Enabled = true;
+                }
+
             }
 
-            cbTrainingSets.Items.Add(fm.Name);
-            cbTrainingSets.SelectedIndex = cbTrainingSets.Items.Count - 1;
-
-            btRemoveTrainingSet.Enabled = true;
 
             //DEPRECATEDParent.fmNetworkExplorer.AddNode(fm.Name, ((pDocument)Parent.ActiveDocument).Filename);
         }
@@ -710,7 +727,7 @@ namespace primeira.pNeuron
 
         private void btNewTrainingSet_Click(object sender, EventArgs e)
         {
-            AddTrainingSet();
+            AddTrainingSet("New Training Set");
         }
 
         private void btRemoveTrainingSet_Click(object sender, EventArgs e)
