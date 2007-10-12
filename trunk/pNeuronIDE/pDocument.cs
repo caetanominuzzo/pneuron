@@ -100,9 +100,6 @@ namespace primeira.pNeuron
         public delegate void OnStopTraingDelegate();
         public event OnStopTraingDelegate OnStopTraing;
 
-        public delegate void OnRefreshCyclesSecDelegate(int Times);
-        public event OnRefreshCyclesSecDelegate OnRefreshCyclesSec;
-
         public delegate void OnResetLearningDelegate();
         public event OnResetLearningDelegate OnResetLearning;
 
@@ -126,7 +123,6 @@ namespace primeira.pNeuron
             MainDisplay.Net.SetRandomGenerator(cache);
             MainDisplay.Net.OnStartTraing += new NeuralNetwork.OnStartTraingDelegate(Net_OnStartTraing);
             MainDisplay.Net.OnStopTraing += new NeuralNetwork.OnStopTraingDelegate(Net_OnStopTraing);
-            MainDisplay.Net.OnRefreshCyclesSec += new NeuralNetwork.OnRefreshCyclesSecDelegate(Net_OnRefreshCyclesSec);
             MainDisplay.Net.OnResetLearning += new NeuralNetwork.OnResetLearningDelegate(Net_OnResetLearning);
             MainDisplay.Net.OnResetKnowledgement += new NeuralNetwork.OnResetKnowledgementDelegate(Net_OnResetKnowledgement);
         }
@@ -135,12 +131,6 @@ namespace primeira.pNeuron
         #endregion
 
         #region Net Events
-
-        private void Net_OnRefreshCyclesSec(int Times)
-        {
-            if (OnRefreshCyclesSec != null)
-                OnRefreshCyclesSec(Times);
-        }
 
         private void Net_OnStopTraing()
         {

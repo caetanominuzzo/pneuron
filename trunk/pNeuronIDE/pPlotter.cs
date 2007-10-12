@@ -51,7 +51,7 @@ namespace primeira.pNeuron
 
         public void StartTimer()
         {
-            this.tmRefresh = new System.Threading.Timer(new TimerCallback(tmRefresh_Tick), null, 0, 750);
+            this.tmRefresh = new System.Threading.Timer(new TimerCallback(tmRefresh_Tick), null, 0, Parent.PLOTTER_REFRESH_INTERVAL );
         }
 
         public void StopTimer()
