@@ -798,7 +798,7 @@ namespace primeira.pNeuron
                         case pDisplayStatus.Linking_Paused:
                         case pDisplayStatus.Linking:
 
-                            if (DisplayStatus == pDisplayStatus.Linking_Paused)
+                            if (DisplayStatus == pDisplayStatus.Linking_Paused || DisplayStatus == pDisplayStatus.Training)
                             {
                                 Select(HighlightedpPanels);
                                 return;
