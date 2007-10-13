@@ -66,6 +66,22 @@ namespace primeira.pNeuron
                 fmToolbox.SetToolSet(null);
 
                 fmGroupExplorer.Clear();
+
+                if (fActiveDocument != null)
+                {
+                    fmProperty.Property.SelectedObject = fActiveDocument.MainDisplay.Net;
+
+                    fmProperty.cbItems.Items.Clear();
+
+                    fmProperty.cbItems.Items.Add(fActiveDocument.MainDisplay.Net.ToString());
+
+                    foreach (pNeuron.Core.Neuron n in fActiveDocument.MainDisplay.Net.Neuron)
+                    {
+                        fmProperty.cbItems.Items.Add(n.ToString());
+                    }
+                }
+
+
             }
         }
 
@@ -104,16 +120,17 @@ namespace primeira.pNeuron
             StartTimer();
         }
 
-         private void document_OnSelectedObjectChanged()
+        private void document_OnSelectedObjectChanged()
         {
             if (ActiveDocument.MainDisplay.SelectedpPanels.Length == 0)
-                fmProperty.Property.SelectedObject = ActiveDocument.MainDisplay;
+                fmProperty.Property.SelectedObject = ActiveDocument.MainDisplay.Net;
             else fmProperty.Property.SelectedObjects = ActiveDocument.MainDisplay.SelectedpPanels;
         }
 
         #endregion
 
         #region Methods
+
 
         public void StartTimer()
         {
@@ -260,39 +277,45 @@ namespace primeira.pNeuron
 
         private void tspStartTrain_Click(object sender, EventArgs e)
         {
-            ActiveDocument.StartTrain();
+            if(ThereIsAnActiveDocument())
+                ActiveDocument.StartTrain();
         }
 
         private void tspResetKnowledgement_Click(object sender, EventArgs e)
         {
             //its calls ResetKnowledgement too
-            ActiveDocument.ResetLearning();
+            if(ThereIsAnActiveDocument())
+                ActiveDocument.ResetLearning();
         }
 
         private void tspResetMemory_Click(object sender, EventArgs e)
         {
-            ActiveDocument.ResetMemory();
+            if (ThereIsAnActiveDocument())
+             ActiveDocument.ResetMemory();
         }
 
         private void tspPulse_Click(object sender, EventArgs e)
         {
-            List<double> input = new List<double>();
-
-            using (fmInputData f = new fmInputData(ActiveDocument.MainDisplay.Net.InputNeuronCount))
+            if (ThereIsAnActiveDocument())
             {
-                int iInput = 0;
-                if(f.ShowDialog() == DialogResult.OK);
+                List<double> input = new List<double>();
+
+                using (fmInputData f = new fmInputData(ActiveDocument.MainDisplay.Net.InputNeuronCount))
+                {
+                    int iInput = 0;
+                    if (f.ShowDialog() == DialogResult.OK) ;
                     foreach (Control c in f.Controls)
                     {
                         if (c is TextBox)
                         {
-                                input.Add(Util.Sigmoid(double.Parse(c.Text, System.Globalization.CultureInfo.InvariantCulture)));
-                                iInput++;
+                            input.Add(Util.Sigmoid(double.Parse(c.Text, System.Globalization.CultureInfo.InvariantCulture)));
+                            iInput++;
                         }
                     }
-            }
+                }
 
-            ActiveDocument.Pulse(input.ToArray());
+                ActiveDocument.Pulse(input.ToArray());
+            }
         }
           
         #endregion

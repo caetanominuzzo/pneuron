@@ -668,13 +668,13 @@ namespace primeira.pNeuron
 
                 }
 
-                if (input.Length != MainDisplay.Net.InputNeuronCount)
+                if (input[0].Length != MainDisplay.Net.InputNeuronCount)
                 {
                     pMessage.Error("The number of input must be equal to number of perception neurons.");
                     return;
                 }
 
-                if (output.Length != MainDisplay.Net.InputNeuronCount)
+                if (output[0].Length != MainDisplay.Net.OutputNeuronCount)
                 {
                      pMessage.Error("The number of output must be equal to number of output neurons.");
                     return;
