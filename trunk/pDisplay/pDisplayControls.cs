@@ -205,6 +205,9 @@ namespace primeira.pNeuron
 
             p.Selected = false;
             Invalidate(p.Bounds);
+
+            if(OnSelectedPanelsChange!=null)
+                OnSelectedPanelsChange();
         }
 
         /// <summary>
