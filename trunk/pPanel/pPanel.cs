@@ -152,6 +152,15 @@ namespace primeira.pNeuron
         }
 
         [Browsable(true)]
+        public double SigmoidedValue
+        {
+            get
+            {
+                return Util.UnSigmoid(Neuron.Value);
+            }
+        }
+
+        [Browsable(true)]
         public double Command
         {
             get

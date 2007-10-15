@@ -1234,7 +1234,8 @@ namespace primeira.pNeuron.Core
 
                     for (int j = 0; j < inputs.Length; j++)
                     {
-                        if (inputs[j][0] == 0) //Reset Memory Command
+                        //Reset Memory Command
+                        if (inputs[j][0] == 1) 
                         {
                             ResetMemory();
                         }
@@ -1367,7 +1368,7 @@ namespace primeira.pNeuron.Core
 
         public static double Sigmoid(double value)
         {
-            return (1 / (1 + Exp(-value)));
+            return (1 / (1 + Math.Exp(-value)));
         }
 
         public static double UnSigmoid(double value)

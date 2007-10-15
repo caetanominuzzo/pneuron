@@ -303,15 +303,15 @@ namespace primeira.pNeuron
                 using (fmInputData f = new fmInputData(ActiveDocument.MainDisplay.Net.InputNeuronCount))
                 {
                     int iInput = 0;
-                    if (f.ShowDialog() == DialogResult.OK) ;
-                    foreach (Control c in f.Controls)
-                    {
-                        if (c is TextBox)
+                    if (f.ShowDialog() == DialogResult.OK)
+                        foreach (Control c in f.Controls)
                         {
-                            input.Add(Util.Sigmoid(double.Parse(c.Text, System.Globalization.CultureInfo.InvariantCulture)));
-                            iInput++;
+                            if (c is TextBox)
+                            {
+                                input.Add(Util.Sigmoid(double.Parse(c.Text, System.Globalization.CultureInfo.InvariantCulture)));
+                                iInput++;
+                            }
                         }
-                    }
                 }
 
                 ActiveDocument.Pulse(input.ToArray());
