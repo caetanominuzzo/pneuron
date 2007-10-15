@@ -754,10 +754,7 @@ namespace primeira.pNeuron
             cbTrainingSets.Items.RemoveAt(i);
             fpTrainingSet.RemoveAt(i);
             if (cbTrainingSets.Items.Count > 0)
-                if (i < cbTrainingSets.Items.Count - 1)
-                    cbTrainingSets.SelectedIndex = i == 0 ? 1 : i;
-                else
-                    cbTrainingSets.SelectedIndex = i == 0 ? 1 : i - 1;
+                cbTrainingSets.SelectedIndex = 0;
             else
             {
                 dgTrainingSet.DataSource = null;

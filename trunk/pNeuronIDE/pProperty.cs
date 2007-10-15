@@ -65,12 +65,11 @@ namespace primeira.pNeuron
         {
             if ((pDocument)Parent.ActiveDocument!=null)
             {
-                ((pDocument)Parent.ActiveDocument).MainDisplay.Invalidate(((pPanel)Property.SelectedObject).Bounds);
+                if (Property.SelectedObject is pPanel)
+                    ((pDocument)Parent.ActiveDocument).MainDisplay.Invalidate(((pPanel)Property.SelectedObject).Bounds);
             }
 
         }
-
-
 
         #region IpDocks Members
 
@@ -83,7 +82,7 @@ namespace primeira.pNeuron
 
         private void cbItems_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cbItems.SelectedText== Parent.ActiveDocument.MainDisplay.Net.ToString())
+            if (cbItems.SelectedItem.ToString() == Parent.ActiveDocument.MainDisplay.Net.ToString())
             {
                 Property.SelectedObject = Parent.ActiveDocument.MainDisplay.Net;
             }
