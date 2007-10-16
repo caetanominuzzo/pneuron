@@ -1199,6 +1199,11 @@ namespace primeira.pNeuron
             if (m_bezier)
             {
 
+                if (d.Neuron != null)
+                {
+                    if (d.Neuron.NeuronType == NeuronTypes.Memory)
+                        p.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
+                }
 
 
 

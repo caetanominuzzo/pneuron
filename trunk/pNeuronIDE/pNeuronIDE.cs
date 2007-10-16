@@ -65,6 +65,8 @@ namespace primeira.pNeuron
 
                 fmToolbox.SetToolSet(null);
 
+                SetMenus();
+
                 fmGroupExplorer.Clear();
 
                 if (fActiveDocument != null)
@@ -131,6 +133,17 @@ namespace primeira.pNeuron
 
         #region Methods
 
+        private void SetMenus()
+        {
+
+            tspStartTrain.Enabled =
+                tspKnowledgement.Enabled =
+                tspResetMemory.Enabled =
+                tspPulse.Enabled =
+                saveAsToolStripMenuItem.Enabled = 
+                saveToolStripMenuItem.Enabled = ThereIsAnActiveDocument();
+            
+        }
 
         public void StartTimer()
         {
@@ -150,6 +163,7 @@ namespace primeira.pNeuron
 
             this.Invoke(new Assinc(delegate { statusCycles.Text = "Cycles/Sec.: " + vFirst.ToString("#00000"); }));
             this.Invoke(new Assinc(delegate { statusGlobalError.Text = "Global Error: " + ActiveDocument.MainDisplay.Net.LastCalculatedGlobalError.ToString(); }));
+            this.Invoke(new Assinc(delegate { fmProperty.Refresh(); }));
 
             
         }
@@ -300,10 +314,11 @@ namespace primeira.pNeuron
             {
                 List<double> input = new List<double>();
 
-                using (fmInputData f = new fmInputData(ActiveDocument.MainDisplay.Net.InputNeuronCount))
+                using (fmInputData f = new fmInputData(ActiveDocument.MainDisplay.pPanels.ToArray()))
                 {
                     int iInput = 0;
                     if (f.ShowDialog() == DialogResult.OK)
+                    {
                         foreach (Control c in f.Controls)
                         {
                             if (c is TextBox)
@@ -312,9 +327,12 @@ namespace primeira.pNeuron
                                 iInput++;
                             }
                         }
+
+                        ActiveDocument.Pulse(input.ToArray());
+                    }
                 }
 
-                ActiveDocument.Pulse(input.ToArray());
+                
             }
         }
           
@@ -331,8 +349,8 @@ namespace primeira.pNeuron
             fmToolbox.Show(dockPanel, DockState.DockLeft);
 
             fmPlotter.Show(dockPanel, DockState.DockBottomAutoHide);
-            fmLogger.Show(dockPanel, DockState.Document);
-            fmLogger.DockTo(fmPlotter.Pane, DockStyle.Fill, 0);
+            //fmLogger.Show(dockPanel, DockState.Document);
+            //fmLogger.DockTo(fmPlotter.Pane, DockStyle.Fill, 0);
 
           //  fmGroupExplorer.Show(dockPanel, DockState.DockRight);
             fmProperty.Show(dockPanel, DockState.DockRight);
@@ -385,6 +403,11 @@ namespace primeira.pNeuron
             fmProperty.Show();
         }
 
+        private void plotterToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            fmPlotter.Show();
+        }
+
         private void networkExplorerToolStripMenuItem_Click(object sender, EventArgs e)
         {
             fmGroupExplorer.Show();
@@ -414,6 +437,8 @@ namespace primeira.pNeuron
             learninRate.Text = "Learning Rate: " + trackLR.Value;
             ActiveDocument.MainDisplay.Net.LearningRate = trackLR.Value;
         }
+
+       
 
 
 

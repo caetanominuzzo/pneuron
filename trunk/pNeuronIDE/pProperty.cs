@@ -100,5 +100,15 @@ namespace primeira.pNeuron
 
         }
 
+        public new void Refresh()
+        {
+            Property.Refresh();
+        }
+
+        private void btRefresh_Click(object sender, EventArgs e)
+        {
+            Refresh();
+        }
+
     }
 }

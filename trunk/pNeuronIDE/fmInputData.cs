@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using primeira.pNeuron.Core;
 
 namespace primeira.pNeuron
 {
@@ -25,26 +26,46 @@ namespace primeira.pNeuron
             InitializeComponent();
         }
 
-        public fmInputData(int InputCount)
+        public fmInputData(pPanel[] InputPanels)
         {
             DialogResult = DialogResult.Cancel;
             m_inputCount = InputCount;
 
             InitializeComponent();
             SuspendLayout();
-            for (int i = 0; i < InputCount; i++)
+            int i = 0;
+            foreach (pPanel p in InputPanels)
             {
-                TextBox t = new TextBox();
+                if(p.Neuron.NeuronType != NeuronTypes.Input)
+                    continue;
 
-                t.Location = new System.Drawing.Point(12, 12+(i*30));
+                TextBox t = new TextBox();
+                Label l = new Label();
+
+                t.Location = new System.Drawing.Point(72, 12+(i*30));
                 t.Size = new System.Drawing.Size(100, 20);
                 t.TabIndex = i;
 
-                Controls.Add(t);
+                l.Location = new System.Drawing.Point(12, 15 + (i * 30));
+                l.Size = new System.Drawing.Size(50, 20);
+                l.Text = p.Text;
 
-                if (Height < 12 + (i * 30) + 100)
-                    Height = 12 + (i * 30) + 100;
+                Controls.Add(t);
+                Controls.Add(l);
+
+                if (Height < 12 + (i * 30) + 90)
+                    Height = 12 + (i * 30) + 90;
+
+                i++;
             }
+
+            btOk.Top = Height - 60;
+            btCancel.Top = Height - 60;
+
+
+            btOk.TabIndex = i++;
+            btCancel.TabIndex = i;
+
 
 
             ResumeLayout(false);
@@ -59,25 +80,5 @@ namespace primeira.pNeuron
         }
     }
 
-    public static class GetInputData
-    {
-        public static double[] Show(int InputCount)
-        {
-            double[] result = new double[InputCount ];
-
-            using (fmInputData f = new fmInputData(InputCount))
-            {
-                int iInput = 0;
-                if(f.ShowDialog() == DialogResult.OK);
-                    foreach (Control c in f.Controls)
-                    {
-                        if (c is TextBox)
-                        {
-                            result[iInput++] = double.Parse(c.Text, System.Globalization.CultureInfo.InvariantCulture);
-                        }
-                    }
-            }
-            return result;
-        }
-    }
+    
 }
