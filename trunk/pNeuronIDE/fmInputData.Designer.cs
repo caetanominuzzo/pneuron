@@ -64,8 +64,9 @@ namespace primeira.pNeuron
             this.Controls.Add(this.btCancel);
             this.Controls.Add(this.btOk);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
             this.Name = "fmInputData";
-            this.Text = "fmInputData";
+            this.Text = "Set Initial Data";
             this.ResumeLayout(false);
 
         }
