@@ -28,26 +28,26 @@ namespace primeira.pNeuron
         /// </summary>
         private void InitializeComponent()
         {
-            this.bOk = new System.Windows.Forms.Button();
+            this.btOk = new System.Windows.Forms.Button();
             this.btCancel = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // bOk
+            // btOk
             // 
-            this.bOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.bOk.Location = new System.Drawing.Point(163, 51);
-            this.bOk.Name = "bOk";
-            this.bOk.Size = new System.Drawing.Size(75, 23);
-            this.bOk.TabIndex = 0;
-            this.bOk.Text = "Pulse!";
-            this.bOk.UseVisualStyleBackColor = true;
-            this.bOk.Click += new System.EventHandler(this.bOk_Click);
+            this.btOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btOk.Location = new System.Drawing.Point(97, 51);
+            this.btOk.Name = "btOk";
+            this.btOk.Size = new System.Drawing.Size(75, 23);
+            this.btOk.TabIndex = 0;
+            this.btOk.Text = "Pulse!";
+            this.btOk.UseVisualStyleBackColor = true;
+            this.btOk.Click += new System.EventHandler(this.bOk_Click);
             // 
             // btCancel
             // 
             this.btCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btCancel.Location = new System.Drawing.Point(82, 51);
+            this.btCancel.Location = new System.Drawing.Point(16, 51);
             this.btCancel.Name = "btCancel";
             this.btCancel.Size = new System.Drawing.Size(75, 23);
             this.btCancel.TabIndex = 1;
@@ -56,13 +56,14 @@ namespace primeira.pNeuron
             // 
             // fmInputData
             // 
-            this.AcceptButton = this.bOk;
+            this.AcceptButton = this.btOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btCancel;
-            this.ClientSize = new System.Drawing.Size(250, 86);
+            this.ClientSize = new System.Drawing.Size(184, 86);
             this.Controls.Add(this.btCancel);
-            this.Controls.Add(this.bOk);
+            this.Controls.Add(this.btOk);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "fmInputData";
             this.Text = "fmInputData";
             this.ResumeLayout(false);
@@ -71,7 +72,7 @@ namespace primeira.pNeuron
 
         #endregion
 
-        private System.Windows.Forms.Button bOk;
+        private System.Windows.Forms.Button btOk;
         private System.Windows.Forms.Button btCancel;
 
     }
