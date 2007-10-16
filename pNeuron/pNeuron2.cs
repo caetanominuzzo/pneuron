@@ -1373,7 +1373,7 @@ namespace primeira.pNeuron.Core
 
         public static double UnSigmoid(double value)
         {
-            return -Math.Log((1.0 / value + 1.0));
+            return -Math.Log((1.0 / value - 1.0));
 
         }
 
