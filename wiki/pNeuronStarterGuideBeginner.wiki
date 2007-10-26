@@ -12,11 +12,11 @@ Todas essas perguntas podem ser respondidas simplificadamente pelo próprio enun
 
 1.1 Clique em Arquivo\Nova Rede Neural. Abaixo você pode ver como deve estar a IDE nesse ponto bem como uma descrição das ferramentas disponíveis. Para uma visão mais detalhada da IDE consulte o tópico relacionado. 
 
-(Imagem da IDE) 
+[http://www.agenciaprimeira.com.br/wiki/img/pNeuronIDE_1_1.JPG] _Imagem 1.1_
 
 1.2 No toolbox clique em Novo Neurônio e clique na área de design da rede neural. Adicione cinco neurônios dessa forma 
 
-(Imagem do layout basico) 
+[http://www.agenciaprimeira.com.br/wiki/img/pNeuronIDE_1_2.JPG] _Imagem 1.2_
 
 1.3 Selecione os dois neurônios da esquerda. Na janela de propriedades e altere o NeuronType_? pra Input.
 
@@ -28,7 +28,8 @@ DICA: Para saber mais sobre _NeuronType_ consulte o glossário seguindo o link.
 
 1.6 Agora vamos definir as sinapses entre os neurônios. Na toolbox clique em Adicionar Sinapse. Selecione os dois neurônios de entrada (a esquerda), agora clique em cada um dos dois neurônios ocultos (no centro). Agora repita a operação ligando os neurônios ocultos ao neurônio de saida. Você deve ter algo parecido com isso 
 
-(Imagem da rede com sinaspses) 
+[http://www.agenciaprimeira.com.br/wiki/img/pNeuronIDE_1_6.JPG] _Imagem 1.6_
+
 
 Segunda parte
 
@@ -36,11 +37,13 @@ Antes de iniciar o processo de treinamento é necessário salvar a rede neural. 
 
 2.1 Logo abaixo a área de design existem duas abas "Network Design" e "Trainig Sets". Clique em "Training Sets". 
 
-(Imagem das abas inferiores) 
+[http://www.agenciaprimeira.com.br/wiki/img/pNeuronIDE_2_1.JPG] _Imagem 2.1_
+
 
 2.2 No menu superior, dentro da aba de Training Sets, clique em "Novo". Isso irá adicionar um novo training set compatível com o layout especificado na primeira parte. 
 
-(Imagem do menu superior) 
+[http://www.agenciaprimeira.com.br/wiki/img/pNeuronIDE_2_2.JPG] _Imagem 2.2_
+
 
 Repare que o novo training set tem três colunas chamadas 0, 1 e 4. As colunas representam os neurônios de entrada/saída e são nomeadas conforme os nomes dos neurônios. Don´t care about the hidden neurons for now. 
 
@@ -56,13 +59,15 @@ false true true
 
 Temos então o seguinte cenário. 
 
-(Imagem do training set preechido) 
+[http://www.agenciaprimeira.com.br/wiki/img/pNeuronIDE_2_3.JPG] _Imagem 2.3_
+
 
 Agora você pode salvar novamente sua rede neural. 
 
 2.4 Então não há mais nada a fazer senão clicar no botão "Start Train". A IDE oferece muitos recursos que otimizam o treinamento e facilitam a análise do progresso. Por enquanto repare apenas na janela Global Error Plotter, se tudo deu certo após alguns segundos o plotter deve apresentar um gráfico parecido com este. 
 
-(Imagem do plotter bem treinado). 
+[http://www.agenciaprimeira.com.br/wiki/img/pNeuronIDE_2_4.JPG] _Imagem 2.4_
+
 
 Então é hora de usarmos esses dados em nossa aplicação. 
 
