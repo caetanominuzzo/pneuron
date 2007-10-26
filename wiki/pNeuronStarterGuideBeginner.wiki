@@ -1,16 +1,16 @@
 #summary The XOR problem
 
-XOR é um bem conhecido problema de redes neurais. Consiste em ensinar uma rede neural a calcular o XOR de dois valores booleanos dados. Existem inúmeros artigos disponíveis na internet que analisam vários aspectos 
+XOR é um bem conhecido problema de redes neurais. Consiste em ensinar uma rede neural a calcular o XOR de dois valores booleanos dados. Existem inúmeros artigos disponíveis na internet que analisam vários aspectos teóricos da implementação de uma rede neural para o XOR, entretanto vamos nos ater aos conceitos práticos relacionados com a implementação na pNeuronIDE.
 
 Esse exemplo é dividido em três partes. A primeira parte trata do projeto da rede neural e dos domínios utilizados. Na segunda parte vamos importar um trainning set e aplicá-lo em nossa rede. Na terceira parte a rede será exportada e então utilizada em um projeto Windows Forms no Visual Studio 2005. 
 
-Primeira parte 
+*Primeira parte*
 
 Ao iniciar uma rede neural devemos responder as seguintes perguntas: 1. Quantos entradas a rede deve ter? 2. Que tipo de dados são esperados nas entradas? 3. Quantos dados a rede deve retornar como resultado? 
 
 Todas essas perguntas podem ser respondidas simplificadamente pelo próprio enunciado do problema: A rede deve retornar o XOR entre dois booleanos. Assim ela precisará de duas entradas (uma para cada valor booleano), o tipo de dado de entrada é booleano e como resultado precisamos de um booleano. Com isso em mente vamos começar a desenhar nossa rede.
 
-1.1 Clique em Arquivo\Nova Rede Neural. Abaixo você pode ver como deve estar a IDE nesse ponto bem como uma descrição das ferramentas disponíveis. Para uma visão mais detalhada da IDE consulte o tópico relacionado. 
+1.1 Clique em Arquivo\Nova Rede Neural. Abaixo você pode ver como deve estar a IDE nesse ponto. Para uma visão mais detalhada da IDE consulte o tópico relacionado aqui. 
 
 [http://www.agenciaprimeira.com.br/wiki/img/pNeuronIDE_1_1.JPG] _Imagem 1.1_
 
@@ -18,7 +18,7 @@ Todas essas perguntas podem ser respondidas simplificadamente pelo próprio enun
 
 [http://www.agenciaprimeira.com.br/wiki/img/pNeuronIDE_1_2.JPG] _Imagem 1.2_
 
-1.3 Selecione os dois neurônios da esquerda. Na janela de propriedades e altere o NeuronType_? pra Input.
+1.3 Selecione os dois neurônios da esquerda. Na janela de propriedades altere o NeuronType_? pra Input.
 
 DICA: Para saber mais sobre _NeuronType_ consulte o glossário seguindo o link. 
 
@@ -31,11 +31,11 @@ DICA: Para saber mais sobre _NeuronType_ consulte o glossário seguindo o link.
 [http://www.agenciaprimeira.com.br/wiki/img/pNeuronIDE_1_6.JPG] _Imagem 1.6_
 
 
-Segunda parte
+*Segunda parte*
 
 Antes de iniciar o processo de treinamento é necessário salvar a rede neural. Clique em Arquivo\Salvar. 
 
-2.1 Logo abaixo a área de design existem duas abas "Network Design" e "Trainig Sets". Clique em "Training Sets". 
+2.1 Logo abaixo a área de design existem duas abas: "Network Design" e "Trainig Sets". Clique em "Training Sets". 
 
 [http://www.agenciaprimeira.com.br/wiki/img/pNeuronIDE_2_1.JPG] _Imagem 2.1_
 
@@ -45,17 +45,17 @@ Antes de iniciar o processo de treinamento é necessário salvar a rede neural. 
 [http://www.agenciaprimeira.com.br/wiki/img/pNeuronIDE_2_2.JPG] _Imagem 2.2_
 
 
-Repare que o novo training set tem três colunas chamadas 0, 1 e 4. As colunas representam os neurônios de entrada/saída e são nomeadas conforme os nomes dos neurônios. Don´t care about the hidden neurons for now. 
+Repare que o novo training set tem três colunas chamadas 1, 2 e 5. As colunas representam os neurônios de entrada/saída e são nomeadas conforme os nomes dos neurônios. Não se preocupe com os neurônios ocultos por enquanto. 
 
 As linhas, inicialmente vazias, do training set representam os casos de treinamento que precisam ser fornecidas à rede. Uma vez que definimos o DataType? para boolean tanto nos neurônios de entrada quanto no de saída temos então uma lista com as opções para o preechimento de cada campo (no caso, verdadeiro ou falso). 
 
-2.3 Voltando ao primeiro grau temos os quatro casos possíveis para o XOR, são esses dados que devemos fornecer à nossa rede.
-true true false
-false false false
-true false true
-false true true 
+2.3 Temos quatro casos possíveis para o XOR, são esses dados que devemos fornecer à nossa rede.
+||false||false||false||
+||true||true||false||
+||true||false||true||
+||false||true||true||
 
-É importante entender que fornecendo apenas três dos quatro casos a rede neural não é capaz de deduzir por mágica o caso faltante. Todos o conhecimento de uma rede neural é baseada nos dados apresentados no training set. Uma boa escolha dos casos é fundamental para o sucesso do projeto. 
+É importante entender que fornecendo apenas três dos quatro casos a rede neural não é capaz de deduzir por mágica o caso faltante. Todo o conhecimento de uma rede neural é baseada nos dados apresentados no training set. Uma boa escolha dos casos é fundamental para o sucesso do projeto. 
 
 Temos então o seguinte cenário. 
 
@@ -68,16 +68,19 @@ Agora você pode salvar novamente sua rede neural.
 
 [http://www.agenciaprimeira.com.br/wiki/img/pNeuronIDE_2_4.JPG] _Imagem 2.4_
 
+Obs.: O conhecimento inicial de uma rede neural é gerada randomicamente, portanto inúmeras possibilidades se apresentam para o decaimento do erro global, inclusive o não decaimento. Neste caso clique em "Reset knowledgement" para resetar o conhecimento da rede e reinicar o treinamento.
+
+Após algum tempo a rede automaticamente interrompe o treinamento e volta para o status Idle, entretanto a qualquer momento você pode clicar em "Stop training" para interrompê-lo.
 
 Então é hora de usarmos esses dados em nossa aplicação. 
 
 Terceira parte 
 
-3.1 No menu superior clique em "Export Trained Network", defina onde o arquivo será salvo e clique em Ok. 
+3.1 No menu superior clique em "File\Publis Neural Network", defina onde o arquivo será salvo e clique em Ok. 
 
-A partir de agora vamos utilizar apenas o Visual Studio 2005, caso você não saiba como executar uma das ações envolvendo esta IDE clique no botão de ajuda apresentado ao lado de cada passo que envolva ações no Visual Studio.
+A partir de agora vamos utilizar apenas o Visual Studio 2005.
 
-3.2 Abra o Visual Studio 2005 e abra um novo projeto Windows Forms em C#. [?]
+3.2 Abra o Visual Studio 2005 e abra um novo projeto Windows Forms em C#. 
 
 3.3 Clique com o botão direito em References, vá na aba "Browser" e procure pelo arquivo com a extensão .dll gerado no passo 3.1.
 
