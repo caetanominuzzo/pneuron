@@ -93,6 +93,7 @@ namespace primeira.pNeuron
                     if(p != this)
                         if (p.Name == value)
                             throw new Exception("Names must be unique.");
+                    
                 }
 
             Text = value;
@@ -260,12 +261,12 @@ namespace primeira.pNeuron
             return lpp;
         }
 
-        public void Draw()
+        public void Draw(float iZoom, int offsetX, int offsetY)
         {
-            Draw(m_graphics);
+            Draw(m_graphics, iZoom, offsetX, offsetY);
         }
 
-        public void Draw(Graphics g)
+        public void Draw(Graphics g, float iZoom, int offsetX, int offsetY)
         {
 
             Brush brush = GetBrushtyle();
@@ -295,15 +296,15 @@ namespace primeira.pNeuron
 
             //return;
 
-                g.DrawEllipse(pen, Bounds.Left + (pen.Width),
-                                 Bounds.Top + (pen.Width),
-                                 Bounds.Width - (pen.Width * 2),
-                                 Bounds.Height - (pen.Width * 2));
+            g.DrawEllipse(pen, Magnify(Offset(Bounds.Left + (pen.Width), offsetX), iZoom),
+                              Magnify(Offset(Bounds.Top + (pen.Width), offsetY), iZoom),
+                              Magnify(Bounds.Width - (pen.Width * 2), iZoom),
+                              Magnify(Bounds.Height - (pen.Width * 2), iZoom));
 
-                g.DrawEllipse(pen, Bounds.Left + (pen.Width),
-                     Bounds.Top + (pen.Width),
-                     Bounds.Width - (pen.Width * 2),
-                     Bounds.Height - (pen.Width * 2));
+                g.DrawEllipse(pen,  Magnify(Offset(Bounds.Left + (pen.Width), offsetX), iZoom),
+                      Magnify(Offset(Bounds.Top + (pen.Width), offsetY), iZoom),
+                      Magnify(Bounds.Width - (pen.Width * 2), iZoom),
+                      Magnify(Bounds.Height - (pen.Width * 2), iZoom));
 
 
 
@@ -315,10 +316,10 @@ namespace primeira.pNeuron
 
 
                 g.FillPie(brush,
-                           Bounds.Left,
-                           Bounds.Top,
-                           Bounds.Width,
-                           Bounds.Height,
+                           Magnify(Offset(Bounds.Left, offsetX), iZoom),
+                           Magnify(Offset(Bounds.Top, offsetY), iZoom),
+                           Magnify(Bounds.Width, iZoom),
+                           Magnify(Bounds.Height, iZoom),
                            0,
                            iRad);
 
@@ -332,8 +333,15 @@ namespace primeira.pNeuron
 
             //g.TextContrast = 5;
             g.DrawString(s, f, new SolidBrush(Color.Black),
-                -(g.MeasureString(s, f).Width / 2) + Bounds.Left + Bounds.Width / 2 + 2,
-                -(g.MeasureString(s, f).Height / 2) + Bounds.Top + Bounds.Height / 2);
+                
+                Magnify(
+                    -(g.MeasureString(s, f).Width / 2) + Bounds.Left + Bounds.Width / 2 + 2
+                    , iZoom),
+                   
+
+                Magnify(
+                -(g.MeasureString(s, f).Height / 2) + Bounds.Top + Bounds.Height / 2,
+                iZoom));
 
 
         }
@@ -394,5 +402,35 @@ namespace primeira.pNeuron
 
         }
 
+        /// <summary>
+        /// Apply a zoom factor on an int
+        /// </summary>
+        /// <param name="i"></param>
+        /// <returns></returns>
+        public int Magnify(int i, float Zoom)
+        {
+            return Convert.ToInt32(i * Zoom);
+        }
+
+        /// <summary>
+        /// Apply a zoom factor on a float
+        /// </summary>
+        /// <param name="f"></param>
+        /// <returns></returns>
+        public float Magnify(float f,float Zoom)
+        {
+            return f * Zoom;
+        }
+
+        public int Offset(int value, int offset)
+        {
+            return value + offset;
+        }
+
+        public int Offset(float value, int offset)
+        {
+            return (int)value + offset;
+        }
     }
+
 }
