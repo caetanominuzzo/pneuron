@@ -47,8 +47,15 @@ namespace primeira.pNeuron
 
         public void SetToolSet(pDocument aActiveDocument)
         {
+            rCursor.CheckedChanged -= rCursor_CheckedChanged;
+            rNeuron.CheckedChanged -= rCursor_CheckedChanged;
+            rSynapse.CheckedChanged -= rCursor_CheckedChanged;
+            rRemove.CheckedChanged -= rCursor_CheckedChanged;
+
             if(aActiveDocument == null)
             {
+               
+
                 rCursor.Enabled = true;
                 rCursor.Checked = true;
 
@@ -83,6 +90,12 @@ namespace primeira.pNeuron
                         break;
                 }
             }
+
+            this.rCursor.CheckedChanged += new System.EventHandler(this.rCursor_CheckedChanged);
+            this.rNeuron.CheckedChanged += new System.EventHandler(this.rCursor_CheckedChanged);
+            this.rSynapse.CheckedChanged += new System.EventHandler(this.rCursor_CheckedChanged);
+            this.rRemove.CheckedChanged += new System.EventHandler(this.rCursor_CheckedChanged);
+
         }
 
         #region IpDocks Members

@@ -28,7 +28,6 @@ namespace primeira.pNeuron
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(fmImportFromSQL));
             this.button3 = new System.Windows.Forms.Button();
             this.btOk = new System.Windows.Forms.Button();
             this.txtSQL = new System.Windows.Forms.TextBox();
@@ -40,7 +39,8 @@ namespace primeira.pNeuron
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(51, 241);
+            this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button3.Location = new System.Drawing.Point(169, 373);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
             this.button3.TabIndex = 13;
@@ -49,7 +49,8 @@ namespace primeira.pNeuron
             // 
             // btOk
             // 
-            this.btOk.Location = new System.Drawing.Point(132, 241);
+            this.btOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btOk.Location = new System.Drawing.Point(250, 373);
             this.btOk.Name = "btOk";
             this.btOk.Size = new System.Drawing.Size(75, 23);
             this.btOk.TabIndex = 12;
@@ -59,18 +60,20 @@ namespace primeira.pNeuron
             // 
             // txtSQL
             // 
-            this.txtSQL.Location = new System.Drawing.Point(12, 156);
+            this.txtSQL.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtSQL.Location = new System.Drawing.Point(13, 140);
             this.txtSQL.Multiline = true;
             this.txtSQL.Name = "txtSQL";
             this.txtSQL.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtSQL.Size = new System.Drawing.Size(195, 79);
+            this.txtSQL.Size = new System.Drawing.Size(312, 227);
             this.txtSQL.TabIndex = 11;
-            this.txtSQL.Text = resources.GetString("txtSQL.Text");
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(9, 139);
+            this.label2.Location = new System.Drawing.Point(10, 124);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(28, 13);
             this.label2.TabIndex = 10;
@@ -78,7 +81,8 @@ namespace primeira.pNeuron
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(132, 111);
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.Location = new System.Drawing.Point(250, 90);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 9;
@@ -87,14 +91,14 @@ namespace primeira.pNeuron
             // 
             // txtConn
             // 
-            this.txtConn.Location = new System.Drawing.Point(12, 26);
+            this.txtConn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtConn.Location = new System.Drawing.Point(13, 25);
             this.txtConn.Multiline = true;
             this.txtConn.Name = "txtConn";
             this.txtConn.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtConn.Size = new System.Drawing.Size(195, 79);
+            this.txtConn.Size = new System.Drawing.Size(312, 59);
             this.txtConn.TabIndex = 8;
-            this.txtConn.Text = "Data Source=caetano\\sqlexpress;Initial Catalog=prize;Integrated Security=True;Poo" +
-                "ling=False";
             // 
             // label1
             // 
@@ -110,7 +114,7 @@ namespace primeira.pNeuron
             this.AcceptButton = this.btOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(220, 273);
+            this.ClientSize = new System.Drawing.Size(337, 408);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.btOk);
             this.Controls.Add(this.txtSQL);
@@ -119,7 +123,7 @@ namespace primeira.pNeuron
             this.Controls.Add(this.txtConn);
             this.Controls.Add(this.label1);
             this.Name = "fmImportFromSQL";
-            this.Text = "fmImportFromSQL";
+            this.Text = "Import from SQL";
             this.ResumeLayout(false);
             this.PerformLayout();
 

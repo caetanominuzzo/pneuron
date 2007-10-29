@@ -65,6 +65,10 @@
       <Project>{2152137D-D8FD-4E9C-8732-D8C1F2E03156}</Project>
       <Name>pRandom</Name>
     </ProjectReference>
+    <ProjectReference Include="..\pShortcutManager\pShortcutManager.csproj">
+      <Project>{2B504E3B-8A90-4DB0-9AD3-49C2C2D844C7}</Project>
+      <Name>pShortcutManager</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="pDisplay.resx">

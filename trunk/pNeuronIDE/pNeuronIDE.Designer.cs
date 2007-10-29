@@ -53,6 +53,7 @@ namespace primeira.pNeuron
             this.tspViewToolbox = new System.Windows.Forms.ToolStripMenuItem();
             this.tspViewPropertyWindow = new System.Windows.Forms.ToolStripMenuItem();
             this.domainEditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.plotterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.tspStartTrain = new System.Windows.Forms.ToolStripButton();
             this.tspKnowledgement = new System.Windows.Forms.ToolStripButton();
@@ -61,7 +62,8 @@ namespace primeira.pNeuron
             this.pnTrackBar = new System.Windows.Forms.Panel();
             this.trackLR = new System.Windows.Forms.TrackBar();
             this.dockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
-            this.plotterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.starterGuideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.status.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -197,7 +199,8 @@ namespace primeira.pNeuron
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem1,
-            this.viewToolStripMenuItem1});
+            this.viewToolStripMenuItem1,
+            this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
@@ -285,6 +288,13 @@ namespace primeira.pNeuron
             this.domainEditToolStripMenuItem.Text = "Domain Edit";
             this.domainEditToolStripMenuItem.Click += new System.EventHandler(this.domainEditToolStripMenuItem_Click);
             // 
+            // plotterToolStripMenuItem
+            // 
+            this.plotterToolStripMenuItem.Name = "plotterToolStripMenuItem";
+            this.plotterToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.plotterToolStripMenuItem.Text = "Plotter";
+            this.plotterToolStripMenuItem.Click += new System.EventHandler(this.plotterToolStripMenuItem_Click);
+            // 
             // toolStrip1
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -369,12 +379,20 @@ namespace primeira.pNeuron
             this.dockPanel.Size = new System.Drawing.Size(753, 260);
             this.dockPanel.TabIndex = 0;
             // 
-            // plotterToolStripMenuItem
+            // helpToolStripMenuItem
             // 
-            this.plotterToolStripMenuItem.Name = "plotterToolStripMenuItem";
-            this.plotterToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
-            this.plotterToolStripMenuItem.Text = "Plotter";
-            this.plotterToolStripMenuItem.Click += new System.EventHandler(this.plotterToolStripMenuItem_Click);
+            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.starterGuideToolStripMenuItem});
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
+            this.helpToolStripMenuItem.Text = "Help";
+            // 
+            // starterGuideToolStripMenuItem
+            // 
+            this.starterGuideToolStripMenuItem.Name = "starterGuideToolStripMenuItem";
+            this.starterGuideToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.starterGuideToolStripMenuItem.Text = "Starter Guide";
+            this.starterGuideToolStripMenuItem.Click += new System.EventHandler(this.starterGuideToolStripMenuItem_Click);
             // 
             // pNeuronIDE
             // 
@@ -444,5 +462,7 @@ namespace primeira.pNeuron
         private System.Windows.Forms.ToolStripButton tspResetMemory;
         private System.Windows.Forms.ToolStripButton tspPulse;
         private System.Windows.Forms.ToolStripMenuItem plotterToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem starterGuideToolStripMenuItem;
     }
 }
