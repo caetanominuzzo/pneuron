@@ -108,6 +108,8 @@ namespace primeira.pNeuron
 
 
 
+
+
         #endregion
 
         #region Constructors
@@ -125,7 +127,21 @@ namespace primeira.pNeuron
             MainDisplay.Net.OnStopTraing += new NeuralNetwork.OnStopTraingDelegate(Net_OnStopTraing);
             MainDisplay.Net.OnResetLearning += new NeuralNetwork.OnResetLearningDelegate(Net_OnResetLearning);
             MainDisplay.Net.OnResetKnowledgement += new NeuralNetwork.OnResetKnowledgementDelegate(Net_OnResetKnowledgement);
+
+            
         }
+
+        public pDocument()
+        {
+            MainDisplay = new pDisplay();
+            InitializeComponent();
+
+           
+        }
+
+    
+
+  
 
         
         #endregion
@@ -191,22 +207,6 @@ namespace primeira.pNeuron
         {
             switch (e.KeyCode)
             {
-                case Keys.Delete:
-                    MainDisplay.DisplayStatus = pDisplay.pDisplayStatus.Remove_Neuron;
-                    break;
-                case Keys.B: MainDisplay.Bezier = !MainDisplay.Bezier;
-                    Invalidate();
-                    break;
-                case Keys.K: //Log ShiftB
-                    MainDisplay.Logger.Visible = !MainDisplay.Logger.Visible;
-                    break;
-                case Keys.Escape:
-                    MainDisplay.UnSelect();
-                    MainDisplay.DisplayStatus = pDisplay.pDisplayStatus.Idle;
-                    break;
-                case Keys.L: //Link Mode
-                    MainDisplay.DisplayStatus = pDisplay.pDisplayStatus.Linking_Paused;
-                    break;
                 case Keys.D1:
                 case Keys.D2:
                 case Keys.D3:
@@ -329,7 +329,11 @@ namespace primeira.pNeuron
                 DialogResult r = pMessage.Confirm("You must save the network design before add or edit a training set.\nDo you want to save now?", MessageBoxButtons.YesNoCancel);
                 if (r == DialogResult.Yes)
                 {
-                    Save();
+                    if (Save() != DialogResult.OK)
+                    {
+                        e.Cancel = true;
+                        return;
+                    }
                 }
                 else
                 {
@@ -791,8 +795,7 @@ namespace primeira.pNeuron
 
         #endregion
 
-
-       
+     
 
     }
 

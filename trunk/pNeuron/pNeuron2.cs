@@ -4,6 +4,7 @@ using System;
 using System.Text;
 using System.Collections.Generic;
 using primeira.pRandom;
+using System.ComponentModel;
 
 
 namespace primeira.pNeuron.Core
@@ -848,6 +849,7 @@ namespace primeira.pNeuron.Core
         /// <summary>
         /// Gets a new ID.
         /// </summary>
+        [Browsable(false)]
         public int GeneratorID
         {
             get

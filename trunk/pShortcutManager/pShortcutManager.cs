@@ -547,7 +547,8 @@ namespace pShortcutManager
                     {
                         if (p.AtomID == (int)m.WParam && fEscope.Contains(p.Escope))
                         {
-                            p.Command.Method.Invoke(p.Command.Object, new object[] { this, new EventArgs() });
+                            //p.Command.Method.Invoke(p.Command.Object, new object[] { this, new EventArgs() });
+                            p.Command.Method.Invoke(p.Command.Object, new object[] { });
                             return true;
                         }
                     }
@@ -651,11 +652,58 @@ namespace pShortcutManager
 
         }
 
-        public void LoadFromForm(Form aForm)
+        public void UnloadFromForm(Control aControl)
+        {
+            this.fParenthandle = aControl.Handle;
+            foreach (MethodInfo m in aControl.GetType().GetMethods())
+            {
+                foreach (object o in m.GetCustomAttributes(false))
+                    if (o is pShortcutManagerVisible)
+                    {
+                        pShortcutManagerVisible v = (pShortcutManagerVisible)o;
+
+                        pShortcutCommand command = null;
+
+                        foreach (pShortcutCommand cc in fCommand)
+                        {
+                            if (cc.Name == v.Name)
+                            {
+                                command = cc;
+                                break;
+                            }
+                        }
+
+                        List<pShortcut> ToRemove = new List<pShortcut>();
+
+                        foreach (pShortcut pp in fpShorcut)
+                        {
+                            if (pp.Command == command)
+                            {
+                                UnregisterHotKey(fParenthandle, pp.AtomID);
+                                ToRemove.Add(pp);
+                            }
+                        }
+
+
+                        while (ToRemove.Count > 0)
+                        {
+                            
+                            fpShorcut.Remove(ToRemove[0]);
+                        }
+                            
+
+                            
+                    }
+            }
+           
+        }
+
+        public void LoadFromForm(Control aControl)
         {
             
-            this.fParenthandle = aForm.Handle;
-            foreach (MethodInfo m in aForm.GetType().GetMethods())
+
+            this.fParenthandle = aControl.Handle;
+            foreach (MethodInfo m in aControl.GetType().GetMethods())
             {
                 foreach (object o in m.GetCustomAttributes(false))
                     if (o is pShortcutManagerVisible)
@@ -674,7 +722,7 @@ namespace pShortcutManager
                         }
 
                         if(command == null) 
-                            command = AddCommand(v.Name, v.Description, m, aForm);
+                            command = AddCommand(v.Name, v.Description, m, aControl);
 
                         AddShortcut(v.Escope, v.DefaultKey, v.DefaultKeyModifiers, command);
                     }

@@ -24,7 +24,7 @@ namespace primeira.pNeuron
 
             bool bGroupHighlight = false;
             if (!CtrlKey)
-            {
+            { 
                 foreach (List<pPanel> lp in m_groups)
                 {
                     if (lp == m_groups[0])
@@ -46,7 +46,7 @@ namespace primeira.pNeuron
             {
                 foreach (pPanel p in m_pPanels)
                 {
-                    if (p.Bounds.Contains(DisplayMousePosition))
+                    if (Offset(p.Bounds, OffsetX, OffsetY).Contains(DisplayMousePosition))
                     {
                         toHighlight.Add(p);
                         break;
@@ -62,7 +62,7 @@ namespace primeira.pNeuron
                     if (!p.Highlighted)
                     {
                         HighLight(p);
-                        Invalidate(p.Bounds);
+                        Invalidate(Offset(p.Bounds, OffsetX, OffsetY));
                     }
                 }
                 else
@@ -70,7 +70,7 @@ namespace primeira.pNeuron
                     if (p.Highlighted)
                     {
                         UnHighLight(p);
-                        Invalidate(p.Bounds);
+                        Invalidate(Offset(p.Bounds, OffsetX, OffsetY));
                     }
                 }
             }
@@ -162,13 +162,13 @@ namespace primeira.pNeuron
                             if (pp == p)
                                 continue;
                             SelectCore(pp);
-                            Invalidate(pp.Bounds);
+                            Invalidate(Offset(pp.Bounds, OffsetX, OffsetY));
                         }
                 }
             }
             if (DisplayStatus == pDisplayStatus.Selecting)
                 m_lastSelectItems.Add(p);
-            Invalidate(p.Bounds);
+            Invalidate(Offset(p.Bounds, OffsetX, OffsetY));
         }
 
         /// <summary>
@@ -198,13 +198,13 @@ namespace primeira.pNeuron
                             if (pp == p)
                                 continue;
                             pp.Selected = false;
-                            Invalidate(pp.Bounds);
+                            Invalidate(Offset(pp.Bounds, OffsetX, OffsetY));
                         }
                 }
             }
 
             p.Selected = false;
-            Invalidate(p.Bounds);
+            Invalidate(Offset(p.Bounds, OffsetX, OffsetY));
 
             if(OnSelectedPanelsChange!=null)
                 OnSelectedPanelsChange();
@@ -218,7 +218,7 @@ namespace primeira.pNeuron
         {
             p.Highlighted = true;
 
-            Invalidate(p.Bounds);
+            Invalidate(Offset(p.Bounds, OffsetX, OffsetY));
         }
 
         /// <summary>
@@ -239,7 +239,7 @@ namespace primeira.pNeuron
         public void UnHighLight(pPanel p)
         {
             p.Highlighted = false;
-            Invalidate(p.Bounds);
+            Invalidate(Offset(p.Bounds, OffsetX, OffsetY));
         }
 
         #endregion
@@ -310,7 +310,7 @@ namespace primeira.pNeuron
             if (p.Groups != GroupIndex)
             {
                 p.Groups = GroupIndex;
-                Invalidate(p.Bounds);
+                Invalidate(Offset(p.Bounds, OffsetX, OffsetY));
 
                 if (OnTreeViewChange != null)
                     OnTreeViewChange(p, pTreeviewRefresh.pPanelAdd);
@@ -336,7 +336,7 @@ namespace primeira.pNeuron
             foreach (pPanel p in GroupGetPanel(iKey))
             {
                 p.Groups = 0;
-                Invalidate(p.Bounds);
+                Invalidate(Offset(p.Bounds, OffsetX, OffsetY));
             }
 
             m_groups[iKey].Clear();

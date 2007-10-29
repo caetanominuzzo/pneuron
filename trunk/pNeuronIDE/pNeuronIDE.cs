@@ -12,6 +12,8 @@ using primeira.pRandom;
 using primeira.pNeuron;
 using System.Diagnostics;
 using System.Threading;
+using pShortcutManager;
+
 
 namespace primeira.pNeuron
 {
@@ -40,6 +42,8 @@ namespace primeira.pNeuron
 
         private System.Threading.Timer tmRefresh;
 
+        private pShortcutManager.pShortcutManager m_shortcut = new pShortcutManager.pShortcutManager();
+
         #endregion
 
         #region Properties
@@ -58,7 +62,11 @@ namespace primeira.pNeuron
             }
             internal set
             {
+                
                 fmToolbox.SetToolSet(value);
+
+                if (fActiveDocument != null) m_shortcut.UnloadFromForm(fActiveDocument.MainDisplay);
+
                 fActiveDocument = value;
 
                 tspStartTrain.Enabled = tspKnowledgement.Enabled = (fActiveDocument != null);
@@ -71,6 +79,11 @@ namespace primeira.pNeuron
 
                 if (fActiveDocument != null)
                 {
+
+                    m_shortcut.AddEscope("Design");
+
+                    fmToolbox.SetToolSet(fActiveDocument);
+
                     fmProperty.Property.SelectedObject = fActiveDocument.MainDisplay.Net;
 
                     fmProperty.cbItems.Items.Clear();
@@ -81,7 +94,14 @@ namespace primeira.pNeuron
                     {
                         fmProperty.cbItems.Items.Add(n.ToString());
                     }
+
+                    
+                    m_shortcut.LoadFromForm(fActiveDocument.MainDisplay);
                 }
+                else
+                    m_shortcut.RemoveEscope("Design");
+
+                
 
 
             }
@@ -194,6 +214,8 @@ namespace primeira.pNeuron
             else
                 ActiveDocument = null;
 
+            //m_shortcut.LoadFromForm
+
         }
 
         #endregion
@@ -229,9 +251,16 @@ namespace primeira.pNeuron
              }
 
             pDocument d = new pDocument(m_cache, "NeuralNetwork " + i.ToString());
+            d.Enter += new EventHandler(d_Enter);
+
             AddDocument(d);
 
             return d;
+        }
+
+        void d_Enter(object sender, EventArgs e)
+        {
+            ActiveDocument = (pDocument)sender;
         }
 
         private void OpenDocument()
@@ -247,6 +276,8 @@ namespace primeira.pNeuron
 
         private void p_OnDisplayStatusChanged()
         {
+            fmToolbox.SetToolSet(ActiveDocument);
+
             status.Items[0].Text = "Status: " + ActiveDocument.MainDisplay.DisplayStatus.ToString().Replace("_", " ");
 
             if (ActiveDocument.MainDisplay.DisplayStatus == pDisplay.pDisplayStatus.Training)
@@ -345,10 +376,13 @@ namespace primeira.pNeuron
         {
 
             InitializeComponent();
-
+            fmPlotter.Show(dockPanel, DockState.DockBottom);
             fmToolbox.Show(dockPanel, DockState.DockLeft);
 
-            fmPlotter.Show(dockPanel, DockState.DockBottomAutoHide);
+            fmProperty.Show(dockPanel);
+
+            fmProperty.DockTo(dockPanel, DockStyle.Bottom);
+            
             //fmLogger.Show(dockPanel, DockState.Document);
             //fmLogger.DockTo(fmPlotter.Pane, DockStyle.Fill, 0);
 
@@ -356,7 +390,11 @@ namespace primeira.pNeuron
             fmProperty.Show(dockPanel, DockState.DockRight);
          //   fmProperty.DockTo(fmGroupExplorer.Pane, DockStyle.Bottom, 0);
 
+
+
+            
             fmToolbox.SetToolSet(null);
+
 
             #if RELEASE
               this.Invoke(new Assinc(Splasher.CloseSplash));
@@ -418,6 +456,11 @@ namespace primeira.pNeuron
             fmToolbox.Show();
         }
 
+        private void starterGuideToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ExtendedWebBrowser2.Launcher.ShowBrowser(dockPanel, true);
+        }
+
         #endregion
 
         private void learninRate_MouseHover(object sender, EventArgs e)
@@ -437,6 +480,8 @@ namespace primeira.pNeuron
             learninRate.Text = "Learning Rate: " + trackLR.Value;
             ActiveDocument.MainDisplay.Net.LearningRate = trackLR.Value;
         }
+
+
 
        
 

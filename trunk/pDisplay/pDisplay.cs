@@ -9,6 +9,8 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Collections;
 using primeira.pRandom;
+using pShortcutManager;
+
 
 namespace primeira.pNeuron
 {
@@ -31,8 +33,8 @@ namespace primeira.pNeuron
         [DllImport("Kernel32.dll")]
         public static extern bool Beep(UInt32 frequency, UInt32 duration);
 
-        NeuralNetwork m_net ;
-
+        NeuralNetwork m_net;
+         
         public NeuralNetwork Net
         {
             get { return m_net; }
@@ -54,6 +56,8 @@ namespace primeira.pNeuron
 
         public delegate void NewDomainDelegate();
         public event NewDomainDelegate OnNewDomain;
+
+
 
         #endregion
 
@@ -150,6 +154,39 @@ namespace primeira.pNeuron
         /// </summary>
         private pDisplayStatus m_displayStatus = pDisplayStatus.Idle;
 
+        /// <summary>
+        /// Zoom of pDisplay. Has a get/set on Zoom.
+        /// </summary>
+        private float m_zoom = 1;
+
+        /// <summary>
+        /// X offset of display in pixelx.
+        /// </summary>
+        private int m_offsetX = 0;
+
+        /// <summary>
+        /// Y offset of display in pixelx.
+        /// </summary>
+        private int m_offsetY = 0;
+
+        public int OffsetX
+        {
+            get { return m_offsetX; }
+            set { m_offsetX = value; }
+        }
+
+        public int OffsetY
+        {
+            get { return m_offsetY; }
+            set { m_offsetY = value; }
+        }
+
+        public float Zoom
+        {
+            get { return m_zoom; }
+            set { m_zoom = value; }
+        }
+
         #endregion
 
         #region Groups. Implemented on pDisplayControls
@@ -167,6 +204,9 @@ namespace primeira.pNeuron
 
         #endregion
 
+        //The zoom on bottom left.
+        private Panel m_Magnifier;
+
         #endregion
 
         #region Constructor
@@ -174,6 +214,9 @@ namespace primeira.pNeuron
         public pDisplay()
         {
             InitializeComponent();
+
+          
+           
 
             //Makes all this stuff slow =(
             DoubleBuffered = true;
@@ -199,9 +242,15 @@ namespace primeira.pNeuron
 
         }
 
+     
+
         private void InitializeComponent()
         {
             this.SuspendLayout();
+
+
+
+
             this.ResumeLayout(false);
 
         }
@@ -246,11 +295,7 @@ namespace primeira.pNeuron
         {
             get
             {
-                return new Point(
-                    PointToClient(
-                        MousePosition).X,
-                    PointToClient(
-                        MousePosition).Y);
+                return PointToClient(MousePosition);
             }
         }
 
@@ -261,8 +306,8 @@ namespace primeira.pNeuron
             set
             {
 
-//                if (m_displayStatus == value)
-//                    return;
+                if (m_displayStatus == value)
+                    return;
 
                 if (m_displayStatus == pDisplayStatus.Training && (value != pDisplayStatus.Training && value != pDisplayStatus.Idle) && m_displayStatus != value)
                 {
@@ -464,9 +509,63 @@ namespace primeira.pNeuron
                 return r.Contains(i);
         }
 
+        /// <summary>
+        /// Apply a zoom factor on an int
+        /// </summary>
+        /// <param name="i"></param>
+        /// <returns></returns>
+        public int Magnify(int i)
+        {
+            return Convert.ToInt32(i * m_zoom);
+        }
+
+        /// <summary>
+        /// Apply a zoom factor on a float
+        /// </summary>
+        /// <param name="f"></param>
+        /// <returns></returns>
+        public float Magnify(float f)
+        {
+            return f * m_zoom;
+        }
+
+
+
+        public int Offset(int value, int offset)
+        {
+            return value + offset;
+        }
+
+        public int Offset(float value, int offset)
+        {
+            return (int)value + offset;
+        }
+
+        public Point Offset(Point value, int OffsetX, int OffsetY)
+        {
+            return
+                new Point(
+                value.X + OffsetX,
+                value.Y + OffsetY
+
+                );
+        }
+
+        public Rectangle Offset(Rectangle value, int OffsetX, int OffsetY)
+        {
+            return 
+                new Rectangle(
+                Offset(value.Location, OffsetX, OffsetY),
+                value.Size
+                );
+
+        }
+
         #endregion
 
         #region Transversal events
+
+   
 
         protected override void OnMouseMove(MouseEventArgs e)
         {
@@ -489,11 +588,18 @@ namespace primeira.pNeuron
                             continue;
 
                         if (Contains(MakeRectanglePossible(new Rectangle(m_selectSourcePoint.Value,
+                           
                             new Size(
                             DisplayMousePosition.X - m_selectSourcePoint.Value.X,
                             DisplayMousePosition.Y - m_selectSourcePoint.Value.Y)
 
-                            )), p.Bounds, true))
+                            )), 
+                            
+                            new Rectangle(
+                                Offset(p.Bounds.Location, OffsetX, OffsetY),
+                                p.Bounds.Size)
+
+                            , true))
                         {
 
                             Select(p);
@@ -510,7 +616,15 @@ namespace primeira.pNeuron
                                     DisplayMousePosition.X - m_selectSourcePoint.Value.X,
                                     DisplayMousePosition.Y - m_selectSourcePoint.Value.Y)
 
-                                    )), p.Bounds, true) && m_lastSelectItems.Contains(p))
+                                    )),
+
+                                     new Rectangle(
+                                Offset(p.Bounds.Location, OffsetX, OffsetY),
+                                p.Bounds.Size)
+
+                                    , true)
+
+                                    && m_lastSelectItems.Contains(p))
                         {
                             UnSelect(p);
                             m_lastSelectItems.Remove(p);
@@ -525,12 +639,16 @@ namespace primeira.pNeuron
 
                     Rectangle cBounds = new Rectangle(m_selectSourcePoint.Value, (Size)p);
 
-                    cBounds = new Rectangle(cBounds.X,
-                        cBounds.Y,
-                        cBounds.Width - cBounds.X,
-                        cBounds.Height - cBounds.Y);
+                    cBounds = new Rectangle(
+                        Offset( new Point(
+                        cBounds.X,
+                        cBounds.Y), OffsetX, OffsetY),
 
-                    Invalidate(cBounds);
+                        new Size(
+                        cBounds.Width - cBounds.X,
+                        cBounds.Height - cBounds.Y));
+
+                    Invalidate( Offset(cBounds, OffsetX, OffsetY));
                 }
 
             }
@@ -555,7 +673,7 @@ namespace primeira.pNeuron
 
                             if (pp.Location != tempP)
                             {
-                                Invalidate(r);
+                                Invalidate(Offset(r, OffsetX, OffsetY));
                                 pp.Location = tempP;
 
                                 if (OnNetworkChange != null)
@@ -590,6 +708,7 @@ namespace primeira.pNeuron
                         {
                             Cursor = Cursors.No;
                         }
+                        else Cursor = Cursors.Cross;
 
                         Invalidate();
 
@@ -597,7 +716,7 @@ namespace primeira.pNeuron
                 }
                 else if (DisplayStatus == pDisplayStatus.Idle)
                 {
-                    if (MouseButtons == MouseButtons.Left && SelectedpPanels.Length > 0)
+                    if (SelectedpPanels.Length > 0)
                     {
                         DisplayStatus = pDisplayStatus.Moving;
                     }
@@ -611,12 +730,15 @@ namespace primeira.pNeuron
 
         }
 
+
+
         protected override void OnMouseDown(MouseEventArgs e)
         {
-            if(e.Button == MouseButtons.Right)
-            {
-                
 
+            Parent.Focus();
+
+            if(e.Button != MouseButtons.Left)
+            {
                 return;
             }
 
@@ -645,7 +767,7 @@ namespace primeira.pNeuron
 
 
 
-                Invalidate(pp.Bounds);
+                Invalidate(Offset(pp.Bounds, OffsetX, OffsetY));
 
                 if (OnNetworkChange != null)
                     OnNetworkChange();
@@ -779,7 +901,7 @@ namespace primeira.pNeuron
                             cBounds.Width - cBounds.X,
                             cBounds.Height - cBounds.Y);
 
-                        Invalidate(cBounds);
+                        Invalidate(Offset(cBounds, OffsetX, OffsetY));
                     }
 
                     m_selectSourcePoint = null;
@@ -886,7 +1008,7 @@ namespace primeira.pNeuron
             foreach (pPanel c in m_pPanels)
             {
                 if (Contains(r, c.Bounds, true))
-                    c.Draw(e.Graphics);
+                    c.Draw(e.Graphics, m_zoom, OffsetX, OffsetY);
             }
 
             if (m_selectSourcePoint.HasValue)
@@ -908,7 +1030,7 @@ namespace primeira.pNeuron
                     m_selectSourcePoint = null;
                     m_lastSelectRectangleDrow = null;
                     rr.Inflate(5, 5);
-                    Invalidate(rr);
+                    Invalidate(Offset(rr, OffsetX, OffsetY));
                     m_selectSourcePoint = pp;
                 }
 
@@ -1080,21 +1202,50 @@ namespace primeira.pNeuron
                 }
 
 
+                int cX = (int)radXC + (-1 * signX);
+                int cY = (int)radYC + (-1 * signY);
+                int cX1 = c.Bounds.Left + (c.Bounds.Width) * signX;
+                int cY1 = c.Bounds.Top + (c.Bounds.Height) * signY;
+
+                int dX = d.Bounds.Left + (d.Bounds.Width / 2) * -signX;
+                int dY = d.Bounds.Top + (d.Bounds.Height / 2) * -signY;
+                int dX1 = d.Bounds.Left + (d.Bounds.Width / 2);
+                int dY1 = d.Bounds.Top + (d.Bounds.Height / 2);
+
+
+                cX = Magnify( Offset(cX, OffsetX));
+                cY = Magnify( Offset(cY, OffsetY));
+                cX1 = Magnify(Offset(cX1, OffsetX));
+                cY1 = Magnify(Offset(cY1, OffsetY));
+                
+                dX = Magnify( Offset(dX, OffsetX));
+                dY = Magnify( Offset(dY, OffsetY));
+                dX1 = Magnify(Offset(dX1, OffsetX));
+                dY1 = Magnify(Offset(dY1, OffsetY));
+
+
+
 
                 g.DrawBezier(p,
-                    new Point((int)radXC + (-1 * signX), (int)radYC + (-1 * signY)),
-                    new Point(c.Bounds.Left + (c.Bounds.Width) * signX, c.Bounds.Top + (c.Bounds.Height) * signY),
+                    new Point(cX, cY),
+                    new Point(cX1, cY1),
 
-                    new Point(d.Bounds.Left + (d.Bounds.Width / 2) * -signX, d.Bounds.Top + (d.Bounds.Height / 2) * -signY),
-                    new Point(d.Bounds.Left + (d.Bounds.Width / 2), d.Bounds.Top + (d.Bounds.Height / 2))
+                    new Point(dX, dY),
+                    new Point(dX1, dY1)
 
                     );
             }
             else
             {
+
+                int cX = (int)radXC;
+                int cY = (int)radYC;
+                int dX = d.Bounds.Left + (d.Bounds.Width / 2);
+                int dY = d.Bounds.Top + (d.Bounds.Height / 2);
+
                 g.DrawLine(p,
-                    new Point((int)radXC, (int)radYC),
-                    new Point(d.Bounds.Left + (d.Bounds.Width / 2), d.Bounds.Top + (d.Bounds.Height / 2))
+                    new Point(cX, cY),
+                    new Point(dX, dY)
                     );
             }
 
@@ -1151,7 +1302,85 @@ namespace primeira.pNeuron
             //}
         }
 
+        #region Methods
 
+        [pShortcutManagerVisible("Edit.Neuron.Remove", "Enables removing neuron state.", "Design", Keys.Delete)]
+        public void kDelete()
+        {
+            DisplayStatus = pDisplayStatus.Remove_Neuron;
+        }
+
+        [pShortcutManagerVisible("Edit.Neuron.Add", "Enables add neuron state.", "Design", Keys.A)]
+        public void kAdd()
+        {
+            DisplayStatus = pDisplayStatus.Add_Neuron;
+        }
+
+
+       [pShortcutManagerVisible("Edit.Neuron.Idle", "Enables idle state.", "Design", Keys.Escape)]
+        public void kIdle()
+        {
+            UnSelect();
+            DisplayStatus = pDisplay.pDisplayStatus.Idle;
+        }
+
+        [pShortcutManagerVisible("Edit.Neuron.Link", "Enables link state.", "Design", Keys.L)]
+        public void kLink()
+        {
+            UnSelect();
+            DisplayStatus = pDisplay.pDisplayStatus.Linking_Paused;
+        }
+
+
+        [pShortcutManagerVisible("Zoom.Out", "Zoom design out.", "Design", Keys.PageUp)]
+        public void kZoomOut()
+        {
+            m_zoom *= 1.1f;
+            Invalidate();
+        }
+
+        [pShortcutManagerVisible("Zoom.In", "Zoom design in.", "Design", Keys.PageDown)]
+        public void kZoomIn()
+        {
+            m_zoom *= 0.9f;
+            Invalidate();
+        }
+
+        [pShortcutManagerVisible("Design.Offset.Left", "Moves desing left.", "Design", Keys.Left)]
+        public void kToLeft()
+        {
+            m_offsetX += 20;
+            Invalidate();
+        }
+
+
+        [pShortcutManagerVisible("Design.Offset.Right", "Moves desing right.", "Design", Keys.Right)]
+        public void kToRight()
+        {
+            m_offsetX -= 20;
+            Invalidate();
+        }
+
+        [pShortcutManagerVisible("Design.Offset.Top", "Moves desing up.", "Design", Keys.Up)]
+        public void kToUp()
+        {
+            m_offsetY -= 20;
+            Invalidate();
+        }
+
+
+        [pShortcutManagerVisible("Design.Offset.Down", "Moves desing down.", "Design", Keys.Down)]
+        public void kToDown()
+        {
+            m_offsetY += 20;
+            Invalidate();
+        }
+
+        
+
+
+
+        #endregion
 
 
     }
