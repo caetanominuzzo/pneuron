@@ -65,7 +65,7 @@ namespace primeira.pNeuron
                 
                 fmToolbox.SetToolSet(value);
 
-                if (fActiveDocument != null) m_shortcut.UnloadFromForm(fActiveDocument.MainDisplay);
+            //    if (fActiveDocument != null) m_shortcut.UnloadFromForm(fActiveDocument.MainDisplay);
 
                 fActiveDocument = value;
 

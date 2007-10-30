@@ -329,19 +329,13 @@ namespace primeira.pNeuron
         
 
             string s = Text;
-            Font f = new Font(SystemFonts.MenuFont.SystemFontName, 10, FontStyle.Regular, GraphicsUnit.Pixel, 1, true);
+            Font f = new Font(SystemFonts.MenuFont.SystemFontName,  Magnify(10, iZoom), FontStyle.Regular, GraphicsUnit.Pixel, 1, true);
 
-            //g.TextContrast = 5;
+            g.TextContrast = 2;
             g.DrawString(s, f, new SolidBrush(Color.Black),
-                
-                Magnify(
-                    -(g.MeasureString(s, f).Width / 2) + Bounds.Left + Bounds.Width / 2 + 2
-                    , iZoom),
-                   
-
-                Magnify(
-                -(g.MeasureString(s, f).Height / 2) + Bounds.Top + Bounds.Height / 2,
-                iZoom));
+                    Offset(-(g.MeasureString(s, f).Width / 2) + Magnify(Bounds.Left + Bounds.Width / 2 + 1, iZoom), offsetX),
+                    Offset(-(g.MeasureString(s, f).Height / 2) + Magnify(Bounds.Top + Bounds.Height / 2 + 1, iZoom), offsetY)
+                );
 
 
         }
