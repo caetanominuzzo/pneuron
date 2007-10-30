@@ -239,6 +239,8 @@ namespace primeira.pNeuron
             //Initialize NeuralNet
             m_net = new NeuralNetwork();
 
+            AutoScroll = false;
+
 
         }
 
@@ -323,7 +325,7 @@ namespace primeira.pNeuron
                             break;
                         case pDisplayStatus.Linking: Cursor = Cursors.Cross;
                             break;
-                        default: this.Invoke(new Assinc(SetCursorDefaultCrossThread));
+                        default: SetCursorDefaultCrossThread(); this.Invoke(new Assinc(SetCursorDefaultCrossThread));
                             break;
 
                     }
@@ -519,6 +521,11 @@ namespace primeira.pNeuron
             return Convert.ToInt32(i * m_zoom);
         }
 
+        public int UnMagnify(int i)
+        {
+            return Convert.ToInt32(i * (1 / m_zoom));
+        }
+
         /// <summary>
         /// Apply a zoom factor on a float
         /// </summary>
@@ -529,6 +536,17 @@ namespace primeira.pNeuron
             return f * m_zoom;
         }
 
+        public Rectangle Magnify(Rectangle value)
+        {
+            return
+                new Rectangle(
+                     Magnify(value.Left),
+                     Magnify(value.Top),
+                    Magnify(value.Width),
+                    Magnify(value.Height));
+
+
+        }
 
 
         public int Offset(int value, int offset)
@@ -587,17 +605,20 @@ namespace primeira.pNeuron
                         if (p.Selected)
                             continue;
 
-                        if (Contains(MakeRectanglePossible(new Rectangle(m_selectSourcePoint.Value,
+                        if (
+                            Contains(
+                                MakeRectanglePossible(
+                                    new Rectangle(m_selectSourcePoint.Value,
                            
-                            new Size(
-                            DisplayMousePosition.X - m_selectSourcePoint.Value.X,
-                            DisplayMousePosition.Y - m_selectSourcePoint.Value.Y)
+                                    new Size(
+                                    DisplayMousePosition.X - m_selectSourcePoint.Value.X,
+                                    DisplayMousePosition.Y - m_selectSourcePoint.Value.Y)
 
-                            )), 
+                                    )
+                                 ), 
                             
-                            new Rectangle(
-                                Offset(p.Bounds.Location, OffsetX, OffsetY),
-                                p.Bounds.Size)
+                           
+                                Magnify(Offset(p.Bounds, OffsetX, OffsetY))
 
                             , true))
                         {
@@ -618,9 +639,7 @@ namespace primeira.pNeuron
 
                                     )),
 
-                                     new Rectangle(
-                                Offset(p.Bounds.Location, OffsetX, OffsetY),
-                                p.Bounds.Size)
+                                    Magnify(Offset(p.Bounds, OffsetX, OffsetY))
 
                                     , true)
 
@@ -640,15 +659,15 @@ namespace primeira.pNeuron
                     Rectangle cBounds = new Rectangle(m_selectSourcePoint.Value, (Size)p);
 
                     cBounds = new Rectangle(
-                        Offset( new Point(
+                        new Point(
                         cBounds.X,
-                        cBounds.Y), OffsetX, OffsetY),
+                        cBounds.Y),
 
                         new Size(
                         cBounds.Width - cBounds.X,
                         cBounds.Height - cBounds.Y));
 
-                    Invalidate( Offset(cBounds, OffsetX, OffsetY));
+                    Invalidate(Magnify(Offset(cBounds, OffsetX, OffsetY)));
                 }
 
             }
@@ -669,11 +688,13 @@ namespace primeira.pNeuron
                         {
                             Rectangle r = pp.Bounds;
                             //                            r.Inflate(10, 10);
-                            Point tempP = new Point(Convert.ToInt32(Math.Round(((double)p.X - ((double)pp.MousePositionOnDown.X)) / (double)iGridDistance)) * iGridDistance, Convert.ToInt32(Math.Round(((double)p.Y - ((double)pp.MousePositionOnDown.Y)) / (double)iGridDistance)) * iGridDistance);
+                            Point tempP = new Point(
+                                Convert.ToInt32(Math.Round(((double)p.X - ((double)pp.MousePositionOnDown.X)) / (double)iGridDistance)) * iGridDistance,
+                                Convert.ToInt32(Math.Round(((double)p.Y - ((double)pp.MousePositionOnDown.Y)) / (double)iGridDistance)) * iGridDistance);
 
                             if (pp.Location != tempP)
                             {
-                                Invalidate(Offset(r, OffsetX, OffsetY));
+                                Invalidate(Magnify(Offset(r, OffsetX, OffsetY)));
                                 pp.Location = tempP;
 
                                 if (OnNetworkChange != null)
@@ -714,7 +735,7 @@ namespace primeira.pNeuron
 
                     }
                 }
-                else if (DisplayStatus == pDisplayStatus.Idle)
+                else if (DisplayStatus == pDisplayStatus.Idle && MouseButtons == MouseButtons.Left)
                 {
                     if (SelectedpPanels.Length > 0)
                     {
@@ -758,16 +779,18 @@ namespace primeira.pNeuron
                 int x, y;
                 x = pp.Location.X;
                 y = pp.Location.Y;
-                pp.Location = new Point((((DisplayMousePosition.X - pp.Width / 2) / m_gridDistance) * m_gridDistance),
-                                        ((DisplayMousePosition.Y - pp.Height / 2) / m_gridDistance) * m_gridDistance);
+                pp.Location = new Point( UnMagnify(((DisplayMousePosition.X - pp.Width / 2) / Magnify(m_gridDistance)) * Magnify(m_gridDistance)),
+                                         UnMagnify(((DisplayMousePosition.Y - pp.Height / 2) / Magnify(m_gridDistance)) * Magnify(m_gridDistance)));
 
-                pp.Location = new Point(
-                    (pp.Location.X + pp.Width / 2 < x) ? pp.Location.X : pp.Location.X + pp.Width / 2,
-                    (pp.Location.Y + pp.Height / 2 < y) ? pp.Location.Y : pp.Location.Y + pp.Height / 2);
+                //TODO:Fine tune
+                //pp.Location = new Point(
+                //    (pp.Location.X + pp.Width / 2 < x) ? pp.Location.X : pp.Location.X + pp.Width ,
+                //    (pp.Location.Y + pp.Height / 2 < y) ? pp.Location.Y : pp.Location.Y + pp.Height );
 
+                
+              
 
-
-                Invalidate(Offset(pp.Bounds, OffsetX, OffsetY));
+                Invalidate(Magnify(Offset(pp.Bounds, OffsetX, OffsetY)));
 
                 if (OnNetworkChange != null)
                     OnNetworkChange();
@@ -901,7 +924,7 @@ namespace primeira.pNeuron
                             cBounds.Width - cBounds.X,
                             cBounds.Height - cBounds.Y);
 
-                        Invalidate(Offset(cBounds, OffsetX, OffsetY));
+                        Invalidate(Magnify(Offset(cBounds, OffsetX, OffsetY)));
                     }
 
                     m_selectSourcePoint = null;
@@ -976,7 +999,7 @@ namespace primeira.pNeuron
                     {
                         if (n == (pp.Neuron))
                         {
-                            if (Contains(r, ExpandRectangle(p.Bounds, pp.Bounds), true))
+                            if (Contains(r, Magnify(Offset(ExpandRectangle(p.Bounds, pp.Bounds), OffsetX, OffsetY)), true))
                                 DrawSynapse(p, pp, e.Graphics);
                         }
                     }
@@ -1007,7 +1030,7 @@ namespace primeira.pNeuron
 
             foreach (pPanel c in m_pPanels)
             {
-                if (Contains(r, c.Bounds, true))
+                if (Contains(r, Magnify(Offset(c.Bounds, OffsetX, OffsetY)), true))
                     c.Draw(e.Graphics, m_zoom, OffsetX, OffsetY);
             }
 
@@ -1029,8 +1052,8 @@ namespace primeira.pNeuron
                     Point pp = m_selectSourcePoint.Value;
                     m_selectSourcePoint = null;
                     m_lastSelectRectangleDrow = null;
-                    rr.Inflate(5, 5);
-                    Invalidate(Offset(rr, OffsetX, OffsetY));
+                    rr.Inflate(10, 10);
+                    Invalidate(rr);
                     m_selectSourcePoint = pp;
                 }
 
@@ -1217,12 +1240,15 @@ namespace primeira.pNeuron
                 cY = Magnify( Offset(cY, OffsetY));
                 cX1 = Magnify(Offset(cX1, OffsetX));
                 cY1 = Magnify(Offset(cY1, OffsetY));
-                
-                dX = Magnify( Offset(dX, OffsetX));
-                dY = Magnify( Offset(dY, OffsetY));
-                dX1 = Magnify(Offset(dX1, OffsetX));
-                dY1 = Magnify(Offset(dY1, OffsetY));
 
+
+                if (d.Neuron != null)
+                {
+                    dX = Magnify(Offset(dX, OffsetX));
+                    dY = Magnify(Offset(dY, OffsetY));
+                    dX1 = Magnify(Offset(dX1, OffsetX));
+                    dY1 = Magnify(Offset(dY1, OffsetY));
+                }
 
 
 
