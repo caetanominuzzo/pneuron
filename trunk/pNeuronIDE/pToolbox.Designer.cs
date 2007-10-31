@@ -36,6 +36,7 @@ namespace primeira.pNeuron
         /// </summary>
         private void InitializeComponent()
         {
+
             this.rCursor = new System.Windows.Forms.RadioButton();
             this.rSynapse = new System.Windows.Forms.RadioButton();
             this.rNeuron = new System.Windows.Forms.RadioButton();

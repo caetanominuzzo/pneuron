@@ -31,7 +31,7 @@ namespace primeira.pNeuron
                         break;
                     if (lp != null)
                         if (lp.Count > 0)
-                            if (Magnify(Offset(GetGroupRectangle(lp), OffsetX, OffsetY)).Contains(DisplayMousePosition))
+                            if (Magnify(Offset(GetGroupRectangle(lp), OffsetX, OffsetY), Zoom).Contains(DisplayMousePosition))
                             {
                                 foreach (pPanel pp in lp)
                                 {
@@ -46,7 +46,7 @@ namespace primeira.pNeuron
             {
                 foreach (pPanel p in m_pPanels)
                 {
-                    if (Magnify(Offset(p.Bounds, OffsetX, OffsetY)).Contains(DisplayMousePosition))
+                    if (Magnify(Offset(p.Bounds, OffsetX, OffsetY), Zoom).Contains(DisplayMousePosition))
                     {
                         toHighlight.Add(p);
                         break;
@@ -62,7 +62,7 @@ namespace primeira.pNeuron
                     if (!p.Highlighted)
                     {
                         HighLight(p);
-                        Invalidate(Magnify(Offset(p.Bounds, OffsetX, OffsetY)));
+                        Invalidate(Magnify(Offset(p.Bounds, OffsetX, OffsetY), Zoom));
                     }
                 }
                 else
@@ -70,7 +70,7 @@ namespace primeira.pNeuron
                     if (p.Highlighted)
                     {
                         UnHighLight(p);
-                        Invalidate(Magnify(Offset(p.Bounds, OffsetX, OffsetY)));
+                        Invalidate(Magnify(Offset(p.Bounds, OffsetX, OffsetY), Zoom));
                     }
                 }
             }
@@ -162,13 +162,13 @@ namespace primeira.pNeuron
                             if (pp == p)
                                 continue;
                             SelectCore(pp);
-                            Invalidate(Magnify(Offset(pp.Bounds, OffsetX, OffsetY)));
+                            Invalidate(Magnify(Offset(pp.Bounds, OffsetX, OffsetY), Zoom));
                         }
                 }
             }
             if (DisplayStatus == pDisplayStatus.Selecting)
                 m_lastSelectItems.Add(p);
-            Invalidate(Magnify(Offset(p.Bounds, OffsetX, OffsetY)));
+            Invalidate(Magnify(Offset(p.Bounds, OffsetX, OffsetY), Zoom));
         }
 
         /// <summary>
@@ -198,13 +198,13 @@ namespace primeira.pNeuron
                             if (pp == p)
                                 continue;
                             pp.Selected = false;
-                            Invalidate(Magnify(Offset(pp.Bounds, OffsetX, OffsetY)));
+                            Invalidate(Magnify(Offset(pp.Bounds, OffsetX, OffsetY), Zoom));
                         }
                 }
             }
 
             p.Selected = false;
-            Invalidate(Magnify(Offset(p.Bounds, OffsetX, OffsetY)));
+            Invalidate(Magnify(Offset(p.Bounds, OffsetX, OffsetY), Zoom));
 
             if(OnSelectedPanelsChange!=null)
                 OnSelectedPanelsChange();
@@ -218,7 +218,7 @@ namespace primeira.pNeuron
         {
             p.Highlighted = true;
 
-            Invalidate(Magnify(Offset(p.Bounds, OffsetX, OffsetY)));
+            Invalidate(Magnify(Offset(p.Bounds, OffsetX, OffsetY), Zoom));
         }
 
         /// <summary>
@@ -239,7 +239,7 @@ namespace primeira.pNeuron
         public void UnHighLight(pPanel p)
         {
             p.Highlighted = false;
-            Invalidate(Magnify(Offset(p.Bounds, OffsetX, OffsetY)));
+            Invalidate(Magnify(Offset(p.Bounds, OffsetX, OffsetY), Zoom));
         }
 
         #endregion
@@ -310,7 +310,7 @@ namespace primeira.pNeuron
             if (p.Groups != GroupIndex)
             {
                 p.Groups = GroupIndex;
-                Invalidate(Magnify(Offset(p.Bounds, OffsetX, OffsetY)));
+                Invalidate(Magnify(Offset(p.Bounds, OffsetX, OffsetY), Zoom));
 
                 if (OnTreeViewChange != null)
                     OnTreeViewChange(p, pTreeviewRefresh.pPanelAdd);
@@ -336,7 +336,7 @@ namespace primeira.pNeuron
             foreach (pPanel p in GroupGetPanel(iKey))
             {
                 p.Groups = 0;
-                Invalidate(Magnify(Offset(p.Bounds, OffsetX, OffsetY)));
+                Invalidate(Magnify(Offset(p.Bounds, OffsetX, OffsetY), Zoom));
             }
 
             m_groups[iKey].Clear();

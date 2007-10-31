@@ -88,6 +88,9 @@ namespace primeira.pNeuron
 
         #region Events
 
+        public delegate void OnDisplayChangeDelegate();
+        public event OnDisplayChangeDelegate OnDisplayChange;
+
         public delegate void OnDisplayStatusChangedDelegate();
         public event OnDisplayStatusChangedDelegate OnDisplayStatusChanged;
 
@@ -197,6 +200,10 @@ namespace primeira.pNeuron
         private void MainDisplay_OnNetworkChange()
         {
             this.Modificated = true;
+
+            if (OnDisplayChange != null)
+                OnDisplayChange();
+
         }
 
         #endregion
@@ -301,7 +308,8 @@ namespace primeira.pNeuron
                         return;
                     case DialogResult.Cancel:
                         e.Cancel = true;
-                        break;
+                        return;
+                        
                     case DialogResult.Yes:
                         Save();
                         break;

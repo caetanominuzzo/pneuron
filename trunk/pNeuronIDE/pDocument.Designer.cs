@@ -30,9 +30,6 @@ namespace primeira.pNeuron
         private ToolStripSeparator toolStripSeparator2;
         private ToolStripButton btImport;
         private ToolStripButton btExport;
-
-        private ToolStrip tspDesigner;
-        private ToolStripButton tspAutoRefresh;
         private System.Windows.Forms.Timer refreshTimer;
         private IContainer components;
 
@@ -41,7 +38,11 @@ namespace primeira.pNeuron
             this.components = new System.ComponentModel.Container();
             this.tcDesigner = new System.Windows.Forms.TabControl();
             this.tbDesigner = new System.Windows.Forms.TabPage();
+            this.MainDisplay = new primeira.pNeuron.pDisplay();
+            this.tspDesigner = new System.Windows.Forms.ToolStrip();
+            this.tspAutoRefresh = new System.Windows.Forms.ToolStripButton();
             this.tbTrainingSet = new System.Windows.Forms.TabPage();
+            this.dgTrainingSet = new primeira.pNeuron.pDataGridView();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.tspTrainingSet = new System.Windows.Forms.ToolStrip();
             this.cbTrainingSets = new System.Windows.Forms.ToolStripComboBox();
@@ -53,18 +54,13 @@ namespace primeira.pNeuron
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.tspSQL = new System.Windows.Forms.ToolStripButton();
             this.refreshTimer = new System.Windows.Forms.Timer(this.components);
-            this.MainDisplay = new primeira.pNeuron.pDisplay();
-            this.tspDesigner = new System.Windows.Forms.ToolStrip();
-            this.tspAutoRefresh = new System.Windows.Forms.ToolStripButton();
-            this.dgTrainingSet = new primeira.pNeuron.pDataGridView();
             this.tcDesigner.SuspendLayout();
             this.tbDesigner.SuspendLayout();
+            this.tspDesigner.SuspendLayout();
             this.tbTrainingSet.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgTrainingSet)).BeginInit();
             this.flowLayoutPanel1.SuspendLayout();
             this.tspTrainingSet.SuspendLayout();
-            this.MainDisplay.SuspendLayout();
-            this.tspDesigner.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgTrainingSet)).BeginInit();
             this.SuspendLayout();
             // 
             // tcDesigner
@@ -84,6 +80,7 @@ namespace primeira.pNeuron
             // tbDesigner
             // 
             this.tbDesigner.Controls.Add(this.MainDisplay);
+            this.tbDesigner.Controls.Add(this.tspDesigner);
             this.tbDesigner.Location = new System.Drawing.Point(4, 4);
             this.tbDesigner.Name = "tbDesigner";
             this.tbDesigner.Padding = new System.Windows.Forms.Padding(3);
@@ -91,6 +88,43 @@ namespace primeira.pNeuron
             this.tbDesigner.TabIndex = 0;
             this.tbDesigner.Text = "Network Designer";
             this.tbDesigner.UseVisualStyleBackColor = true;
+            // 
+            // MainDisplay
+            // 
+            this.MainDisplay.BackColor = System.Drawing.Color.White;
+            this.MainDisplay.Bezier = true;
+            this.MainDisplay.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.MainDisplay.CtrlKey = false;
+            this.MainDisplay.Cursor = System.Windows.Forms.Cursors.Default;
+            this.MainDisplay.DisplayStatus = primeira.pNeuron.pDisplay.pDisplayStatus.Idle;
+            this.MainDisplay.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.MainDisplay.Location = new System.Drawing.Point(3, 28);
+            this.MainDisplay.Name = "MainDisplay";
+            this.MainDisplay.OffsetX = 0;
+            this.MainDisplay.OffsetY = 0;
+            this.MainDisplay.ShiftKey = false;
+            this.MainDisplay.Size = new System.Drawing.Size(730, 365);
+            this.MainDisplay.TabIndex = 0;
+            this.MainDisplay.Zoom = 1F;
+            this.MainDisplay.OnDisplayStatusChange += new primeira.pNeuron.pDisplay.DisplayStatusChangeDelegate(this.MainDisplay_OnDisplayStatusChange);
+            this.MainDisplay.OnNetworkChange += new primeira.pNeuron.pDisplay.NetworkChangeDelegate(this.MainDisplay_OnNetworkChange);
+            // 
+            // tspDesigner
+            // 
+            this.tspDesigner.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tspAutoRefresh});
+            this.tspDesigner.Location = new System.Drawing.Point(3, 3);
+            this.tspDesigner.Name = "tspDesigner";
+            this.tspDesigner.Size = new System.Drawing.Size(730, 25);
+            this.tspDesigner.TabIndex = 1;
+            this.tspDesigner.Text = "toolStrip2";
+            // 
+            // tspAutoRefresh
+            // 
+            this.tspAutoRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tspAutoRefresh.Name = "tspAutoRefresh";
+            this.tspAutoRefresh.Size = new System.Drawing.Size(76, 22);
+            this.tspAutoRefresh.Text = "Start Refresh";
             // 
             // tbTrainingSet
             // 
@@ -104,6 +138,19 @@ namespace primeira.pNeuron
             this.tbTrainingSet.TabIndex = 1;
             this.tbTrainingSet.Text = "Training Sets";
             this.tbTrainingSet.UseVisualStyleBackColor = true;
+            // 
+            // dgTrainingSet
+            // 
+            this.dgTrainingSet.BackgroundColor = System.Drawing.Color.White;
+            this.dgTrainingSet.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
+            this.dgTrainingSet.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgTrainingSet.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgTrainingSet.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnKeystroke;
+            this.dgTrainingSet.Location = new System.Drawing.Point(3, 28);
+            this.dgTrainingSet.Margin = new System.Windows.Forms.Padding(0);
+            this.dgTrainingSet.Name = "dgTrainingSet";
+            this.dgTrainingSet.Size = new System.Drawing.Size(730, 365);
+            this.dgTrainingSet.TabIndex = 0;
             // 
             // flowLayoutPanel1
             // 
@@ -196,56 +243,6 @@ namespace primeira.pNeuron
             this.refreshTimer.Interval = 500;
             this.refreshTimer.Tick += new System.EventHandler(this.refreshTimer_Tick);
             // 
-            // MainDisplay
-            // 
-            this.MainDisplay.AutoScroll = true;
-            this.MainDisplay.BackColor = System.Drawing.Color.White;
-            this.MainDisplay.Bezier = true;
-            this.MainDisplay.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.MainDisplay.Controls.Add(this.tspDesigner);
-            this.MainDisplay.CtrlKey = false;
-            this.MainDisplay.Cursor = System.Windows.Forms.Cursors.Default;
-            this.MainDisplay.DisplayStatus = primeira.pNeuron.pDisplay.pDisplayStatus.Idle;
-            this.MainDisplay.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.MainDisplay.Location = new System.Drawing.Point(3, 3);
-            this.MainDisplay.Name = "MainDisplay";
-            this.MainDisplay.ShiftKey = false;
-            this.MainDisplay.Size = new System.Drawing.Size(730, 390);
-            this.MainDisplay.TabIndex = 0;
-            this.MainDisplay.OnDisplayStatusChange += new primeira.pNeuron.pDisplay.DisplayStatusChangeDelegate(this.MainDisplay_OnDisplayStatusChange);
-            this.MainDisplay.OnNetworkChange += new primeira.pNeuron.pDisplay.NetworkChangeDelegate(this.MainDisplay_OnNetworkChange);
-            // 
-            // tspDesigner
-            // 
-            this.tspDesigner.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tspAutoRefresh});
-            this.tspDesigner.Location = new System.Drawing.Point(0, 0);
-            this.tspDesigner.Name = "tspDesigner";
-            this.tspDesigner.Size = new System.Drawing.Size(728, 25);
-            this.tspDesigner.TabIndex = 0;
-            this.tspDesigner.Text = "toolStrip2";
-            // 
-            // tspAutoRefresh
-            // 
-            this.tspAutoRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tspAutoRefresh.Name = "tspAutoRefresh";
-            this.tspAutoRefresh.Size = new System.Drawing.Size(76, 22);
-            this.tspAutoRefresh.Text = "Start Refresh";
-            this.tspAutoRefresh.Click += new System.EventHandler(this.tspAutoRefresh_Click);
-            // 
-            // dgTrainingSet
-            // 
-            this.dgTrainingSet.BackgroundColor = System.Drawing.Color.White;
-            this.dgTrainingSet.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
-            this.dgTrainingSet.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgTrainingSet.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgTrainingSet.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnKeystroke;
-            this.dgTrainingSet.Location = new System.Drawing.Point(3, 28);
-            this.dgTrainingSet.Margin = new System.Windows.Forms.Padding(0);
-            this.dgTrainingSet.Name = "dgTrainingSet";
-            this.dgTrainingSet.Size = new System.Drawing.Size(730, 365);
-            this.dgTrainingSet.TabIndex = 0;
-            // 
             // pDocument
             // 
             this.ClientSize = new System.Drawing.Size(744, 422);
@@ -258,17 +255,16 @@ namespace primeira.pNeuron
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.pDocument_KeyDown);
             this.tcDesigner.ResumeLayout(false);
             this.tbDesigner.ResumeLayout(false);
+            this.tbDesigner.PerformLayout();
+            this.tspDesigner.ResumeLayout(false);
+            this.tspDesigner.PerformLayout();
             this.tbTrainingSet.ResumeLayout(false);
             this.tbTrainingSet.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgTrainingSet)).EndInit();
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
             this.tspTrainingSet.ResumeLayout(false);
             this.tspTrainingSet.PerformLayout();
-            this.MainDisplay.ResumeLayout(false);
-            this.MainDisplay.PerformLayout();
-            this.tspDesigner.ResumeLayout(false);
-            this.tspDesigner.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgTrainingSet)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -288,6 +284,8 @@ namespace primeira.pNeuron
 
         private ToolStripSeparator toolStripSeparator1;
         private ToolStripButton tspSQL;
+        private ToolStrip tspDesigner;
+        private ToolStripButton tspAutoRefresh;
 
     }
 }
