@@ -10,7 +10,7 @@ namespace primeira.pNeuron
         private Color Color;
 
         public const byte COLOR_RGB_MARGIN = 10; //0 - 255
-        public const byte SELECTED_PEN_WIDTH = 5;
+        public const byte SELECTED_PEN_WIDTH = 2;
 
 
         public pColorBase(Color c)

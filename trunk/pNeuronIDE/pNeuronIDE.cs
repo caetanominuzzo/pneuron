@@ -13,6 +13,7 @@ using primeira.pNeuron;
 using System.Diagnostics;
 using System.Threading;
 using pShortcutManager;
+using System.Text.RegularExpressions;
 
 
 namespace primeira.pNeuron
@@ -32,6 +33,7 @@ namespace primeira.pNeuron
         private pGroupExplorer fmGroupExplorer = new pGroupExplorer();
         private pPlotter fmPlotter = new pPlotter();
         private pLogger fmLogger = new pLogger();
+        private pSmartZoom fmSmartZoom = new pSmartZoom();
 
         private List<pDocument> fmDocuments = new List<pDocument>();
         private pDocument fActiveDocument;
@@ -252,10 +254,18 @@ namespace primeira.pNeuron
 
             pDocument d = new pDocument(m_cache, "NeuralNetwork " + i.ToString());
             d.Enter += new EventHandler(d_Enter);
+            d.OnDisplayChange += new pDocument.OnDisplayChangeDelegate(d_OnDisplayChange);
 
             AddDocument(d);
 
             return d;
+        }
+
+        public void d_OnDisplayChange()
+        {
+            Graphics g = fmSmartZoom.ZoomGraphics();
+            g.Clear(Color.White);
+            ActiveDocument.MainDisplay.Render(new PaintEventArgs(g, fmSmartZoom.ZoomRectangle()), 0, 0, .5f);
         }
 
         void d_Enter(object sender, EventArgs e)
@@ -386,11 +396,11 @@ namespace primeira.pNeuron
             //fmLogger.Show(dockPanel, DockState.Document);
             //fmLogger.DockTo(fmPlotter.Pane, DockStyle.Fill, 0);
 
-          //  fmGroupExplorer.Show(dockPanel, DockState.DockRight);
+            fmSmartZoom.Show(dockPanel, DockState.DockRight);
             fmProperty.Show(dockPanel, DockState.DockRight);
-         //   fmProperty.DockTo(fmGroupExplorer.Pane, DockStyle.Bottom, 0);
+            fmProperty.DockTo(fmSmartZoom.Pane, DockStyle.Bottom, 0);
 
-
+            fmSmartZoom.Pane.DockPanel.DockTopPortion = 10;
 
             
             fmToolbox.SetToolSet(null);
