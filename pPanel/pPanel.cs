@@ -333,8 +333,8 @@ namespace primeira.pNeuron
 
             g.TextContrast = 2;
             g.DrawString(s, f, new SolidBrush(Color.Black),
-                    Offset(-(g.MeasureString(s, f).Width / 2) + Magnify(Bounds.Left + Bounds.Width / 2 + 1, iZoom), offsetX),
-                    Offset(-(g.MeasureString(s, f).Height / 2) + Magnify(Bounds.Top + Bounds.Height / 2 + 1, iZoom), offsetY)
+                    Offset(-g.MeasureString(s, f).Width / 2 + Magnify(Bounds.Left + Bounds.Width / 2 + 1, iZoom), offsetX),
+                    Offset(-g.MeasureString(s, f).Height / 2 + Magnify(Bounds.Top + Bounds.Height / 2 + 1, iZoom), offsetY)
                 );
 
 
