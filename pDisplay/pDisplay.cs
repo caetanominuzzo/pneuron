@@ -312,7 +312,7 @@ namespace primeira.pNeuron
                             break;
                         case pDisplayStatus.Linking: Cursor = Cursors.Cross;
                             break;
-                        default: SetCursorDefaultCrossThread(); this.Invoke(new Assinc(SetCursorDefaultCrossThread));
+                        default: this.Invoke(new Assinc(SetCursorDefaultCrossThread));
                             break;
 
                     }
@@ -947,11 +947,16 @@ namespace primeira.pNeuron
 
         public void Render(PaintEventArgs e, int OffsetX, int OffsetY, float Zoom)
         {
+            Render(e, OffsetX, OffsetY, Zoom, false);
+        }
+
+        public void Render(PaintEventArgs e, int OffsetX, int OffsetY, float Zoom, bool LittleOne)
+        {
             e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
             base.OnPaint(e);
             DrawLines(e);
 
-            if (DisplayStatus == pDisplayStatus.Training && false)
+            if (DisplayStatus == pDisplayStatus.Training)
             {
 
                 double dZoom = 1;
@@ -992,7 +997,7 @@ namespace primeira.pNeuron
                         if (n == (pp.Neuron))
                         {
                             if (Contains(r, Magnify(Offset(ExpandRectangle(p.Bounds, pp.Bounds), OffsetX, OffsetY), Zoom), true))
-                                DrawSynapse(p, pp, e.Graphics);
+                                DrawSynapse(p, pp, e.Graphics, Zoom, OffsetX, OffsetY);
                         }
                     }
                 }
@@ -1011,11 +1016,11 @@ namespace primeira.pNeuron
                     {
                         foreach (pPanel pp in HighlightedpPanels)
                         {
-                            DrawSynapse(pp, p, e.Graphics);
+                            DrawSynapse(pp, p, e.Graphics, Zoom, OffsetX, OffsetY);
                         }
                     }
                     else
-                        DrawSynapse(p, DisplayMousePosition, e.Graphics);
+                        DrawSynapse(p, DisplayMousePosition, e.Graphics, Zoom, OffsetX, OffsetY);
                 }
             }
 
@@ -1112,19 +1117,19 @@ namespace primeira.pNeuron
 
         }
 
-        public void DrawSynapse(pPanel c, Point d, Graphics g)
+        public void DrawSynapse(pPanel c, Point d, Graphics g, float Zoom, int OffsetX, int OffsetY)
         {
             pPanel dd = new pPanel(g);
             dd.Location = new Point(d.X - AutoScrollPosition.X, d.Y - AutoScrollPosition.Y);
-            DrawSynapse(dd, c, g);
+            DrawSynapse(dd, c, g, Zoom, OffsetX, OffsetY);
         }
 
-        public void DrawSynapse(pPanel c, pPanel d)
+        public void DrawSynapse(pPanel c, pPanel d, float Zoom, int OffsetX, int OffsetY)
         {
-            DrawSynapse(c, d, m_graphics);
+            DrawSynapse(c, d, m_graphics, Zoom, OffsetX, OffsetY);
         }
 
-        private void DrawSynapse(pPanel d, pPanel c, Graphics g)
+        private void DrawSynapse(pPanel d, pPanel c, Graphics g, float Zoom, int OffsetX, int OffsetY)
         {
 
             if (c.Location == d.Location)

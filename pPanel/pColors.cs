@@ -20,12 +20,12 @@ namespace primeira.pNeuron
 
         #region Static Color Transformation
 
-        private static Color AddRGB(Color c, int Value)
+        public static Color AddRGB(Color c, int Value)
         {
             return Color.FromArgb(c.A, mm(c.R + Value), mm(c.G + Value), mm(c.B + Value));
         }
 
-        private static Color SetAlpha(Color c, int Value)
+        public static Color SetAlpha(Color c, int Value)
         {
             return Color.FromArgb(Value, c.R, c.G, c.B);
         }
@@ -73,7 +73,6 @@ namespace primeira.pNeuron
 
     public static class pColors
     {
-
 
 
 
