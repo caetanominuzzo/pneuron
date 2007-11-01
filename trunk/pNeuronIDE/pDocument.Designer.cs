@@ -105,7 +105,7 @@ namespace primeira.pNeuron
             this.MainDisplay.ShiftKey = false;
             this.MainDisplay.Size = new System.Drawing.Size(730, 365);
             this.MainDisplay.TabIndex = 0;
-            this.MainDisplay.Zoom = 1F;
+            //this.MainDisplay.Zoom = 1F;
             this.MainDisplay.OnDisplayStatusChange += new primeira.pNeuron.pDisplay.DisplayStatusChangeDelegate(this.MainDisplay_OnDisplayStatusChange);
             this.MainDisplay.OnNetworkChange += new primeira.pNeuron.pDisplay.NetworkChangeDelegate(this.MainDisplay_OnNetworkChange);
             // 

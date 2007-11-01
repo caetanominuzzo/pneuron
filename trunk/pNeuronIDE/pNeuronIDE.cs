@@ -234,6 +234,8 @@ namespace primeira.pNeuron
             document.OnStopTraing += new pDocument.OnStopTraingDelegate(document_OnStopTraing);
             document.OnResetLearning += new pDocument.OnResetLearningDelegate(document_OnResetLearning);
             document.OnResetKnowledgement += new pDocument.OnResetKnowledgementDelegate(document_OnResetKnowledgement);
+            document.OnDisplayChange += new pDocument.OnDisplayChangeDelegate(d_OnDisplayChange);
+            document.Enter += new EventHandler(d_Enter);
             document.Parent = this;
 
             ActiveDocument.Show(dockPanel, DockState.Document);
@@ -253,8 +255,8 @@ namespace primeira.pNeuron
              }
 
             pDocument d = new pDocument(m_cache, "NeuralNetwork " + i.ToString());
-            d.Enter += new EventHandler(d_Enter);
-            d.OnDisplayChange += new pDocument.OnDisplayChangeDelegate(d_OnDisplayChange);
+            //d.Enter += new EventHandler(d_Enter);
+            //d.OnDisplayChange += new pDocument.OnDisplayChangeDelegate(d_OnDisplayChange);
 
             AddDocument(d);
 
@@ -265,7 +267,7 @@ namespace primeira.pNeuron
         {
             Graphics g = fmSmartZoom.ZoomGraphics();
             g.Clear(Color.White);
-            ActiveDocument.MainDisplay.Render(new PaintEventArgs(g, fmSmartZoom.ZoomRectangle()), 0, 0, .5f);
+            ActiveDocument.MainDisplay.Render(new PaintEventArgs(g, fmSmartZoom.ZoomRectangle()), 0, 0, .1f, true);
         }
 
         void d_Enter(object sender, EventArgs e)
