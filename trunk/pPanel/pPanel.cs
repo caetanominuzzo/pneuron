@@ -270,49 +270,24 @@ namespace primeira.pNeuron
         {
 
             Brush brush = GetBrushtyle();
+
             Pen pen = GetPenStyle();
-
-
 
             int iCount = 1;
 
             int iRad = 360 / iCount;
 
-  
+            if (iZoom > 0.1f)
+            {
+                g.DrawEllipse(pen, Magnify(Offset(Bounds.Left + (pen.Width), offsetX), iZoom),
+                                 Magnify(Offset(Bounds.Top + (pen.Width), offsetY), iZoom),
+                                 Magnify(Bounds.Width - (pen.Width * 2), iZoom),
+                                 Magnify(Bounds.Height - (pen.Width * 2), iZoom));
 
-            //g.FillEllipse(brush[0],
-            //                   Bounds.Left,
-            //                   Bounds.Top,
-            //                   Bounds.Width,
-            //                   Bounds.Height);
-            //             //      10,
-            //               //    160);
-
-            //g.DrawEllipse(pen[0], Bounds.Left + (pen[0].Width),
-            //                   Bounds.Top + (pen[0].Width),
-            //                   Bounds.Width - (pen[0].Width * 2),
-            //                   Bounds.Height - (pen[0].Width * 2));
-
-
-            //return;
-
-            g.DrawEllipse(pen, Magnify(Offset(Bounds.Left + (pen.Width), offsetX), iZoom),
-                              Magnify(Offset(Bounds.Top + (pen.Width), offsetY), iZoom),
-                              Magnify(Bounds.Width - (pen.Width * 2), iZoom),
-                              Magnify(Bounds.Height - (pen.Width * 2), iZoom));
-
-                g.DrawEllipse(pen,  Magnify(Offset(Bounds.Left + (pen.Width), offsetX), iZoom),
+                g.DrawEllipse(pen, Magnify(Offset(Bounds.Left + (pen.Width), offsetX), iZoom),
                       Magnify(Offset(Bounds.Top + (pen.Width), offsetY), iZoom),
                       Magnify(Bounds.Width - (pen.Width * 2), iZoom),
                       Magnify(Bounds.Height - (pen.Width * 2), iZoom));
-
-
-
-                //g.FillEllipse(new SolidBrush(Color.FromArgb(200, Color.White)),
-                //        Bounds.Left + 4,
-                //        Bounds.Top + 4,
-                //        Bounds.Width - 8,
-                //        Bounds.Height - 8);
 
 
                 g.FillPie(brush,
@@ -326,18 +301,28 @@ namespace primeira.pNeuron
 
 
 
-        
-
-            string s = Text;
-            Font f = new Font(SystemFonts.MenuFont.SystemFontName,  Magnify(10, iZoom), FontStyle.Regular, GraphicsUnit.Pixel, 1, true);
-
-            g.TextContrast = 2;
-            g.DrawString(s, f, new SolidBrush(Color.Black),
-                    Offset(-g.MeasureString(s, f).Width / 2 + Magnify(Bounds.Left + Bounds.Width / 2 + 1, iZoom), offsetX),
-                    Offset(-g.MeasureString(s, f).Height / 2 + Magnify(Bounds.Top + Bounds.Height / 2 + 1, iZoom), offsetY)
-                );
 
 
+                string s = Text;
+                Font f = new Font(SystemFonts.MenuFont.SystemFontName, Magnify(10, iZoom), FontStyle.Regular, GraphicsUnit.Pixel, 1, true);
+
+                g.TextContrast = 2;
+                g.DrawString(s, f, new SolidBrush(Color.Black),
+                        Offset(-g.MeasureString(s, f).Width / 2 + Magnify(Bounds.Left + Bounds.Width / 2 + 1, iZoom), offsetX),
+                        Offset(-g.MeasureString(s, f).Height / 2 + Magnify(Bounds.Top + Bounds.Height / 2 + 1, iZoom), offsetY)
+                    );
+
+            }
+            else
+            {
+                g.FillPie(new SolidBrush( pColorBase.AddRGB(pColorBase.SetAlpha(pen.Color, 255), -50) ),
+                          Magnify(Offset(Bounds.Left, offsetX), iZoom),
+                          Magnify(Offset(Bounds.Top, offsetY), iZoom),
+                          Magnify(Bounds.Width, iZoom),
+                          Magnify(Bounds.Height, iZoom),
+                          0,
+                          iRad);
+            }
         }
 
         public Point GetPerspective(Point p)

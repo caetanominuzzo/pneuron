@@ -60,13 +60,23 @@ namespace primeira.pNeuron
 
         private void tmMove_Tick(object sender, EventArgs e)
         {
-            if (MousePosition.X > Width - 5)
+
+            if (!Parent.ThereIsAnActiveDocument())
+                return;
+
+           
+            Point p = ZoomDisplay.PointToClient(MousePosition);
+
+            if (!ZoomDisplay.Bounds.Contains(p))
+                return;
+
+            if (p.X > Width - 25)
                 Parent.ActiveDocument.MainDisplay.OffsetX += 5;
-            if (MousePosition.X <  5)
+            if (p.X <  25)
                 Parent.ActiveDocument.MainDisplay.OffsetX -= 5;
-            if (MousePosition.Y > Height - 5)
+            if (p.Y > Height - 25)
                 Parent.ActiveDocument.MainDisplay.OffsetY += 5;
-            if (MousePosition.Y > 5)
+            if (p.Y < 25)
                 Parent.ActiveDocument.MainDisplay.OffsetY -= 5;
 
             Parent.ActiveDocument.MainDisplay.Invalidate();
