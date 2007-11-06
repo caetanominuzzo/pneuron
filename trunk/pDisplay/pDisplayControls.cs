@@ -302,6 +302,10 @@ namespace primeira.pNeuron
             if (p.Groups != 0)
             {
                 m_groups[p.Groups].Remove(p);
+
+                if (OnNetworkChange != null)
+                    OnNetworkChange();
+
                 if (OnTreeViewChange != null)
                     OnTreeViewChange(p, pTreeviewRefresh.pPanelRemove);
             }
@@ -311,6 +315,9 @@ namespace primeira.pNeuron
             {
                 p.Groups = GroupIndex;
                 Invalidate(Magnify(Offset(p.Bounds, OffsetX, OffsetY), Zoom));
+
+                if (OnNetworkChange != null)
+                    OnNetworkChange();
 
                 if (OnTreeViewChange != null)
                     OnTreeViewChange(p, pTreeviewRefresh.pPanelAdd);
@@ -337,12 +344,17 @@ namespace primeira.pNeuron
             {
                 p.Groups = 0;
                 Invalidate(Magnify(Offset(p.Bounds, OffsetX, OffsetY), Zoom));
+                
+                
             }
 
             m_groups[iKey].Clear();
 
             if(OnTreeViewChange!=null)
                 OnTreeViewChange(iKey, pTreeviewRefresh.pGroupClear);
+
+            if (OnNetworkChange != null)
+                OnNetworkChange();
         }
 
         /// <summary>
