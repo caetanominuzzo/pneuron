@@ -266,6 +266,32 @@ namespace primeira.pNeuron
             Draw(m_graphics, iZoom, offsetX, offsetY);
         }
 
+        /// <summary>
+        /// thanks to Pierre Arnaud at http://www.codeproject.com/cs/media/measurestring.asp
+        /// </summary>
+        /// <param name="graphics"></param>
+        /// <param name="text"></param>
+        /// <param name="font"></param>
+        /// <returns></returns>
+        static public int MeasureDisplayStringWidth(Graphics graphics, string text,
+                                            Font font)
+        {
+            System.Drawing.StringFormat format = new System.Drawing.StringFormat();
+            System.Drawing.RectangleF rect = new System.Drawing.RectangleF(0, 0,
+                                                                          1000, 1000);
+            System.Drawing.CharacterRange[] ranges = 
+                                       { new System.Drawing.CharacterRange(0, 
+                                                               text.Length) };
+            System.Drawing.Region[] regions = new System.Drawing.Region[1];
+
+            format.SetMeasurableCharacterRanges(ranges);
+
+            regions = graphics.MeasureCharacterRanges(text, font, rect, format);
+            rect = regions[0].GetBounds(graphics);
+
+            return (int)(rect.Right + 1.0f);
+        }
+
         public void Draw(Graphics g, float iZoom, int offsetX, int offsetY)
         {
 
@@ -307,10 +333,23 @@ namespace primeira.pNeuron
                 Font f = new Font(SystemFonts.MenuFont.SystemFontName, Magnify(10, iZoom), FontStyle.Regular, GraphicsUnit.Pixel, 1, true);
 
                 g.TextContrast = 2;
+
                 g.DrawString(s, f, new SolidBrush(Color.Black),
-                        Offset(-g.MeasureString(s, f).Width / 2 + Magnify(Bounds.Left + Bounds.Width / 2 + 1, iZoom), offsetX),
-                        Offset(-g.MeasureString(s, f).Height / 2 + Magnify(Bounds.Top + Bounds.Height / 2 + 1, iZoom), offsetY)
-                    );
+                    Magnify(
+
+                    Convert.ToInt32(-MeasureDisplayStringWidth(g, s, f) / 2 + Bounds.Left + Bounds.Width / 2) - 5,
+                    iZoom),
+                    Magnify(
+                    Convert.ToInt32(-Magnify(10, iZoom) / 2 + Bounds.Top + Bounds.Height / 2) - 5, iZoom));       
+                    
+
+                           
+
+
+                //g.DrawString(s, f, new SolidBrush(Color.Black),
+                //         Magnify(Offset(- g.MeasureString(s, f).Width/ 2 + Bounds.Left + Bounds.Width / 2, offsetX), iZoom),
+                //         Magnify(Offset(-g.MeasureString(s, f).Height / 2 + Bounds.Top + Bounds.Height / 2, offsetY), iZoom)
+                //    );
 
             }
             else

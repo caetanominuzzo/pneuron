@@ -14,7 +14,7 @@ using primeira.pRandom;
 
 namespace primeira.pNeuron
 {
-    public partial class pSmartZoom : DockContent, IpDocks
+    public partial class pSmartZoom : DockContent, IpDocks, pISmartZoom
     {
 
 
@@ -26,6 +26,10 @@ namespace primeira.pNeuron
 
         }
 
+        public Size ZoomSize
+        {
+            get { return ZoomDisplay.Size; }
+        }
 
         public Graphics ZoomGraphics()
         {
@@ -39,10 +43,11 @@ namespace primeira.pNeuron
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            base.OnPaint(e);
             Parent.d_OnDisplayChange();
-        }
+           
+        }
 
+     
 
         #region IpDocks Members
 
@@ -61,25 +66,7 @@ namespace primeira.pNeuron
         private void tmMove_Tick(object sender, EventArgs e)
         {
 
-            if (!Parent.ThereIsAnActiveDocument())
-                return;
-
-           
-            Point p = ZoomDisplay.PointToClient(MousePosition);
-
-            if (!ZoomDisplay.Bounds.Contains(p))
-                return;
-
-            if (p.X > Width - 25)
-                Parent.ActiveDocument.MainDisplay.OffsetX += 5;
-            if (p.X <  25)
-                Parent.ActiveDocument.MainDisplay.OffsetX -= 5;
-            if (p.Y > Height - 25)
-                Parent.ActiveDocument.MainDisplay.OffsetY += 5;
-            if (p.Y < 25)
-                Parent.ActiveDocument.MainDisplay.OffsetY -= 5;
-
-            Parent.ActiveDocument.MainDisplay.Invalidate();
+        
         }
 
         private void ZoomDisplay_Leave(object sender, EventArgs e)
