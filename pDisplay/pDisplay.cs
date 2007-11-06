@@ -167,12 +167,12 @@ namespace primeira.pNeuron
         /// <summary>
         /// X offset of display in pixelx.
         /// </summary>
-        private int m_offsetX = 0;
+        private int m_offsetX = -0;
 
         /// <summary>
         /// Y offset of display in pixelx.
         /// </summary>
-        private int m_offsetY = 0;
+        private int m_offsetY = -0;
 
         private pISmartZoom m_smartZoom = null;
 
@@ -189,7 +189,9 @@ namespace primeira.pNeuron
         public int OffsetX
         {
             get { return m_offsetX; }
-            set { m_offsetX = value;
+            set { 
+                
+                m_offsetX = value;
               
             if (OnNetworkChange != null)
                 OnNetworkChange();
@@ -209,7 +211,9 @@ namespace primeira.pNeuron
         public float Zoom
         {
             get { return m_zoom; }
-            set { m_zoom = value;
+            set {
+                return;
+                m_zoom = value;
 
             if (OnNetworkChange != null)
                 OnNetworkChange();
@@ -284,15 +288,15 @@ namespace primeira.pNeuron
             }
 
             //Afinar variaveis
-            if (p.X > Width - 25)
-                OffsetX +=  Convert.ToInt32((5f/(Width - p.X))*5);
+            if (p.X > Width - 50)
+                OffsetX -=  Convert.ToInt32((5f/(Width - p.X))*5);
 
-            if (p.X < 25)
-                OffsetX -= 5;
-            if (p.Y > Height - 25)
-                OffsetY += 5;
-            if (p.Y < 25)
+            if (p.X < 50)
+                OffsetX += 5;
+            if (p.Y > Height - 50)
                 OffsetY -= 5;
+            if (p.Y < 50)
+                OffsetY += 5;
 
             Invalidate();
         }
@@ -1021,7 +1025,6 @@ namespace primeira.pNeuron
         public void Render(PaintEventArgs e, int OffsetX, int OffsetY, float Zoom, bool LittleOne)
         {
             e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-            base.OnPaint(e);
             DrawLines(e);
 
             if (DisplayStatus == pDisplayStatus.Training)
@@ -1149,13 +1152,16 @@ namespace primeira.pNeuron
 
         private void DrawMask(Graphics g)
         {
-            
+
+            int width = Magnify(UnMagnify(Width, Zoom), 0.1f);
+            int height = Magnify(UnMagnify(Height, Zoom), 0.1f);
+
             g.DrawRectangle(SystemPens.AppWorkspace,
                 new Rectangle(
-                    Convert.ToInt32(-Magnify(OffsetX, 0.1f) - Magnify(Width, 0.1f) / 2 + SmartZoom.ZoomSize.Width / 2),
-                    Convert.ToInt32(-Magnify(OffsetY, 0.1f) - Magnify(Height, 0.1f) / 2 + SmartZoom.ZoomSize.Height / 2),
-                    Convert.ToInt32(Magnify(Width, 0.1f)),
-                    Convert.ToInt32(Magnify(Height, 0.1f))));
+                    Convert.ToInt32(-Magnify(UnMagnify(OffsetX, Zoom), 0.1f) - width / 2 + SmartZoom.ZoomSize.Width / 2),
+                    Convert.ToInt32(-Magnify(UnMagnify(OffsetY,Zoom), 0.1f) - height / 2 + SmartZoom.ZoomSize.Height / 2),
+                    Convert.ToInt32(width),
+                    Convert.ToInt32(height)));
 
         }
 
@@ -1483,7 +1489,7 @@ namespace primeira.pNeuron
         [pShortcutManagerVisible("Design.Offset.Top", "Moves desing up.", "Design", Keys.Up)]
         public void kToUp()
         {
-            OffsetY -= 20;
+            OffsetY += 20;
             Invalidate();
         }
 
@@ -1491,7 +1497,7 @@ namespace primeira.pNeuron
         [pShortcutManagerVisible("Design.Offset.Down", "Moves desing down.", "Design", Keys.Down)]
         public void kToDown()
         {
-            OffsetY += 20;
+            OffsetY -= 20;
             Invalidate();
         }
 

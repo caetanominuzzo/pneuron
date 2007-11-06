@@ -335,12 +335,11 @@ namespace primeira.pNeuron
                 g.TextContrast = 2;
 
                 g.DrawString(s, f, new SolidBrush(Color.Black),
-                    Magnify(
-
+                    Offset(
                     Convert.ToInt32(-MeasureDisplayStringWidth(g, s, f) / 2 + Bounds.Left + Bounds.Width / 2) - 5,
-                    iZoom),
-                    Magnify(
-                    Convert.ToInt32(-Magnify(10, iZoom) / 2 + Bounds.Top + Bounds.Height / 2) - 5, iZoom));       
+                    offsetX),
+                    Offset(
+                    Convert.ToInt32(-Magnify(10, iZoom) / 2 + Bounds.Top + Bounds.Height / 2) - 5, offsetY));       
                     
 
                            
