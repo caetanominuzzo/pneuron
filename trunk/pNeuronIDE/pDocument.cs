@@ -136,7 +136,7 @@ namespace primeira.pNeuron
 
         public pDocument()
         {
-            MainDisplay = new pDisplay();
+
             InitializeComponent();
 
            
