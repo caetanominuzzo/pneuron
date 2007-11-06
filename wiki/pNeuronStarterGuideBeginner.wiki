@@ -1,4 +1,5 @@
 #summary The XOR problem
+#labels Featured
 
 XOR é um bem conhecido problema de redes neurais. Consiste em ensinar uma rede neural a calcular o XOR de dois valores booleanos dados. Existem inúmeros artigos disponíveis na internet que analisam vários aspectos teóricos da implementação de uma rede neural para o XOR, entretanto vamos nos ater aos conceitos práticos relacionados com a implementação na pNeuronIDE.
 
