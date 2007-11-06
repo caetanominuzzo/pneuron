@@ -237,6 +237,7 @@ namespace primeira.pNeuron
             document.OnDisplayChange += new pDocument.OnDisplayChangeDelegate(d_OnDisplayChange);
             document.Enter += new EventHandler(d_Enter);
             document.Parent = this;
+            document.MainDisplay.SmartZoom = fmSmartZoom;
 
             ActiveDocument.Show(dockPanel, DockState.Document);
             ActiveDocument.Modificated = false;

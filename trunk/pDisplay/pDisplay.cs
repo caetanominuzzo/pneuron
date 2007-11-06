@@ -27,6 +27,11 @@ namespace primeira.pNeuron
 
     #endregion
 
+    public interface pISmartZoom
+    {
+        Size ZoomSize { get; }
+    }
+
     public partial class pDisplay : Panel, primeira.pNeuron.IpPanels
     {
         
@@ -169,22 +174,46 @@ namespace primeira.pNeuron
         /// </summary>
         private int m_offsetY = 0;
 
+        private pISmartZoom m_smartZoom = null;
+
+        private Timer tmMove = new Timer();
+
+        public pISmartZoom SmartZoom
+        {
+            get { return m_smartZoom; }
+            set { m_smartZoom = value; }
+        }
+
+
+
         public int OffsetX
         {
             get { return m_offsetX; }
-            set { m_offsetX = value; }
+            set { m_offsetX = value;
+              
+            if (OnNetworkChange != null)
+                OnNetworkChange();
+        }
         }
 
         public int OffsetY
         {
             get { return m_offsetY; }
-            set { m_offsetY = value; }
+            set { m_offsetY = value;
+
+            if (OnNetworkChange != null)
+                OnNetworkChange();
+        }
         }
 
         public float Zoom
         {
             get { return m_zoom; }
-            set { m_zoom = value; }
+            set { m_zoom = value;
+
+            if (OnNetworkChange != null)
+                OnNetworkChange();
+        }
         }
 
         #endregion
@@ -237,9 +266,35 @@ namespace primeira.pNeuron
 
             AutoScroll = false;
 
+            tmMove.Tick += new EventHandler(tmMove_Tick);
             
 
 
+        }
+
+        void tmMove_Tick(object sender, EventArgs e)
+        {
+
+            Point p = this.PointToClient(MousePosition);
+
+            if (!this.Bounds.Contains(p))
+            {
+                tmMove.Stop();
+                return;
+            }
+
+            //Afinar variaveis
+            if (p.X > Width - 25)
+                OffsetX +=  Convert.ToInt32((5f/(Width - p.X))*5);
+
+            if (p.X < 25)
+                OffsetX -= 5;
+            if (p.Y > Height - 25)
+                OffsetY += 5;
+            if (p.Y < 25)
+                OffsetY -= 5;
+
+            Invalidate();
         }
 
 
@@ -575,6 +630,12 @@ namespace primeira.pNeuron
         protected override void OnMouseMove(MouseEventArgs e)
         {
 
+            #region Moving Canvas
+
+            tmMove.Start();
+
+            #endregion
+
             RefreshHighlight();
 
             if (DisplayStatus == pDisplayStatus.Selecting)
@@ -769,6 +830,9 @@ namespace primeira.pNeuron
                 pp.Location = new Point(UnMagnify(((DisplayMousePosition.X - pp.Width / 2) / Magnify(m_gridDistance, Zoom)) * Magnify(m_gridDistance, Zoom), Zoom),
                                          UnMagnify(((DisplayMousePosition.Y - pp.Height / 2) / Magnify(m_gridDistance, Zoom)) * Magnify(m_gridDistance, Zoom), Zoom));
 
+
+                pp.Location = Offset(pp.Location, -OffsetX, -OffsetY);
+
                 //TODO:Fine tune
                 //pp.Location = new Point(
                 //    (pp.Location.X + pp.Width / 2 < x) ? pp.Location.X : pp.Location.X + pp.Width ,
@@ -895,6 +959,9 @@ namespace primeira.pNeuron
         {
             if (DisplayStatus == pDisplayStatus.Moving)
             {
+                if (OnNetworkChange != null)
+                    OnNetworkChange();
+
                 DisplayStatus = pDisplayStatus.Idle;
             }
             else
@@ -934,6 +1001,7 @@ namespace primeira.pNeuron
 
         #region Paint
 
+        
         protected override void OnInvalidated(InvalidateEventArgs e)
         {
             base.OnInvalidated(e);
@@ -996,8 +1064,13 @@ namespace primeira.pNeuron
                     {
                         if (n == (pp.Neuron))
                         {
-                            if (Contains(r, Magnify(Offset(ExpandRectangle(p.Bounds, pp.Bounds), OffsetX, OffsetY), Zoom), true))
-                                DrawSynapse(p, pp, e.Graphics, Zoom, OffsetX, OffsetY);
+                            if (LittleOne)
+                            {
+                                DrawSynapse(p, pp, e.Graphics, Zoom, Convert.ToInt32(-Width / 2) + OffsetX + Convert.ToInt32(SmartZoom.ZoomSize.Width / Zoom / 2), Convert.ToInt32(-Height / 2) + OffsetY + Convert.ToInt32(SmartZoom.ZoomSize.Height / Zoom / 2));
+                            }
+                            else
+                                if (Contains(r, Magnify(Offset(ExpandRectangle(p.Bounds, pp.Bounds), OffsetX, OffsetY), Zoom), true))
+                                    DrawSynapse(p, pp, e.Graphics, Zoom, OffsetX, OffsetY);
                         }
                     }
                 }
@@ -1006,7 +1079,7 @@ namespace primeira.pNeuron
 
 
 
-            if (DisplayStatus == pDisplayStatus.Linking)
+            if (DisplayStatus == pDisplayStatus.Linking && !LittleOne)
             {
 
                 foreach (pPanel p in SelectedpPanels)
@@ -1027,8 +1100,14 @@ namespace primeira.pNeuron
 
             foreach (pPanel c in m_pPanels)
             {
-                if (Contains(r, Magnify(Offset(c.Bounds, OffsetX, OffsetY), Zoom), true))
-                    c.Draw(e.Graphics, Zoom, OffsetX, OffsetY);
+                if (LittleOne)
+                {
+                    if (Contains(r, Magnify(Offset(c.Bounds, OffsetX, OffsetY), Zoom), true))
+                        c.Draw(e.Graphics, Zoom, Convert.ToInt32(-Width / 2) + OffsetX + Convert.ToInt32(SmartZoom.ZoomSize.Width / Zoom / 2), Convert.ToInt32(-Height / 2) + OffsetY + Convert.ToInt32(SmartZoom.ZoomSize.Height / Zoom / 2));
+                }
+                else
+                    if (Contains(r, Magnify(Offset(c.Bounds, OffsetX, OffsetY), Zoom), true))
+                        c.Draw(e.Graphics, Zoom, OffsetX, OffsetY);
             }
 
             if (m_selectSourcePoint.HasValue)
@@ -1060,6 +1139,24 @@ namespace primeira.pNeuron
 
                 }
             }
+
+            if (LittleOne)
+            {
+                
+                DrawMask(e.Graphics);
+            }
+        }
+
+        private void DrawMask(Graphics g)
+        {
+            
+            g.DrawRectangle(SystemPens.AppWorkspace,
+                new Rectangle(
+                    Convert.ToInt32(-Magnify(OffsetX, 0.1f) - Magnify(Width, 0.1f) / 2 + SmartZoom.ZoomSize.Width / 2),
+                    Convert.ToInt32(-Magnify(OffsetY, 0.1f) - Magnify(Height, 0.1f) / 2 + SmartZoom.ZoomSize.Height / 2),
+                    Convert.ToInt32(Magnify(Width, 0.1f)),
+                    Convert.ToInt32(Magnify(Height, 0.1f))));
+
         }
 
         private void DrawLines(PaintEventArgs e)
@@ -1120,7 +1217,8 @@ namespace primeira.pNeuron
         public void DrawSynapse(pPanel c, Point d, Graphics g, float Zoom, int OffsetX, int OffsetY)
         {
             pPanel dd = new pPanel(g);
-            dd.Location = new Point(d.X - AutoScrollPosition.X, d.Y - AutoScrollPosition.Y);
+            dd.Location = new Point(d.X, d.Y);
+            
             DrawSynapse(dd, c, g, Zoom, OffsetX, OffsetY);
         }
 
@@ -1163,8 +1261,8 @@ namespace primeira.pNeuron
 
             Rectangle cBounds = c.Bounds;
 
-            cBounds = new Rectangle(cBounds.X + AutoScrollPosition.X,
-                cBounds.Y + AutoScrollPosition.Y,
+            cBounds = new Rectangle(cBounds.X,
+                cBounds.Y,
                 cBounds.Width,
                 cBounds.Height);
 
@@ -1172,8 +1270,8 @@ namespace primeira.pNeuron
             Rectangle dBounds = d.Bounds;
 
 
-            dBounds = new Rectangle(dBounds.X + AutoScrollPosition.X,
-                dBounds.Y + AutoScrollPosition.Y,
+            dBounds = new Rectangle(dBounds.X,
+                dBounds.Y,
                 dBounds.Width,
                 dBounds.Height);
 
@@ -1356,21 +1454,21 @@ namespace primeira.pNeuron
         [pShortcutManagerVisible("Zoom.Out", "Zoom design out.", "Design", Keys.PageUp)]
         public void kZoomOut()
         {
-            m_zoom *= 1.1f;
+            Zoom *= 1.1f;
             Invalidate();
         }
 
         [pShortcutManagerVisible("Zoom.In", "Zoom design in.", "Design", Keys.PageDown)]
         public void kZoomIn()
         {
-            m_zoom *= 0.9f;
+            Zoom *= 0.9f;
             Invalidate();
         }
 
         [pShortcutManagerVisible("Design.Offset.Left", "Moves desing left.", "Design", Keys.Left)]
         public void kToLeft()
         {
-            m_offsetX += 20;
+           OffsetX += 20;
             Invalidate();
         }
 
@@ -1378,14 +1476,14 @@ namespace primeira.pNeuron
         [pShortcutManagerVisible("Design.Offset.Right", "Moves desing right.", "Design", Keys.Right)]
         public void kToRight()
         {
-            m_offsetX -= 20;
+            OffsetX -= 20;
             Invalidate();
         }
 
         [pShortcutManagerVisible("Design.Offset.Top", "Moves desing up.", "Design", Keys.Up)]
         public void kToUp()
         {
-            m_offsetY -= 20;
+            OffsetY -= 20;
             Invalidate();
         }
 
@@ -1393,7 +1491,7 @@ namespace primeira.pNeuron
         [pShortcutManagerVisible("Design.Offset.Down", "Moves desing down.", "Design", Keys.Down)]
         public void kToDown()
         {
-            m_offsetY += 20;
+            OffsetY += 20;
             Invalidate();
         }
 
