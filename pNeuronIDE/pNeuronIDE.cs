@@ -97,6 +97,8 @@ namespace primeira.pNeuron
                         fmProperty.cbItems.Items.Add(n.ToString());
                     }
 
+                    PaintMiniMap();
+
                     
                     m_shortcut.LoadFromForm(fActiveDocument.MainDisplay);
                 }
@@ -193,10 +195,10 @@ namespace primeira.pNeuron
         /// <summary>
         /// To avoid the "Please create a new document or open one before try this." message on ActiveDocument property.
         /// </summary>
-        /// <returns>True if there is an active document.</returns>
+        /// <returns>True if there is an active document and its really opened.</returns>
         public bool ThereIsAnActiveDocument()
         {
-            return fActiveDocument != null;
+            return fActiveDocument != null && fActiveDocument.Parent != null;
         }
 
         /// <summary>
@@ -234,10 +236,11 @@ namespace primeira.pNeuron
             document.OnStopTraing += new pDocument.OnStopTraingDelegate(document_OnStopTraing);
             document.OnResetLearning += new pDocument.OnResetLearningDelegate(document_OnResetLearning);
             document.OnResetKnowledgement += new pDocument.OnResetKnowledgementDelegate(document_OnResetKnowledgement);
-            document.OnDisplayChange += new pDocument.OnDisplayChangeDelegate(d_OnDisplayChange);
+            document.OnDisplayChange += new pDocument.OnDisplayChangeDelegate(PaintMiniMap);
             document.Enter += new EventHandler(d_Enter);
             document.Parent = this;
             document.MainDisplay.SmartZoom = fmSmartZoom;
+            PaintMiniMap();
 
             ActiveDocument.Show(dockPanel, DockState.Document);
             ActiveDocument.Modificated = false;
@@ -264,8 +267,13 @@ namespace primeira.pNeuron
             return d;
         }
 
-        public void d_OnDisplayChange()
+        public void PaintMiniMap()
         {
+            if (!ThereIsAnActiveDocument() || !fmSmartZoom.Visible)
+                return;
+
+            
+
             Graphics g = fmSmartZoom.ZoomGraphics();
             g.Clear(Color.White);
             ActiveDocument.MainDisplay.Render(new PaintEventArgs(g, fmSmartZoom.ZoomRectangle()), 0, 0, .1f, true);
@@ -289,7 +297,8 @@ namespace primeira.pNeuron
 
         private void p_OnDisplayStatusChanged()
         {
-            fmToolbox.SetToolSet(ActiveDocument);
+            if(ActiveDocument.MainDisplay.DisplayStatus != pDisplay.pDisplayStatus.Training)
+                fmToolbox.SetToolSet(ActiveDocument);
 
             status.Items[0].Text = "Status: " + ActiveDocument.MainDisplay.DisplayStatus.ToString().Replace("_", " ");
 
@@ -459,6 +468,13 @@ namespace primeira.pNeuron
             fmPlotter.Show();
         }
 
+        private void miniMapToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            fmSmartZoom.Show();
+            if (ThereIsAnActiveDocument())
+                PaintMiniMap();
+        }
+
         private void networkExplorerToolStripMenuItem_Click(object sender, EventArgs e)
         {
             fmGroupExplorer.Show();
@@ -493,6 +509,8 @@ namespace primeira.pNeuron
             learninRate.Text = "Learning Rate: " + trackLR.Value;
             ActiveDocument.MainDisplay.Net.LearningRate = trackLR.Value;
         }
+
+
 
 
 

@@ -20,7 +20,7 @@ namespace primeira.pNeuron
         private TabControl tcDesigner;
         private TabPage tbDesigner;
         private TabPage tbTrainingSet;
-        private pDataGridView dgTrainingSet;
+        private DataGridView dgTrainingSet;
         private List<pTrainingSet> fpTrainingSet = new List<pTrainingSet>();
         private FlowLayoutPanel flowLayoutPanel1;
         private ToolStrip tspTrainingSet;
@@ -125,6 +125,7 @@ namespace primeira.pNeuron
             this.tspAutoRefresh.Name = "tspAutoRefresh";
             this.tspAutoRefresh.Size = new System.Drawing.Size(76, 22);
             this.tspAutoRefresh.Text = "Start Refresh";
+            this.tspAutoRefresh.Click +=new EventHandler(tspAutoRefresh_Click);
             // 
             // tbTrainingSet
             // 
