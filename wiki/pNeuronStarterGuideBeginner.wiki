@@ -138,8 +138,8 @@ A partir de agora vamos utilizar apenas o Visual Studio 2005.
 `  MessageBox.Show((primeira.pNeuron.[Nome da sua rede].Pulse(checkBox1.Checked, checkBox2.Checked));`
 
 3.6 Execute o programa. Se tudo deu certo ao clicar no botão você deve receber uma mensagem conforme a tabela 
-true true false
-false false false
-true false true
-false true true 
-    
+||checkBox1||checkBox2||MessageBox Result||
+||false||false||false||
+||true||true||false||
+||true||false||true||
+||false||true||true||
