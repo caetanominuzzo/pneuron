@@ -232,6 +232,7 @@ namespace primeira.pNeuron
                         if (MainDisplay.SelectedpPanels.Length == 0)
                         {
                             MainDisplay.GroupFree(iKey);
+                            
                         }
 
                         if (!e.Shift)

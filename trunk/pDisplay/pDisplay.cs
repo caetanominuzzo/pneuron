@@ -1006,11 +1006,6 @@ namespace primeira.pNeuron
         #region Paint
 
         
-        protected override void OnInvalidated(InvalidateEventArgs e)
-        {
-            base.OnInvalidated(e);
-
-        }
 
         protected override void OnPaint(PaintEventArgs e)
         {
@@ -1027,7 +1022,8 @@ namespace primeira.pNeuron
             e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
             DrawLines(e);
 
-            if (DisplayStatus == pDisplayStatus.Training)
+            //Change neuron size on neuron value like synapses.
+            if (DisplayStatus == pDisplayStatus.Training && false)
             {
 
                 double dZoom = 1;
@@ -1105,7 +1101,6 @@ namespace primeira.pNeuron
             {
                 if (LittleOne)
                 {
-                    if (Contains(r, Magnify(Offset(c.Bounds, OffsetX, OffsetY), Zoom), true))
                         c.Draw(e.Graphics, Zoom, Convert.ToInt32(-Width / 2) + OffsetX + Convert.ToInt32(SmartZoom.ZoomSize.Width / Zoom / 2), Convert.ToInt32(-Height / 2) + OffsetY + Convert.ToInt32(SmartZoom.ZoomSize.Height / Zoom / 2));
                 }
                 else
@@ -1284,9 +1279,11 @@ namespace primeira.pNeuron
             Pen p = ((pPanel)c).GetPenStyle();
             
             p.Width = 1;
-            if (d.Neuron != null)
-                if(c.Neuron.GetSynapseTo(d.Neuron) != null)
-                    p.Width = Convert.ToInt32(Math.Max(1, Math.Abs(c.Neuron.GetSynapseTo(d.Neuron).Weight) * dZoom));
+
+            if (Zoom > 0.1f)
+                if (d.Neuron != null)
+                    if (c.Neuron.GetSynapseTo(d.Neuron) != null)
+                        p.Width = Convert.ToInt32(Math.Max(1, Math.Abs(c.Neuron.GetSynapseTo(d.Neuron).Weight) * dZoom));
             
             SolidBrush b = new SolidBrush(Color.Red);
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
@@ -1461,21 +1458,18 @@ namespace primeira.pNeuron
         public void kZoomOut()
         {
             Zoom *= 1.1f;
-            Invalidate();
         }
 
         [pShortcutManagerVisible("Zoom.In", "Zoom design in.", "Design", Keys.PageDown)]
         public void kZoomIn()
         {
             Zoom *= 0.9f;
-            Invalidate();
         }
 
         [pShortcutManagerVisible("Design.Offset.Left", "Moves desing left.", "Design", Keys.Left)]
         public void kToLeft()
         {
            OffsetX += 20;
-            Invalidate();
         }
 
 
@@ -1483,14 +1477,12 @@ namespace primeira.pNeuron
         public void kToRight()
         {
             OffsetX -= 20;
-            Invalidate();
         }
 
         [pShortcutManagerVisible("Design.Offset.Top", "Moves desing up.", "Design", Keys.Up)]
         public void kToUp()
         {
             OffsetY += 20;
-            Invalidate();
         }
 
 
@@ -1498,7 +1490,6 @@ namespace primeira.pNeuron
         public void kToDown()
         {
             OffsetY -= 20;
-            Invalidate();
         }
 
         
