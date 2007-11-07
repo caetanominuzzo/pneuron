@@ -71,10 +71,14 @@ namespace primeira.pNeuron
 
                 Point p = Point.Subtract(ZoomDisplay.PointToClient(MousePosition), (Size)DownPoint.Value);
 
-                Parent.ActiveDocument.MainDisplay.OffsetX -= Parent.ActiveDocument.MainDisplay.UnMagnify(p.X, 0.1f);
-                Parent.ActiveDocument.MainDisplay.OffsetY -= Parent.ActiveDocument.MainDisplay.UnMagnify(p.Y, 0.1f);
+                Parent.ActiveDocument.MainDisplay.Offset = new Point
+                    (Parent.ActiveDocument.MainDisplay.UnMagnify(p.X, 0.1f),
+                    Parent.ActiveDocument.MainDisplay.UnMagnify(p.Y, 0.1f));
+                  
 
                 DownPoint = ZoomDisplay.PointToClient(MousePosition);
+
+       
 
                 Parent.ActiveDocument.MainDisplay.Invalidate();
             }
