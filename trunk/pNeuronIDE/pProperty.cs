@@ -35,6 +35,7 @@ namespace primeira.pNeuron
             this.Property.Name = "Property";
             this.Property.Size = new System.Drawing.Size(424, 350);
             this.Property.TabIndex = 0;
+            
             this.Property.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGrid1_PropertyValueChanged);
             // 
             // cbItems
@@ -82,17 +83,17 @@ namespace primeira.pNeuron
 
         private void cbItems_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cbItems.SelectedItem.ToString() == Parent.ActiveDocument.MainDisplay.Net.ToString())
+            if (cbItems.SelectedItem == Parent.ActiveDocument.MainDisplay.Net)
             {
                 Property.SelectedObject = Parent.ActiveDocument.MainDisplay.Net;
             }
             else
             {
-                foreach (pNeuron.Core.Neuron n in Parent.ActiveDocument.MainDisplay.Net.Neuron)
+                foreach (pPanel p in Parent.ActiveDocument.MainDisplay.pPanels)
                 {
-                    if (cbItems.SelectedText == n.ToString())
+                    if (cbItems.SelectedItem == p)
                     {
-                        Property.SelectedObject = n;
+                        Property.SelectedObject = p;
                     }
                 }
             }
@@ -109,6 +110,8 @@ namespace primeira.pNeuron
         {
             Refresh();
         }
+
+    
 
     }
 }
