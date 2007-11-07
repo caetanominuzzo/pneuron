@@ -216,6 +216,11 @@ namespace primeira.pNeuron
             m_graphics = g;
         }
 
+        public override string ToString()
+        {
+            return string.Format("{0} - {1} {2}", Text, Neuron.NeuronType.ToString(), Neuron.DataType != DataTypes.Not_Applicable? Neuron.DataType.ToString():"");
+        }
+
         public Pen GetPenStyle()
         {
 

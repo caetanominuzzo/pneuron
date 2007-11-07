@@ -749,8 +749,7 @@ namespace primeira.pNeuron
                                 Invalidate(Magnify(Offset(r, OffsetX, OffsetY), Zoom));
                                 pp.Location = tempP;
 
-                                if (OnNetworkChange != null)
-                                    OnNetworkChange();
+
 
                             }
 
