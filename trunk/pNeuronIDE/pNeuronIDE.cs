@@ -79,6 +79,10 @@ namespace primeira.pNeuron
 
                 fmGroupExplorer.Clear();
 
+                fmProperty.cbItems.Items.Clear();
+
+                
+
                 if (fActiveDocument != null)
                 {
 
@@ -86,15 +90,15 @@ namespace primeira.pNeuron
 
                     fmToolbox.SetToolSet(fActiveDocument);
 
+                    fmProperty.cbItems.Items.Add(fActiveDocument.MainDisplay.Net);
+
                     fmProperty.Property.SelectedObject = fActiveDocument.MainDisplay.Net;
 
-                    fmProperty.cbItems.Items.Clear();
+                    fmProperty.cbItems.SelectedItem = fmProperty.Property.SelectedObjects[0];
 
-                    fmProperty.cbItems.Items.Add(fActiveDocument.MainDisplay.Net.ToString());
-
-                    foreach (pNeuron.Core.Neuron n in fActiveDocument.MainDisplay.Net.Neuron)
+                    foreach (pPanel p in fActiveDocument.MainDisplay.pPanels)
                     {
-                        fmProperty.cbItems.Items.Add(n.ToString());
+                        fmProperty.cbItems.Items.Add(p);
                     }
 
                     PaintMiniMap();
@@ -148,9 +152,17 @@ namespace primeira.pNeuron
 
         private void document_OnSelectedObjectChanged()
         {
-            if (ActiveDocument.MainDisplay.SelectedpPanels.Length == 0)
-                fmProperty.Property.SelectedObject = ActiveDocument.MainDisplay.Net;
-            else fmProperty.Property.SelectedObjects = ActiveDocument.MainDisplay.SelectedpPanels;
+            if (ActiveDocument.MainDisplay.SelectedpPanels.Length < 2)
+            {
+                if (ActiveDocument.MainDisplay.SelectedpPanels.Length == 0)
+                    fmProperty.Property.SelectedObject = ActiveDocument.MainDisplay.Net;
+                else fmProperty.Property.SelectedObjects = ActiveDocument.MainDisplay.SelectedpPanels;
+
+                fmProperty.cbItems.SelectedItem = fmProperty.Property.SelectedObjects[0];
+            }
+            else
+                fmProperty.cbItems.SelectedItem = null;
+            
         }
 
         #endregion
@@ -236,7 +248,8 @@ namespace primeira.pNeuron
             document.OnStopTraing += new pDocument.OnStopTraingDelegate(document_OnStopTraing);
             document.OnResetLearning += new pDocument.OnResetLearningDelegate(document_OnResetLearning);
             document.OnResetKnowledgement += new pDocument.OnResetKnowledgementDelegate(document_OnResetKnowledgement);
-            document.OnDisplayChange += new pDocument.OnDisplayChangeDelegate(PaintMiniMap);
+            document.OnDisplayChange += new pDocument.OnDisplayChangeDelegate(document_OnDisplayChange);
+            
             document.Enter += new EventHandler(d_Enter);
             document.Parent = this;
             document.MainDisplay.SmartZoom = fmSmartZoom;
@@ -246,6 +259,45 @@ namespace primeira.pNeuron
             ActiveDocument.Modificated = false;
 
             fmToolbox.SetToolSet(ActiveDocument);
+        }
+
+        private void RefreshPropertyWindowCombo()
+        {
+            while (fmProperty.cbItems.Items.Count != fActiveDocument.MainDisplay.pPanels.Count + 1)
+            {
+                foreach (pPanel p in fActiveDocument.MainDisplay.pPanels)
+                {
+                    if (!fmProperty.cbItems.Items.Contains(p))
+                    {
+                        fmProperty.cbItems.Items.Add(p);
+                    }
+                }
+            }
+
+            List<pPanel> pToRemove = new List<pPanel>();
+
+            while (fmProperty.cbItems.Items.Count != fActiveDocument.MainDisplay.pPanels.Count + 1)
+            {
+                foreach (pPanel p in fmProperty.cbItems.Items)
+                {
+                    if (!fActiveDocument.MainDisplay.pPanels.Contains(p))
+                    {
+                        pToRemove.Add(p);
+                    }
+                }
+            }
+
+            foreach (pPanel p in pToRemove)
+            {
+                fmProperty.cbItems.Items.Remove(p);
+            }
+        }
+
+        void document_OnDisplayChange()
+        {
+            RefreshPropertyWindowCombo();
+            document_OnSelectedObjectChanged();
+            PaintMiniMap();
         }
 
        
@@ -281,7 +333,8 @@ namespace primeira.pNeuron
 
         void d_Enter(object sender, EventArgs e)
         {
-            ActiveDocument = (pDocument)sender;
+            if (ActiveDocument != sender)
+                ActiveDocument = (pDocument)sender;
         }
 
         private void OpenDocument()

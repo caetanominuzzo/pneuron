@@ -20,7 +20,6 @@ namespace primeira.pNeuron
         private TabControl tcDesigner;
         private TabPage tbDesigner;
         private TabPage tbTrainingSet;
-        private DataGridView dgTrainingSet;
         private List<pTrainingSet> fpTrainingSet = new List<pTrainingSet>();
         private FlowLayoutPanel flowLayoutPanel1;
         private ToolStrip tspTrainingSet;
@@ -104,10 +103,12 @@ namespace primeira.pNeuron
             this.MainDisplay.OffsetY = 0;
             this.MainDisplay.ShiftKey = false;
             this.MainDisplay.Size = new System.Drawing.Size(730, 365);
+            this.MainDisplay.SmartZoom = null;
             this.MainDisplay.TabIndex = 0;
-            //this.MainDisplay.Zoom = 1F;
+            this.MainDisplay.Zoom = 1F;
             this.MainDisplay.OnDisplayStatusChange += new primeira.pNeuron.pDisplay.DisplayStatusChangeDelegate(this.MainDisplay_OnDisplayStatusChange);
             this.MainDisplay.OnNetworkChange += new primeira.pNeuron.pDisplay.NetworkChangeDelegate(this.MainDisplay_OnNetworkChange);
+            this.MainDisplay.OnSelectedPanelsChange += new primeira.pNeuron.pDisplay.SelectedPanelsChangeDelegate(this.MainDisplay_OnSelectedPanelsChange);
             // 
             // tspDesigner
             // 
@@ -125,7 +126,7 @@ namespace primeira.pNeuron
             this.tspAutoRefresh.Name = "tspAutoRefresh";
             this.tspAutoRefresh.Size = new System.Drawing.Size(76, 22);
             this.tspAutoRefresh.Text = "Start Refresh";
-            this.tspAutoRefresh.Click +=new EventHandler(tspAutoRefresh_Click);
+            this.tspAutoRefresh.Click += new System.EventHandler(this.tspAutoRefresh_Click);
             // 
             // tbTrainingSet
             // 
@@ -287,6 +288,7 @@ namespace primeira.pNeuron
         private ToolStripButton tspSQL;
         private ToolStrip tspDesigner;
         private ToolStripButton tspAutoRefresh;
+        private pDataGridView dgTrainingSet;
 
     }
 }
