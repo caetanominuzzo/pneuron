@@ -1,0 +1,23 @@
+<?xml version="1.0" standalone="yes"?>
+<DocumentElement>
+  <Training_x0020_Set_x0020_1>
+    <_x0030_>0.1</_x0030_>
+    <_x0031_>0.1</_x0031_>
+    <_x0034_>0.1</_x0034_>
+  </Training_x0020_Set_x0020_1>
+  <Training_x0020_Set_x0020_1>
+    <_x0030_>0.9</_x0030_>
+    <_x0031_>0.9</_x0031_>
+    <_x0034_>0.1</_x0034_>
+  </Training_x0020_Set_x0020_1>
+  <Training_x0020_Set_x0020_1>
+    <_x0030_>0.1</_x0030_>
+    <_x0031_>0.9</_x0031_>
+    <_x0034_>0.9</_x0034_>
+  </Training_x0020_Set_x0020_1>
+  <Training_x0020_Set_x0020_1>
+    <_x0030_>0.9</_x0030_>
+    <_x0031_>0.1</_x0031_>
+    <_x0034_>0.9</_x0034_>
+  </Training_x0020_Set_x0020_1>
+</DocumentElement>
