@@ -129,12 +129,7 @@ namespace primeira.pNeuron
             if (!Parent.ThereIsAnActiveDocument())
                 return;
 
-            Parent.ActiveDocument.MainDisplay.OffsetX = 0;
-            Parent.ActiveDocument.MainDisplay.OffsetY = 0;
-
-            Parent.ActiveDocument.MainDisplay.Invalidate();
-
-
+            Parent.ActiveDocument.MainDisplay.Offset = new Point(0, 0);
         }
 
 

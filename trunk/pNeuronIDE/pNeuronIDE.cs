@@ -65,15 +65,13 @@ namespace primeira.pNeuron
             internal set
             {
                 
-                fmToolbox.SetToolSet(value);
-
             //    if (fActiveDocument != null) m_shortcut.UnloadFromForm(fActiveDocument.MainDisplay);
 
                 fActiveDocument = value;
 
                 tspStartTrain.Enabled = tspKnowledgement.Enabled = (fActiveDocument != null);
 
-                fmToolbox.SetToolSet(null);
+                fmToolbox.SetToolSet(fActiveDocument);
 
                 SetMenus();
 
@@ -87,8 +85,6 @@ namespace primeira.pNeuron
                 {
 
                     m_shortcut.AddEscope("Design");
-
-                    fmToolbox.SetToolSet(fActiveDocument);
 
                     fmProperty.cbItems.Items.Add(fActiveDocument.MainDisplay.Net);
 
@@ -241,7 +237,7 @@ namespace primeira.pNeuron
         private void AddDocument(pDocument document)
         {
             fmDocuments.Add(document);
-            ActiveDocument = fmDocuments[fmDocuments.Count - 1];
+            
             document.OnDisplayStatusChanged += new pDocument.OnDisplayStatusChangedDelegate(p_OnDisplayStatusChanged);
             document.OnSelectedObjectChanged += new pDocument.OnSelectedObjectChangedDelegate(document_OnSelectedObjectChanged);
             document.OnStartTraing += new pDocument.OnStartTraingDelegate(document_OnStartTraing);
@@ -249,16 +245,16 @@ namespace primeira.pNeuron
             document.OnResetLearning += new pDocument.OnResetLearningDelegate(document_OnResetLearning);
             document.OnResetKnowledgement += new pDocument.OnResetKnowledgementDelegate(document_OnResetKnowledgement);
             document.OnDisplayChange += new pDocument.OnDisplayChangeDelegate(document_OnDisplayChange);
+            document.Enter += new EventHandler(document_Enter);
             
-            document.Enter += new EventHandler(d_Enter);
             document.Parent = this;
             document.MainDisplay.SmartZoom = fmSmartZoom;
-            PaintMiniMap();
+            
+            ActiveDocument = fmDocuments[fmDocuments.Count - 1];
 
             ActiveDocument.Show(dockPanel, DockState.Document);
-            ActiveDocument.Modificated = false;
 
-            fmToolbox.SetToolSet(ActiveDocument);
+            ActiveDocument.Modificated = false;
         }
 
         private void RefreshPropertyWindowCombo()
@@ -332,7 +328,7 @@ namespace primeira.pNeuron
             ActiveDocument.MainDisplay.Render(new PaintEventArgs(g, fmSmartZoom.ZoomRectangle()), 0, 0, .1f, true);
         }
 
-        void d_Enter(object sender, EventArgs e)
+        void document_Enter(object sender, EventArgs e)
         {
             if (ActiveDocument != sender)
                 ActiveDocument = (pDocument)sender;
@@ -465,12 +461,8 @@ namespace primeira.pNeuron
             fmSmartZoom.Show(dockPanel, DockState.DockRight);
             fmProperty.Show(dockPanel, DockState.DockRight);
             fmProperty.DockTo(fmSmartZoom.Pane, DockStyle.Bottom, 0);
-
-            fmSmartZoom.Pane.DockPanel.DockTopPortion = 10;
-
-            
-            fmToolbox.SetToolSet(null);
-
+          
+            ActiveDocument = null;            
 
             #if RELEASE
               this.Invoke(new Assinc(Splasher.CloseSplash));
