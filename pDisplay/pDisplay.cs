@@ -192,8 +192,8 @@ namespace primeira.pNeuron
             }
             set
             {
-                OffsetX = value.X;
-                OffsetY = value.Y;
+                m_offsetX = value.X;
+                m_offsetY = value.Y;
 
                 if (OnNetworkChange != null)
                     OnNetworkChange();
@@ -203,22 +203,13 @@ namespace primeira.pNeuron
         public int OffsetX
         {
             get { return m_offsetX; }
-            set { 
-                
-                m_offsetX = value;
-              
-           
-        }
+            set { m_offsetX = value; }
         }
 
         public int OffsetY
         {
             get { return m_offsetY; }
-            set { m_offsetY = value;
-
-            if (OnNetworkChange != null)
-                OnNetworkChange();
-        }
+            set { m_offsetY = value; }
         }
 
         public float Zoom
@@ -767,17 +758,6 @@ namespace primeira.pNeuron
                             }
 
                         }
-
-                        Rectangle rArea = m_pPanels[0].Bounds;
-
-                        foreach (pPanel pp in m_pPanels)
-                        {
-                            rArea = ExpandRectangle(rArea, pp.Bounds);
-                        }
-
-                        AutoScrollMinSize = new Size(
-                            rArea.Left + rArea.Width,
-                            rArea.Top + rArea.Height);
 
                     }
 

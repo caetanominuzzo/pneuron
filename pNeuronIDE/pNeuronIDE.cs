@@ -298,6 +298,7 @@ namespace primeira.pNeuron
             RefreshPropertyWindowCombo();
             document_OnSelectedObjectChanged();
             PaintMiniMap();
+            ActiveDocument.MainDisplay.Invalidate();
         }
 
        

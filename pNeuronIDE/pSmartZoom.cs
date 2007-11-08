@@ -39,13 +39,11 @@ namespace primeira.pNeuron
             if (DownPoint.Value == ZoomDisplay.PointToClient(MousePosition) && !m_moving)
             {
                 Point p = ZoomDisplay.PointToClient(MousePosition);
+
                 p = new Point(Parent.ActiveDocument.MainDisplay.UnMagnify(-p.X + ZoomDisplay.Width / 2, 0.1f),
                               Parent.ActiveDocument.MainDisplay.UnMagnify(-p.Y + ZoomDisplay.Height / 2, 0.1f));
 
-                Parent.ActiveDocument.MainDisplay.OffsetX = p.X;
-                Parent.ActiveDocument.MainDisplay.OffsetY = p.Y;
-                
-                Parent.ActiveDocument.MainDisplay.Invalidate();
+                Parent.ActiveDocument.MainDisplay.Offset = p;
             }
 
             DownPoint = null;
@@ -56,6 +54,13 @@ namespace primeira.pNeuron
         {
             if (!Parent.ThereIsAnActiveDocument())
                 return;
+
+            Point p = ZoomDisplay.PointToClient(MousePosition);
+
+            p = new Point(Parent.ActiveDocument.MainDisplay.UnMagnify(-p.X + ZoomDisplay.Width / 2, 0.1f),
+                          Parent.ActiveDocument.MainDisplay.UnMagnify(-p.Y + ZoomDisplay.Height / 2, 0.1f));
+
+            Parent.ActiveDocument.MainDisplay.Offset = p;
 
             DownPoint = ZoomDisplay.PointToClient(MousePosition);
         }
@@ -69,18 +74,16 @@ namespace primeira.pNeuron
             {
                 m_moving = true;
 
-                Point p = Point.Subtract(ZoomDisplay.PointToClient(MousePosition), (Size)DownPoint.Value);
+                Point mouse = ZoomDisplay.PointToClient(MousePosition);
 
-                Parent.ActiveDocument.MainDisplay.Offset = new Point
-                    (Parent.ActiveDocument.MainDisplay.UnMagnify(p.X, 0.1f),
-                    Parent.ActiveDocument.MainDisplay.UnMagnify(p.Y, 0.1f));
-                  
+                Point p = new Point(mouse.X - DownPoint.Value.X, mouse.Y - DownPoint.Value.Y);
+                
 
-                DownPoint = ZoomDisplay.PointToClient(MousePosition);
+                Parent.ActiveDocument.MainDisplay.Offset = Point.Subtract(Parent.ActiveDocument.MainDisplay.Offset,
+                    new Size(Parent.ActiveDocument.MainDisplay.UnMagnify(p.X, 0.1f), Parent.ActiveDocument.MainDisplay.UnMagnify(p.Y, 0.1f) ));
 
-       
+                DownPoint = mouse;
 
-                Parent.ActiveDocument.MainDisplay.Invalidate();
             }
         }
 
