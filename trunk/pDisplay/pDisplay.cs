@@ -184,7 +184,21 @@ namespace primeira.pNeuron
             set { m_smartZoom = value; }
         }
 
+        public Point Offset
+        {
+            get
+            {
+                return new Point(OffsetX, OffsetY);
+            }
+            set
+            {
+                OffsetX = value.X;
+                OffsetY = value.Y;
 
+                if (OnNetworkChange != null)
+                    OnNetworkChange();
+            }
+        }
 
         public int OffsetX
         {
@@ -193,8 +207,7 @@ namespace primeira.pNeuron
                 
                 m_offsetX = value;
               
-            if (OnNetworkChange != null)
-                OnNetworkChange();
+           
         }
         }
 
@@ -595,17 +608,17 @@ namespace primeira.pNeuron
         }
 
 
-        public int Offset(int value, int offset)
+        public int DoOffset(int value, int offset)
         {
             return value + offset;
         }
 
-        public int Offset(float value, int offset)
+        public int DoOffset(float value, int offset)
         {
             return (int)value + offset;
         }
 
-        public Point Offset(Point value, int OffsetX, int OffsetY)
+        public Point DoOffset(Point value, int OffsetX, int OffsetY)
         {
             return
                 new Point(
@@ -615,11 +628,11 @@ namespace primeira.pNeuron
                 );
         }
 
-        public Rectangle Offset(Rectangle value, int OffsetX, int OffsetY)
+        public Rectangle DoOffset(Rectangle value, int OffsetX, int OffsetY)
         {
             return 
                 new Rectangle(
-                Offset(value.Location, OffsetX, OffsetY),
+                DoOffset(value.Location, OffsetX, OffsetY),
                 value.Size
                 );
 
@@ -670,7 +683,7 @@ namespace primeira.pNeuron
                                  ), 
                             
                            
-                                Magnify(Offset(p.Bounds, OffsetX, OffsetY), Zoom)
+                                Magnify(DoOffset(p.Bounds, OffsetX, OffsetY), Zoom)
 
                             , true))
                         {
@@ -691,7 +704,7 @@ namespace primeira.pNeuron
 
                                     )),
 
-                                    Magnify(Offset(p.Bounds, OffsetX, OffsetY), Zoom)
+                                    Magnify(DoOffset(p.Bounds, OffsetX, OffsetY), Zoom)
 
                                     , true)
 
@@ -719,7 +732,7 @@ namespace primeira.pNeuron
                         cBounds.Width - cBounds.X,
                         cBounds.Height - cBounds.Y));
 
-                    Invalidate(Magnify(Offset(cBounds, OffsetX, OffsetY), Zoom));
+                    Invalidate(Magnify(DoOffset(cBounds, OffsetX, OffsetY), Zoom));
                 }
 
             }
@@ -746,7 +759,7 @@ namespace primeira.pNeuron
 
                             if (pp.Location != tempP)
                             {
-                                Invalidate(Magnify(Offset(r, OffsetX, OffsetY), Zoom));
+                                Invalidate(Magnify(DoOffset(r, OffsetX, OffsetY), Zoom));
                                 pp.Location = tempP;
 
 
@@ -834,7 +847,7 @@ namespace primeira.pNeuron
                                          UnMagnify(((DisplayMousePosition.Y - pp.Height / 2) / Magnify(m_gridDistance, Zoom)) * Magnify(m_gridDistance, Zoom), Zoom));
 
 
-                pp.Location = Offset(pp.Location, -OffsetX, -OffsetY);
+                pp.Location = DoOffset(pp.Location, -OffsetX, -OffsetY);
 
                 //TODO:Fine tune
                 //pp.Location = new Point(
@@ -844,7 +857,7 @@ namespace primeira.pNeuron
 
 
 
-                Invalidate(Magnify(Offset(pp.Bounds, OffsetX, OffsetY), Zoom));
+                Invalidate(Magnify(DoOffset(pp.Bounds, OffsetX, OffsetY), Zoom));
 
                 if (OnNetworkChange != null)
                     OnNetworkChange();
@@ -981,7 +994,7 @@ namespace primeira.pNeuron
                             cBounds.Width - cBounds.X,
                             cBounds.Height - cBounds.Y);
 
-                        Invalidate(Magnify(Offset(cBounds, OffsetX, OffsetY), Zoom));
+                        Invalidate(Magnify(DoOffset(cBounds, OffsetX, OffsetY), Zoom));
                     }
 
                     m_selectSourcePoint = null;
@@ -1067,7 +1080,7 @@ namespace primeira.pNeuron
                                 DrawSynapse(p, pp, e.Graphics, Zoom, Convert.ToInt32(-Width / 2) + OffsetX + Convert.ToInt32(SmartZoom.ZoomSize.Width / Zoom / 2), Convert.ToInt32(-Height / 2) + OffsetY + Convert.ToInt32(SmartZoom.ZoomSize.Height / Zoom / 2));
                             }
                             else
-                                if (Contains(r, Magnify(Offset(ExpandRectangle(p.Bounds, pp.Bounds), OffsetX, OffsetY), Zoom), true))
+                                if (Contains(r, Magnify(DoOffset(ExpandRectangle(p.Bounds, pp.Bounds), OffsetX, OffsetY), Zoom), true))
                                     DrawSynapse(p, pp, e.Graphics, Zoom, OffsetX, OffsetY);
                         }
                     }
@@ -1103,7 +1116,7 @@ namespace primeira.pNeuron
                         c.Draw(e.Graphics, Zoom, Convert.ToInt32(-Width / 2) + OffsetX + Convert.ToInt32(SmartZoom.ZoomSize.Width / Zoom / 2), Convert.ToInt32(-Height / 2) + OffsetY + Convert.ToInt32(SmartZoom.ZoomSize.Height / Zoom / 2));
                 }
                 else
-                    if (Contains(r, Magnify(Offset(c.Bounds, OffsetX, OffsetY), Zoom), true))
+                    if (Contains(r, Magnify(DoOffset(c.Bounds, OffsetX, OffsetY), Zoom), true))
                         c.Draw(e.Graphics, Zoom, OffsetX, OffsetY);
             }
 
@@ -1330,18 +1343,18 @@ namespace primeira.pNeuron
                 int dY1 = d.Bounds.Top + (d.Bounds.Height / 2);
 
 
-                cX = Magnify(Offset(cX, OffsetX), Zoom);
-                cY = Magnify(Offset(cY, OffsetY), Zoom);
-                cX1 = Magnify(Offset(cX1, OffsetX), Zoom);
-                cY1 = Magnify(Offset(cY1, OffsetY), Zoom);
+                cX = Magnify(DoOffset(cX, OffsetX), Zoom);
+                cY = Magnify(DoOffset(cY, OffsetY), Zoom);
+                cX1 = Magnify(DoOffset(cX1, OffsetX), Zoom);
+                cY1 = Magnify(DoOffset(cY1, OffsetY), Zoom);
 
 
                 if (d.Neuron != null)
                 {
-                    dX = Magnify(Offset(dX, OffsetX), Zoom);
-                    dY = Magnify(Offset(dY, OffsetY), Zoom);
-                    dX1 = Magnify(Offset(dX1, OffsetX), Zoom);
-                    dY1 = Magnify(Offset(dY1, OffsetY), Zoom);
+                    dX = Magnify(DoOffset(dX, OffsetX), Zoom);
+                    dY = Magnify(DoOffset(dY, OffsetY), Zoom);
+                    dX1 = Magnify(DoOffset(dX1, OffsetX), Zoom);
+                    dY1 = Magnify(DoOffset(dY1, OffsetY), Zoom);
                 }
 
 
