@@ -22,7 +22,6 @@ namespace primeira.pNeuron
 
         public pSmartZoom()
         {
-            DoubleBuffered = true;
             InitializeComponent();
 
             ZoomDisplay.MouseMove += new MouseEventHandler(ZoomDisplay_MouseMove);
@@ -56,13 +55,14 @@ namespace primeira.pNeuron
                 return;
 
             Point p = ZoomDisplay.PointToClient(MousePosition);
+            DownPoint = p;
 
             p = new Point(Parent.ActiveDocument.MainDisplay.UnMagnify(-p.X + ZoomDisplay.Width / 2, 0.1f),
                           Parent.ActiveDocument.MainDisplay.UnMagnify(-p.Y + ZoomDisplay.Height / 2, 0.1f));
 
             Parent.ActiveDocument.MainDisplay.Offset = p;
 
-            DownPoint = ZoomDisplay.PointToClient(MousePosition);
+            
         }
 
         void ZoomDisplay_MouseMove(object sender, MouseEventArgs e)
@@ -72,12 +72,14 @@ namespace primeira.pNeuron
             
             if (DownPoint.HasValue)
             {
-                m_moving = true;
-
                 Point mouse = ZoomDisplay.PointToClient(MousePosition);
 
+                if (DownPoint.Value == mouse)
+                    return;
+
+                m_moving = true;
+
                 Point p = new Point(mouse.X - DownPoint.Value.X, mouse.Y - DownPoint.Value.Y);
-                
 
                 Parent.ActiveDocument.MainDisplay.Offset = Point.Subtract(Parent.ActiveDocument.MainDisplay.Offset,
                     new Size(Parent.ActiveDocument.MainDisplay.UnMagnify(p.X, 0.1f), Parent.ActiveDocument.MainDisplay.UnMagnify(p.Y, 0.1f) ));
@@ -105,7 +107,6 @@ namespace primeira.pNeuron
         protected override void OnPaint(PaintEventArgs e)
         {
             Parent.PaintMiniMap();
-           
         }
 
         protected override void OnResize(EventArgs e)
@@ -132,6 +133,15 @@ namespace primeira.pNeuron
             Parent.ActiveDocument.MainDisplay.Offset = new Point(0, 0);
         }
 
+
+    }
+
+    internal class DoubleBufferedPanel : Panel
+    {
+        public DoubleBufferedPanel() : base()
+        {
+            base.DoubleBuffered = true;
+        }
 
     }
 }

@@ -10,7 +10,7 @@ namespace primeira.pNeuron
         void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(pSmartZoom));
-            this.ZoomDisplay = new System.Windows.Forms.Panel();
+            this.ZoomDisplay = new DoubleBufferedPanel();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.btCenter = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1.SuspendLayout();
@@ -59,7 +59,7 @@ namespace primeira.pNeuron
 
         }
 
-        private System.Windows.Forms.Panel ZoomDisplay;
+        private DoubleBufferedPanel ZoomDisplay;
         private System.ComponentModel.IContainer components;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton btCenter;
