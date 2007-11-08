@@ -339,7 +339,7 @@ namespace primeira.pNeuron
             {
                 m_ctrlKey = value;
                 RefreshHighlight();
-                Invalidate();
+                //Invalidate();
             }
         }
 
@@ -750,17 +750,15 @@ namespace primeira.pNeuron
 
                             if (pp.Location != tempP)
                             {
-                                Invalidate(Magnify(DoOffset(r, OffsetX, OffsetY), Zoom));
+//Or here                                Invalidate(Magnify(DoOffset(r, OffsetX, OffsetY), Zoom));
                                 pp.Location = tempP;
-
-
 
                             }
 
                         }
 
                     }
-
+//Or here
                     Invalidate();
 
                 }
@@ -888,7 +886,6 @@ namespace primeira.pNeuron
                                             if (target.GetSynapseFrom(n) == null)
                                             {
                                                 target.AddSynapse(n);
-                                                Invalidate();
 
                                                 if (OnNetworkChange != null)
                                                     OnNetworkChange();
@@ -948,7 +945,8 @@ namespace primeira.pNeuron
 
                 UnHighLight();
             }
-            Invalidate();
+
+            //Invalidate();
         }
 
         protected override void OnMouseUp(MouseEventArgs e)
@@ -1143,7 +1141,10 @@ namespace primeira.pNeuron
             int width = Magnify(UnMagnify(Width, Zoom), 0.1f);
             int height = Magnify(UnMagnify(Height, Zoom), 0.1f);
 
-            g.DrawRectangle(SystemPens.AppWorkspace,
+            Pen p = new Pen(Color.DarkGray, 2);
+            p.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
+
+            g.DrawRectangle(p,
                 new Rectangle(
                     Convert.ToInt32(-Magnify(UnMagnify(OffsetX, Zoom), 0.1f) - width / 2 + SmartZoom.ZoomSize.Width / 2),
                     Convert.ToInt32(-Magnify(UnMagnify(OffsetY,Zoom), 0.1f) - height / 2 + SmartZoom.ZoomSize.Height / 2),
