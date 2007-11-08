@@ -1141,7 +1141,7 @@ namespace primeira.pNeuron
             int width = Magnify(UnMagnify(Width, Zoom), 0.1f);
             int height = Magnify(UnMagnify(Height, Zoom), 0.1f);
 
-            Pen p = new Pen(Color.DarkGray, 2);
+            Pen p = new Pen(Color.DarkGray, 1);
             p.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
 
             g.DrawRectangle(p,
