@@ -341,10 +341,10 @@ namespace primeira.pNeuron
 
                 g.DrawString(s, f, new SolidBrush(Color.Black),
                     Offset(
-                    Convert.ToInt32(-MeasureDisplayStringWidth(g, s, f) / 2 + Bounds.Left + Bounds.Width / 2) - 5,
+                    Convert.ToInt32(-MeasureDisplayStringWidth(g, s, f) / 2 + Bounds.Left + Bounds.Width / 2) ,
                     offsetX),
                     Offset(
-                    Convert.ToInt32(-Magnify(10, iZoom) / 2 + Bounds.Top + Bounds.Height / 2) - 5, offsetY));       
+                    Convert.ToInt32(-Magnify(10, iZoom) / 2 + Bounds.Top + Bounds.Height / 2) -1, offsetY));       
                     
 
                            
