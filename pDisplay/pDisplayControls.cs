@@ -62,7 +62,6 @@ namespace primeira.pNeuron
                     if (!p.Highlighted)
                     {
                         HighLight(p);
-                        Invalidate(Magnify(DoOffset(p.Bounds, OffsetX, OffsetY), Zoom));
                     }
                 }
                 else
@@ -70,7 +69,6 @@ namespace primeira.pNeuron
                     if (p.Highlighted)
                     {
                         UnHighLight(p);
-                        Invalidate(Magnify(DoOffset(p.Bounds, OffsetX, OffsetY), Zoom));
                     }
                 }
             }
@@ -217,7 +215,6 @@ namespace primeira.pNeuron
         public void HighLight(pPanel p)
         {
             p.Highlighted = true;
-
             Invalidate(Magnify(DoOffset(p.Bounds, OffsetX, OffsetY), Zoom));
         }
 

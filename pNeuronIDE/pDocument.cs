@@ -546,7 +546,10 @@ namespace primeira.pNeuron
                 
                 Modificated = false;
                 DefaultNamedFile = false;
-                MainDisplay.Invalidate();
+
+                if (OnDisplayChange != null)
+                    OnDisplayChange();
+
                 return DialogResult.OK;
             }
             else
