@@ -321,8 +321,6 @@ namespace primeira.pNeuron
             if (!ThereIsAnActiveDocument() || !fmSmartZoom.Visible)
                 return;
 
-            
-
             Graphics g = fmSmartZoom.ZoomGraphics();
             g.Clear(Color.White);
             ActiveDocument.MainDisplay.Render(new PaintEventArgs(g, fmSmartZoom.ZoomRectangle()), 0, 0, .1f, true);
