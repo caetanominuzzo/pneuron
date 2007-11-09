@@ -25,6 +25,16 @@ namespace primeira.pNeuron
         pFullRefreh
     }
 
+    [Flags()]
+    public enum NetworkChangeEscope
+    {
+        MainDisplay = 1,
+        ZoomDisplay = 2,
+        PropertyWindow = 4,
+        DisplayStatus = 8,
+
+    }
+
     #endregion
 
     public interface pISmartZoom
