@@ -19,6 +19,7 @@ namespace primeira.pNeuron
 
         private Point? DownPoint = null;
         private bool m_moving = false;
+        private Graphics m_graphics;
 
         public pSmartZoom()
         {
@@ -27,6 +28,7 @@ namespace primeira.pNeuron
             ZoomDisplay.MouseMove += new MouseEventHandler(ZoomDisplay_MouseMove);
             ZoomDisplay.MouseDown += new MouseEventHandler(ZoomDisplay_MouseDown);
             ZoomDisplay.MouseUp += new MouseEventHandler(ZoomDisplay_MouseUp);
+            m_graphics = ZoomDisplay.CreateGraphics();
 
         }
 
@@ -96,7 +98,7 @@ namespace primeira.pNeuron
 
         public Graphics ZoomGraphics()
         {
-            return ZoomDisplay.CreateGraphics();
+            return m_graphics;
         }
 
         public Rectangle ZoomRectangle()
