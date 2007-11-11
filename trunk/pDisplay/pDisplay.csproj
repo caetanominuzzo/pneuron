@@ -69,6 +69,10 @@
       <Project>{2B504E3B-8A90-4DB0-9AD3-49C2C2D844C7}</Project>
       <Name>pShortcutManager</Name>
     </ProjectReference>
+    <ProjectReference Include="..\pTypes\pTypes.csproj">
+      <Project>{4140FF72-5794-4641-A111-ADC558FBA370}</Project>
+      <Name>pTypes</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="pDisplay.resx">
