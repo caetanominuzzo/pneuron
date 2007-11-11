@@ -10,6 +10,7 @@ using primeira.pNeuron.Core;
 using System.IO;
 using System.Threading;
 using primeira.pRandom;
+using primeira.pTypes;
 
 namespace primeira.pNeuron
 {
@@ -88,8 +89,8 @@ namespace primeira.pNeuron
 
         #region Events
 
-        public delegate void OnDisplayChangeDelegate();
-        public event OnDisplayChangeDelegate OnDisplayChange;
+        public delegate void OnNetworkChangeDelegate(pChangeEscope escope);
+        public event OnNetworkChangeDelegate OnNetworkChange;
 
         public delegate void OnDisplayStatusChangedDelegate();
         public event OnDisplayStatusChangedDelegate OnDisplayStatusChanged;
@@ -197,12 +198,12 @@ namespace primeira.pNeuron
 
         }
 
-        private void MainDisplay_OnNetworkChange()
+        private void MainDisplay_OnNetworkChange(pChangeEscope escope)
         {
             this.Modificated = true;
 
-            if (OnDisplayChange != null)
-                OnDisplayChange();
+            if (OnNetworkChange != null)
+                OnNetworkChange(escope);
 
         }
 
@@ -547,8 +548,8 @@ namespace primeira.pNeuron
                 Modificated = false;
                 DefaultNamedFile = false;
 
-                if (OnDisplayChange != null)
-                    OnDisplayChange();
+                if (OnNetworkChange != null)
+                    OnNetworkChange(pChangeEscope.ZoomDisplayCache); 
 
                 return DialogResult.OK;
             }
