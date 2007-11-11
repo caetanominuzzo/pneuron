@@ -6,6 +6,7 @@ using System.Drawing;
 using primeira.pNeuron.Core;
 using System.Drawing.Imaging;
 using System.Reflection;
+using primeira.pTypes;
 
 namespace primeira.pNeuron
 {
@@ -299,12 +300,6 @@ namespace primeira.pNeuron
             if (p.Groups != 0)
             {
                 m_groups[p.Groups].Remove(p);
-
-                if (OnNetworkChange != null)
-                    OnNetworkChange();
-
-                if (OnTreeViewChange != null)
-                    OnTreeViewChange(p, pTreeviewRefresh.pPanelRemove);
             }
 
             m_groups[GroupIndex].Add(p);
@@ -314,10 +309,7 @@ namespace primeira.pNeuron
                 Invalidate(Magnify(DoOffset(p.Bounds, OffsetX, OffsetY), Zoom));
 
                 if (OnNetworkChange != null)
-                    OnNetworkChange();
-
-                if (OnTreeViewChange != null)
-                    OnTreeViewChange(p, pTreeviewRefresh.pPanelAdd);
+                    OnNetworkChange(pChangeEscope.File | pChangeEscope.ZoomDisplayCache);
             }
         }
 
@@ -341,17 +333,12 @@ namespace primeira.pNeuron
             {
                 p.Groups = 0;
                 Invalidate(Magnify(DoOffset(p.Bounds, OffsetX, OffsetY), Zoom));
-                
-                
             }
 
             m_groups[iKey].Clear();
 
-            if(OnTreeViewChange!=null)
-                OnTreeViewChange(iKey, pTreeviewRefresh.pGroupClear);
-
             if (OnNetworkChange != null)
-                OnNetworkChange();
+                OnNetworkChange(pChangeEscope.File | pChangeEscope.ZoomDisplayCache); 
         }
 
         /// <summary>
@@ -406,15 +393,7 @@ namespace primeira.pNeuron
             p.Neuron = n;
             m_pPanels.Add(p);
 
-            
-
             p.Text = p.Neuron.ID.ToString();
-
-            if (OnTreeViewChange != null)
-                OnTreeViewChange(p, pTreeviewRefresh.pPanelAdd);
-
-            if (OnNetworkChange != null)
-                OnNetworkChange();
 
             return p;
         }
@@ -428,11 +407,7 @@ namespace primeira.pNeuron
             m_pPanels.Remove(p);
             m_net.RemoveNeuron(p.Neuron);
 
-            if (OnTreeViewChange != null)
-                OnTreeViewChange(p, pTreeviewRefresh.pPanelRemove);
-
-            if (OnNetworkChange != null)
-                OnNetworkChange();
+            
         }
 
         /// <summary>

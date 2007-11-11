@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 using System.Collections;
 using primeira.pRandom;
 using pShortcutManager;
-
+using primeira.pTypes;
 
 namespace primeira.pNeuron
 {
@@ -66,7 +66,7 @@ namespace primeira.pNeuron
         public delegate void TreeViewChangeDelegate(object o, pTreeviewRefresh mode);
         public event TreeViewChangeDelegate OnTreeViewChange;
 
-        public delegate void NetworkChangeDelegate();
+        public delegate void NetworkChangeDelegate(pChangeEscope escope);
         public event NetworkChangeDelegate OnNetworkChange;
 
         public delegate void NewDomainDelegate();
@@ -205,8 +205,10 @@ namespace primeira.pNeuron
                 m_offsetX = value.X;
                 m_offsetY = value.Y;
 
+                Invalidate();
+
                 if (OnNetworkChange != null)
-                    OnNetworkChange();
+                    OnNetworkChange(pChangeEscope.File | pChangeEscope.ZoomDisplayMask); 
             }
         }
 
@@ -230,7 +232,7 @@ namespace primeira.pNeuron
                 m_zoom = value;
 
             if (OnNetworkChange != null)
-                OnNetworkChange();
+                OnNetworkChange(pChangeEscope.File | pChangeEscope.ZoomDisplayMask); 
         }
         }
 
@@ -848,7 +850,7 @@ namespace primeira.pNeuron
                 Invalidate(Magnify(DoOffset(pp.Bounds, OffsetX, OffsetY), Zoom));
 
                 if (OnNetworkChange != null)
-                    OnNetworkChange();
+                    OnNetworkChange(pChangeEscope.File | pChangeEscope.ZoomDisplayCache); 
 
                 return;
             }
@@ -897,15 +899,19 @@ namespace primeira.pNeuron
                                             {
                                                 target.AddSynapse(n);
 
+                                                Invalidate(Magnify(DoOffset(pp.Bounds, OffsetX, OffsetY), Zoom));
+
                                                 if (OnNetworkChange != null)
-                                                    OnNetworkChange();
+                                                    OnNetworkChange(pChangeEscope.File | pChangeEscope.ZoomDisplayCache); 
                                             }
                                             else
                                             {
                                                 target.RemoveSynapse(n);
 
+                                                Invalidate(Magnify(DoOffset(pp.Bounds, OffsetX, OffsetY), Zoom));
+
                                                 if (OnNetworkChange != null)
-                                                    OnNetworkChange();
+                                                    OnNetworkChange(pChangeEscope.File | pChangeEscope.ZoomDisplayCache); 
                                             }
                                         }
                                     }
@@ -928,7 +934,25 @@ namespace primeira.pNeuron
                         case pDisplayStatus.Remove_Neuron:
                             if (HighlightedpPanels.Length > 0)
                             {
+
+                                Rectangle[] r = new Rectangle[HighlightedpPanels.Length];
+
+                                int i = 0;
+                                
+                                foreach (pPanel panel in HighlightedpPanels)
+                                {
+                                    r[i++] = panel.Bounds;
+                                }
+
                                 Remove(HighlightedpPanels);
+
+                                foreach (Rectangle rr in r)
+                                {
+                                    Invalidate(Magnify(DoOffset(rr, OffsetX, OffsetY), Zoom));
+                                }
+
+                                if (OnNetworkChange != null)
+                                    OnNetworkChange(pChangeEscope.File | pChangeEscope.ZoomDisplayCache); 
                             }
                             break;
 
@@ -964,7 +988,7 @@ namespace primeira.pNeuron
             if (DisplayStatus == pDisplayStatus.Moving)
             {
                 if (OnNetworkChange != null)
-                    OnNetworkChange();
+                    OnNetworkChange(pChangeEscope.File | pChangeEscope.ZoomDisplayCache); 
 
                 DisplayStatus = pDisplayStatus.Idle;
             }
@@ -1138,14 +1162,9 @@ namespace primeira.pNeuron
                 }
             }
 
-            if (LittleOne)
-            {
-                
-                DrawMask(e.Graphics);
-            }
         }
 
-        private void DrawMask(Graphics g)
+        public void DrawMask(Graphics g)
         {
 
             int width = Magnify(UnMagnify(Width, Zoom), 0.1f);
