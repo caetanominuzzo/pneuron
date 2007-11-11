@@ -19,11 +19,19 @@ namespace primeira.pNeuron
 
         private Point? DownPoint = null;
         private bool m_moving = false;
-        private Graphics m_graphics;
+
+        private Bitmap m_cache = null;
+        private Graphics m_zoomGraphics;
+        private Graphics m_zoomChaceGraphics;
+
 
         public pSmartZoom()
         {
             InitializeComponent();
+
+            m_cache = new Bitmap(Width, Height);
+            m_zoomGraphics = ZoomDisplay.CreateGraphics();
+            m_zoomChaceGraphics = Graphics.FromImage(m_cache);
 
             ZoomDisplay.MouseMove += new MouseEventHandler(ZoomDisplay_MouseMove);
             ZoomDisplay.MouseDown += new MouseEventHandler(ZoomDisplay_MouseDown);
@@ -96,9 +104,20 @@ namespace primeira.pNeuron
             get { return ZoomDisplay.Size; }
         }
 
+        public Graphics ZoomCacheGraphics()
+        {
+            return m_zoomChaceGraphics;
+        }
+
         public Graphics ZoomGraphics()
         {
-            return m_graphics;
+            return m_zoomGraphics;
+        }
+
+        public void ZoomInvalidate()
+        {
+            m_zoomGraphics.DrawImage(m_cache, 0, 0);
+          //  ZoomDisplay.Invalidate();
         }
 
         public Rectangle ZoomRectangle()
@@ -108,14 +127,16 @@ namespace primeira.pNeuron
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            Parent.PaintMiniMap();
+           
+
+            
         }
 
         protected override void OnResize(EventArgs e)
         {
             base.OnResize(e);
-            if(Parent!=null)
-                Parent.PaintMiniMap();
+            if (Parent != null)
+                ZoomDisplay.Invalidate();
         }
 
         #region IpDocks Members
@@ -133,6 +154,20 @@ namespace primeira.pNeuron
                 return;
 
             Parent.ActiveDocument.MainDisplay.Offset = new Point(0, 0);
+        }
+
+        private void ZoomDisplay_Paint(object sender, PaintEventArgs e)
+        {
+            
+            // if (m_cache == null)
+            //{
+            //    m_zoomGraphics.Clear(SystemColors.ControlDark);
+            //}
+            //else
+            //{
+            ////    m_zoomGraphics.Clear(Color.White);
+
+            //}
         }
 
 

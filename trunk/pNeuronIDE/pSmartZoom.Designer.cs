@@ -10,7 +10,7 @@ namespace primeira.pNeuron
         void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(pSmartZoom));
-            this.ZoomDisplay = new DoubleBufferedPanel();
+            this.ZoomDisplay = new primeira.pNeuron.DoubleBufferedPanel();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.btCenter = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1.SuspendLayout();
@@ -22,8 +22,9 @@ namespace primeira.pNeuron
             this.ZoomDisplay.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ZoomDisplay.Location = new System.Drawing.Point(0, 25);
             this.ZoomDisplay.Name = "ZoomDisplay";
-            this.ZoomDisplay.Size = new System.Drawing.Size(272, 155);
+            this.ZoomDisplay.Size = new System.Drawing.Size(292, 248);
             this.ZoomDisplay.TabIndex = 0;
+            this.ZoomDisplay.Paint += new System.Windows.Forms.PaintEventHandler(this.ZoomDisplay_Paint);
             // 
             // toolStrip1
             // 
@@ -31,7 +32,7 @@ namespace primeira.pNeuron
             this.btCenter});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(272, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(292, 25);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -46,7 +47,7 @@ namespace primeira.pNeuron
             // 
             // pSmartZoom
             // 
-           // this.ClientSize = new System.Drawing.Size(272, 180);
+            this.ClientSize = new System.Drawing.Size(292, 273);
             this.Controls.Add(this.ZoomDisplay);
             this.Controls.Add(this.toolStrip1);
             this.Name = "pSmartZoom";
