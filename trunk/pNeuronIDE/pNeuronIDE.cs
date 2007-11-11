@@ -14,6 +14,7 @@ using System.Diagnostics;
 using System.Threading;
 using pShortcutManager;
 using System.Text.RegularExpressions;
+using primeira.pTypes;
 
 
 namespace primeira.pNeuron
@@ -97,7 +98,7 @@ namespace primeira.pNeuron
                         fmProperty.cbItems.Items.Add(p);
                     }
 
-                    PaintMiniMap();
+                    PaintMiniMap(pChangeEscope.ZoomDisplayCache);
 
                     
                     m_shortcut.LoadFromForm(fActiveDocument.MainDisplay);
@@ -244,7 +245,7 @@ namespace primeira.pNeuron
             document.OnStopTraing += new pDocument.OnStopTraingDelegate(document_OnStopTraing);
             document.OnResetLearning += new pDocument.OnResetLearningDelegate(document_OnResetLearning);
             document.OnResetKnowledgement += new pDocument.OnResetKnowledgementDelegate(document_OnResetKnowledgement);
-            document.OnDisplayChange += new pDocument.OnDisplayChangeDelegate(document_OnDisplayChange);
+            document.OnNetworkChange += new pDocument.OnNetworkChangeDelegate(document_OnNetworkChange);
             document.Enter += new EventHandler(document_Enter);
             
             document.Parent = this;
@@ -289,12 +290,9 @@ namespace primeira.pNeuron
             }
         }
 
-        void document_OnDisplayChange()
+        void document_OnNetworkChange(pChangeEscope escope)
         {
-            RefreshPropertyWindowCombo();
-            document_OnSelectedObjectChanged();
-            PaintMiniMap();
-            ActiveDocument.MainDisplay.Invalidate();
+            PaintMiniMap(escope);
         }
 
        
@@ -316,14 +314,24 @@ namespace primeira.pNeuron
             return d;
         }
 
-        public void PaintMiniMap()
+        public void PaintMiniMap(pChangeEscope escope)
         {
             if (!ThereIsAnActiveDocument() || !fmSmartZoom.Visible)
                 return;
 
-            Graphics g = fmSmartZoom.ZoomGraphics();
-            g.Clear(Color.White);
-            ActiveDocument.MainDisplay.Render(new PaintEventArgs(g, fmSmartZoom.ZoomRectangle()), 0, 0, .1f, true);
+            Graphics g;
+            if ((escope & pChangeEscope.ZoomDisplayCache) == pChangeEscope.ZoomDisplayCache)
+            {
+                g = fmSmartZoom.ZoomCacheGraphics();
+                g.Clear(Color.White);
+                ActiveDocument.MainDisplay.Render(new PaintEventArgs(g, fmSmartZoom.ZoomRectangle()), 0, 0, .1f, true);
+            }
+
+            g = fmSmartZoom.ZoomGraphics();
+            fmSmartZoom.ZoomInvalidate();
+            ActiveDocument.MainDisplay.DrawMask(g);
+            
+
         }
 
         void document_Enter(object sender, EventArgs e)
@@ -516,7 +524,7 @@ namespace primeira.pNeuron
         {
             fmSmartZoom.Show();
             if (ThereIsAnActiveDocument())
-                PaintMiniMap();
+                PaintMiniMap(pChangeEscope.ZoomDisplayCache);
         }
 
         private void networkExplorerToolStripMenuItem_Click(object sender, EventArgs e)
