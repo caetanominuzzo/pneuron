@@ -10,11 +10,12 @@ using primeira.pNeuron.Core;
 using System.IO;
 using System.Threading;
 using primeira.pRandom;
+using primeira.pTypes;
 
 
 namespace primeira.pNeuron
 {
-    public partial class pSmartZoom : DockContent, IpDocks, pISmartZoom
+    public partial class pSmartZoom : DockContent, IpDocks, IpSmartZoom
     {
 
         private Point? DownPoint = null;
