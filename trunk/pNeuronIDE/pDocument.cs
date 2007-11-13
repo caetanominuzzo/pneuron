@@ -21,13 +21,6 @@ namespace primeira.pNeuron
 
         private pNeuronIDE fParent;
 
-        private bool fQueryOnClose = true;
-
-        public bool QueryOnClose
-        {
-            get { return fQueryOnClose; }
-            set { fQueryOnClose = value; }
-        }
         public new pNeuronIDE Parent
         {
             get { return DockPanel == null ? fParent : ((pNeuronIDE)DockPanel.Parent); }
@@ -63,9 +56,9 @@ namespace primeira.pNeuron
                     {
                         this.TabText = this.TabText + "*";
                     }
+                    
                     m_modificated = value;
                 }
-
             }
         }
 
@@ -92,12 +85,6 @@ namespace primeira.pNeuron
         public delegate void OnNetworkChangeDelegate(pChangeEscope escope);
         public event OnNetworkChangeDelegate OnNetworkChange;
 
-        public delegate void OnDisplayStatusChangedDelegate();
-        public event OnDisplayStatusChangedDelegate OnDisplayStatusChanged;
-
-        public delegate void OnSelectedObjectChangedDelegate();
-        public event OnSelectedObjectChangedDelegate OnSelectedObjectChanged;
-
         public delegate void OnStartTraingDelegate();
         public event OnStartTraingDelegate OnStartTraing;
 
@@ -110,10 +97,6 @@ namespace primeira.pNeuron
         public delegate void OnResetKnowledgementDelegate();
         public event OnResetKnowledgementDelegate OnResetKnowledgement;
 
-
-
-
-
         #endregion
 
         #region Constructors
@@ -123,7 +106,7 @@ namespace primeira.pNeuron
             Filename = sFileName;
         }
 
-        public pDocument(pTrueRandomGenerator cache)
+        public pDocument(pTrueRandomGenerator cache) : this()
         {
             InitializeComponent();
             MainDisplay.Net.SetRandomGenerator(cache);
@@ -131,22 +114,16 @@ namespace primeira.pNeuron
             MainDisplay.Net.OnStopTraing += new NeuralNetwork.OnStopTraingDelegate(Net_OnStopTraing);
             MainDisplay.Net.OnResetLearning += new NeuralNetwork.OnResetLearningDelegate(Net_OnResetLearning);
             MainDisplay.Net.OnResetKnowledgement += new NeuralNetwork.OnResetKnowledgementDelegate(Net_OnResetKnowledgement);
-
-            
         }
 
+
+        /// <summary>
+        /// VS Design Editor needs a parameterless constructor.
+        /// </summary>
         public pDocument()
         {
-
             InitializeComponent();
-
-           
         }
-
-    
-
-  
-
         
         #endregion
 
@@ -164,6 +141,7 @@ namespace primeira.pNeuron
         private void Net_OnStartTraing()
         {
             MainDisplay.DisplayStatus = pDisplay.pDisplayStatus.Training;
+
             if (OnStartTraing != null)
                 OnStartTraing();
         }
@@ -185,22 +163,10 @@ namespace primeira.pNeuron
 
         #region MainDisplay Events
 
-        private void MainDisplay_OnDisplayStatusChange()
-        {
-            if (OnDisplayStatusChanged != null)
-                OnDisplayStatusChanged();
-        }
-
-        private void MainDisplay_OnSelectedPanelsChange()
-        {
-            if (OnSelectedObjectChanged != null)
-                OnSelectedObjectChanged();
-
-        }
-
         private void MainDisplay_OnNetworkChange(pChangeEscope escope)
         {
-            this.Modificated = true;
+            if((escope & pChangeEscope.File) == pChangeEscope.File)
+                this.Modificated = true;
 
             if (OnNetworkChange != null)
                 OnNetworkChange(escope);
@@ -282,11 +248,6 @@ namespace primeira.pNeuron
 
         #region pDocument Events
 
-        protected override void OnShown(EventArgs e)
-        {
-            base.OnShown(e);
-        }
-
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             if (MainDisplay.DisplayStatus == pDisplay.pDisplayStatus.Training)
@@ -326,6 +287,7 @@ namespace primeira.pNeuron
 
         }
 
+        //TODO:TEST:What happens without the this.Focus() below?
         protected override void OnMouseEnter(EventArgs e)
         {
             this.Focus();
@@ -366,8 +328,6 @@ namespace primeira.pNeuron
                 if (p.Name == cbTrainingSets.SelectedItem.ToString())
                 {
                     dgTrainingSet.DataSource = p.fDataTable;
-
-
 
                     if (MainDisplay.Net.InputNeuronCount + MainDisplay.Net.OutputNeuronCount != p.fDataTable.Columns.Count)
                         pMessage.Error("This Training Set are out of date.");
@@ -619,7 +579,7 @@ namespace primeira.pNeuron
 
         #endregion
 
-        #region Menu
+        #region Public Methods
 
         public void StartTrain()
         {
@@ -641,9 +601,6 @@ namespace primeira.pNeuron
                 double[][] input = new double[dt.Rows.Count][];
 
                 double[][] output = new double[dt.Rows.Count][];
-
-               
-
 
                 int iPerceptionNeuronCount = MainDisplay.Net.InputNeuronCount;
 
@@ -729,6 +686,10 @@ namespace primeira.pNeuron
             MainDisplay.Net.Pulse();
         }
 
+        #endregion
+
+        #region Menu
+
         private void btImport_Click(object sender, EventArgs e)
         {
             OpenFileDialog s = new OpenFileDialog();
@@ -798,17 +759,14 @@ namespace primeira.pNeuron
             MainDisplay.Refresh();
         }
 
-
+        //TODO:REMOVE
         private void tspSQL_Click(object sender, EventArgs e)
         {
             fmImportFromSQL f = new fmImportFromSQL(this.dgTrainingSet);
             f.ShowDialog();
         }
 
-
         #endregion
-
-     
 
     }
 

@@ -14,65 +14,14 @@ using primeira.pTypes;
 
 namespace primeira.pNeuron
 {
-    #region Enums
-
-    public enum pTreeviewRefresh
-    {
-        pPanelAdd,
-        pPanelRemove,
-        pPanelGroupRemove,
-        pGroupClear,
-        pFullRefreh
-    }
-
-    [Flags()]
-    public enum NetworkChangeEscope
-    {
-        MainDisplay = 1,
-        ZoomDisplay = 2,
-        PropertyWindow = 4,
-        DisplayStatus = 8,
-
-    }
-
-    #endregion
-
-    public interface pISmartZoom
-    {
-        Size ZoomSize { get; }
-    }
 
     public partial class pDisplay : Panel, primeira.pNeuron.IpPanels
     {
-        
-        [DllImport("Kernel32.dll")]
-        public static extern bool Beep(UInt32 frequency, UInt32 duration);
-
-        NeuralNetwork m_net;
-         
-        public NeuralNetwork Net
-        {
-            get { return m_net; }
-        }
 
         #region events
 
-        public delegate void SelectedPanelsChangeDelegate();
-        public event SelectedPanelsChangeDelegate OnSelectedPanelsChange;
-
-        public delegate void DisplayStatusChangeDelegate();
-        public event DisplayStatusChangeDelegate OnDisplayStatusChange;
-
-        public delegate void TreeViewChangeDelegate(object o, pTreeviewRefresh mode);
-        public event TreeViewChangeDelegate OnTreeViewChange;
-
         public delegate void NetworkChangeDelegate(pChangeEscope escope);
         public event NetworkChangeDelegate OnNetworkChange;
-
-        public delegate void NewDomainDelegate();
-        public event NewDomainDelegate OnNewDomain;
-
-
 
         #endregion
 
@@ -93,22 +42,11 @@ namespace primeira.pNeuron
         #endregion
 
         #region Fields
-
-        #region Utils
-
-        /// <summary>
-        /// Generate randoms to neuron internal values.
-        /// </summary>
-        private Random m_random = new Random(1);
-
-        /// <summary>
-        /// A global graphics to avoid use CreateGraphics()
-        /// </summary>
+      
+        private NeuralNetwork m_net;
         private Graphics m_graphics;
 
-        #endregion
-
-        #region Enviroment options
+        #region Enviroment options fields
 
         /// <summary>
         /// To draw grid and snap neurons to grid.
@@ -137,17 +75,12 @@ namespace primeira.pNeuron
 
         #endregion
 
-        #region Status/Flags/Pressed Keys
+        #region Status/Flags/Pressed Keys/Zoom and Offset fields
 
-        /// <summary>
-        /// Indicates shift key is pressed. Has a get/set on Shiftkey.
-        /// </summary>
         private bool m_shiftKey = false;
-
-        /// <summary>
-        /// Indicates ctrl key is pressed. Has a get/set on Ctrlkey.
-        /// </summary>
         private bool m_ctrlKey = false;
+        
+        private pDisplayStatus m_displayStatus = pDisplayStatus.Idle;
 
         /// <summary>
         /// Keep initial point of the select rectangle otherwise null.
@@ -164,31 +97,18 @@ namespace primeira.pNeuron
         /// </summary>
         private List<pPanel> m_lastSelectItems;
 
-        /// <summary>
-        /// Main status of pDisplay. Has a get/set on DisplayStatus.
-        /// </summary>
-        private pDisplayStatus m_displayStatus = pDisplayStatus.Idle;
-
-        /// <summary>
-        /// Zoom of pDisplay. Has a get/set on Zoom.
-        /// </summary>
         private float m_zoom = 1;
 
-        /// <summary>
-        /// X offset of display in pixelx.
-        /// </summary>
-        private int m_offsetX = -0;
+        private Point m_offset = new Point(0, 0);
 
         /// <summary>
-        /// Y offset of display in pixelx.
+        /// The SmartZoom associated with this 
         /// </summary>
-        private int m_offsetY = -0;
-
-        private pISmartZoom m_smartZoom = null;
+        private IpSmartZoom m_smartZoom = null;
 
         private Timer tmMove = new Timer();
 
-        public pISmartZoom SmartZoom
+        public IpSmartZoom SmartZoom
         {
             get { return m_smartZoom; }
             set { m_smartZoom = value; }
@@ -212,18 +132,9 @@ namespace primeira.pNeuron
             }
         }
 
-        public int OffsetX
-        {
-            get { return m_offsetX; }
-            set { m_offsetX = value; }
-        }
-
-        public int OffsetY
-        {
-            get { return m_offsetY; }
-            set { m_offsetY = value; }
-        }
-
+        /// <summary>
+        /// Zoom of pDisplay. Has a get/set on Zoom.
+        /// </summary>
         public float Zoom
         {
             get { return m_zoom; }
@@ -238,13 +149,12 @@ namespace primeira.pNeuron
 
         #endregion
 
-        #region Groups. Implemented on pDisplayControls
+        #region Group fields. Implemented on pDisplayControls
 
         /// <summary>
         /// Neuron groups. Has a public get on Groups.
         /// </summary>
         private List<pPanel>[] m_groups;
-        private System.ComponentModel.IContainer components;
 
         /// <summary>
         /// All pPanels on pDisplay. Has a get on pPanels.
@@ -253,10 +163,9 @@ namespace primeira.pNeuron
 
         #endregion
 
-        //The zoom on bottom left.
-        private Panel m_Magnifier;
-
         #endregion
+
+
 
         #region Constructor
 
@@ -338,12 +247,26 @@ namespace primeira.pNeuron
 
         #region Status/Flags/Pressed Keys
 
+        /// <summary>
+        /// The main Neural Network
+        /// </summary>
+        public NeuralNetwork Net
+        {
+            get { return m_net; }
+        }
+
+        /// <summary>
+        /// Indicates shift key is pressed. Has a get/set on Shiftkey.
+        /// </summary>
         public bool ShiftKey
         {
             get { return m_shiftKey; }
             set { m_shiftKey = value; }
         }
 
+        /// <summary>
+        /// Indicates ctrl key is pressed. Has a get/set on Ctrlkey.
+        /// </summary>
         public bool CtrlKey
         {
             get { return m_ctrlKey; }
@@ -355,6 +278,7 @@ namespace primeira.pNeuron
             }
         }
 
+
         public Point DisplayMousePosition
         {
             get
@@ -363,7 +287,9 @@ namespace primeira.pNeuron
             }
         }
 
-
+        /// <summary>
+        /// Main status of pDisplay. Has a get/set on DisplayStatus.
+        /// </summary>
         public pDisplayStatus DisplayStatus
         {
             get { return m_displayStatus; }
@@ -392,8 +318,8 @@ namespace primeira.pNeuron
 
                     }
                 }
-                if (OnDisplayStatusChange != null)
-                    OnDisplayStatusChange();
+                if (OnNetworkChange != null)
+                    OnNetworkChange(pChangeEscope.DisplayStatus);
             }
         }
 
@@ -821,7 +747,6 @@ namespace primeira.pNeuron
 
             if (Cursor == Cursors.No)
             {
-                Beep(456, 100);
                 return;
             }
 

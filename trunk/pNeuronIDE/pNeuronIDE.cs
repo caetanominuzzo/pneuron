@@ -147,20 +147,6 @@ namespace primeira.pNeuron
             StartTimer();
         }
 
-        private void document_OnSelectedObjectChanged()
-        {
-            if (ActiveDocument.MainDisplay.SelectedpPanels.Length < 2)
-            {
-                if (ActiveDocument.MainDisplay.SelectedpPanels.Length == 0)
-                    fmProperty.Property.SelectedObject = ActiveDocument.MainDisplay.Net;
-                else fmProperty.Property.SelectedObjects = ActiveDocument.MainDisplay.SelectedpPanels;
-
-                fmProperty.cbItems.SelectedItem = fmProperty.Property.SelectedObjects[0];
-            }
-            else
-                fmProperty.cbItems.SelectedItem = null;
-            
-        }
 
         #endregion
 
@@ -239,8 +225,6 @@ namespace primeira.pNeuron
         {
             fmDocuments.Add(document);
             
-            document.OnDisplayStatusChanged += new pDocument.OnDisplayStatusChangedDelegate(p_OnDisplayStatusChanged);
-            document.OnSelectedObjectChanged += new pDocument.OnSelectedObjectChangedDelegate(document_OnSelectedObjectChanged);
             document.OnStartTraing += new pDocument.OnStartTraingDelegate(document_OnStartTraing);
             document.OnStopTraing += new pDocument.OnStopTraingDelegate(document_OnStopTraing);
             document.OnResetLearning += new pDocument.OnResetLearningDelegate(document_OnResetLearning);
@@ -292,6 +276,35 @@ namespace primeira.pNeuron
 
         void document_OnNetworkChange(pChangeEscope escope)
         {
+            if ((escope & pChangeEscope.DisplayStatus) == pChangeEscope.DisplayStatus)
+            {
+                if (ActiveDocument.MainDisplay.DisplayStatus != pDisplay.pDisplayStatus.Training)
+                    fmToolbox.SetToolSet(ActiveDocument);
+
+                status.Items[0].Text = "Status: " + ActiveDocument.MainDisplay.DisplayStatus.ToString().Replace("_", " ");
+
+                if (ActiveDocument.MainDisplay.DisplayStatus == pDisplay.pDisplayStatus.Training)
+                {
+                    fmPlotter.StartTimer();
+                }
+                else
+                    fmPlotter.StopTimer();
+            }
+
+            if ((escope & pChangeEscope.SelectedItem) == pChangeEscope.SelectedItem)
+            {
+                if (ActiveDocument.MainDisplay.SelectedpPanels.Length < 2)
+                {
+                    if (ActiveDocument.MainDisplay.SelectedpPanels.Length == 0)
+                        fmProperty.Property.SelectedObject = ActiveDocument.MainDisplay.Net;
+                    else fmProperty.Property.SelectedObjects = ActiveDocument.MainDisplay.SelectedpPanels;
+
+                    fmProperty.cbItems.SelectedItem = fmProperty.Property.SelectedObjects[0];
+                }
+                else
+                    fmProperty.cbItems.SelectedItem = null;
+            }
+
             PaintMiniMap(escope);
         }
 
@@ -306,8 +319,6 @@ namespace primeira.pNeuron
              }
 
             pDocument d = new pDocument(m_cache, "NeuralNetwork " + i.ToString());
-            //d.Enter += new EventHandler(d_Enter);
-            //d.OnDisplayChange += new pDocument.OnDisplayChangeDelegate(d_OnDisplayChange);
 
             AddDocument(d);
 
@@ -349,21 +360,6 @@ namespace primeira.pNeuron
                 p.Close();
             }
             else AddDocument(p);
-        }
-
-        private void p_OnDisplayStatusChanged()
-        {
-            if(ActiveDocument.MainDisplay.DisplayStatus != pDisplay.pDisplayStatus.Training)
-                fmToolbox.SetToolSet(ActiveDocument);
-
-            status.Items[0].Text = "Status: " + ActiveDocument.MainDisplay.DisplayStatus.ToString().Replace("_", " ");
-
-            if (ActiveDocument.MainDisplay.DisplayStatus == pDisplay.pDisplayStatus.Training)
-            {
-                fmPlotter.StartTimer();
-            }
-            else
-                fmPlotter.StopTimer();
         }
 
         private void SaveDocument()
