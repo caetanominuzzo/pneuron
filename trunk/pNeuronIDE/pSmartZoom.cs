@@ -36,7 +36,7 @@ namespace primeira.pNeuron
             ZoomDisplay.MouseMove += new MouseEventHandler(ZoomDisplay_MouseMove);
             ZoomDisplay.MouseDown += new MouseEventHandler(ZoomDisplay_MouseDown);
             ZoomDisplay.MouseUp += new MouseEventHandler(ZoomDisplay_MouseUp);
-            m_graphics = ZoomDisplay.CreateGraphics();
+            m_zoomGraphics = ZoomDisplay.CreateGraphics();
 
         }
 
