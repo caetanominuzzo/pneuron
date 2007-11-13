@@ -7,7 +7,9 @@ namespace primeira.pTypes
     public enum pChangeEscope
     {
         File = 1,
-        ZoomDisplayCache = 16,
-        ZoomDisplayMask = 32
+        DisplayStatus = 2,
+        ZoomDisplayCache = 4,
+        ZoomDisplayMask = 8,
+        SelectedItem = 16,
     }
 }

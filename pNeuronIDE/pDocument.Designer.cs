@@ -106,9 +106,7 @@ namespace primeira.pNeuron
             this.MainDisplay.SmartZoom = null;
             this.MainDisplay.TabIndex = 0;
             this.MainDisplay.Zoom = 1F;
-            this.MainDisplay.OnDisplayStatusChange += new primeira.pNeuron.pDisplay.DisplayStatusChangeDelegate(this.MainDisplay_OnDisplayStatusChange);
             this.MainDisplay.OnNetworkChange += new primeira.pNeuron.pDisplay.NetworkChangeDelegate(this.MainDisplay_OnNetworkChange);
-            this.MainDisplay.OnSelectedPanelsChange += new primeira.pNeuron.pDisplay.SelectedPanelsChangeDelegate(this.MainDisplay_OnSelectedPanelsChange);
             // 
             // tspDesigner
             // 

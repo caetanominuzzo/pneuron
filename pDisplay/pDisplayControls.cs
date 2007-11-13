@@ -129,8 +129,8 @@ namespace primeira.pNeuron
                 p.Selected = true;
             else p.Selected = !p.Selected;
 
-            if (old != p.Selected && OnSelectedPanelsChange!=null)
-                OnSelectedPanelsChange();
+            if (old != p.Selected && OnNetworkChange!=null)
+                OnNetworkChange(pChangeEscope.File | pChangeEscope.SelectedItem);
         }
 
         /// <summary>
@@ -205,8 +205,8 @@ namespace primeira.pNeuron
             p.Selected = false;
             Invalidate(Magnify(DoOffset(p.Bounds, OffsetX, OffsetY), Zoom));
 
-            if(OnSelectedPanelsChange!=null)
-                OnSelectedPanelsChange();
+            if(OnNetworkChange!=null)
+                OnNetworkChange(pChangeEscope.File | pChangeEscope.SelectedItem);
         }
 
         /// <summary>
