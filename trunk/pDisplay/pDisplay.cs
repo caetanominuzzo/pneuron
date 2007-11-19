@@ -44,7 +44,12 @@ namespace primeira.pNeuron
         #region Fields
       
         private NeuralNetwork m_net;
+
         private Graphics m_graphics;
+
+        private int m_offsetX = 0;
+       
+        private int m_offsetY = 0;
 
         #region Enviroment options fields
 
@@ -165,8 +170,6 @@ namespace primeira.pNeuron
 
         #endregion
 
-
-
         #region Constructor
 
         public pDisplay()
@@ -231,6 +234,24 @@ namespace primeira.pNeuron
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// X offset of display in pixelx.
+        /// </summary>
+        public int OffsetX
+        {
+            get { return m_offsetX; }
+            set { m_offsetX = value; }
+        }
+
+        /// <summary>
+        /// Y offset of display in pixelx.
+        /// </summary>
+        public int OffsetY
+        {
+            get { return m_offsetY; }
+            set { m_offsetY = value; }
+        }
 
         #region Enviroment Options
 
@@ -318,6 +339,7 @@ namespace primeira.pNeuron
 
                     }
                 }
+                return;
                 if (OnNetworkChange != null)
                     OnNetworkChange(pChangeEscope.DisplayStatus);
             }

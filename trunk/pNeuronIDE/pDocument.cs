@@ -109,7 +109,6 @@ namespace primeira.pNeuron
 
         public pDocument(pTrueRandomGenerator cache) : this()
         {
-            InitializeComponent();
             MainDisplay.Net.SetRandomGenerator(cache);
             MainDisplay.Net.OnStartTraing += new NeuralNetwork.OnStartTraingDelegate(Net_OnStartTraing);
             MainDisplay.Net.OnStopTraing += new NeuralNetwork.OnStopTraingDelegate(Net_OnStopTraing);
