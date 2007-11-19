@@ -25,8 +25,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pShortcutManager", "pShortcutManager\pShortcutManager.csproj", "{2B504E3B-8A90-4DB0-9AD3-49C2C2D844C7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pXMLEditor", "pXMLEditor\pXMLEditor.csproj", "{E60C9D24-DA24-4278-AE49-7EFDCD5E0133}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pRandom", "pRandom\pRandom.csproj", "{2152137D-D8FD-4E9C-8732-D8C1F2E03156}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pShortcutManagerTest", "pShortcutManagerTest\pShortcutManagerTest.csproj", "{93F66C3D-CB0A-452F-B996-EC75EC80C3AE}"
@@ -67,10 +65,6 @@ Global
 		{2B504E3B-8A90-4DB0-9AD3-49C2C2D844C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B504E3B-8A90-4DB0-9AD3-49C2C2D844C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2B504E3B-8A90-4DB0-9AD3-49C2C2D844C7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E60C9D24-DA24-4278-AE49-7EFDCD5E0133}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E60C9D24-DA24-4278-AE49-7EFDCD5E0133}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E60C9D24-DA24-4278-AE49-7EFDCD5E0133}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E60C9D24-DA24-4278-AE49-7EFDCD5E0133}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2152137D-D8FD-4E9C-8732-D8C1F2E03156}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2152137D-D8FD-4E9C-8732-D8C1F2E03156}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2152137D-D8FD-4E9C-8732-D8C1F2E03156}.Release|Any CPU.ActiveCfg = Release|Any CPU

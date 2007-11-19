@@ -388,12 +388,6 @@ namespace primeira.pNeuron
 
         #region Menus Events
 
-        private void domainEditToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            pDomainEdit fmDomainEdit = new pDomainEdit();
-            fmDomainEdit.ShowDialog();
-        }
-
         private void tspStartTrain_Click(object sender, EventArgs e)
         {
             if(ThereIsAnActiveDocument())

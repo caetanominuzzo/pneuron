@@ -9,4 +9,9 @@ namespace primeira.pTypes
     {
         Size ZoomSize { get; }
     }
+
+    public interface IpDomainProvider
+    {
+        String Domain();
+    }
 }
