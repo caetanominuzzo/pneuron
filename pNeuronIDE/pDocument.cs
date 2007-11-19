@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Text;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
@@ -699,7 +700,18 @@ namespace primeira.pNeuron
             {
                 try
                 {
-                    ((DataTable)dgTrainingSet.DataSource).ReadXml(s.FileName);
+                    DataTable trainingSet = (DataTable)dgTrainingSet.DataSource;
+
+                    DataTable importedTrainingSet = trainingSet.Clone();
+                    importedTrainingSet.Locale = CultureInfo.InvariantCulture;
+                    importedTrainingSet.TableName = "pTrainingSet";
+                    importedTrainingSet.ReadXml(s.FileName);
+
+                    if (trainingSet.Columns.Count != importedTrainingSet.Columns.Count)
+                        throw new Exception();
+
+                    foreach (DataRow row in importedTrainingSet.Rows)
+                        trainingSet.Rows.Add(row.ItemArray);
                 }
                 catch
                 {
@@ -710,15 +722,19 @@ namespace primeira.pNeuron
 
         private void btExport_Click(object sender, EventArgs e)
         {
-            
-                SaveFileDialog s = new SaveFileDialog();
-                s.DefaultExt = ".xml";
-                s.FileName = ".xml";
-                s.Filter = "pNeuron Network Training Set (*.xml)|*.xml|All files (*.*)|*.*";
-                if (s.ShowDialog() == DialogResult.OK)
-                {
-                    ((DataTable)dgTrainingSet.DataSource).WriteXml(s.FileName);
-                }
+            SaveFileDialog s = new SaveFileDialog();
+            s.DefaultExt = ".xml";
+            s.FileName = ".xml";
+            s.Filter = "pNeuron Network Training Set (*.xml)|*.xml|All files (*.*)|*.*";
+            if (s.ShowDialog() == DialogResult.OK)
+            {
+                DataTable trainingSet = (DataTable)dgTrainingSet.DataSource;
+
+                DataTable exportTrainingSet = new DataTable("pTrainingSet");
+                exportTrainingSet.Locale = CultureInfo.InvariantCulture;
+                exportTrainingSet.Merge(trainingSet);
+                exportTrainingSet.WriteXml(s.FileName);
+            }
         }
 
         private void btNewTrainingSet_Click(object sender, EventArgs e)
@@ -787,6 +803,7 @@ namespace primeira.pNeuron
         public DataTable NewDataTable()
         {
             fDataTable = new DataTable(Name);
+            fDataTable.Locale = CultureInfo.InvariantCulture;
 
             foreach (pPanel p in fpPanel)
             {
