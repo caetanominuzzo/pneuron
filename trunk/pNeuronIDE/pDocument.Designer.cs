@@ -99,6 +99,7 @@ namespace primeira.pNeuron
             this.MainDisplay.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MainDisplay.Location = new System.Drawing.Point(3, 28);
             this.MainDisplay.Name = "MainDisplay";
+            this.MainDisplay.Offset = new System.Drawing.Point(0, 0);
             this.MainDisplay.OffsetX = 0;
             this.MainDisplay.OffsetY = 0;
             this.MainDisplay.ShiftKey = false;
@@ -146,10 +147,10 @@ namespace primeira.pNeuron
             this.dgTrainingSet.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgTrainingSet.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgTrainingSet.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnKeystroke;
-            this.dgTrainingSet.Location = new System.Drawing.Point(3, 28);
+            this.dgTrainingSet.Location = new System.Drawing.Point(3, 3);
             this.dgTrainingSet.Margin = new System.Windows.Forms.Padding(0);
             this.dgTrainingSet.Name = "dgTrainingSet";
-            this.dgTrainingSet.Size = new System.Drawing.Size(730, 365);
+            this.dgTrainingSet.Size = new System.Drawing.Size(730, 390);
             this.dgTrainingSet.TabIndex = 0;
             // 
             // flowLayoutPanel1
@@ -159,7 +160,7 @@ namespace primeira.pNeuron
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 3);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(730, 25);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(730, 0);
             this.flowLayoutPanel1.TabIndex = 7;
             // 
             // tspTrainingSet
@@ -177,9 +178,10 @@ namespace primeira.pNeuron
             this.tspTrainingSet.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
             this.tspTrainingSet.Location = new System.Drawing.Point(0, 0);
             this.tspTrainingSet.Name = "tspTrainingSet";
-            this.tspTrainingSet.Size = new System.Drawing.Size(403, 25);
+            this.tspTrainingSet.Size = new System.Drawing.Size(434, 25);
             this.tspTrainingSet.TabIndex = 6;
             this.tspTrainingSet.Text = "toolStrip1";
+            this.tspTrainingSet.Visible = false;
             // 
             // cbTrainingSets
             // 

@@ -98,9 +98,6 @@
     <Compile Include="pDocument.Designer.cs">
       <DependentUpon>pDocument.cs</DependentUpon>
     </Compile>
-    <Compile Include="pDomainEdit.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="pLogger.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -142,10 +139,6 @@
       <SubType>Designer</SubType>
       <DependentUpon>pDocument.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="pDomainEdit.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>pDomainEdit.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="pLogger.resx">
       <SubType>Designer</SubType>
       <DependentUpon>pLogger.cs</DependentUpon>
@@ -179,6 +172,10 @@
       <SubType>Designer</SubType>
       <DependentUpon>pGroupExplorer.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="pXMLEditor.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>pXMLEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -209,6 +206,12 @@
     <Compile Include="pGroupExplorer.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="pXMLEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="pXMLEditor.Designer.cs">
+      <DependentUpon>pXMLEditor.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ExtendedWebBrowser2\ExtendedWebBrowser2.csproj">
@@ -238,10 +241,6 @@
     <ProjectReference Include="..\pTypes\pTypes.csproj">
       <Project>{4140FF72-5794-4641-A111-ADC558FBA370}</Project>
       <Name>pTypes</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\pXMLEditor\pXMLEditor.csproj">
-      <Project>{E60C9D24-DA24-4278-AE49-7EFDCD5E0133}</Project>
-      <Name>pXMLEditor</Name>
     </ProjectReference>
     <ProjectReference Include="..\WinFormsUI\WinFormsUI.csproj">
       <Project>{C75532C4-765B-418E-B09B-46D36B2ABDB1}</Project>

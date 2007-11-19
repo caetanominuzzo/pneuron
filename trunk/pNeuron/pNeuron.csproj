@@ -47,6 +47,10 @@
       <Project>{2152137D-D8FD-4E9C-8732-D8C1F2E03156}</Project>
       <Name>pRandom</Name>
     </ProjectReference>
+    <ProjectReference Include="..\pTypes\pTypes.csproj">
+      <Project>{4140FF72-5794-4641-A111-ADC558FBA370}</Project>
+      <Name>pTypes</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
