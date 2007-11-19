@@ -5,7 +5,7 @@ using System.Text;
 using System.Collections.Generic;
 using primeira.pRandom;
 using System.ComponentModel;
-
+using primeira.pTypes;
 
 namespace primeira.pNeuron.Core
 {
@@ -220,6 +220,8 @@ namespace primeira.pNeuron.Core
 
         private DataTypes m_dataType = DataTypes.Not_Applicable;
 
+        private string m_domain = "";
+
         private int m_id = 0;
 
         private int m_command = NeuralNetwork.CMD_NOTHING;
@@ -360,7 +362,7 @@ namespace primeira.pNeuron.Core
                 if (value == NeuronTypes.Input && m_neuronType != NeuronTypes.Input)
                 {
                     m_neuronType = value;
-                    DataType = DataTypes.Integer;
+                    DataType = DataTypes.Discrete;
                 }
 
                 if (value != NeuronTypes.Input)
@@ -371,6 +373,15 @@ namespace primeira.pNeuron.Core
                 }
 
             }
+        }
+
+        /// <summary>
+        /// Gets the Domain of an input neuron.
+        /// </summary>
+        public string Domain
+        {
+            get { return m_domain; }
+            internal set { m_domain = value; }
         }
 
         /// <summary>
@@ -391,9 +402,15 @@ namespace primeira.pNeuron.Core
                 if (NeuronType == NeuronTypes.Input)
                 {
                     if (value != DataTypes.Not_Applicable)
+                    {
                         m_dataType = value;
+                        if (m_dataType == DataTypes.Domain)
+                        {
+
+                        }
+                    }
                     else
-                        throw new Exception("Invalid operation on a input neuron.");
+                        throw new Exception("Invalid operation on an input neuron.");
                 }
                 else
                     m_dataType = DataTypes.Not_Applicable;
@@ -403,6 +420,12 @@ namespace primeira.pNeuron.Core
         #endregion
 
         #region Methods
+
+        public void SetDomain()
+        {
+            if (NeuralNetwork.DomainProvider != null)
+                NeuralNetwork.DomainProvider.Domain();
+        }
 
         public new string ToString()
         {
@@ -749,6 +772,11 @@ namespace primeira.pNeuron.Core
             m_neuron = new List<Neuron>();
         }
 
+        public NeuralNetwork(IpDomainProvider domainProvider) : this()
+        {
+            m_domainProvider = domainProvider;
+        }
+
         #endregion
 
         #region Constants
@@ -776,7 +804,7 @@ namespace primeira.pNeuron.Core
         private StringBuilder m_logger = new StringBuilder();
         private int m_cycles = 0;
 
-        private double m_lastCalculatedGlobalError;
+        private IpDomainProvider m_domainProvider;
 
         private List<double> m_logGlobalError = new List<double>();
 
@@ -865,6 +893,15 @@ namespace primeira.pNeuron.Core
             {
                 return m_cycles * INNER_TRAINING_TIMES;
             }
+        }
+
+        public IpDomainProvider DomainProvider
+        {
+            get
+            {
+                return m_domainProvider;
+            }
+
         }
 
         #endregion
@@ -1414,7 +1451,6 @@ namespace primeira.pNeuron.Core
 
     public enum NeuronTypes
     {
-
         Input,
         Hidden,
         Output,
@@ -1424,9 +1460,9 @@ namespace primeira.pNeuron.Core
     public enum DataTypes
     {
         Not_Applicable,
-        Integer,
+        Discrete,
         Continuos,
-        List
+        Domain,
     }
 
     #endregion

@@ -38,6 +38,17 @@ namespace primeira.pNeuron
 
         private bool m_defaultNamedFile = true;
 
+
+
+        private string m_defaultItemName = "New Training Set";
+
+        public string DefaultItemName
+        {
+            get { return m_defaultItemName; }
+        }
+
+
+
         #endregion
 
         #region Properties
@@ -339,7 +350,7 @@ namespace primeira.pNeuron
 
         #region Save/Load & Add Training Set
 
-        public void AddTrainingSet(string InitialName)
+        public void AddItem(string InitialName)
         {
             using (fmTrainingSetName f = new fmTrainingSetName(InitialName))
             {
@@ -350,7 +361,7 @@ namespace primeira.pNeuron
                         if (o.ToString() == f.txtName.Text)
                         {
                             pMessage.Error("Invalid duplicated name.");
-                            AddTrainingSet(f.txtName.Text);
+                            AddItem(f.txtName.Text);
                             return;
                         }
                     }
@@ -374,6 +385,66 @@ namespace primeira.pNeuron
 
 
             //DEPRECATEDParent.fmNetworkExplorer.AddNode(fm.Name, ((pDocument)Parent.ActiveDocument).Filename);
+        }
+
+        public void RemoveItem(int Index)
+        {
+            
+            cbTrainingSets.Items.RemoveAt(Index);
+            fpTrainingSet.RemoveAt(Index);
+            if (cbTrainingSets.Items.Count > 0)
+                cbTrainingSets.SelectedIndex = 0;
+            else
+            {
+                dgTrainingSet.DataSource = null;
+                btRemoveTrainingSet.Enabled = false;
+            }
+        }
+
+        public void ImportItem()
+        {
+            OpenFileDialog s = new OpenFileDialog();
+            s.DefaultExt = ".xml";
+            s.Filter = "pNeuron Network Training Set (*.xml)|*.xml|All files (*.*)|*.*";
+            if (s.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    DataTable trainingSet = (DataTable)dgTrainingSet.DataSource;
+
+                    DataTable importedTrainingSet = trainingSet.Clone();
+                    importedTrainingSet.Locale = CultureInfo.InvariantCulture;
+                    importedTrainingSet.TableName = "pTrainingSet";
+                    importedTrainingSet.ReadXml(s.FileName);
+
+                    if (trainingSet.Columns.Count != importedTrainingSet.Columns.Count)
+                        throw new Exception();
+
+                    foreach (DataRow row in importedTrainingSet.Rows)
+                        trainingSet.Rows.Add(row.ItemArray);
+                }
+                catch
+                {
+                    pMessage.Error("Invalid or corrupt file.");
+                }
+            }
+        }
+
+        public void ExportItem()
+        {
+            SaveFileDialog s = new SaveFileDialog();
+            s.DefaultExt = ".xml";
+            s.FileName = ".xml";
+            s.Filter = "pNeuron Network Training Set (*.xml)|*.xml|All files (*.*)|*.*";
+            if (s.ShowDialog() == DialogResult.OK)
+            {
+                DataTable trainingSet = (DataTable)dgTrainingSet.DataSource;
+
+                DataTable exportTrainingSet = new DataTable("pTrainingSet");
+                exportTrainingSet.Locale = CultureInfo.InvariantCulture;
+                exportTrainingSet.Merge(trainingSet);
+                exportTrainingSet.WriteXml(s.FileName);
+            }
         }
 
         public DialogResult Save()
@@ -692,70 +763,25 @@ namespace primeira.pNeuron
 
         private void btImport_Click(object sender, EventArgs e)
         {
-            OpenFileDialog s = new OpenFileDialog();
-            s.DefaultExt = ".xml";
-            s.Filter = "pNeuron Network Training Set (*.xml)|*.xml|All files (*.*)|*.*";
-            if (s.ShowDialog() == DialogResult.OK)
-            {
-                try
-                {
-                    DataTable trainingSet = (DataTable)dgTrainingSet.DataSource;
-
-                    DataTable importedTrainingSet = trainingSet.Clone();
-                    importedTrainingSet.Locale = CultureInfo.InvariantCulture;
-                    importedTrainingSet.TableName = "pTrainingSet";
-                    importedTrainingSet.ReadXml(s.FileName);
-
-                    if (trainingSet.Columns.Count != importedTrainingSet.Columns.Count)
-                        throw new Exception();
-
-                    foreach (DataRow row in importedTrainingSet.Rows)
-                        trainingSet.Rows.Add(row.ItemArray);
-                }
-                catch
-                {
-                    pMessage.Error("Invalid or corrupt file.");
-                }
-            }
+            ImportItem();
         }
 
         private void btExport_Click(object sender, EventArgs e)
         {
-            SaveFileDialog s = new SaveFileDialog();
-            s.DefaultExt = ".xml";
-            s.FileName = ".xml";
-            s.Filter = "pNeuron Network Training Set (*.xml)|*.xml|All files (*.*)|*.*";
-            if (s.ShowDialog() == DialogResult.OK)
-            {
-                DataTable trainingSet = (DataTable)dgTrainingSet.DataSource;
-
-                DataTable exportTrainingSet = new DataTable("pTrainingSet");
-                exportTrainingSet.Locale = CultureInfo.InvariantCulture;
-                exportTrainingSet.Merge(trainingSet);
-                exportTrainingSet.WriteXml(s.FileName);
-            }
+            ExportItem();
         }
 
         private void btNewTrainingSet_Click(object sender, EventArgs e)
         {
-            AddTrainingSet("New Training Set");
+            AddItem(DefaultItemName);
         }
 
         private void btRemoveTrainingSet_Click(object sender, EventArgs e)
         {
-            int i = cbTrainingSets.SelectedIndex;
-            cbTrainingSets.Items.RemoveAt(i);
-            fpTrainingSet.RemoveAt(i);
-            if (cbTrainingSets.Items.Count > 0)
-                cbTrainingSets.SelectedIndex = 0;
-            else
-            {
-                dgTrainingSet.DataSource = null;
-                btRemoveTrainingSet.Enabled = false;
-            }
+            RemoveItem(cbTrainingSets.SelectedIndex);
         }
 
-        private void  tspAutoRefresh_Click(object sender, EventArgs e)
+        private void tspAutoRefresh_Click(object sender, EventArgs e)
         {
             if (tspAutoRefresh.Text == "Start Refresh")
             {
