@@ -48,8 +48,6 @@ namespace primeira.pNeuron
         public void SetToolSet(pDocument aActiveDocument)
         {
 
-            return; 
-
             rCursor.CheckedChanged -= rCursor_CheckedChanged;
             rNeuron.CheckedChanged -= rCursor_CheckedChanged;
             rSynapse.CheckedChanged -= rCursor_CheckedChanged;
