@@ -126,6 +126,7 @@ namespace primeira.pNeuron
             MainDisplay.Net.OnStopTraing += new NeuralNetwork.OnStopTraingDelegate(Net_OnStopTraing);
             MainDisplay.Net.OnResetLearning += new NeuralNetwork.OnResetLearningDelegate(Net_OnResetLearning);
             MainDisplay.Net.OnResetKnowledgement += new NeuralNetwork.OnResetKnowledgementDelegate(Net_OnResetKnowledgement);
+            pTrainingSetEditor1.SetParent(this);
         }
 
 
@@ -647,7 +648,7 @@ namespace primeira.pNeuron
             if (MainDisplay.DisplayStatus != pDisplay.pDisplayStatus.Training)
             {
 
-                if (dgTrainingSet.DataSource == null)
+                if (pTrainingSetEditor1.dgTrainingSet.DataSource == null)
                 {
                     if (!pTrainingSetEditor1.SelectOne())
                     {
@@ -656,9 +657,9 @@ namespace primeira.pNeuron
                     }
                 }
 
-                
 
-                DataTable dt = (DataTable)dgTrainingSet.DataSource;
+
+                DataTable dt = (DataTable)pTrainingSetEditor1.dgTrainingSet.DataSource;
 
                 double[][] input = new double[dt.Rows.Count][];
 
@@ -808,12 +809,6 @@ namespace primeira.pNeuron
             MainDisplay.Refresh();
         }
 
-        //TODO:REMOVE
-        private void tspSQL_Click(object sender, EventArgs e)
-        {
-            fmImportFromSQL f = new fmImportFromSQL(this.dgTrainingSet);
-            f.ShowDialog();
-        }
 
         #endregion
 

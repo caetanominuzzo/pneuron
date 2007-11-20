@@ -185,7 +185,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="pSmartZoom.cs">
-      <SubType>Form</SubType>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="pSmartZoom.Designer.cs">
       <DependentUpon>pSmartZoom.cs</DependentUpon>
