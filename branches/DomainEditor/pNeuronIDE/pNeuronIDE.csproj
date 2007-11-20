@@ -1,0 +1,262 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{EFBE0B77-0E3D-42CF-9D09-97998BB45A5D}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>primeira.pNeuron</RootNamespace>
+    <AssemblyName>pNeuronIDE</AssemblyName>
+    <ApplicationIcon>pNeuronIDE2.ico</ApplicationIcon>
+    <ManifestCertificateThumbprint>0FA851308D52BBF11230F756F059210BF5347B74</ManifestCertificateThumbprint>
+    <ManifestKeyFile>pNeuronIDE_TemporaryKey.pfx</ManifestKeyFile>
+    <GenerateManifests>true</GenerateManifests>
+    <SignManifests>false</SignManifests>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>C:\primeira\pNeuronIDE\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>false</MapFileExtensions>
+    <CreateWebPageOnPublish>false</CreateWebPageOnPublish>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;RELEASE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="fmBrowser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fmBrowser.Designer.cs">
+      <DependentUpon>fmBrowser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="fmImportFromSQL.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fmImportFromSQL.Designer.cs">
+      <DependentUpon>fmImportFromSQL.cs</DependentUpon>
+    </Compile>
+    <Compile Include="fmInputData.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fmInputData.Designer.cs">
+      <DependentUpon>fmInputData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="fmSplash.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fmSplash.Designer.cs">
+      <DependentUpon>fmSplash.cs</DependentUpon>
+    </Compile>
+    <Compile Include="fmTrainingSetName.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fmTrainingSetName.Designer.cs">
+      <DependentUpon>fmTrainingSetName.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IpDocks.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="pDocument.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="pDocument.Designer.cs">
+      <DependentUpon>pDocument.cs</DependentUpon>
+    </Compile>
+    <Compile Include="pLogger.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="pNeuronIDE.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="pNeuronIDE.Designer.cs">
+      <DependentUpon>pNeuronIDE.cs</DependentUpon>
+    </Compile>
+    <Compile Include="pPlotter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="pProperty.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="fmBrowser.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>fmBrowser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fmImportFromSQL.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>fmImportFromSQL.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fmInputData.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>fmInputData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fmSplash.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>fmSplash.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fmTrainingSetName.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>fmTrainingSetName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pDocument.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>pDocument.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pLogger.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>pLogger.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pNeuronIDE.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>pNeuronIDE.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pPlotter.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>pPlotter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pProperty.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>pProperty.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pSmartZoom.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>pSmartZoom.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pToolbox.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>pToolbox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pGroupExplorer.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>pGroupExplorer.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="ClassDiagram1.cd" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="pSmartZoom.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="pSmartZoom.Designer.cs">
+      <DependentUpon>pSmartZoom.cs</DependentUpon>
+    </Compile>
+    <Compile Include="pToolbox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="pToolbox.Designer.cs">
+      <DependentUpon>pToolbox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="pGroupExplorer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="pTrainingSetEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ExtendedWebBrowser2\ExtendedWebBrowser2.csproj">
+      <Project>{2BB5EE82-0735-40B7-B376-D5F6103C4B1B}</Project>
+      <Name>ExtendedWebBrowser2</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\pDisplay\pDisplay.csproj">
+      <Project>{35DD3087-E395-4D33-950F-F807AE4BDED0}</Project>
+      <Name>pDisplay</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\pNeuron\pNeuron.csproj">
+      <Project>{464378C1-CF56-486D-84F0-DC564A99901D}</Project>
+      <Name>pNeuron</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\pPanel\pPanel.csproj">
+      <Project>{D3847E8B-A4C3-49BB-B119-3F2B981C9154}</Project>
+      <Name>pPanel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\pRandom\pRandom.csproj">
+      <Project>{2152137D-D8FD-4E9C-8732-D8C1F2E03156}</Project>
+      <Name>pRandom</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\pShortcutManager\pShortcutManager.csproj">
+      <Project>{2B504E3B-8A90-4DB0-9AD3-49C2C2D844C7}</Project>
+      <Name>pShortcutManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\pTypes\pTypes.csproj">
+      <Project>{4140FF72-5794-4641-A111-ADC558FBA370}</Project>
+      <Name>pTypes</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\pXMLEditor\pXMLEditor.csproj">
+      <Project>{D7559921-4D49-43AC-9588-569F58C4D7AE}</Project>
+      <Name>pXMLEditor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WinFormsUI\WinFormsUI.csproj">
+      <Project>{C75532C4-765B-418E-B09B-46D36B2ABDB1}</Project>
+      <Name>WinFormsUI</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="pNeuronIDE2.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
