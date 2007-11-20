@@ -5,13 +5,10 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using WeifenLuo.WinFormsUI.Docking;
-using primeira.pNeuron.Core;
 using System.IO;
 using System.Threading;
-using primeira.pRandom;
 
-namespace primeira.pNeuron
+namespace primeira.Components
 {
     public class pDataGridView : DataGridView
     {

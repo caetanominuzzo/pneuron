@@ -1,4 +1,4 @@
-namespace primeira.pNeuron
+namespace primeira.Components
 {
     partial class pXMLEditor
     {
@@ -37,7 +37,7 @@ namespace primeira.pNeuron
             this.btExport = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.tspSQL = new System.Windows.Forms.ToolStripButton();
-            this.dgTrainingSet = new primeira.pNeuron.pDataGridView();
+            this.dgTrainingSet = new primeira.Components.pDataGridView();
             this.tspTrainingSet.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgTrainingSet)).BeginInit();
             this.SuspendLayout();
@@ -66,6 +66,7 @@ namespace primeira.pNeuron
             this.cbTrainingSets.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbTrainingSets.Name = "cbTrainingSets";
             this.cbTrainingSets.Size = new System.Drawing.Size(121, 25);
+            this.cbTrainingSets.SelectedIndexChanged += new System.EventHandler(this.cbTrainingSets_SelectedIndexChanged);
             // 
             // btNewTrainingSet
             // 
@@ -81,6 +82,7 @@ namespace primeira.pNeuron
             this.btRemoveTrainingSet.Name = "btRemoveTrainingSet";
             this.btRemoveTrainingSet.Size = new System.Drawing.Size(50, 22);
             this.btRemoveTrainingSet.Text = "Remove";
+            this.btRemoveTrainingSet.Click += new System.EventHandler(this.btRemoveTrainingSet_Click);
             // 
             // toolStripSeparator2
             // 
@@ -93,6 +95,7 @@ namespace primeira.pNeuron
             this.btImport.Name = "btImport";
             this.btImport.Size = new System.Drawing.Size(43, 22);
             this.btImport.Text = "Import";
+            this.btImport.Click += new System.EventHandler(this.btImport_Click);
             // 
             // btExport
             // 
@@ -100,6 +103,7 @@ namespace primeira.pNeuron
             this.btExport.Name = "btExport";
             this.btExport.Size = new System.Drawing.Size(43, 22);
             this.btExport.Text = "Export";
+            this.btExport.Click += new System.EventHandler(this.btExport_Click);
             // 
             // toolStripSeparator1
             // 
@@ -144,15 +148,15 @@ namespace primeira.pNeuron
 
         #endregion
 
-        private pDataGridView dgTrainingSet;
         private System.Windows.Forms.ToolStrip tspTrainingSet;
-        private System.Windows.Forms.ToolStripButton btNewTrainingSet;
-        private System.Windows.Forms.ToolStripButton btRemoveTrainingSet;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStripButton btImport;
-        private System.Windows.Forms.ToolStripButton btExport;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripButton tspSQL;
         public System.Windows.Forms.ToolStripComboBox cbTrainingSets;
+        public pDataGridView dgTrainingSet;
+        public System.Windows.Forms.ToolStripButton btNewTrainingSet;
+        public System.Windows.Forms.ToolStripButton btRemoveTrainingSet;
+        public System.Windows.Forms.ToolStripButton btImport;
+        public System.Windows.Forms.ToolStripButton btExport;
+        public System.Windows.Forms.ToolStripButton tspSQL;
     }
 }
