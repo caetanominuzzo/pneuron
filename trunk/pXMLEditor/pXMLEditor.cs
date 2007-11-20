@@ -30,11 +30,15 @@ namespace primeira.Components
         private void btNewTrainingSet_Click(object sender, EventArgs e)
         {
             AddNewItem(DefaultItemName);
+            if (cbTrainingSets.Items.Count > 0)
+                cbTrainingSets.Enabled = btRemoveTrainingSet.Enabled = true;
         }
 
         private void btRemoveTrainingSet_Click(object sender, EventArgs e)
         {
             RemoveItem(cbTrainingSets.SelectedIndex);
+            if (cbTrainingSets.Items.Count==0)
+                cbTrainingSets.Enabled = btRemoveTrainingSet.Enabled = false;
         }
 
         private void cbTrainingSets_SelectedIndexChanged(object sender, EventArgs e)
@@ -46,7 +50,13 @@ namespace primeira.Components
         {
             if (cbTrainingSets.Items.Count > 0)
             {
-                SelectItem(cbTrainingSets.SelectedIndex);
+                if (cbTrainingSets.SelectedItem == null)
+                {
+                    cbTrainingSets.SelectedIndex = 0;
+                }
+                else
+                    SelectItem(cbTrainingSets.SelectedIndex);
+                
 
                 return true;
             }

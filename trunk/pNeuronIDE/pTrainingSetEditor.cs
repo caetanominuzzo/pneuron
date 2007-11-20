@@ -135,12 +135,18 @@ namespace primeira.pNeuron
 
         public override void SelectItem(int Index)
         {
-            pTrainingSet p = (pTrainingSet)cbTrainingSets.SelectedItem;
+            if (cbTrainingSets.SelectedItem == null)
+            {
+                SelectOne();
+            }
+            else
+            {
+                pTrainingSet p = (pTrainingSet)cbTrainingSets.SelectedItem;
 
-            if (m_parentDocument.MainDisplay.Net.InputNeuronCount + m_parentDocument.MainDisplay.Net.OutputNeuronCount != p.fDataTable.Columns.Count)
-                pMessage.Error("This Training Set are out of date.");
-            else dgTrainingSet.DataSource = p.fDataTable;
-
+                if (m_parentDocument.MainDisplay.Net.InputNeuronCount + m_parentDocument.MainDisplay.Net.OutputNeuronCount != p.fDataTable.Columns.Count)
+                    pMessage.Error("This Training Set are out of date.");
+                else dgTrainingSet.DataSource = p.fDataTable;
+            }
         }
     }
 }
