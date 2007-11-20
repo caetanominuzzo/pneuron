@@ -772,11 +772,6 @@ namespace primeira.pNeuron.Core
             m_neuron = new List<Neuron>();
         }
 
-        public NeuralNetwork(IpDomainProvider domainProvider) : this()
-        {
-            m_domainProvider = domainProvider;
-        }
-
         #endregion
 
         #region Constants
@@ -804,7 +799,6 @@ namespace primeira.pNeuron.Core
         private StringBuilder m_logger = new StringBuilder();
         private int m_cycles = 0;
 
-        private IpDomainProvider m_domainProvider;
 
         private List<double> m_logGlobalError = new List<double>();
 
@@ -895,14 +889,7 @@ namespace primeira.pNeuron.Core
             }
         }
 
-        public IpDomainProvider DomainProvider
-        {
-            get
-            {
-                return m_domainProvider;
-            }
 
-        }
 
         #endregion
 

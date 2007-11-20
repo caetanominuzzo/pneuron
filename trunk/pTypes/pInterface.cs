@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace primeira.pTypes
 {
@@ -12,6 +13,7 @@ namespace primeira.pTypes
 
     public interface IpDomainProvider
     {
-        String Domain();
+        DialogResult ShowDialog();
+        string DomainName;
     }
 }
