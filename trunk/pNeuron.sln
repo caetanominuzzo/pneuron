@@ -35,6 +35,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtendedWebBrowser2", "Exte
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pTypes", "pTypes\pTypes.csproj", "{4140FF72-5794-4641-A111-ADC558FBA370}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pXMLEditor", "pXMLEditor\pXMLEditor.csproj", "{D7559921-4D49-43AC-9588-569F58C4D7AE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -84,6 +86,10 @@ Global
 		{4140FF72-5794-4641-A111-ADC558FBA370}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4140FF72-5794-4641-A111-ADC558FBA370}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4140FF72-5794-4641-A111-ADC558FBA370}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7559921-4D49-43AC-9588-569F58C4D7AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7559921-4D49-43AC-9588-569F58C4D7AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7559921-4D49-43AC-9588-569F58C4D7AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7559921-4D49-43AC-9588-569F58C4D7AE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
