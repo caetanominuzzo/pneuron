@@ -54,6 +54,7 @@ namespace primeira.pNeuron
             this.tspViewPropertyWindow = new System.Windows.Forms.ToolStripMenuItem();
             this.plotterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.miniMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.historyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.starterGuideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
@@ -261,7 +262,8 @@ namespace primeira.pNeuron
             this.tspViewToolbox,
             this.tspViewPropertyWindow,
             this.plotterToolStripMenuItem,
-            this.miniMapToolStripMenuItem});
+            this.miniMapToolStripMenuItem,
+            this.historyToolStripMenuItem});
             this.viewToolStripMenuItem1.Name = "viewToolStripMenuItem1";
             this.viewToolStripMenuItem1.Size = new System.Drawing.Size(41, 20);
             this.viewToolStripMenuItem1.Text = "View";
@@ -293,6 +295,13 @@ namespace primeira.pNeuron
             this.miniMapToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.miniMapToolStripMenuItem.Text = "Mini Map";
             this.miniMapToolStripMenuItem.Click += new System.EventHandler(this.miniMapToolStripMenuItem_Click);
+            // 
+            // historyToolStripMenuItem
+            // 
+            this.historyToolStripMenuItem.Name = "historyToolStripMenuItem";
+            this.historyToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.historyToolStripMenuItem.Text = "History";
+            this.historyToolStripMenuItem.Click += new System.EventHandler(this.historyToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -463,5 +472,6 @@ namespace primeira.pNeuron
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem starterGuideToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem miniMapToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem historyToolStripMenuItem;
     }
 }

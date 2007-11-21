@@ -15,6 +15,9 @@ using System.Threading;
 using pShortcutManager;
 using System.Text.RegularExpressions;
 using primeira.pTypes;
+using primeira.pHistory;
+using ICSharpCode.SharpZipLib.Zip;
+using ICSharpCode.SharpZipLib.Core;
 
 
 namespace primeira.pNeuron
@@ -35,6 +38,7 @@ namespace primeira.pNeuron
         private pPlotter fmPlotter = new pPlotter();
         private pLogger fmLogger = new pLogger();
         private pSmartZoom fmSmartZoom = new pSmartZoom();
+        private pHistory fmHistory = new pHistory();
 
         private List<pDocument> fmDocuments = new List<pDocument>();
         private pDocument fActiveDocument;
@@ -305,6 +309,22 @@ namespace primeira.pNeuron
                     fmProperty.cbItems.SelectedItem = null;
             }
 
+            if ((escope & pChangeEscope.File) == pChangeEscope.File)
+            {
+                pHistoryItem p = new pHistoryItem();
+                p.Cache = fmSmartZoom.PreferedCache();
+                
+                StringBuilder sb = new StringBuilder();
+                System.Xml.XmlWriter xml = System.Xml.XmlWriter.Create(sb);
+                ActiveDocument.Render(xml);
+                p.Content = sb.ToString();
+
+                
+
+
+                fmHistory.pHistoryManager.AddHistory(p);
+            }
+
             PaintMiniMap(escope);
         }
 
@@ -447,9 +467,10 @@ namespace primeira.pNeuron
             fmPlotter.Show(dockPanel, DockState.DockBottom);
             fmToolbox.Show(dockPanel, DockState.DockLeft);
 
-            fmProperty.Show(dockPanel);
+            fmHistory.Show(dockPanel, DockState.DockLeft);
+            fmHistory.DockTo(fmToolbox.Pane, DockStyle.Bottom, 0);
 
-            fmProperty.DockTo(dockPanel, DockStyle.Bottom);
+            
             
             //fmLogger.Show(dockPanel, DockState.Document);
             //fmLogger.DockTo(fmPlotter.Pane, DockStyle.Fill, 0);
@@ -517,6 +538,11 @@ namespace primeira.pNeuron
                 PaintMiniMap(pChangeEscope.ZoomDisplayCache);
         }
 
+        private void historyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            fmHistory.Show();
+        }
+
         private void networkExplorerToolStripMenuItem_Click(object sender, EventArgs e)
         {
             fmGroupExplorer.Show();
@@ -551,6 +577,8 @@ namespace primeira.pNeuron
             learninRate.Text = "Learning Rate: " + trackLR.Value;
             ActiveDocument.MainDisplay.Net.LearningRate = trackLR.Value;
         }
+
+        
 
 
 
