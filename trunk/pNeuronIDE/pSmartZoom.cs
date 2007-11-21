@@ -17,11 +17,16 @@ namespace primeira.pNeuron
 {
     public partial class pSmartZoom : DockContent, IpDocks, IpSmartZoom
     {
-
+        
         private Point? DownPoint = null;
         private bool m_moving = false;
 
         private Bitmap m_cache = null;
+
+
+
+
+
         private Graphics m_zoomGraphics;
         private Graphics m_zoomChaceGraphics;
 
@@ -29,7 +34,7 @@ namespace primeira.pNeuron
         public pSmartZoom()
         {
             InitializeComponent();
-
+            
             m_cache = new Bitmap(Width, Height);
             m_zoomGraphics = ZoomDisplay.CreateGraphics();
             m_zoomChaceGraphics = Graphics.FromImage(m_cache);
@@ -126,11 +131,14 @@ namespace primeira.pNeuron
             return ZoomDisplay.Bounds;
         }
 
-        protected override void OnPaint(PaintEventArgs e)
+        public Bitmap PreferedCache()
         {
-           
+            return m_cache.Clone(Parent.ActiveDocument.MainDisplay.MaskRectangle(), System.Drawing.Imaging.PixelFormat.DontCare);
+        }
 
-            
+        public Bitmap Cache
+        {
+            get { return m_cache; }
         }
 
         protected override void OnResize(EventArgs e)

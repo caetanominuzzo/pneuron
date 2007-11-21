@@ -79,5 +79,34 @@ namespace pShortcutManagerTest
         {
             p.RemoveEscope("Editor2");
         }
+
+        private void listBox1_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            
+        }
+
+        private void button5_Click_1(object sender, EventArgs e)
+        {
+            listBox1.Focus();
+        }
+
+        private void treeView1_DrawNode(object sender, DrawTreeNodeEventArgs e)
+        {
+
+           
+        }
+
+
+    }
+
+    public class pPanelTest : Panel
+    {
+        public pPanelTest()
+        {
+            this.TabStop = true;
+            this.Enabled = true;
+            this.Visible = true;
+            MessageBox.Show(this.Handle.ToString());
+        }
     }
 }

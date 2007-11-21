@@ -47,7 +47,6 @@ namespace primeira.pNeuron
             // 
             // pSmartZoom
             // 
-            this.ClientSize = new System.Drawing.Size(292, 273);
             this.Controls.Add(this.ZoomDisplay);
             this.Controls.Add(this.toolStrip1);
             this.Name = "pSmartZoom";
