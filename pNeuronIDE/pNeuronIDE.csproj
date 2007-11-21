@@ -95,6 +95,12 @@
     <Compile Include="pDocument.Designer.cs">
       <DependentUpon>pDocument.cs</DependentUpon>
     </Compile>
+    <Compile Include="pHistory.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="pHistory.Designer.cs">
+      <DependentUpon>pHistory.cs</DependentUpon>
+    </Compile>
     <Compile Include="pLogger.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -135,6 +141,10 @@
     <EmbeddedResource Include="pDocument.resx">
       <SubType>Designer</SubType>
       <DependentUpon>pDocument.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pHistory.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>pHistory.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="pLogger.resx">
       <SubType>Designer</SubType>
@@ -208,9 +218,17 @@
       <Project>{2BB5EE82-0735-40B7-B376-D5F6103C4B1B}</Project>
       <Name>ExtendedWebBrowser2</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ICSharpZip\ICSharpCode.SharpZLib.csproj">
+      <Project>{0E7413FF-EB9E-4714-ACF2-BE3A6A7B2FFD}</Project>
+      <Name>ICSharpCode.SharpZLib</Name>
+    </ProjectReference>
     <ProjectReference Include="..\pDisplay\pDisplay.csproj">
       <Project>{35DD3087-E395-4D33-950F-F807AE4BDED0}</Project>
       <Name>pDisplay</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\pHistory\pHistory.csproj">
+      <Project>{A001ABE2-7186-4CEB-B86D-4C4A16E55787}</Project>
+      <Name>pHistory</Name>
     </ProjectReference>
     <ProjectReference Include="..\pNeuron\pNeuron.csproj">
       <Project>{464378C1-CF56-486D-84F0-DC564A99901D}</Project>

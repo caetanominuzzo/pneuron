@@ -423,8 +423,8 @@ namespace primeira.pNeuron.Core
 
         public void SetDomain()
         {
-            if (NeuralNetwork.DomainProvider != null)
-                NeuralNetwork.DomainProvider.Domain();
+            //if (NeuralNetwork.DomainProvider != null)
+            //    NeuralNetwork.DomainProvider.Domain();
         }
 
         public new string ToString()

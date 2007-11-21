@@ -466,9 +466,23 @@ namespace primeira.pNeuron
 
         }
 
+        public void Render(System.Xml.XmlWriter writer)
+        {
+            DataSet ds = new DataSet(System.IO.Path.GetFileNameWithoutExtension(Filename));
+            internalSave(ds);
+            ds.WriteXml(writer);
+        }
+
         private void internalSave()
         {
             DataSet ds = new DataSet(System.IO.Path.GetFileNameWithoutExtension(Filename));
+            internalSave(ds);
+            ds.WriteXml(Filename);
+        }
+
+        private void internalSave(DataSet ds)
+        {
+            
 
             DataTable tNeurons = new DataTable("pNeuron");
             tNeurons.Columns.Add("Name", typeof(String));
@@ -546,9 +560,6 @@ namespace primeira.pNeuron
             {
                 ds.Tables.Add(p.fDataTable);
             }
-
-            ds.WriteXml(Filename);
-
            
         }
 

@@ -37,7 +37,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Form1.cs">
-      <SubType>Form</SubType>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
@@ -68,6 +68,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\pHistory\pHistory.csproj">
+      <Project>{A001ABE2-7186-4CEB-B86D-4C4A16E55787}</Project>
+      <Name>pHistory</Name>
+    </ProjectReference>
     <ProjectReference Include="..\pShortcutManager\pShortcutManager.csproj">
       <Project>{2B504E3B-8A90-4DB0-9AD3-49C2C2D844C7}</Project>
       <Name>pShortcutManager</Name>

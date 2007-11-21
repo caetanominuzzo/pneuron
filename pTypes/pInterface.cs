@@ -14,6 +14,6 @@ namespace primeira.pTypes
     public interface IpDomainProvider
     {
         DialogResult ShowDialog();
-        string DomainName;
+        //string DomainName;
     }
 }

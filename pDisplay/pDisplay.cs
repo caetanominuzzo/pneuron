@@ -111,7 +111,6 @@ namespace primeira.pNeuron
         /// </summary>
         private IpSmartZoom m_smartZoom = null;
 
-        private Timer tmMove = new Timer();
 
         public IpSmartZoom SmartZoom
         {
@@ -198,37 +197,10 @@ namespace primeira.pNeuron
 
             AutoScroll = false;
 
-            tmMove.Tick += new EventHandler(tmMove_Tick);
             
 
 
         }
-
-        void tmMove_Tick(object sender, EventArgs e)
-        {
-
-            Point p = this.PointToClient(MousePosition);
-
-            if (!this.Bounds.Contains(p))
-            {
-                tmMove.Stop();
-                return;
-            }
-
-            //Afinar variaveis
-            if (p.X > Width - 50)
-                OffsetX -=  Convert.ToInt32((5f/(Width - p.X))*5);
-
-            if (p.X < 50)
-                OffsetX += 5;
-            if (p.Y > Height - 50)
-                OffsetY -= 5;
-            if (p.Y < 50)
-                OffsetY += 5;
-
-            Invalidate();
-        }
-
 
 
         #endregion
@@ -597,12 +569,6 @@ namespace primeira.pNeuron
 
         protected override void OnMouseMove(MouseEventArgs e)
         {
-
-            #region Moving Canvas
-
-            tmMove.Start();
-
-            #endregion
 
             RefreshHighlight();
 
@@ -1128,6 +1094,19 @@ namespace primeira.pNeuron
                     Convert.ToInt32(height)));
 
         }
+
+        public Rectangle MaskRectangle()
+        {
+            int width = Magnify(UnMagnify(Width, Zoom), 0.1f);
+            int height = Magnify(UnMagnify(Height, Zoom), 0.1f);
+
+            return new Rectangle(
+                    Convert.ToInt32(-Magnify(UnMagnify(OffsetX, Zoom), 0.1f) - width / 2 + SmartZoom.ZoomSize.Width / 2),
+                    Convert.ToInt32(-Magnify(UnMagnify(OffsetY, Zoom), 0.1f) - height / 2 + SmartZoom.ZoomSize.Height / 2),
+                    Convert.ToInt32(width),
+                    Convert.ToInt32(height));
+        }
+            
 
         private void DrawLines(PaintEventArgs e)
         {

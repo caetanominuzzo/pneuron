@@ -29,12 +29,12 @@ namespace primeira.pNeuron
             this.components = new System.ComponentModel.Container();
             this.tcDesigner = new System.Windows.Forms.TabControl();
             this.tbDesigner = new System.Windows.Forms.TabPage();
-            this.MainDisplay = new primeira.pNeuron.pDisplay();
             this.tspDesigner = new System.Windows.Forms.ToolStrip();
             this.tspAutoRefresh = new System.Windows.Forms.ToolStripButton();
             this.tbTrainingSet = new System.Windows.Forms.TabPage();
-            this.pTrainingSetEditor1 = new primeira.pNeuron.pTrainingSetEditor();
             this.refreshTimer = new System.Windows.Forms.Timer(this.components);
+            this.MainDisplay = new primeira.pNeuron.pDisplay();
+            this.pTrainingSetEditor1 = new primeira.pNeuron.pTrainingSetEditor();
             this.tcDesigner.SuspendLayout();
             this.tbDesigner.SuspendLayout();
             this.tspDesigner.SuspendLayout();
@@ -51,7 +51,7 @@ namespace primeira.pNeuron
             this.tcDesigner.Margin = new System.Windows.Forms.Padding(0);
             this.tcDesigner.Name = "tcDesigner";
             this.tcDesigner.SelectedIndex = 0;
-            this.tcDesigner.Size = new System.Drawing.Size(744, 422);
+            this.tcDesigner.Size = new System.Drawing.Size(742, 420);
             this.tcDesigner.TabIndex = 1;
             this.tcDesigner.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.tcDesigner_Selecting);
             // 
@@ -62,31 +62,10 @@ namespace primeira.pNeuron
             this.tbDesigner.Location = new System.Drawing.Point(4, 4);
             this.tbDesigner.Name = "tbDesigner";
             this.tbDesigner.Padding = new System.Windows.Forms.Padding(3);
-            this.tbDesigner.Size = new System.Drawing.Size(736, 396);
+            this.tbDesigner.Size = new System.Drawing.Size(734, 394);
             this.tbDesigner.TabIndex = 0;
             this.tbDesigner.Text = "Network Designer";
             this.tbDesigner.UseVisualStyleBackColor = true;
-            // 
-            // MainDisplay
-            // 
-            this.MainDisplay.BackColor = System.Drawing.Color.White;
-            this.MainDisplay.Bezier = true;
-            this.MainDisplay.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.MainDisplay.CtrlKey = false;
-            this.MainDisplay.Cursor = System.Windows.Forms.Cursors.Default;
-            this.MainDisplay.DisplayStatus = primeira.pNeuron.pDisplay.pDisplayStatus.Idle;
-            this.MainDisplay.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.MainDisplay.Location = new System.Drawing.Point(3, 28);
-            this.MainDisplay.Name = "MainDisplay";
-            this.MainDisplay.Offset = new System.Drawing.Point(0, 0);
-            this.MainDisplay.OffsetX = 0;
-            this.MainDisplay.OffsetY = 0;
-            this.MainDisplay.ShiftKey = false;
-            this.MainDisplay.Size = new System.Drawing.Size(730, 365);
-            this.MainDisplay.SmartZoom = null;
-            this.MainDisplay.TabIndex = 0;
-            this.MainDisplay.Zoom = 1F;
-            this.MainDisplay.OnNetworkChange += new primeira.pNeuron.pDisplay.NetworkChangeDelegate(this.MainDisplay_OnNetworkChange);
             // 
             // tspDesigner
             // 
@@ -94,7 +73,7 @@ namespace primeira.pNeuron
             this.tspAutoRefresh});
             this.tspDesigner.Location = new System.Drawing.Point(3, 3);
             this.tspDesigner.Name = "tspDesigner";
-            this.tspDesigner.Size = new System.Drawing.Size(730, 25);
+            this.tspDesigner.Size = new System.Drawing.Size(728, 25);
             this.tspDesigner.TabIndex = 1;
             this.tspDesigner.Text = "toolStrip2";
             // 
@@ -118,6 +97,32 @@ namespace primeira.pNeuron
             this.tbTrainingSet.Text = "Training Sets";
             this.tbTrainingSet.UseVisualStyleBackColor = true;
             // 
+            // refreshTimer
+            // 
+            this.refreshTimer.Interval = 500;
+            this.refreshTimer.Tick += new System.EventHandler(this.refreshTimer_Tick);
+            // 
+            // MainDisplay
+            // 
+            this.MainDisplay.BackColor = System.Drawing.Color.White;
+            this.MainDisplay.Bezier = true;
+            this.MainDisplay.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.MainDisplay.CtrlKey = false;
+            this.MainDisplay.Cursor = System.Windows.Forms.Cursors.Default;
+            this.MainDisplay.DisplayStatus = primeira.pNeuron.pDisplay.pDisplayStatus.Idle;
+            this.MainDisplay.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.MainDisplay.Location = new System.Drawing.Point(3, 28);
+            this.MainDisplay.Name = "MainDisplay";
+            this.MainDisplay.Offset = new System.Drawing.Point(0, 0);
+            this.MainDisplay.OffsetX = 0;
+            this.MainDisplay.OffsetY = 0;
+            this.MainDisplay.ShiftKey = false;
+            this.MainDisplay.Size = new System.Drawing.Size(728, 363);
+            this.MainDisplay.SmartZoom = null;
+            this.MainDisplay.TabIndex = 0;
+            this.MainDisplay.Zoom = 1F;
+            this.MainDisplay.OnNetworkChange += new primeira.pNeuron.pDisplay.NetworkChangeDelegate(this.MainDisplay_OnNetworkChange);
+            // 
             // pTrainingSetEditor1
             // 
             this.pTrainingSetEditor1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -126,14 +131,9 @@ namespace primeira.pNeuron
             this.pTrainingSetEditor1.Size = new System.Drawing.Size(730, 390);
             this.pTrainingSetEditor1.TabIndex = 0;
             // 
-            // refreshTimer
-            // 
-            this.refreshTimer.Interval = 500;
-            this.refreshTimer.Tick += new System.EventHandler(this.refreshTimer_Tick);
-            // 
             // pDocument
             // 
-            this.ClientSize = new System.Drawing.Size(744, 422);
+            this.ClientSize = new System.Drawing.Size(742, 420);
             this.Controls.Add(this.tcDesigner);
             this.KeyPreview = true;
             this.Name = "pDocument";

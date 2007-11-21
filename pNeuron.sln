@@ -27,7 +27,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pShortcutManager", "pShortc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pRandom", "pRandom\pRandom.csproj", "{2152137D-D8FD-4E9C-8732-D8C1F2E03156}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pShortcutManagerTest", "pShortcutManagerTest\pShortcutManagerTest.csproj", "{93F66C3D-CB0A-452F-B996-EC75EC80C3AE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pTests", "pShortcutManagerTest\pTests.csproj", "{93F66C3D-CB0A-452F-B996-EC75EC80C3AE}"
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "pNeuronIDE-Installer", "pNeuronIDE-Installer\pNeuronIDE-Installer.vdproj", "{58CA1961-624A-4FF2-9BEF-C46F310D2608}"
 EndProject
@@ -36,6 +36,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pTypes", "pTypes\pTypes.csproj", "{4140FF72-5794-4641-A111-ADC558FBA370}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pXMLEditor", "pXMLEditor\pXMLEditor.csproj", "{D7559921-4D49-43AC-9588-569F58C4D7AE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pHistory", "pHistory\pHistory.csproj", "{A001ABE2-7186-4CEB-B86D-4C4A16E55787}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ICSharpCode.SharpZLib", "ICSharpZip\ICSharpCode.SharpZLib.csproj", "{0E7413FF-EB9E-4714-ACF2-BE3A6A7B2FFD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -90,6 +94,14 @@ Global
 		{D7559921-4D49-43AC-9588-569F58C4D7AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7559921-4D49-43AC-9588-569F58C4D7AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D7559921-4D49-43AC-9588-569F58C4D7AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A001ABE2-7186-4CEB-B86D-4C4A16E55787}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A001ABE2-7186-4CEB-B86D-4C4A16E55787}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A001ABE2-7186-4CEB-B86D-4C4A16E55787}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A001ABE2-7186-4CEB-B86D-4C4A16E55787}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E7413FF-EB9E-4714-ACF2-BE3A6A7B2FFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E7413FF-EB9E-4714-ACF2-BE3A6A7B2FFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E7413FF-EB9E-4714-ACF2-BE3A6A7B2FFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E7413FF-EB9E-4714-ACF2-BE3A6A7B2FFD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
