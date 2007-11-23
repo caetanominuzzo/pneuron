@@ -311,7 +311,7 @@ namespace primeira.pNeuron
 
                     }
                 }
-                return;
+     //           return;
                 if (OnNetworkChange != null)
                     OnNetworkChange(pChangeEscope.DisplayStatus);
             }

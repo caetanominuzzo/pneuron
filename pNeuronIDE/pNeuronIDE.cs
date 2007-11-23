@@ -16,8 +16,7 @@ using pShortcutManager;
 using System.Text.RegularExpressions;
 using primeira.pTypes;
 using primeira.pHistory;
-using ICSharpCode.SharpZipLib.Zip;
-using ICSharpCode.SharpZipLib.Core;
+using Aced.Compression;
 
 
 namespace primeira.pNeuron
@@ -311,23 +310,38 @@ namespace primeira.pNeuron
 
             if ((escope & pChangeEscope.File) == pChangeEscope.File)
             {
-                pHistoryItem p = new pHistoryItem();
-                p.Cache = fmSmartZoom.PreferedCache();
-                
-                StringBuilder sb = new StringBuilder();
-                System.Xml.XmlWriter xml = System.Xml.XmlWriter.Create(sb);
-                ActiveDocument.Render(xml);
-                p.Content = sb.ToString();
+                if (fmHistory.pHistoryManager.LowGranulatity)
+                {
+                    pHistoryItem p = new pHistoryItem();
+                    p.Cache = fmSmartZoom.PreferedCache();
 
-                
+                    StringBuilder sb = new StringBuilder();
+                    System.Xml.XmlWriter xml = System.Xml.XmlWriter.Create(sb);
+                    ActiveDocument.Render(xml);
 
 
-                fmHistory.pHistoryManager.AddHistory(p);
+                    byte[] _originalData = StrToByteArray(sb.ToString());
+                    int _originalSize = _originalData.Length;
+                    byte[] _compData;
+
+                    _compData = AcedDeflator.Instance.Compress(_originalData, 0, _originalSize,
+                        AcedCompressionLevel.Normal, 0, 0);
+
+                    p.Content = _compData;
+
+                    fmHistory.pHistoryManager.AddHistory(p);
+                }
             }
 
             PaintMiniMap(escope);
         }
 
+        //TODO:MOVE
+        private static byte[] StrToByteArray(string str)
+        {
+            System.Text.ASCIIEncoding encoding = new System.Text.ASCIIEncoding();
+            return encoding.GetBytes(str);
+        }
        
         private pDocument AddDocument()
         {
