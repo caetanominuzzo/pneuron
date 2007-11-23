@@ -10,10 +10,28 @@ namespace primeira.pHistory
     {
 
         private List<pHistoryItem> m_history = new List<pHistoryItem>();
+        private Timer m_undoGranularity;
+        private bool m_lowGranulatity = false;
+
+        public bool LowGranulatity
+        {
+            get {
+                    if (m_undoGranularity.Enabled)
+                    {
+                        m_undoGranularity.Stop();
+                        m_undoGranularity.Start();
+                    }
+
+                    return !m_undoGranularity.Enabled;
+                }
+        }
 
 
         public pHistoryManager()
         {
+            m_undoGranularity = new Timer();
+            m_undoGranularity.Tick += new EventHandler(m_undoGranularity_Tick);
+            m_undoGranularity.Interval = 2000;
 
             DrawMode = System.Windows.Forms.TreeViewDrawMode.OwnerDrawText;
             Indent = 15;
@@ -24,10 +42,13 @@ namespace primeira.pHistory
             
         }
 
+        void m_undoGranularity_Tick(object sender, EventArgs e)
+        {
+            m_undoGranularity.Stop();
+        }
+
         protected override void OnDrawNode(DrawTreeNodeEventArgs e)
         {
-            //if (!paint)
-            //    return;
 
             if (!e.Node.IsVisible)
                 return;
@@ -62,6 +83,8 @@ namespace primeira.pHistory
 
         public void AddHistory(pHistoryItem HistoryItem)
         {
+            m_undoGranularity.Start();
+
             TreeNode n = new TreeNode();
             n.Tag = HistoryItem;
             Nodes.Add(n);
