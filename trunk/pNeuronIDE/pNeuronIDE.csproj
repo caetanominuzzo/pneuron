@@ -218,9 +218,9 @@
       <Project>{2BB5EE82-0735-40B7-B376-D5F6103C4B1B}</Project>
       <Name>ExtendedWebBrowser2</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ICSharpZip\ICSharpCode.SharpZLib.csproj">
-      <Project>{0E7413FF-EB9E-4714-ACF2-BE3A6A7B2FFD}</Project>
-      <Name>ICSharpCode.SharpZLib</Name>
+    <ProjectReference Include="..\MemCompressor\MemCompressor.csproj">
+      <Project>{A9552C3C-7106-4000-8A3B-74C811D4E55F}</Project>
+      <Name>MemCompressor</Name>
     </ProjectReference>
     <ProjectReference Include="..\pDisplay\pDisplay.csproj">
       <Project>{35DD3087-E395-4D33-950F-F807AE4BDED0}</Project>

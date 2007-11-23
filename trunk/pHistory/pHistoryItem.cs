@@ -14,9 +14,9 @@ namespace primeira.pHistory
             get { return m_guid; }
         }
 
-        string m_content;
+        byte[] m_content;
 
-        public string Content
+        public byte[] Content
         {
             get { return m_content; }
             set { m_content = value; }
