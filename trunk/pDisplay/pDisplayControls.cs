@@ -13,6 +13,12 @@ namespace primeira.pNeuron
     partial class  pDisplay
     {
 
+        public void Clear()
+        {
+            pPanels.Clear();
+            Invalidate();
+        }
+
         #region Select/Highlight
 
         /// <summary>

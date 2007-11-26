@@ -590,50 +590,76 @@ namespace primeira.pNeuron
             } 
         }
 
+        public void Revert(Stream stream)
+        {
+            MainDisplay.Clear();
+            internalLoad(stream);
+        }
+
         private void internalLoad(string aFilename)
         {
+
             DataSet ds = new DataSet();
             ds.ReadXml(aFilename);
 
+            internalLoad(ds);
+        }
+
+        private void internalLoad(Stream stream)
+        {
+
+            DataSet ds = new DataSet();
+
+            StreamReader s = new StreamReader(stream);
+
+
+            stream.Position = 0;
+            ds.ReadXml(stream);
+
+            internalLoad(ds);
+        }
+
+        private void internalLoad(DataSet ds)
+        {
             if (ds.Tables["pNeuron"] != null)
-            foreach (DataRow r in ds.Tables["pNeuron"].Rows)
-            {
-                pPanel p = MainDisplay.Add();
-                p.Neuron.Bias.Weight = Convert.ToDouble(r["Bias"], System.Globalization.CultureInfo.InvariantCulture);
-                p.Name = r["Name"].ToString();
-                p.Location = new Point( Convert.ToInt32(r["LocationX"]), Convert.ToInt32(r["LocationY"]) );
-                MainDisplay.Add(p, Convert.ToInt32(r["Group"]));
-
-                (p.Neuron).Value = Convert.ToDouble(r["Value"], System.Globalization.CultureInfo.InvariantCulture);
-                (p.Neuron).NeuronType = (NeuronTypes)Convert.ToInt16(r["NeuronType"]);
-
-                p.Neuron.NeuralNetwork.AdjustGeneratorID(p.Name);
-            }
-
-            if(ds.Tables["pSynapse"]!=null)
-            foreach (DataRow r in ds.Tables["pSynapse"].Rows)
-            {
-                foreach (pPanel p in MainDisplay.pPanels)
+                foreach (DataRow r in ds.Tables["pNeuron"].Rows)
                 {
-                    if (r["NeuronOut"].ToString() == p.Name)
+                    pPanel p = MainDisplay.Add();
+                    p.Neuron.Bias.Weight = Convert.ToDouble(r["Bias"], System.Globalization.CultureInfo.InvariantCulture);
+                    p.Name = r["Name"].ToString();
+                    p.Location = new Point(Convert.ToInt32(r["LocationX"]), Convert.ToInt32(r["LocationY"]));
+                    MainDisplay.Add(p, Convert.ToInt32(r["Group"]));
+
+                    (p.Neuron).Value = Convert.ToDouble(r["Value"], System.Globalization.CultureInfo.InvariantCulture);
+                    (p.Neuron).NeuronType = (NeuronTypes)Convert.ToInt16(r["NeuronType"]);
+
+                    p.Neuron.NeuralNetwork.AdjustGeneratorID(p.Name);
+                }
+
+            if (ds.Tables["pSynapse"] != null)
+                foreach (DataRow r in ds.Tables["pSynapse"].Rows)
+                {
+                    foreach (pPanel p in MainDisplay.pPanels)
                     {
-                        foreach (pPanel pp in MainDisplay.pPanels)
+                        if (r["NeuronOut"].ToString() == p.Name)
                         {
-                            if (r["NeuronIn"].ToString() == pp.Name)
+                            foreach (pPanel pp in MainDisplay.pPanels)
                             {
-                                pp.Neuron.AddSynapse(p.Neuron,  Convert.ToDouble(r["Value"], System.Globalization.CultureInfo.InvariantCulture));
-                                break;
+                                if (r["NeuronIn"].ToString() == pp.Name)
+                                {
+                                    pp.Neuron.AddSynapse(p.Neuron, Convert.ToDouble(r["Value"], System.Globalization.CultureInfo.InvariantCulture));
+                                    break;
+                                }
                             }
+                            break;
                         }
-                        break;
                     }
                 }
-            }
 
-            
+
             pTrainingSetEditor1.ClearItems();
 
-            foreach(DataTable dt in ds.Tables)
+            foreach (DataTable dt in ds.Tables)
             {
                 if (dt.TableName == "pSynapse" || dt.TableName == "pNeuron")
                     continue;
@@ -644,10 +670,6 @@ namespace primeira.pNeuron
 
                 fpTrainingSet[fpTrainingSet.Count - 1].LoadDataTable();
             }
-
-
-
-
         }
 
         #endregion

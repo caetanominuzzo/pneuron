@@ -50,6 +50,8 @@ namespace primeira.pNeuron
             this.pHistoryManager.ShowRootLines = false;
             this.pHistoryManager.Size = new System.Drawing.Size(292, 241);
             this.pHistoryManager.TabIndex = 0;
+            this.pHistoryManager.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(pHistoryManager_NodeMouseDoubleClick);
+            this.pHistoryManager.KeyUp += new System.Windows.Forms.KeyEventHandler(pHistoryManager_KeyUp);
             // 
             // toolStrip1
             // 
@@ -86,6 +88,10 @@ namespace primeira.pNeuron
             this.PerformLayout();
 
         }
+
+
+
+
 
         #endregion
 
