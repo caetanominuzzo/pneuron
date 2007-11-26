@@ -84,6 +84,7 @@ namespace primeira.pNeuron
 
                 fmProperty.cbItems.Items.Clear();
 
+                fmHistory.pHistoryManager.Nodes.Clear();
                 
 
                 if (fActiveDocument != null)
@@ -103,6 +104,8 @@ namespace primeira.pNeuron
                     }
 
                     PaintMiniMap(pChangeEscope.ZoomDisplayCache);
+
+                    fmHistory.pHistoryManager.Load(fActiveDocument.History);
 
                     
                     //m_shortcut.LoadFromForm(fActiveDocument.MainDisplay);
@@ -189,6 +192,11 @@ namespace primeira.pNeuron
             this.Invoke(new Assinc(delegate { fmProperty.Refresh(); }));
 
             
+        }
+
+        public List<pHistoryItem> ActiveDocumentHistory()
+        {
+            return fmHistory.pHistoryManager.GetHistory();
         }
 
         /// <summary>
@@ -339,6 +347,7 @@ namespace primeira.pNeuron
         {
             pHistoryItem p = new pHistoryItem();
             p.Cache = fmSmartZoom.PreferedCache();
+            
 
             StringBuilder sb = new StringBuilder();
             System.Xml.XmlWriter xml = System.Xml.XmlWriter.Create(sb);
