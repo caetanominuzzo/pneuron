@@ -92,6 +92,15 @@ namespace primeira.pHistory
 
         }
 
+        public List<pHistoryItem> GetHistory()
+        {
+            List<pHistoryItem> history = new List<pHistoryItem>();
+            foreach(TreeNode n in Nodes)
+            {
+                history.Add((pHistoryItem)n.Tag);
+            }
+            return history;
+        }
 
         public void AddHistory(pHistoryItem HistoryItem)
         {
@@ -102,9 +111,16 @@ namespace primeira.pHistory
             n.Tag = HistoryItem;
             Nodes.Add(n);
            
-          
+        }
 
-
+        public void Load(pHistoryItem[] history)
+        {
+            foreach (pHistoryItem p in history)
+            {
+                TreeNode n = new TreeNode();
+                n.Tag = p;
+                Nodes.Add(n);
+            }
         }
 
         private pHistoryItem GetItem(TreeNode node)

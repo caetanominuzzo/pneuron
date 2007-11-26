@@ -13,6 +13,7 @@ using System.Threading;
 using primeira.pRandom;
 using primeira.pTypes;
 using primeira.Components;
+using primeira.pHistory;
 
 namespace primeira.pNeuron
 {
@@ -39,6 +40,9 @@ namespace primeira.pNeuron
 
         private bool m_defaultNamedFile = true;
 
+        private List<pHistoryItem> m_histoty = new List<pHistoryItem>();
+
+
 
 
         private string m_defaultItemName = "New Training Set";
@@ -53,6 +57,14 @@ namespace primeira.pNeuron
         #endregion
 
         #region Properties
+
+        public pHistoryItem[] History
+        {
+            get
+            {
+                return m_histoty.ToArray();
+            }
+        }
 
         public bool Modificated
         {
@@ -560,7 +572,29 @@ namespace primeira.pNeuron
             {
                 ds.Tables.Add(p.fDataTable);
             }
-           
+
+            DataTable tHistory = new DataTable("pHistory");
+            tHistory.Columns.Add("Cache", typeof(Bitmap));
+            tHistory.Columns.Add("Content", typeof(byte[]));
+            tHistory.Columns.Add("Email", typeof(string));
+            tHistory.Columns.Add("Modified", typeof(DateTime));
+
+
+            foreach(pHistoryItem p in Parent.ActiveDocumentHistory())
+            {
+                tHistory.Rows.Add(
+                    new object[]
+                    {
+                        p.Cache,
+                        p.Content,
+                        p.Email,
+                        p.Modified
+                    
+                    } );
+            }
+
+            ds.Tables.Add(tHistory);
+            
         }
 
         public new DialogResult Load()
@@ -657,11 +691,24 @@ namespace primeira.pNeuron
                 }
 
 
+            if (ds.Tables["pHistory"] != null)
+                foreach (DataRow r in ds.Tables["pHistory"].Rows)
+                {
+                    pHistoryItem p = new pHistoryItem();
+                    p.Cache = (Bitmap)r["Cache"];
+                    p.Content = (byte[]) r["Content"];
+                    p.Email = r["Email"].ToString();
+                //    p.Modified = Convert.ToDateTime(r["Modified"].ToString());
+
+                    m_histoty.Add(p);
+
+                }
+
             pTrainingSetEditor1.ClearItems();
 
             foreach (DataTable dt in ds.Tables)
             {
-                if (dt.TableName == "pSynapse" || dt.TableName == "pNeuron")
+                if (dt.TableName == "pSynapse" || dt.TableName == "pNeuron" || dt.TableName == "pHistory")
                     continue;
 
                 fpTrainingSet.Add(new pTrainingSet(this.MainDisplay.pPanels, dt.TableName, this.Filename));
