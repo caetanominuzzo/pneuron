@@ -25,6 +25,7 @@ namespace primeira.pNeuron
 
     public partial class pNeuronIDE : Form
     {
+
         public static int TRUE_RANDOM_GENERATOR_CACHE = 20;
         public  int PLOTTER_REFRESH_INTERVAL = 750;
         public  int STATUS_REFRESH_INTERVAL = 750;
@@ -104,7 +105,7 @@ namespace primeira.pNeuron
                     PaintMiniMap(pChangeEscope.ZoomDisplayCache);
 
                     
-                    m_shortcut.LoadFromForm(fActiveDocument.MainDisplay);
+                    //m_shortcut.LoadFromForm(fActiveDocument.MainDisplay);
                 }
                 else
                     m_shortcut.RemoveEscope("Design");
@@ -312,24 +313,7 @@ namespace primeira.pNeuron
             {
                 if (fmHistory.pHistoryManager.LowGranulatity)
                 {
-                    pHistoryItem p = new pHistoryItem();
-                    p.Cache = fmSmartZoom.PreferedCache();
-
-                    StringBuilder sb = new StringBuilder();
-                    System.Xml.XmlWriter xml = System.Xml.XmlWriter.Create(sb);
-                    ActiveDocument.Render(xml);
-
-
-                    byte[] _originalData = StrToByteArray(sb.ToString());
-                    int _originalSize = _originalData.Length;
-                    byte[] _compData;
-
-                    _compData = AcedDeflator.Instance.Compress(_originalData, 0, _originalSize,
-                        AcedCompressionLevel.Normal, 0, 0);
-
-                    p.Content = _compData;
-
-                    fmHistory.pHistoryManager.AddHistory(p);
+                    fmHistory.pHistoryManager.AddHistory(GiveMeAHistory());
                 }
             }
 
@@ -341,6 +325,53 @@ namespace primeira.pNeuron
         {
             System.Text.ASCIIEncoding encoding = new System.Text.ASCIIEncoding();
             return encoding.GetBytes(str);
+        }
+
+        private static string ByteArrayToStr(byte[] bytes)
+        {
+            System.Text.ASCIIEncoding encoding = new System.Text.ASCIIEncoding();
+            return encoding.GetString(bytes);
+        }
+
+
+
+        public pHistoryItem GiveMeAHistory()
+        {
+            pHistoryItem p = new pHistoryItem();
+            p.Cache = fmSmartZoom.PreferedCache();
+
+            StringBuilder sb = new StringBuilder();
+            System.Xml.XmlWriter xml = System.Xml.XmlWriter.Create(sb);
+            ActiveDocument.Render(xml);
+
+
+            byte[] _originalData = StrToByteArray(sb.ToString());
+            int _originalSize = _originalData.Length;
+            byte[] _compData;
+
+            _compData = AcedDeflator.Instance.Compress(_originalData, 0, _originalSize,
+                AcedCompressionLevel.Normal, 0, 0);
+
+            p.Content = _compData;
+
+            return p;
+        }
+
+        public Stream GiveMeAHistory(byte[] history)
+        {
+            byte[] dest = AcedInflator.Instance.Decompress(history, 0, 0, 0);
+            Stream s = new MemoryStream();
+
+         // s.Write(dest, 0, dest.Length);
+            TextWriter ts = new StreamWriter(s, Encoding.Unicode);
+            ts.Write(ByteArrayToStr(dest));
+
+            ts.Flush();
+            
+            //ts.Write();
+            //ts.f
+            
+            return s;
         }
        
         private pDocument AddDocument()
@@ -484,6 +515,8 @@ namespace primeira.pNeuron
             fmHistory.Show(dockPanel, DockState.DockLeft);
             fmHistory.DockTo(fmToolbox.Pane, DockStyle.Bottom, 0);
 
+            fmHistory.RevertHistory += new pHistory.RevertHistoryDelegate(fmHistory_RevertHistory);
+
             
             
             //fmLogger.Show(dockPanel, DockState.Document);
@@ -498,6 +531,11 @@ namespace primeira.pNeuron
             #if RELEASE
               this.Invoke(new Assinc(Splasher.CloseSplash));
             #endif
+        }
+
+        void fmHistory_RevertHistory(byte[] history)
+        {
+            ActiveDocument.Revert(GiveMeAHistory(history));
         }
 
         private void pNeuronIDE_FormClosing(object sender, FormClosingEventArgs e)

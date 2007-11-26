@@ -5,7 +5,7 @@
     <LocationX>150</LocationX>
     <LocationY>100</LocationY>
     <Group>1</Group>
-    <Bias>0.087304727214996117</Bias>
+    <Bias>0.09338848064345702</Bias>
     <Value>0.5</Value>
     <NeuronType>0</NeuronType>
   </pNeuron>
@@ -14,7 +14,7 @@
     <LocationX>150</LocationX>
     <LocationY>150</LocationY>
     <Group>1</Group>
-    <Bias>0.20909900693646585</Bias>
+    <Bias>0.16090718571138904</Bias>
     <Value>0.5</Value>
     <NeuronType>0</NeuronType>
   </pNeuron>
@@ -23,8 +23,8 @@
     <LocationX>300</LocationX>
     <LocationY>50</LocationY>
     <Group>2</Group>
-    <Bias>0.0032606483452304489</Bias>
-    <Value>0.94702201442000189</Value>
+    <Bias>0.30722824219019534</Bias>
+    <Value>0.029151348262012346</Value>
     <NeuronType>1</NeuronType>
   </pNeuron>
   <pNeuron>
@@ -32,8 +32,8 @@
     <LocationX>300</LocationX>
     <LocationY>100</LocationY>
     <Group>2</Group>
-    <Bias>0.94285986057615834</Bias>
-    <Value>0.9136329081128991</Value>
+    <Bias>0.55630231581456135</Bias>
+    <Value>0.95057214456806094</Value>
     <NeuronType>1</NeuronType>
   </pNeuron>
   <pNeuron>
@@ -41,8 +41,8 @@
     <LocationX>300</LocationX>
     <LocationY>150</LocationY>
     <Group>2</Group>
-    <Bias>0.82869763757507209</Bias>
-    <Value>0.001799358599589803</Value>
+    <Bias>0.013614402624598891</Bias>
+    <Value>0.34553590503707715</Value>
     <NeuronType>1</NeuronType>
   </pNeuron>
   <pNeuron>
@@ -50,8 +50,8 @@
     <LocationX>300</LocationX>
     <LocationY>200</LocationY>
     <Group>2</Group>
-    <Bias>0.69395090532207437</Bias>
-    <Value>0.98932331402078832</Value>
+    <Bias>0.85874359908455222</Bias>
+    <Value>0.9450379389947049</Value>
     <NeuronType>1</NeuronType>
   </pNeuron>
   <pNeuron>
@@ -59,8 +59,8 @@
     <LocationX>300</LocationX>
     <LocationY>250</LocationY>
     <Group>2</Group>
-    <Bias>0.51239178726095325</Bias>
-    <Value>0.029325520988701642</Value>
+    <Bias>0.52525824425986889</Bias>
+    <Value>0.22889971169356635</Value>
     <NeuronType>1</NeuronType>
   </pNeuron>
   <pNeuron>
@@ -68,8 +68,8 @@
     <LocationX>300</LocationX>
     <LocationY>300</LocationY>
     <Group>2</Group>
-    <Bias>0.79583754380971083</Bias>
-    <Value>0.00074871144071011054</Value>
+    <Bias>0.69110442776750047</Bias>
+    <Value>0.88661083095051774</Value>
     <NeuronType>1</NeuronType>
   </pNeuron>
   <pNeuron>
@@ -77,8 +77,8 @@
     <LocationX>450</LocationX>
     <LocationY>75</LocationY>
     <Group>3</Group>
-    <Bias>0.89155768598036733</Bias>
-    <Value>0.00054268918845874379</Value>
+    <Bias>0.35348411060566276</Bias>
+    <Value>0.99511884548512775</Value>
     <NeuronType>1</NeuronType>
   </pNeuron>
   <pNeuron>
@@ -86,8 +86,8 @@
     <LocationX>450</LocationX>
     <LocationY>150</LocationY>
     <Group>3</Group>
-    <Bias>0.88100883359136473</Bias>
-    <Value>5.8951837208569688E-06</Value>
+    <Bias>0.94983679146963951</Bias>
+    <Value>0.00015829356526045693</Value>
     <NeuronType>1</NeuronType>
   </pNeuron>
   <pNeuron>
@@ -95,7 +95,7 @@
     <LocationX>450</LocationX>
     <LocationY>225</LocationY>
     <Group>3</Group>
-    <Bias>0.57845818837101481</Bias>
+    <Bias>0.085039602166525841</Bias>
     <Value>0.21808402557565029</Value>
     <NeuronType>1</NeuronType>
   </pNeuron>
@@ -104,7 +104,7 @@
     <LocationX>625</LocationX>
     <LocationY>300</LocationY>
     <Group>4</Group>
-    <Bias>0.23569613473289466</Bias>
+    <Bias>0.97365642477462833</Bias>
     <Value>0.73105822208962545</Value>
     <NeuronType>2</NeuronType>
   </pNeuron>
@@ -113,326 +113,326 @@
     <LocationX>625</LocationX>
     <LocationY>350</LocationY>
     <Group>4</Group>
-    <Bias>0.96009201088924523</Bias>
-    <Value>3.8497602214990433E-155</Value>
+    <Bias>0.1208338458653697</Bias>
+    <Value>0.38069615173716864</Value>
     <NeuronType>2</NeuronType>
   </pNeuron>
   <pNeuron>
     <Name>13</Name>
     <LocationX>50</LocationX>
-    <LocationY>450</LocationY>
+    <LocationY>350</LocationY>
     <Group>5</Group>
-    <Bias>0.0042375763897959037</Bias>
-    <Value>0.61046143955635468</Value>
+    <Bias>0.31190280537675263</Bias>
+    <Value>0.62271733047512512</Value>
     <NeuronType>3</NeuronType>
   </pNeuron>
   <pNeuron>
     <Name>14</Name>
     <LocationX>100</LocationX>
-    <LocationY>500</LocationY>
+    <LocationY>400</LocationY>
     <Group>5</Group>
-    <Bias>0.78916090204807043</Bias>
-    <Value>0.68856798064367031</Value>
+    <Bias>0.9978910512281074</Bias>
+    <Value>0.81957639905222612</Value>
     <NeuronType>3</NeuronType>
   </pNeuron>
   <pNeuron>
     <Name>15</Name>
     <LocationX>100</LocationX>
-    <LocationY>325</LocationY>
+    <LocationY>250</LocationY>
     <Group>6</Group>
-    <Bias>0.23952582955338334</Bias>
-    <Value>0.044011555650907495</Value>
+    <Bias>0.22022589911717264</Bias>
+    <Value>0.58384535303447349</Value>
     <NeuronType>1</NeuronType>
   </pNeuron>
   <pNeuron>
     <Name>16</Name>
     <LocationX>150</LocationX>
-    <LocationY>375</LocationY>
+    <LocationY>275</LocationY>
     <Group>6</Group>
-    <Bias>0.42234638399553781</Bias>
-    <Value>0.04018571628582851</Value>
+    <Bias>0.42897151709951997</Bias>
+    <Value>0.56756484486599579</Value>
     <NeuronType>1</NeuronType>
   </pNeuron>
   <pNeuron>
     <Name>17</Name>
     <LocationX>200</LocationX>
-    <LocationY>425</LocationY>
+    <LocationY>325</LocationY>
     <Group>6</Group>
-    <Bias>0.3542526189024805</Bias>
-    <Value>0.03959931034440977</Value>
+    <Bias>0.77429170150975313</Bias>
+    <Value>0.68949413356337141</Value>
     <NeuronType>1</NeuronType>
   </pNeuron>
   <pNeuron>
     <Name>18</Name>
     <LocationX>250</LocationX>
-    <LocationY>475</LocationY>
+    <LocationY>375</LocationY>
     <Group>6</Group>
-    <Bias>0.900340395001853</Bias>
-    <Value>0.034280823936465574</Value>
+    <Bias>0.49208547942903147</Bias>
+    <Value>0.62929189931891116</Value>
     <NeuronType>1</NeuronType>
   </pNeuron>
   <pNeuron>
     <Name>19</Name>
     <LocationX>200</LocationX>
-    <LocationY>325</LocationY>
+    <LocationY>225</LocationY>
     <Group>8</Group>
-    <Bias>0.99615313717916287</Bias>
-    <Value>0.65711476723265</Value>
+    <Bias>0.38687502890214093</Bias>
+    <Value>0.970060184568356</Value>
     <NeuronType>1</NeuronType>
   </pNeuron>
   <pNeuron>
     <Name>20</Name>
     <LocationX>250</LocationX>
-    <LocationY>375</LocationY>
+    <LocationY>275</LocationY>
     <Group>8</Group>
-    <Bias>0.986597839736658</Bias>
-    <Value>0.29180779643459182</Value>
+    <Bias>0.85646481339655112</Bias>
+    <Value>0.97370471253799518</Value>
     <NeuronType>1</NeuronType>
   </pNeuron>
   <pSynapse>
     <NeuronOut>Xi</NeuronOut>
     <NeuronIn>2</NeuronIn>
-    <Value>0.69929583216984559</Value>
+    <Value>12.207442581452714</Value>
   </pSynapse>
   <pSynapse>
     <NeuronOut>Yi</NeuronOut>
     <NeuronIn>2</NeuronIn>
-    <Value>0.013614402624598891</Value>
+    <Value>15.099691498289507</Value>
   </pSynapse>
   <pSynapse>
     <NeuronOut>2</NeuronOut>
     <NeuronIn>8</NeuronIn>
-    <Value>-18.42921310869178</Value>
+    <Value>-13.28466387967401</Value>
   </pSynapse>
   <pSynapse>
     <NeuronOut>2</NeuronOut>
     <NeuronIn>9</NeuronIn>
-    <Value>7.517096112055909</Value>
+    <Value>20.437121283142442</Value>
   </pSynapse>
   <pSynapse>
     <NeuronOut>3</NeuronOut>
     <NeuronIn>8</NeuronIn>
-    <Value>17.94309130694954</Value>
+    <Value>2.1090503838520633</Value>
   </pSynapse>
   <pSynapse>
     <NeuronOut>3</NeuronOut>
     <NeuronIn>9</NeuronIn>
-    <Value>-28.119996429209124</Value>
+    <Value>-3.853572581512192</Value>
   </pSynapse>
   <pSynapse>
     <NeuronOut>4</NeuronOut>
     <NeuronIn>8</NeuronIn>
-    <Value>-14.301708338222515</Value>
+    <Value>0.42877743304953686</Value>
   </pSynapse>
   <pSynapse>
     <NeuronOut>4</NeuronOut>
     <NeuronIn>9</NeuronIn>
-    <Value>3.7854696463338784</Value>
+    <Value>-1.3297871819465517</Value>
   </pSynapse>
   <pSynapse>
     <NeuronOut>5</NeuronOut>
     <NeuronIn>8</NeuronIn>
-    <Value>-7.2522580166114672</Value>
+    <Value>2.2190040305971896</Value>
   </pSynapse>
   <pSynapse>
     <NeuronOut>5</NeuronOut>
     <NeuronIn>9</NeuronIn>
-    <Value>5.7985939517175433</Value>
+    <Value>-3.430276380235409</Value>
   </pSynapse>
   <pSynapse>
     <NeuronOut>6</NeuronOut>
     <NeuronIn>8</NeuronIn>
-    <Value>-0.43209668183641131</Value>
+    <Value>0.15038179421706704</Value>
   </pSynapse>
   <pSynapse>
     <NeuronOut>6</NeuronOut>
     <NeuronIn>9</NeuronIn>
-    <Value>-12.894035697562329</Value>
+    <Value>-1.1455179095814092</Value>
   </pSynapse>
   <pSynapse>
     <NeuronOut>7</NeuronOut>
     <NeuronIn>8</NeuronIn>
-    <Value>-10.25399354135574</Value>
+    <Value>1.1363090861354179</Value>
   </pSynapse>
   <pSynapse>
     <NeuronOut>7</NeuronOut>
     <NeuronIn>9</NeuronIn>
-    <Value>-2.9044585321088423</Value>
+    <Value>-2.9700853664366993</Value>
   </pSynapse>
   <pSynapse>
     <NeuronOut>8</NeuronOut>
     <NeuronIn>Yo</NeuronIn>
-    <Value>-355.64006920419888</Value>
+    <Value>-13.285737437778444</Value>
   </pSynapse>
   <pSynapse>
     <NeuronOut>9</NeuronOut>
     <NeuronIn>Yo</NeuronIn>
-    <Value>-920.83207955604826</Value>
+    <Value>281.34505634438358</Value>
   </pSynapse>
   <pSynapse>
     <NeuronOut>10</NeuronOut>
     <NeuronIn>Yo</NeuronIn>
-    <Value>-4.134939609363399</Value>
+    <Value>59.485716373017013</Value>
   </pSynapse>
   <pSynapse>
     <NeuronOut>Xo</NeuronOut>
     <NeuronIn>13</NeuronIn>
-    <Value>0.60872674622048006</Value>
+    <Value>0.21479691295642261</Value>
   </pSynapse>
   <pSynapse>
     <NeuronOut>Xo</NeuronOut>
     <NeuronIn>14</NeuronIn>
-    <Value>0.0058436803546937557</Value>
+    <Value>0.548733313357799</Value>
   </pSynapse>
   <pSynapse>
     <NeuronOut>Yo</NeuronOut>
     <NeuronIn>13</NeuronIn>
-    <Value>0.2703787806771597</Value>
+    <Value>0.086153239517544042</Value>
   </pSynapse>
   <pSynapse>
     <NeuronOut>Yo</NeuronOut>
     <NeuronIn>14</NeuronIn>
-    <Value>0.37726857717021767</Value>
+    <Value>0.30649572904524197</Value>
   </pSynapse>
   <pSynapse>
     <NeuronOut>13</NeuronOut>
     <NeuronIn>15</NeuronIn>
-    <Value>19.539265734789719</Value>
+    <Value>0.1793785384515377</Value>
   </pSynapse>
   <pSynapse>
     <NeuronOut>13</NeuronOut>
     <NeuronIn>16</NeuronIn>
-    <Value>19.218062320167856</Value>
+    <Value>-0.12002010184202146</Value>
   </pSynapse>
   <pSynapse>
     <NeuronOut>13</NeuronOut>
     <NeuronIn>17</NeuronIn>
-    <Value>20.12523806988764</Value>
+    <Value>0.39121240014891057</Value>
   </pSynapse>
   <pSynapse>
     <NeuronOut>13</NeuronOut>
     <NeuronIn>18</NeuronIn>
-    <Value>20.010343483115</Value>
+    <Value>0.52722986239648284</Value>
   </pSynapse>
   <pSynapse>
     <NeuronOut>14</NeuronOut>
     <NeuronIn>15</NeuronIn>
-    <Value>-22.100747661154603</Value>
+    <Value>0.0040019300605232252</Value>
   </pSynapse>
   <pSynapse>
     <NeuronOut>14</NeuronOut>
     <NeuronIn>16</NeuronIn>
-    <Value>-22.213012726155831</Value>
+    <Value>-0.10044503887425145</Value>
   </pSynapse>
   <pSynapse>
     <NeuronOut>14</NeuronOut>
     <NeuronIn>17</NeuronIn>
-    <Value>-22.950314275320029</Value>
+    <Value>-0.27068722730917028</Value>
   </pSynapse>
   <pSynapse>
     <NeuronOut>14</NeuronOut>
     <NeuronIn>18</NeuronIn>
-    <Value>-23.822576417431225</Value>
+    <Value>-0.35747476219763125</Value>
   </pSynapse>
   <pSynapse>
     <NeuronOut>15</NeuronOut>
     <NeuronIn>19</NeuronIn>
-    <Value>-1.6697141303405017</Value>
+    <Value>2.4825084848046219</Value>
   </pSynapse>
   <pSynapse>
     <NeuronOut>15</NeuronOut>
     <NeuronIn>20</NeuronIn>
-    <Value>-10.60484085384706</Value>
+    <Value>1.8624984543808978</Value>
   </pSynapse>
   <pSynapse>
     <NeuronOut>16</NeuronOut>
     <NeuronIn>19</NeuronIn>
-    <Value>-2.051661917061633</Value>
+    <Value>0.032911140039205575</Value>
   </pSynapse>
   <pSynapse>
     <NeuronOut>16</NeuronOut>
     <NeuronIn>20</NeuronIn>
-    <Value>-11.45194601871505</Value>
+    <Value>-0.025323289484284771</Value>
   </pSynapse>
   <pSynapse>
     <NeuronOut>17</NeuronOut>
     <NeuronIn>19</NeuronIn>
-    <Value>-1.5487932186632338</Value>
+    <Value>1.3389789756158781</Value>
   </pSynapse>
   <pSynapse>
     <NeuronOut>17</NeuronOut>
     <NeuronIn>20</NeuronIn>
-    <Value>-11.422574681649662</Value>
+    <Value>1.2056077302822612</Value>
   </pSynapse>
   <pSynapse>
     <NeuronOut>18</NeuronOut>
     <NeuronIn>19</NeuronIn>
-    <Value>-3.9306417295330154</Value>
+    <Value>1.1042808561902917</Value>
   </pSynapse>
   <pSynapse>
     <NeuronOut>18</NeuronOut>
     <NeuronIn>20</NeuronIn>
-    <Value>-14.411363928557508</Value>
+    <Value>1.3455763013760664</Value>
   </pSynapse>
   <pSynapse>
     <NeuronOut>19</NeuronOut>
     <NeuronIn>2</NeuronIn>
-    <Value>1.1629238127516146</Value>
+    <Value>-9.3720254842135127</Value>
   </pSynapse>
   <pSynapse>
     <NeuronOut>19</NeuronOut>
     <NeuronIn>3</NeuronIn>
-    <Value>-0.48593771679010633</Value>
+    <Value>1.2216663225191404</Value>
   </pSynapse>
   <pSynapse>
     <NeuronOut>19</NeuronOut>
     <NeuronIn>4</NeuronIn>
-    <Value>-4.8278310919816407</Value>
+    <Value>-0.27593690984543118</Value>
   </pSynapse>
   <pSynapse>
     <NeuronOut>19</NeuronOut>
     <NeuronIn>5</NeuronIn>
-    <Value>6.1235602643804858</Value>
+    <Value>1.13217582072766</Value>
   </pSynapse>
   <pSynapse>
     <NeuronOut>19</NeuronOut>
     <NeuronIn>6</NeuronIn>
-    <Value>-12.250251631649032</Value>
+    <Value>-1.1000544763014821</Value>
   </pSynapse>
   <pSynapse>
     <NeuronOut>19</NeuronOut>
     <NeuronIn>7</NeuronIn>
-    <Value>-4.0842677556504459</Value>
+    <Value>0.348505922952861</Value>
   </pSynapse>
   <pSynapse>
     <NeuronOut>20</NeuronOut>
     <NeuronIn>2</NeuronIn>
-    <Value>-0.54776664919254647</Value>
+    <Value>-8.57772872771025</Value>
   </pSynapse>
   <pSynapse>
     <NeuronOut>20</NeuronOut>
     <NeuronIn>3</NeuronIn>
-    <Value>-1.384359370838725</Value>
+    <Value>1.2390840653262996</Value>
   </pSynapse>
   <pSynapse>
     <NeuronOut>20</NeuronOut>
     <NeuronIn>4</NeuronIn>
-    <Value>-13.626169477739564</Value>
+    <Value>-0.40694767901554058</Value>
   </pSynapse>
   <pSynapse>
     <NeuronOut>20</NeuronOut>
     <NeuronIn>5</NeuronIn>
-    <Value>-0.65784928043492974</Value>
+    <Value>0.90203648511833079</Value>
   </pSynapse>
   <pSynapse>
     <NeuronOut>20</NeuronOut>
     <NeuronIn>6</NeuronIn>
-    <Value>13.844745117219334</Value>
+    <Value>-0.69721974293883082</Value>
   </pSynapse>
   <pSynapse>
     <NeuronOut>20</NeuronOut>
     <NeuronIn>7</NeuronIn>
-    <Value>-18.190126442869165</Value>
+    <Value>1.0425534843392179</Value>
   </pSynapse>
   <tictactoy>
     <Xi>-1</Xi>
@@ -488,4 +488,58 @@
     <Xo>-1</Xo>
     <Yo>0</Yo>
   </tictactoy>
+  <New_x0020_Training_x0020_Set4>
+    <Xi>-1</Xi>
+    <Yi>-1</Yi>
+    <Xo>1</Xo>
+    <Yo>0</Yo>
+  </New_x0020_Training_x0020_Set4>
+  <New_x0020_Training_x0020_Set4>
+    <Xi>-1</Xi>
+    <Yi>1</Yi>
+    <Xo>-1</Xo>
+    <Yo>0</Yo>
+  </New_x0020_Training_x0020_Set4>
+  <New_x0020_Training_x0020_Set4>
+    <Xi>0</Xi>
+    <Yi>0</Yi>
+    <Xo>1</Xo>
+    <Yo>1</Yo>
+  </New_x0020_Training_x0020_Set4>
+  <New_x0020_Training_x0020_Set4>
+    <Xi>1</Xi>
+    <Yi>-1</Yi>
+    <Xo>0</Xo>
+    <Yo>-1</Yo>
+  </New_x0020_Training_x0020_Set4>
+  <New_x0020_Training_x0020_Set4>
+    <Xi>INF</Xi>
+    <Yi>0</Yi>
+    <Xo>0</Xo>
+    <Yo>0</Yo>
+  </New_x0020_Training_x0020_Set4>
+  <New_x0020_Training_x0020_Set4>
+    <Xi>-1</Xi>
+    <Yi>1</Yi>
+    <Xo>0</Xo>
+    <Yo>-1</Yo>
+  </New_x0020_Training_x0020_Set4>
+  <New_x0020_Training_x0020_Set4>
+    <Xi>1</Xi>
+    <Yi>1</Yi>
+    <Xo>0</Xo>
+    <Yo>1</Yo>
+  </New_x0020_Training_x0020_Set4>
+  <New_x0020_Training_x0020_Set4>
+    <Xi>0</Xi>
+    <Yi>0</Yi>
+    <Xo>1</Xo>
+    <Yo>-1</Yo>
+  </New_x0020_Training_x0020_Set4>
+  <New_x0020_Training_x0020_Set4>
+    <Xi>-1</Xi>
+    <Yi>-1</Yi>
+    <Xo>-1</Xo>
+    <Yo>0</Yo>
+  </New_x0020_Training_x0020_Set4>
 </TicTacToy2>
