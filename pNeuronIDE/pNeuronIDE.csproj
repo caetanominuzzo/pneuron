@@ -195,7 +195,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="pSmartZoom.cs">
-      <SubType>Form</SubType>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="pSmartZoom.Designer.cs">
       <DependentUpon>pSmartZoom.cs</DependentUpon>
@@ -261,6 +261,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="pNeuronIDE2.ico" />
+    <Content Include="Third Part.txt" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
