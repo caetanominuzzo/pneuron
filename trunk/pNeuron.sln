@@ -13,14 +13,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pDisplay", "pDisplay\pDispl
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{90AA91D6-14A9-4E44-97D7-F46678C32B1D}"
 	ProjectSection(SolutionItems) = preProject
-		Glossary.txt = Glossary.txt
-		pBlog.txt = pBlog.txt
-		pNeuronIDE.profilerresults = pNeuronIDE.profilerresults
-		Starter Guide - XOR Problem 1.txt = Starter Guide - XOR Problem 1.txt
-		tictac2.xml = tictac2.xml
-		TODO.txt = TODO.txt
-		Welcome.txt = Welcome.txt
-		XOR.xml = XOR.xml
+		Solution Items\teste.xml = Solution Items\teste.xml
+		Solution Items\tictac2.xml = Solution Items\tictac2.xml
+		Solution Items\TicTacToy.pne = Solution Items\TicTacToy.pne
+		Solution Items\TicTacToy2.pne = Solution Items\TicTacToy2.pne
+		Solution Items\TODO.txt = Solution Items\TODO.txt
+		Solution Items\Welcome.txt = Solution Items\Welcome.txt
+		Solution Items\XOR.pne = Solution Items\XOR.pne
+		Solution Items\XOR.xml = Solution Items\XOR.xml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pShortcutManager", "pShortcutManager\pShortcutManager.csproj", "{2B504E3B-8A90-4DB0-9AD3-49C2C2D844C7}"
@@ -40,6 +40,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pHistory", "pHistory\pHistory.csproj", "{A001ABE2-7186-4CEB-B86D-4C4A16E55787}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemCompressor", "MemCompressor\MemCompressor.csproj", "{A9552C3C-7106-4000-8A3B-74C811D4E55F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Third Party", "Third Party", "{F9E12859-C7EF-4E73-89DE-945780542DFD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -103,6 +105,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2BB5EE82-0735-40B7-B376-D5F6103C4B1B} = {F9E12859-C7EF-4E73-89DE-945780542DFD}
+		{A9552C3C-7106-4000-8A3B-74C811D4E55F} = {F9E12859-C7EF-4E73-89DE-945780542DFD}
+		{C75532C4-765B-418E-B09B-46D36B2ABDB1} = {F9E12859-C7EF-4E73-89DE-945780542DFD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		VisualSVNWorkingCopyRoot = 
