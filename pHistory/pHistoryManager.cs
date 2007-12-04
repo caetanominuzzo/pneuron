@@ -21,25 +21,18 @@ namespace primeira.pHistory
 
         private bool m_loadingDontPaint = false;
 
-        public bool LowGranulatity
+
+        public void LowGranulatity()
         {
-            get {
-                    if (m_undoGranularity.Enabled)
-                    {
-                        m_undoGranularity.Stop();
-                        m_undoGranularity.Start();
-                    }
-
-                    return !m_undoGranularity.Enabled;
-                }
+            m_undoGranularity.Stop();
+            m_undoGranularity.Start();
         }
-
 
         public pHistoryManager()
         {
             m_undoGranularity = new Timer();
             m_undoGranularity.Tick += new EventHandler(m_undoGranularity_Tick);
-            m_undoGranularity.Interval = 500;
+            m_undoGranularity.Interval = 1000;
 
             DrawMode = System.Windows.Forms.TreeViewDrawMode.OwnerDrawAll;
             ItemHeight = 35;

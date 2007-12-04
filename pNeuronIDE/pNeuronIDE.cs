@@ -12,7 +12,6 @@ using primeira.pRandom;
 using primeira.pNeuron;
 using System.Diagnostics;
 using System.Threading;
-using pShortcutManager;
 using System.Text.RegularExpressions;
 using primeira.pTypes;
 using primeira.pHistory;
@@ -27,8 +26,8 @@ namespace primeira.pNeuron
     {
 
         public static int TRUE_RANDOM_GENERATOR_CACHE = 20;
-        public  int PLOTTER_REFRESH_INTERVAL = 750;
-        public  int STATUS_REFRESH_INTERVAL = 750;
+        public int PLOTTER_REFRESH_INTERVAL = 750;
+        public int STATUS_REFRESH_INTERVAL = 750;
 
         #region Fields
 
@@ -39,17 +38,11 @@ namespace primeira.pNeuron
         private pLogger fmLogger = new pLogger();
         private pSmartZoom fmSmartZoom = new pSmartZoom();
         private pHistory fmHistory = new pHistory();
-
         private List<pDocument> fmDocuments = new List<pDocument>();
         private pDocument fActiveDocument;
-
         private pTrueRandomGenerator m_cache = new pTrueRandomGenerator(TRUE_RANDOM_GENERATOR_CACHE);
-
         private Stopwatch m_refreshCycleTimer;
-
         private System.Threading.Timer tmRefresh;
-
-        private pShortcutManager.pShortcutManager m_shortcut = new pShortcutManager.pShortcutManager();
 
         #endregion
 
@@ -90,8 +83,6 @@ namespace primeira.pNeuron
                 if (fActiveDocument != null)
                 {
 
-                    m_shortcut.AddEscope("Design");
-
                     fmProperty.cbItems.Items.Add(fActiveDocument.MainDisplay.Net);
 
                     fmProperty.Property.SelectedObject = fActiveDocument.MainDisplay.Net;
@@ -106,12 +97,8 @@ namespace primeira.pNeuron
                     PaintMiniMap(pChangeEscope.ZoomDisplayCache);
 
                     fmHistory.pHistoryManager.Load(fActiveDocument.History);
-
-                    
-                    //m_shortcut.LoadFromForm(fActiveDocument.MainDisplay);
                 }
-                else
-                    m_shortcut.RemoveEscope("Design");
+              
 
                 
 
@@ -320,12 +307,7 @@ namespace primeira.pNeuron
 
             if ((escope & pChangeEscope.File) == pChangeEscope.File)
             {
-                if (fmHistory.pHistoryManager.LowGranulatity)
-                {
-                    pHistoryItem p = GiveMeAHistory();
-                    fmHistory.pHistoryManager.AddHistory(p);
-                    fActiveDocument.AddHistory(p);
-                }
+                fmHistory.pHistoryManager.LowGranulatity();
             }
 
             PaintMiniMap(escope);
@@ -521,6 +503,7 @@ namespace primeira.pNeuron
 
         public pNeuronIDE()
         {
+            
 
             InitializeComponent();
             fmPlotter.Show(dockPanel, DockState.DockBottom);
@@ -586,6 +569,11 @@ namespace primeira.pNeuron
             SaveDocumentAs();
         }
 
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
         //VIEW
         private void propertyWindowToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -643,14 +631,6 @@ namespace primeira.pNeuron
             learninRate.Text = "Learning Rate: " + trackLR.Value;
             ActiveDocument.MainDisplay.Net.LearningRate = trackLR.Value;
         }
-
-        
-
-
-
-
-
-       
 
 
 
