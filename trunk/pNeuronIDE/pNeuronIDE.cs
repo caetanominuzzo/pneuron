@@ -309,7 +309,13 @@ namespace primeira.pNeuron
                     fmProperty.cbItems.SelectedItem = fmProperty.Property.SelectedObjects[0];
                 }
                 else
+                {
+                    if (ActiveDocument.MainDisplay.SelectedpPanels.Length >= 2)
+                    {
+                        fmProperty.Property.SelectedObjects = ActiveDocument.MainDisplay.SelectedpPanels;
+                    } else
                     fmProperty.cbItems.SelectedItem = null;
+                }
             }
 
             if ((escope & pChangeEscope.File) == pChangeEscope.File)
