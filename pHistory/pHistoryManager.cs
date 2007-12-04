@@ -19,7 +19,7 @@ namespace primeira.pHistory
         private List<pHistoryItem> m_history = new List<pHistoryItem>();
         private Timer m_undoGranularity;
 
-      
+        private bool m_loadingDontPaint = false;
 
         public bool LowGranulatity
         {
@@ -41,11 +41,12 @@ namespace primeira.pHistory
             m_undoGranularity.Tick += new EventHandler(m_undoGranularity_Tick);
             m_undoGranularity.Interval = 500;
 
-            DrawMode = System.Windows.Forms.TreeViewDrawMode.OwnerDrawText;
+            DrawMode = System.Windows.Forms.TreeViewDrawMode.OwnerDrawAll;
             ItemHeight = 35;
             ShowLines = false;
             ShowPlusMinus = false;
             ShowRootLines = false;
+            HotTracking = false;
             
         }
 
@@ -63,10 +64,13 @@ namespace primeira.pHistory
         protected override void OnDrawNode(DrawTreeNodeEventArgs e)
         {
 
+            if (m_loadingDontPaint)
+                return;
+
             if (!e.Node.IsVisible)
                 return;
 
-            Rectangle rc = new Rectangle(e.Bounds.X, e.Bounds.Y, this.ClientRectangle.Width, e.Bounds.Height);
+            Rectangle rc = new Rectangle(e.Bounds.X - 2, e.Bounds.Y, this.ClientRectangle.Width, e.Bounds.Height);
 
             e.Graphics.FillRectangle(SystemBrushes.Window, rc);
 
@@ -89,6 +93,24 @@ namespace primeira.pHistory
             p.Y += 16;
             e.Graphics.DrawString(h.Modified.ToShortTimeString(), SystemFonts.DialogFont, SystemBrushes.ButtonShadow, p);
 
+            rc.Width -= 2;
+            rc.X += 1;
+            rc.Height -= 1;
+
+            if (e.Node.IsSelected)
+            {
+                e.Graphics.DrawRectangle(new Pen(Color.FromArgb(50, Color.Blue)), rc);
+                e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(10, Color.Blue)), rc);
+                
+            }
+
+//            if (e.Node.IsExpanded)
+//            {
+//                e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(10, Color.Blue)), rc);
+//                e.Graphics.DrawRectangle(new Pen(Color.FromArgb(50, Color.Blue)), rc);
+
+////                e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(10, Color.Blue)), rc);
+//            }
 
         }
 
@@ -104,23 +126,38 @@ namespace primeira.pHistory
 
         public void AddHistory(pHistoryItem HistoryItem)
         {
-        
             m_undoGranularity.Start();
-
             TreeNode n = new TreeNode();
             n.Tag = HistoryItem;
             Nodes.Add(n);
-           
+        }
+
+        public void AddHistory(pHistoryItem[] History)
+        {
+
+            foreach (pHistoryItem p in History)
+            {
+                AddHistory(p);
+            }
         }
 
         public void Load(pHistoryItem[] history)
         {
+            m_loadingDontPaint = true;
+            Scrollable = false;
+
             foreach (pHistoryItem p in history)
             {
                 TreeNode n = new TreeNode();
                 n.Tag = p;
                 Nodes.Add(n);
             }
+
+            
+            Scrollable = true;
+            m_loadingDontPaint = false;
+
+            Invalidate();
         }
 
         private pHistoryItem GetItem(TreeNode node)

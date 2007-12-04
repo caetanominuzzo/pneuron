@@ -481,18 +481,18 @@ namespace primeira.pNeuron
         public void Render(System.Xml.XmlWriter writer)
         {
             DataSet ds = new DataSet(System.IO.Path.GetFileNameWithoutExtension(Filename));
-            internalSave(ds);
+            internalSave(ds, false);
             ds.WriteXml(writer);
         }
 
         private void internalSave()
         {
             DataSet ds = new DataSet(System.IO.Path.GetFileNameWithoutExtension(Filename));
-            internalSave(ds);
+            internalSave(ds, true);
             ds.WriteXml(Filename);
         }
 
-        private void internalSave(DataSet ds)
+        private void internalSave(DataSet ds, bool SaveHistory)
         {
             
 
@@ -573,27 +573,54 @@ namespace primeira.pNeuron
                 ds.Tables.Add(p.fDataTable);
             }
 
-            DataTable tHistory = new DataTable("pHistory");
-            tHistory.Columns.Add("Cache", typeof(Bitmap));
-            tHistory.Columns.Add("Content", typeof(byte[]));
-            tHistory.Columns.Add("Email", typeof(string));
-            tHistory.Columns.Add("Modified", typeof(DateTime));
-
-
-            foreach(pHistoryItem p in Parent.ActiveDocumentHistory())
+            if (SaveHistory)
             {
-                tHistory.Rows.Add(
-                    new object[]
+                DataTable tHistory = new DataTable("pHistory");
+                tHistory.Columns.Add("Cache", typeof(byte[]));
+                tHistory.Columns.Add("Content", typeof(byte[]));
+                tHistory.Columns.Add("Email", typeof(string));
+                tHistory.Columns.Add("Modified", typeof(DateTime));
+
+                ImageConverter imageConverter = new System.Drawing.ImageConverter();
+
+                foreach (pHistoryItem p in m_histoty)
+                {
+
+                    //Stream cache = new MemoryStream();
+
+                    //p.Cache.Save(cache, System.Drawing.Imaging.ImageFormat.Jpeg);
+
+                    //cache.Position = 0;
+
+                    //byte[] bytes = new byte[cache.Length];
+                    //int numBytesToRead = (int) cache.Length;
+                    //int numBytesRead = 0;
+                    //while (numBytesToRead > 0) 
+                    //{
+                    //    int n = cache.Read(bytes, numBytesRead, numBytesToRead);
+                    //    if (n==0)
+                    //        break;
+                    //    numBytesRead += n;
+                    //    numBytesToRead -= n;
+                    //}
+                    //cache.Close();
+
+
+
+                 tHistory.Rows.Add(
+                        new object[]
                     {
-                        p.Cache,
+                        imageConverter.ConvertTo(p.Cache, typeof(byte[])),
                         p.Content,
                         p.Email,
                         p.Modified
                     
-                    } );
+                    });
+                }
+                ds.Tables.Add(tHistory);
             }
 
-            ds.Tables.Add(tHistory);
+            
             
         }
 
@@ -628,6 +655,9 @@ namespace primeira.pNeuron
         {
             MainDisplay.Clear();
             internalLoad(stream);
+
+            if (OnNetworkChange != null)
+                OnNetworkChange(pChangeEscope.ZoomDisplayCache); 
         }
 
         private void internalLoad(string aFilename)
@@ -655,6 +685,9 @@ namespace primeira.pNeuron
 
         private void internalLoad(DataSet ds)
         {
+
+            MainDisplay.Net.ResetGeneratorId();
+
             if (ds.Tables["pNeuron"] != null)
                 foreach (DataRow r in ds.Tables["pNeuron"].Rows)
                 {
@@ -695,10 +728,18 @@ namespace primeira.pNeuron
                 foreach (DataRow r in ds.Tables["pHistory"].Rows)
                 {
                     pHistoryItem p = new pHistoryItem();
-                    p.Cache = (Bitmap)r["Cache"];
-                    p.Content = (byte[]) r["Content"];
+
+
+                    ImageConverter imageConverter = new System.Drawing.ImageConverter();
+
+
+                    p.Cache = (Bitmap)imageConverter.ConvertFrom(Convert.FromBase64String(r["Cache"].ToString()));
+
+
+
+                    p.Content = Convert.FromBase64String(r["Content"].ToString());
                     p.Email = r["Email"].ToString();
-                //    p.Modified = Convert.ToDateTime(r["Modified"].ToString());
+                    p.Modified = Convert.ToDateTime(r["Modified"].ToString());
 
                     m_histoty.Add(p);
 
@@ -722,6 +763,11 @@ namespace primeira.pNeuron
         #endregion
 
         #region Public Methods
+
+        public void AddHistory(pHistoryItem history)
+        {
+            m_histoty.Add(history);
+        }
 
         public void StartTrain()
         {
@@ -891,6 +937,8 @@ namespace primeira.pNeuron
 
 
         #endregion
+
+
 
     }
 

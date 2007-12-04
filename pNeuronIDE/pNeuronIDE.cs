@@ -194,11 +194,6 @@ namespace primeira.pNeuron
             
         }
 
-        public List<pHistoryItem> ActiveDocumentHistory()
-        {
-            return fmHistory.pHistoryManager.GetHistory();
-        }
-
         /// <summary>
         /// To avoid the "Please create a new document or open one before try this." message on ActiveDocument property.
         /// </summary>
@@ -321,7 +316,9 @@ namespace primeira.pNeuron
             {
                 if (fmHistory.pHistoryManager.LowGranulatity)
                 {
-                    fmHistory.pHistoryManager.AddHistory(GiveMeAHistory());
+                    pHistoryItem p = GiveMeAHistory();
+                    fmHistory.pHistoryManager.AddHistory(p);
+                    fActiveDocument.AddHistory(p);
                 }
             }
 
@@ -329,13 +326,13 @@ namespace primeira.pNeuron
         }
 
         //TODO:MOVE
-        private static byte[] StrToByteArray(string str)
+        public static byte[] StrToByteArray(string str)
         {
             System.Text.ASCIIEncoding encoding = new System.Text.ASCIIEncoding();
             return encoding.GetBytes(str);
         }
 
-        private static string ByteArrayToStr(byte[] bytes)
+        public static string ByteArrayToStr(byte[] bytes)
         {
             System.Text.ASCIIEncoding encoding = new System.Text.ASCIIEncoding();
             return encoding.GetString(bytes);
@@ -362,6 +359,8 @@ namespace primeira.pNeuron
                 AcedCompressionLevel.Normal, 0, 0);
 
             p.Content = _compData;
+
+            p.Email = "caetanominuzzo@gmail.com";
 
             return p;
         }

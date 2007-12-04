@@ -35,6 +35,7 @@ namespace primeira.pHistory
         public DateTime Modified
         {
             get { return m_modified; }
+            set { m_modified = value; }
         }
 
         string m_email;
