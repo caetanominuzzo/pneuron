@@ -29,29 +29,11 @@ namespace primeira.pNeuron
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(pHistory));
-            this.pHistoryManager = new primeira.pHistory.pHistoryManager();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.btClear = new System.Windows.Forms.ToolStripButton();
+            this.pHistoryManager = new primeira.pHistory.pHistoryManager();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // pHistoryManager
-            // 
-            this.pHistoryManager.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pHistoryManager.DrawMode = System.Windows.Forms.TreeViewDrawMode.OwnerDrawText;
-            this.pHistoryManager.FullRowSelect = true;
-            this.pHistoryManager.HotTracking = true;
-            this.pHistoryManager.Indent = 15;
-            this.pHistoryManager.ItemHeight = 35;
-            this.pHistoryManager.Location = new System.Drawing.Point(0, 25);
-            this.pHistoryManager.Name = "pHistoryManager";
-            this.pHistoryManager.ShowLines = false;
-            this.pHistoryManager.ShowPlusMinus = false;
-            this.pHistoryManager.ShowRootLines = false;
-            this.pHistoryManager.Size = new System.Drawing.Size(292, 241);
-            this.pHistoryManager.TabIndex = 0;
-            this.pHistoryManager.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(pHistoryManager_NodeMouseDoubleClick);
-            this.pHistoryManager.KeyUp += new System.Windows.Forms.KeyEventHandler(pHistoryManager_KeyUp);
             // 
             // toolStrip1
             // 
@@ -71,6 +53,23 @@ namespace primeira.pNeuron
             this.btClear.Size = new System.Drawing.Size(52, 22);
             this.btClear.Text = "&Clear";
             this.btClear.Click += new System.EventHandler(this.btClear_Click);
+            // 
+            // pHistoryManager
+            // 
+            this.pHistoryManager.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pHistoryManager.DrawMode = System.Windows.Forms.TreeViewDrawMode.OwnerDrawText;
+            this.pHistoryManager.FullRowSelect = true;
+            this.pHistoryManager.Indent = 15;
+            this.pHistoryManager.ItemHeight = 35;
+            this.pHistoryManager.Location = new System.Drawing.Point(0, 25);
+            this.pHistoryManager.Name = "pHistoryManager";
+            this.pHistoryManager.ShowLines = false;
+            this.pHistoryManager.ShowPlusMinus = false;
+            this.pHistoryManager.ShowRootLines = false;
+            this.pHistoryManager.Size = new System.Drawing.Size(292, 241);
+            this.pHistoryManager.TabIndex = 0;
+            this.pHistoryManager.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.pHistoryManager_NodeMouseDoubleClick);
+            this.pHistoryManager.KeyUp += new System.Windows.Forms.KeyEventHandler(this.pHistoryManager_KeyUp);
             // 
             // pHistory
             // 

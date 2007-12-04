@@ -897,15 +897,17 @@ namespace primeira.pNeuron.Core
 
         public void AdjustGeneratorID(string Id)
         {
-            try
+            int i;
+            if (int.TryParse(Id, out i))
             {
-                int i = int.Parse(Id);
                 if (i >= m_generatorID)
                     m_generatorID = i++;
             }
-            catch
-            {
-            }
+        }
+
+        public void ResetGeneratorId()
+        {
+            m_generatorID = 0;
         }
 
         private double CalculateGlobalError()
