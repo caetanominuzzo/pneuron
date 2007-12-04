@@ -56,10 +56,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="fmBrowser.cs">
+    <Compile Include="Tools\fmBrowser.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="fmBrowser.Designer.cs">
+    <Compile Include="Tools\fmBrowser.Designer.cs">
       <DependentUpon>fmBrowser.cs</DependentUpon>
     </Compile>
     <Compile Include="fmImportFromSQL.cs">
@@ -68,10 +68,10 @@
     <Compile Include="fmImportFromSQL.Designer.cs">
       <DependentUpon>fmImportFromSQL.cs</DependentUpon>
     </Compile>
-    <Compile Include="fmInputData.cs">
+    <Compile Include="Tools\fmInputData.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="fmInputData.Designer.cs">
+    <Compile Include="Tools\fmInputData.Designer.cs">
       <DependentUpon>fmInputData.cs</DependentUpon>
     </Compile>
     <Compile Include="fmSplash.cs">
@@ -80,10 +80,10 @@
     <Compile Include="fmSplash.Designer.cs">
       <DependentUpon>fmSplash.cs</DependentUpon>
     </Compile>
-    <Compile Include="fmTrainingSetName.cs">
+    <Compile Include="Tools\fmTrainingSetName.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="fmTrainingSetName.Designer.cs">
+    <Compile Include="Tools\fmTrainingSetName.Designer.cs">
       <DependentUpon>fmTrainingSetName.cs</DependentUpon>
     </Compile>
     <Compile Include="IpDocks.cs">
@@ -95,13 +95,13 @@
     <Compile Include="pDocument.Designer.cs">
       <DependentUpon>pDocument.cs</DependentUpon>
     </Compile>
-    <Compile Include="pHistory.cs">
+    <Compile Include="Tools\pHistory.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="pHistory.Designer.cs">
+    <Compile Include="Tools\pHistory.Designer.cs">
       <DependentUpon>pHistory.cs</DependentUpon>
     </Compile>
-    <Compile Include="pLogger.cs">
+    <Compile Include="Tools\pLogger.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="pNeuronIDE.cs">
@@ -110,15 +110,15 @@
     <Compile Include="pNeuronIDE.Designer.cs">
       <DependentUpon>pNeuronIDE.cs</DependentUpon>
     </Compile>
-    <Compile Include="pPlotter.cs">
+    <Compile Include="Tools\pPlotter.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="pProperty.cs">
+    <Compile Include="Tools\pProperty.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="fmBrowser.resx">
+    <EmbeddedResource Include="Tools\fmBrowser.resx">
       <SubType>Designer</SubType>
       <DependentUpon>fmBrowser.cs</DependentUpon>
     </EmbeddedResource>
@@ -126,7 +126,7 @@
       <SubType>Designer</SubType>
       <DependentUpon>fmImportFromSQL.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="fmInputData.resx">
+    <EmbeddedResource Include="Tools\fmInputData.resx">
       <SubType>Designer</SubType>
       <DependentUpon>fmInputData.cs</DependentUpon>
     </EmbeddedResource>
@@ -134,7 +134,7 @@
       <SubType>Designer</SubType>
       <DependentUpon>fmSplash.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="fmTrainingSetName.resx">
+    <EmbeddedResource Include="Tools\fmTrainingSetName.resx">
       <SubType>Designer</SubType>
       <DependentUpon>fmTrainingSetName.cs</DependentUpon>
     </EmbeddedResource>
@@ -142,11 +142,11 @@
       <SubType>Designer</SubType>
       <DependentUpon>pDocument.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="pHistory.resx">
+    <EmbeddedResource Include="Tools\pHistory.resx">
       <SubType>Designer</SubType>
       <DependentUpon>pHistory.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="pLogger.resx">
+    <EmbeddedResource Include="Tools\pLogger.resx">
       <SubType>Designer</SubType>
       <DependentUpon>pLogger.cs</DependentUpon>
     </EmbeddedResource>
@@ -154,11 +154,11 @@
       <SubType>Designer</SubType>
       <DependentUpon>pNeuronIDE.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="pPlotter.resx">
+    <EmbeddedResource Include="Tools\pPlotter.resx">
       <SubType>Designer</SubType>
       <DependentUpon>pPlotter.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="pProperty.resx">
+    <EmbeddedResource Include="Tools\pProperty.resx">
       <SubType>Designer</SubType>
       <DependentUpon>pProperty.cs</DependentUpon>
     </EmbeddedResource>
@@ -167,15 +167,15 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="pSmartZoom.resx">
+    <EmbeddedResource Include="Tools\pSmartZoom.resx">
       <SubType>Designer</SubType>
       <DependentUpon>pSmartZoom.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="pToolbox.resx">
+    <EmbeddedResource Include="Tools\pToolbox.resx">
       <SubType>Designer</SubType>
       <DependentUpon>pToolbox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="pGroupExplorer.resx">
+    <EmbeddedResource Include="Tools\pGroupExplorer.resx">
       <SubType>Designer</SubType>
       <DependentUpon>pGroupExplorer.cs</DependentUpon>
     </EmbeddedResource>
@@ -194,19 +194,19 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="pSmartZoom.cs">
+    <Compile Include="Tools\pSmartZoom.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="pSmartZoom.Designer.cs">
+    <Compile Include="Tools\pSmartZoom.Designer.cs">
       <DependentUpon>pSmartZoom.cs</DependentUpon>
     </Compile>
-    <Compile Include="pToolbox.cs">
+    <Compile Include="Tools\pToolbox.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="pToolbox.Designer.cs">
+    <Compile Include="Tools\pToolbox.Designer.cs">
       <DependentUpon>pToolbox.cs</DependentUpon>
     </Compile>
-    <Compile Include="pGroupExplorer.cs">
+    <Compile Include="Tools\pGroupExplorer.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="pTrainingSetEditor.cs">
