@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("pNeuronIDE")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Neural Network IDE")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Primeira.net")]
 [assembly: AssemblyProduct("pNeuronIDE")]
@@ -29,5 +29,5 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyVersion("0.1.0.*")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
