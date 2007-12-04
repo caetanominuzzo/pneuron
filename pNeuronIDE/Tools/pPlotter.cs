@@ -10,7 +10,7 @@ using System.Threading;
 
 namespace primeira.pNeuron
 {
-    public class pPlotter : DockContent, IpDocks
+    public class pPlotter : DockContent, ITools
     {
         private System.Threading.Timer tmRefresh;
         private IContainer components;

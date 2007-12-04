@@ -17,7 +17,7 @@ using primeira.pHistory;
 
 namespace primeira.pNeuron
 {
-    public partial class pDocument : DockContent, IpDocks
+    public partial class pDocument : DockContent, ITools
     {
 
         #region IpDocks Members
