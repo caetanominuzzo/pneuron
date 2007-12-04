@@ -49,6 +49,8 @@ namespace primeira.pNeuron
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.tspViewToolbox = new System.Windows.Forms.ToolStripMenuItem();
             this.tspViewPropertyWindow = new System.Windows.Forms.ToolStripMenuItem();
@@ -65,6 +67,17 @@ namespace primeira.pNeuron
             this.pnTrackBar = new System.Windows.Forms.Panel();
             this.trackLR = new System.Windows.Forms.TrackBar();
             this.dockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
+            this.trainToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.startTrainToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.resetKnowledgementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.resetMemoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
+            this.pulseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.redoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.status.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -200,7 +213,9 @@ namespace primeira.pNeuron
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem1,
+            this.editToolStripMenuItem,
             this.viewToolStripMenuItem1,
+            this.trainToolStripMenuItem,
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -216,7 +231,9 @@ namespace primeira.pNeuron
             this.openNetworkToolStripMenuItem,
             this.toolStripSeparator1,
             this.saveToolStripMenuItem,
-            this.saveAsToolStripMenuItem});
+            this.saveAsToolStripMenuItem,
+            this.toolStripMenuItem2,
+            this.exitToolStripMenuItem});
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
             this.toolStripMenuItem1.Size = new System.Drawing.Size(35, 20);
             this.toolStripMenuItem1.Text = "File";
@@ -224,27 +241,30 @@ namespace primeira.pNeuron
             // newNetworkToolStripMenuItem
             // 
             this.newNetworkToolStripMenuItem.Name = "newNetworkToolStripMenuItem";
-            this.newNetworkToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
-            this.newNetworkToolStripMenuItem.Text = "New Network";
+            this.newNetworkToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
+            this.newNetworkToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
+            this.newNetworkToolStripMenuItem.Text = "New Network...";
             this.newNetworkToolStripMenuItem.Click += new System.EventHandler(this.newNetworkToolStripMenuItem_Click);
             // 
             // openNetworkToolStripMenuItem
             // 
             this.openNetworkToolStripMenuItem.Name = "openNetworkToolStripMenuItem";
-            this.openNetworkToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
-            this.openNetworkToolStripMenuItem.Text = "Open Network";
+            this.openNetworkToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.openNetworkToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
+            this.openNetworkToolStripMenuItem.Text = "Open Network...";
             this.openNetworkToolStripMenuItem.Click += new System.EventHandler(this.openNetworkToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(151, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(191, 6);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Enabled = false;
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem1_Click);
             // 
@@ -252,9 +272,24 @@ namespace primeira.pNeuron
             // 
             this.saveAsToolStripMenuItem.Enabled = false;
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
-            this.saveAsToolStripMenuItem.Text = "Save as";
+            this.saveAsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
+                        | System.Windows.Forms.Keys.S)));
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
+            this.saveAsToolStripMenuItem.Text = "Save as...";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(191, 6);
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+            this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // viewToolStripMenuItem1
             // 
@@ -271,42 +306,53 @@ namespace primeira.pNeuron
             // tspViewToolbox
             // 
             this.tspViewToolbox.Name = "tspViewToolbox";
-            this.tspViewToolbox.Size = new System.Drawing.Size(168, 22);
+            this.tspViewToolbox.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt)
+                        | System.Windows.Forms.Keys.T)));
+            this.tspViewToolbox.Size = new System.Drawing.Size(187, 22);
             this.tspViewToolbox.Text = "Toolbox";
             this.tspViewToolbox.Click += new System.EventHandler(this.toolBoxToolStripMenuItem_Click);
             // 
             // tspViewPropertyWindow
             // 
             this.tspViewPropertyWindow.Name = "tspViewPropertyWindow";
-            this.tspViewPropertyWindow.Size = new System.Drawing.Size(168, 22);
+            this.tspViewPropertyWindow.ShortcutKeys = System.Windows.Forms.Keys.F4;
+            this.tspViewPropertyWindow.Size = new System.Drawing.Size(187, 22);
             this.tspViewPropertyWindow.Text = "Property Window";
             this.tspViewPropertyWindow.Click += new System.EventHandler(this.propertyWindowToolStripMenuItem_Click);
             // 
             // plotterToolStripMenuItem
             // 
             this.plotterToolStripMenuItem.Name = "plotterToolStripMenuItem";
-            this.plotterToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.plotterToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt)
+                        | System.Windows.Forms.Keys.P)));
+            this.plotterToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
             this.plotterToolStripMenuItem.Text = "Plotter";
             this.plotterToolStripMenuItem.Click += new System.EventHandler(this.plotterToolStripMenuItem_Click);
             // 
             // miniMapToolStripMenuItem
             // 
             this.miniMapToolStripMenuItem.Name = "miniMapToolStripMenuItem";
-            this.miniMapToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.miniMapToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt)
+                        | System.Windows.Forms.Keys.Z)));
+            this.miniMapToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
             this.miniMapToolStripMenuItem.Text = "Mini Map";
             this.miniMapToolStripMenuItem.Click += new System.EventHandler(this.miniMapToolStripMenuItem_Click);
             // 
             // historyToolStripMenuItem
             // 
             this.historyToolStripMenuItem.Name = "historyToolStripMenuItem";
-            this.historyToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.historyToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt)
+                        | System.Windows.Forms.Keys.H)));
+            this.historyToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
             this.historyToolStripMenuItem.Text = "History";
             this.historyToolStripMenuItem.Click += new System.EventHandler(this.historyToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.starterGuideToolStripMenuItem});
+            this.starterGuideToolStripMenuItem,
+            this.toolStripMenuItem4,
+            this.aboutToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
             this.helpToolStripMenuItem.Text = "Help";
@@ -402,6 +448,82 @@ namespace primeira.pNeuron
             this.dockPanel.Size = new System.Drawing.Size(753, 260);
             this.dockPanel.TabIndex = 0;
             // 
+            // trainToolStripMenuItem
+            // 
+            this.trainToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.startTrainToolStripMenuItem,
+            this.resetKnowledgementToolStripMenuItem,
+            this.resetMemoryToolStripMenuItem,
+            this.toolStripMenuItem3,
+            this.pulseToolStripMenuItem});
+            this.trainToolStripMenuItem.Name = "trainToolStripMenuItem";
+            this.trainToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
+            this.trainToolStripMenuItem.Text = "Train";
+            // 
+            // startTrainToolStripMenuItem
+            // 
+            this.startTrainToolStripMenuItem.Name = "startTrainToolStripMenuItem";
+            this.startTrainToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
+            this.startTrainToolStripMenuItem.Text = "Start Train";
+            // 
+            // resetKnowledgementToolStripMenuItem
+            // 
+            this.resetKnowledgementToolStripMenuItem.Name = "resetKnowledgementToolStripMenuItem";
+            this.resetKnowledgementToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
+            this.resetKnowledgementToolStripMenuItem.Text = "Reset Knowledgement";
+            // 
+            // resetMemoryToolStripMenuItem
+            // 
+            this.resetMemoryToolStripMenuItem.Name = "resetMemoryToolStripMenuItem";
+            this.resetMemoryToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
+            this.resetMemoryToolStripMenuItem.Text = "Reset Memory";
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(189, 6);
+            // 
+            // pulseToolStripMenuItem
+            // 
+            this.pulseToolStripMenuItem.Name = "pulseToolStripMenuItem";
+            this.pulseToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
+            this.pulseToolStripMenuItem.Text = "Pulse";
+            // 
+            // editToolStripMenuItem
+            // 
+            this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.undoToolStripMenuItem,
+            this.redoToolStripMenuItem});
+            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.editToolStripMenuItem.Text = "Edit";
+            // 
+            // undoToolStripMenuItem
+            // 
+            this.undoToolStripMenuItem.Name = "undoToolStripMenuItem";
+            this.undoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
+            this.undoToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.undoToolStripMenuItem.Text = "Undo";
+            // 
+            // redoToolStripMenuItem
+            // 
+            this.redoToolStripMenuItem.Name = "redoToolStripMenuItem";
+            this.redoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
+                        | System.Windows.Forms.Keys.Z)));
+            this.redoToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.redoToolStripMenuItem.Text = "Redo";
+            // 
+            // toolStripMenuItem4
+            // 
+            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(149, 6);
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.aboutToolStripMenuItem.Text = "About";
+            // 
             // pNeuronIDE
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -473,5 +595,18 @@ namespace primeira.pNeuron
         private System.Windows.Forms.ToolStripMenuItem starterGuideToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem miniMapToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem historyToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem undoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem redoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem trainToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem startTrainToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem resetKnowledgementToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem resetMemoryToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
+        private System.Windows.Forms.ToolStripMenuItem pulseToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
+        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
     }
 }
