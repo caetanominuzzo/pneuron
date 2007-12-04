@@ -62,16 +62,10 @@
     <Compile Include="Tools\fmBrowser.Designer.cs">
       <DependentUpon>fmBrowser.cs</DependentUpon>
     </Compile>
-    <Compile Include="fmImportFromSQL.cs">
+    <Compile Include="Dialogs\fmInputData.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="fmImportFromSQL.Designer.cs">
-      <DependentUpon>fmImportFromSQL.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Tools\fmInputData.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Tools\fmInputData.Designer.cs">
+    <Compile Include="Dialogs\fmInputData.Designer.cs">
       <DependentUpon>fmInputData.cs</DependentUpon>
     </Compile>
     <Compile Include="fmSplash.cs">
@@ -80,14 +74,11 @@
     <Compile Include="fmSplash.Designer.cs">
       <DependentUpon>fmSplash.cs</DependentUpon>
     </Compile>
-    <Compile Include="Tools\fmTrainingSetName.cs">
+    <Compile Include="Dialogs\fmTrainingSetName.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Tools\fmTrainingSetName.Designer.cs">
+    <Compile Include="Dialogs\fmTrainingSetName.Designer.cs">
       <DependentUpon>fmTrainingSetName.cs</DependentUpon>
-    </Compile>
-    <Compile Include="IpDocks.cs">
-      <SubType>Code</SubType>
     </Compile>
     <Compile Include="pDocument.cs">
       <SubType>Form</SubType>
@@ -122,11 +113,7 @@
       <SubType>Designer</SubType>
       <DependentUpon>fmBrowser.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="fmImportFromSQL.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>fmImportFromSQL.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Tools\fmInputData.resx">
+    <EmbeddedResource Include="Dialogs\fmInputData.resx">
       <SubType>Designer</SubType>
       <DependentUpon>fmInputData.cs</DependentUpon>
     </EmbeddedResource>
@@ -134,7 +121,7 @@
       <SubType>Designer</SubType>
       <DependentUpon>fmSplash.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Tools\fmTrainingSetName.resx">
+    <EmbeddedResource Include="Dialogs\fmTrainingSetName.resx">
       <SubType>Designer</SubType>
       <DependentUpon>fmTrainingSetName.cs</DependentUpon>
     </EmbeddedResource>
@@ -179,7 +166,6 @@
       <SubType>Designer</SubType>
       <DependentUpon>pGroupExplorer.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -195,7 +181,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Tools\pSmartZoom.cs">
-      <SubType>Component</SubType>
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Tools\pSmartZoom.Designer.cs">
       <DependentUpon>pSmartZoom.cs</DependentUpon>
