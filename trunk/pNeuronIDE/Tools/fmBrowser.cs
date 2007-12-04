@@ -10,7 +10,7 @@ using primeira.pNeuron.Core;
 
 namespace primeira.pNeuron
 {
-    public partial class fmBrowser : DockContent, IpDocks
+    public partial class fmBrowser : DockContent, ITools
     {
         public fmBrowser()
         {

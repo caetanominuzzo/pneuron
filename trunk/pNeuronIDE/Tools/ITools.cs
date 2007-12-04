@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace primeira.pNeuron
 {
-    public interface IpDocks
+    public interface ITools
     {
         pNeuronIDE Parent { get; }
 
