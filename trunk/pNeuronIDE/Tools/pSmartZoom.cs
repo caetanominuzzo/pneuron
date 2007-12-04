@@ -15,7 +15,7 @@ using primeira.pTypes;
 
 namespace primeira.pNeuron
 {
-    public partial class pSmartZoom : DockContent, IpDocks, IpSmartZoom
+    public partial class pSmartZoom : DockContent, ITools, IpSmartZoom
     {
         
         private Point? DownPoint = null;

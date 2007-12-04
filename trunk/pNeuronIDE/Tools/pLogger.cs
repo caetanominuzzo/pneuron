@@ -10,7 +10,7 @@ using primeira.pNeuron.Core;
 
 namespace primeira.pNeuron
 {
-    public class pLogger : DockContent, IpDocks, primeira.pNeuron.Core.ILogger
+    public class pLogger : DockContent, ITools, primeira.pNeuron.Core.ILogger
     {
         public pLogger()
         {

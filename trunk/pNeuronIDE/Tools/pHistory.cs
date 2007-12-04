@@ -17,7 +17,7 @@ using primeira.pHistory;
 
 namespace primeira.pNeuron
 {
-    public partial class pHistory : DockContent, IpDocks
+    public partial class pHistory : DockContent, ITools
     {
         public delegate void RevertHistoryDelegate(byte[] history);
         public event RevertHistoryDelegate RevertHistory;

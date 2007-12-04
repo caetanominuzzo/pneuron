@@ -9,7 +9,7 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace primeira.pNeuron
 {
-    public class pGroupExplorer : DockContent, IpDocks
+    public class pGroupExplorer : DockContent, ITools
     {
         private ListView treeView1;
     

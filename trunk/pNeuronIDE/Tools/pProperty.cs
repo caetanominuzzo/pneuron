@@ -9,7 +9,7 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace primeira.pNeuron
 {
-    public class pProperty : DockContent, IpDocks
+    public class pProperty : DockContent, ITools
     {
         public ComboBox cbItems;
         public PropertyGrid Property;
