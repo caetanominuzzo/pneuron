@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>primeira.pNeuron</RootNamespace>
     <AssemblyName>pNeuronIDE</AssemblyName>
-    <ApplicationIcon>pNeuronIDE2.ico</ApplicationIcon>
+    <ApplicationIcon>Object Code\pNeuronIDE2.ico</ApplicationIcon>
     <ManifestCertificateThumbprint>0FA851308D52BBF11230F756F059210BF5347B74</ManifestCertificateThumbprint>
     <ManifestKeyFile>pNeuronIDE_TemporaryKey.pfx</ManifestKeyFile>
     <GenerateManifests>true</GenerateManifests>
@@ -81,10 +81,10 @@
     <Compile Include="Dialogs\fmTrainingSetName.Designer.cs">
       <DependentUpon>fmTrainingSetName.cs</DependentUpon>
     </Compile>
-    <Compile Include="pDocument.cs">
+    <Compile Include="Tools\pDocument.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="pDocument.Designer.cs">
+    <Compile Include="Tools\pDocument.Designer.cs">
       <DependentUpon>pDocument.cs</DependentUpon>
     </Compile>
     <Compile Include="Tools\pHistory.cs">
@@ -126,7 +126,7 @@
       <SubType>Designer</SubType>
       <DependentUpon>fmTrainingSetName.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="pDocument.resx">
+    <EmbeddedResource Include="Tools\pDocument.resx">
       <SubType>Designer</SubType>
       <DependentUpon>pDocument.cs</DependentUpon>
     </EmbeddedResource>
@@ -196,7 +196,7 @@
     <Compile Include="Tools\pGroupExplorer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="pTrainingSetEditor.cs">
+    <Compile Include="Components\pTrainingSetEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
   </ItemGroup>
@@ -247,8 +247,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="pNeuronIDE2.ico" />
-    <Content Include="Third Part.txt" />
+    <Content Include="Object Code\pNeuronIDE2.ico" />
+    <Content Include="Object Code\Third Part.txt" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
