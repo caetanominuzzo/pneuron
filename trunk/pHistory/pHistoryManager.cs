@@ -4,6 +4,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Runtime.InteropServices;
+using System.Drawing.Imaging;
 
 namespace primeira.pHistory
 {
@@ -54,6 +55,7 @@ namespace primeira.pHistory
             }
         }
 
+
         protected override void OnDrawNode(DrawTreeNodeEventArgs e)
         {
 
@@ -77,7 +79,14 @@ namespace primeira.pHistory
 
             Rectangle tmp = new Rectangle(p, new Size(30,30));
 
-            e.Graphics.DrawImage(h.Cache, tmp);
+            ImageAttributes imageAttr = new ImageAttributes();
+            imageAttr.SetGamma(1.7f, ColorAdjustType.Bitmap);
+
+            e.Graphics.DrawImage((Image)h.Cache, tmp, 0, 0, h.Cache.Width, h.Cache.Height, GraphicsUnit.Pixel, imageAttr);
+
+            //e.Graphics.DrawImage(h.Cache, tmp, 0, 0, h.Cache.Width, h.Cache.Height, GraphicsUnit.Display, imageAttr);
+
+            //e.Graphics.DrawImage(h.Cache, tmp);
 
             p.X += 38;
             p.Y += 2; 

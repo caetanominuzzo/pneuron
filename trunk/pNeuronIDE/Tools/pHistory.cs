@@ -30,7 +30,7 @@ namespace primeira.pNeuron
 
         primeira.pHistory.pHistoryItem pHistoryManager_HistoryNeeded()
         {
-            return Parent.GiveMeAHistory();
+            return Parent.TellMeAHistory();
         }
 
         void pHistoryManager_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
