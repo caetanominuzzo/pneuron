@@ -25,7 +25,7 @@ namespace primeira.pNeuron
     public partial class pNeuronIDE : Form
     {
 
-        public static int TRUE_RANDOM_GENERATOR_CACHE = 20;
+        public static int TRUE_RANDOM_GENERATOR_CACHE = 2000;
         public int PLOTTER_REFRESH_INTERVAL = 750;
         public int STATUS_REFRESH_INTERVAL = 750;
 
@@ -43,6 +43,7 @@ namespace primeira.pNeuron
         private pTrueRandomGenerator m_cache = new pTrueRandomGenerator(TRUE_RANDOM_GENERATOR_CACHE);
         private Stopwatch m_refreshCycleTimer;
         private System.Threading.Timer tmRefresh;
+        private bool m_reverting = false;
 
         #endregion
 
@@ -305,7 +306,7 @@ namespace primeira.pNeuron
                 }
             }
 
-            if ((escope & pChangeEscope.File) == pChangeEscope.File)
+            if ((escope & pChangeEscope.File) == pChangeEscope.File && !m_reverting)
             {
                 fmHistory.pHistoryManager.LowGranulatity();
             }
@@ -328,12 +329,11 @@ namespace primeira.pNeuron
 
 
 
-        public pHistoryItem GiveMeAHistory()
+        public pHistoryItem TellMeAHistory()
         {
             pHistoryItem p = new pHistoryItem();
             p.Cache = fmSmartZoom.PreferedCache();
             
-
             StringBuilder sb = new StringBuilder();
             System.Xml.XmlWriter xml = System.Xml.XmlWriter.Create(sb);
             ActiveDocument.Render(xml);
@@ -349,6 +349,8 @@ namespace primeira.pNeuron
             p.Content = _compData;
 
             p.Email = "caetanominuzzo@gmail.com";
+
+            ActiveDocument.AddHistory(p);
 
             return p;
         }
@@ -532,7 +534,9 @@ namespace primeira.pNeuron
 
         void fmHistory_RevertHistory(byte[] history)
         {
+            m_reverting = true;
             ActiveDocument.Revert(GiveMeAHistory(history));
+            m_reverting = false;
         }
 
         private void pNeuronIDE_FormClosing(object sender, FormClosingEventArgs e)
