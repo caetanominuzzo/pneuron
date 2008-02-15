@@ -122,6 +122,7 @@ namespace primeira.pNeuron
             this.MainDisplay.TabIndex = 0;
             this.MainDisplay.Zoom = 1F;
             this.MainDisplay.OnNetworkChange += new primeira.pNeuron.pDisplay.NetworkChangeDelegate(this.MainDisplay_OnNetworkChange);
+            this.MainDisplay.OnDisplayShowZoom += new pDisplay.DisplayShowZoomDelegate(MainDisplay_OnDisplayShowZoom);
             // 
             // pTrainingSetEditor1
             // 
@@ -150,6 +151,8 @@ namespace primeira.pNeuron
             this.ResumeLayout(false);
 
         }
+
+
 
         /// <summary>
         /// Clean up any resources being used.

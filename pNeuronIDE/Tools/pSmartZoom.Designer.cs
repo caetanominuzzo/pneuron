@@ -20,9 +20,9 @@ namespace primeira.pNeuron
             // 
             this.ZoomDisplay.BackColor = System.Drawing.Color.White;
             this.ZoomDisplay.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ZoomDisplay.Location = new System.Drawing.Point(0, 25);
+            this.ZoomDisplay.Location = new System.Drawing.Point(1, 26);
             this.ZoomDisplay.Name = "ZoomDisplay";
-            this.ZoomDisplay.Size = new System.Drawing.Size(292, 248);
+            this.ZoomDisplay.Size = new System.Drawing.Size(290, 246);
             this.ZoomDisplay.TabIndex = 0;
             this.ZoomDisplay.Paint += new System.Windows.Forms.PaintEventHandler(this.ZoomDisplay_Paint);
             // 
@@ -30,9 +30,9 @@ namespace primeira.pNeuron
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btCenter});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip1.Location = new System.Drawing.Point(1, 1);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(292, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(290, 25);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -47,9 +47,12 @@ namespace primeira.pNeuron
             // 
             // pSmartZoom
             // 
+            this.ClientSize = new System.Drawing.Size(292, 273);
             this.Controls.Add(this.ZoomDisplay);
             this.Controls.Add(this.toolStrip1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "pSmartZoom";
+            this.Padding = new System.Windows.Forms.Padding(1);
             this.TabText = "pSmartZoom";
             this.Text = "pSmartZoom";
             this.toolStrip1.ResumeLayout(false);
