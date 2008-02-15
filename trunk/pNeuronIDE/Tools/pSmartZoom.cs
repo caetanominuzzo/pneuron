@@ -20,21 +20,18 @@ namespace primeira.pNeuron
         
         private Point? DownPoint = null;
         private bool m_moving = false;
-
         private Bitmap m_cache = null;
-
-
-
-
-
         private Graphics m_zoomGraphics;
         private Graphics m_zoomChaceGraphics;
 
+        private pNeuronIDE m_parent = null;
 
-        public pSmartZoom()
+
+        public pSmartZoom(pNeuronIDE parent)
         {
             InitializeComponent();
-            
+
+            this.m_parent = parent;
             m_cache = new Bitmap(Width, Height);
             m_zoomGraphics = ZoomDisplay.CreateGraphics();
             m_zoomChaceGraphics = Graphics.FromImage(m_cache);
@@ -152,7 +149,7 @@ namespace primeira.pNeuron
 
         public new pNeuronIDE Parent
         {
-            get { return DockPanel.Parent==null?null:(pNeuronIDE)DockPanel.Parent; }
+            get { return this.m_parent; }
         }
 
         #endregion
@@ -179,6 +176,11 @@ namespace primeira.pNeuron
             //}
         }
 
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            e.Cancel = true;
+            this.Visible = false;
+        }
 
     }
 

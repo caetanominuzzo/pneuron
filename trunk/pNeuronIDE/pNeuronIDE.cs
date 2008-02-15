@@ -36,7 +36,7 @@ namespace primeira.pNeuron
         private pGroupExplorer fmGroupExplorer = new pGroupExplorer();
         private pPlotter fmPlotter = new pPlotter();
         private pLogger fmLogger = new pLogger();
-        private pSmartZoom fmSmartZoom = new pSmartZoom();
+        private pSmartZoom fmSmartZoom = null;
         private pHistory fmHistory = new pHistory();
         private List<pDocument> fmDocuments = new List<pDocument>();
         private pDocument fActiveDocument;
@@ -146,6 +146,16 @@ namespace primeira.pNeuron
         #endregion
 
         #region Methods
+
+        public void ShowZoom()
+        {
+            fmSmartZoom.Show();
+            fmSmartZoom.Location =
+                PointToScreen(
+                    new Point(ActiveDocument.MainDisplay.Width - fmSmartZoom.Width,
+                              ActiveDocument.MainDisplay.Height - fmSmartZoom.Height));
+        }
+
 
         private void SetMenus()
         {
@@ -505,8 +515,8 @@ namespace primeira.pNeuron
 
         public pNeuronIDE()
         {
-            
 
+            fmSmartZoom = new pSmartZoom(this);
             InitializeComponent();
             fmPlotter.Show(dockPanel, DockState.DockBottom);
             fmToolbox.Show(dockPanel, DockState.DockLeft);
@@ -516,14 +526,12 @@ namespace primeira.pNeuron
 
             fmHistory.RevertHistory += new pHistory.RevertHistoryDelegate(fmHistory_RevertHistory);
 
-            
-            
             //fmLogger.Show(dockPanel, DockState.Document);
             //fmLogger.DockTo(fmPlotter.Pane, DockStyle.Fill, 0);
 
-            fmSmartZoom.Show(dockPanel, DockState.DockRight);
+           // fmSmartZoom.Show(dockPanel, DockState.DockRight);
             fmProperty.Show(dockPanel, DockState.DockRight);
-            fmProperty.DockTo(fmSmartZoom.Pane, DockStyle.Bottom, 0);
+            //fmProperty.DockTo(fmSmartZoom.Pane, DockStyle.Bottom, 0);
           
             ActiveDocument = null;            
 

@@ -23,6 +23,9 @@ namespace primeira.pNeuron
         public delegate void NetworkChangeDelegate(pChangeEscope escope);
         public event NetworkChangeDelegate OnNetworkChange;
 
+        public delegate void DisplayShowZoomDelegate();
+        public event DisplayShowZoomDelegate OnDisplayShowZoom;
+
         #endregion
 
         #region Enums
@@ -737,6 +740,18 @@ namespace primeira.pNeuron
             {
                 return;
             }
+
+            #region Zoom
+
+            if (p.X > Width - 20 && p.Y > Height - 20)
+            {
+                if (OnDisplayShowZoom != null)
+                    OnDisplayShowZoom();
+
+                return;
+            }
+
+            #endregion
 
             #region Add Neuron
 
