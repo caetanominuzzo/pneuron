@@ -421,11 +421,6 @@ namespace primeira.pNeuron.Core
 
         #region Methods
 
-        public void SetDomain()
-        {
-            //if (NeuralNetwork.DomainProvider != null)
-            //    NeuralNetwork.DomainProvider.Domain();
-        }
 
         public new string ToString()
         {
@@ -748,7 +743,7 @@ namespace primeira.pNeuron.Core
 
         #endregion
 
-        #region Events
+        #    region Events
 
         //  internal delegate void OnNeuronPulseDelegate(Neuron sender);
         //  internal event OnNeuronPulseDelegate OnNeuronPulse;

@@ -40,19 +40,9 @@ namespace primeira.pNeuron
 
         private bool m_defaultNamedFile = true;
 
-        private List<pHistoryItem> m_histoty = new List<pHistoryItem>();
-
-
-
+        private List<pHistoryItem> m_history = new List<pHistoryItem>();
 
         private string m_defaultItemName = "New Training Set";
-
-        public string DefaultItemName
-        {
-            get { return m_defaultItemName; }
-        }
-
-
 
         #endregion
 
@@ -62,7 +52,7 @@ namespace primeira.pNeuron
         {
             get
             {
-                return m_histoty.ToArray();
+                return m_history.ToArray();
             }
         }
 
@@ -101,6 +91,11 @@ namespace primeira.pNeuron
         {
             get { return m_defaultNamedFile; }
             set { m_defaultNamedFile = value; }
+        }
+
+        public string DefaultItemName
+        {
+            get { return m_defaultItemName; }
         }
 
         #endregion
@@ -196,6 +191,11 @@ namespace primeira.pNeuron
             if (OnNetworkChange != null)
                 OnNetworkChange(escope);
 
+        }
+
+        private void MainDisplay_OnDisplayShowZoom()
+        {
+            Parent.ShowZoom();
         }
 
         #endregion
@@ -583,7 +583,7 @@ namespace primeira.pNeuron
 
                 ImageConverter imageConverter = new System.Drawing.ImageConverter();
 
-                foreach (pHistoryItem p in m_histoty)
+                foreach (pHistoryItem p in m_history)
                 {
 
                     //Stream cache = new MemoryStream();
@@ -741,7 +741,7 @@ namespace primeira.pNeuron
                     p.Email = r["Email"].ToString();
                     p.Modified = Convert.ToDateTime(r["Modified"].ToString());
 
-                    m_histoty.Add(p);
+                    m_history.Add(p);
 
                 }
 
@@ -766,7 +766,7 @@ namespace primeira.pNeuron
 
         public void AddHistory(pHistoryItem history)
         {
-            m_histoty.Add(history);
+            m_history.Add(history);
         }
 
         public void StartTrain()
@@ -937,8 +937,6 @@ namespace primeira.pNeuron
 
 
         #endregion
-
-
 
     }
 
