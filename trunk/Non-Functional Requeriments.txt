@@ -1,0 +1,66 @@
+Use cases
+
+Suports Neural Network (NN) trainig using pNeuron.Core.
+Suports graphical NN representation (NNGR).
+Suports NNGR edition.
+Suports Training Set (TS) edition.
+Suports TS CRUD.
+Suports multiple TS per NN.
+Suports TS Types (TTS).
+Suports pre-defined Domains(DOMp).
+Suports user-defined Domains (DOMu).
+Suports NN-defined Domains (DOMn).
+Suports DOMx CRUD.
+Suports persistece of NNGR (including NN), TS and DOMu in a Document (DOC).
+
+
+NNGR suports Neuron CRUD.
+NNGR suports Synapse CRUD.
+NNGR suports Neuron Group CRUD.
+NNGR suports infinity undo/redo operation.
+
+
+Entities
+
+1. Neuron. The node of a Neural Network model. Has a graphic representation in NNGR.
+2. Synapse. A link between two Neurons. Has a graphic representation on NNGR.
+3. Neural Network (NN). A collection of Neurons linked by Synapses. It's represented in NNGR.
+4. Neuron Group. A group of Neurons. Don't represents any NN entity. It's only in the NNGR.
+5. Neural Network Graphic Representation (NNGR or NN Model). It's a graphical tool to manipulate NN (Neurons and Synapses) and Neuron Groups.
+6. Training Set (TS). Tabular data. Column represents Neurons. Rows represents Training Cases.
+7. Domains (DTp, DTu, DTn). Converions tables between an name and a float value.
+
+The TS.
+
+Suports
+
+
+Suports data persistence via file system.
+Suports multiple documents.
+Suports multiple traning sets per document.
+
+
+
+
+Qual o melhor processo de desenvolvimento para um projeto open-source com um time de um programador?
+
+
+    * Waterfall model
+    
+		The Waterfall model is widely used, including by such large software development houses as those employed by the U.S. Department of Defense and NASA and upon many large government projects (see "the standard waterfall model" on the Internet Archive). Those who use such methods do not always formally distinguish between the "pure" waterfall model and the various modified waterfall models, so it can be difficult to discern exactly which models are being used to what extent.
+  
+    
+    
+    * Spiral model
+    * Model driven development
+    * User experience
+    * Top-down and bottom-up design
+    * Chaos model
+    * Evolutionary prototyping
+    * Prototyping
+    * ICONIX Process (UML-based object modeling with use cases)
+    * Unified Process
+    * V-model
+    * Extreme Programming
+    * Software Development Rhythms
+    * Incremental funding methodology
