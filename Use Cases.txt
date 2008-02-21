@@ -1,3 +1,14 @@
+Glossary
+
+1. Neuron. The node of a Neural Network model. Has a graphic representation in NNGR.
+2. Synapse. A link between two Neurons. Has a graphic representation on NNGR.
+3. Neural Network (NN). A collection of Neurons linked by Synapses. It's represented in NNGR.
+4. Neuron Group. A group of Neurons. Don't represents any NN entity. It's only in the NNGR.
+5. Neural Network Graphic Representation (NNGR or NN Model). It's a graphical tool to manipulate NN (Neurons and Synapses) and Neuron Groups.
+6. Training Set (TS). Tabular data. Column represents Neurons. Rows represents Training Cases.
+7. Domains (DTp, DTu, DTn). Converions tables between an name and a float value.
+
+
 Use cases
 
 Suports Neural Network (NN) trainig using pNeuron.Core.
@@ -11,7 +22,7 @@ Suports pre-defined Domains(DOMp).
 Suports user-defined Domains (DOMu).
 Suports NN-defined Domains (DOMn).
 Suports DOMx CRUD.
-Suports persistece of NNGR (including NN), TS and DOMu in a Document (DOC).
+Suports persistece of NNGR (including NN), TS and DOMn in a Document (DOC).
 
 
 NNGR suports Neuron CRUD.
@@ -20,15 +31,7 @@ NNGR suports Neuron Group CRUD.
 NNGR suports infinity undo/redo operation.
 
 
-Entities
 
-1. Neuron. The node of a Neural Network model. Has a graphic representation in NNGR.
-2. Synapse. A link between two Neurons. Has a graphic representation on NNGR.
-3. Neural Network (NN). A collection of Neurons linked by Synapses. It's represented in NNGR.
-4. Neuron Group. A group of Neurons. Don't represents any NN entity. It's only in the NNGR.
-5. Neural Network Graphic Representation (NNGR or NN Model). It's a graphical tool to manipulate NN (Neurons and Synapses) and Neuron Groups.
-6. Training Set (TS). Tabular data. Column represents Neurons. Rows represents Training Cases.
-7. Domains (DTp, DTu, DTn). Converions tables between an name and a float value.
 
 The TS.
 
