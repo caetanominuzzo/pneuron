@@ -1,69 +1,59 @@
+pNeuron IDE
+
+Overview 
+
+
 Glossary
 
 1. Neuron. The node of a Neural Network model. Has a graphic representation in NNGR.
 2. Synapse. A link between two Neurons. Has a graphic representation on NNGR.
-3. Neural Network (NN). A collection of Neurons linked by Synapses. It's represented in NNGR.
-4. Neuron Group. A group of Neurons. Don't represents any NN entity. It's only in the NNGR.
+3. Neural Network (NN). A collection of Neurons linked by Synapses. It's represented by NNGR.
+4. Neuron Group. A group of Neurons. Don't represents any NN entity. It's only in the NNGR. Used to organize neurons.
 5. Neural Network Graphic Representation (NNGR or NN Model). It's a graphical tool to manipulate NN (Neurons and Synapses) and Neuron Groups.
 6. Training Set (TS). Tabular data. Column represents Neurons. Rows represents Training Cases.
 7. Domains (DTp, DTu, DTn). Converions tables between an name and a float value.
 
 
-Use cases
+Functional Requeriments
 
-Suports Neural Network (NN) trainig using pNeuron.Core.
+Suports training Neural Network using pNeuron.Core.
 Suports graphical NN representation (NNGR).
 Suports NNGR edition.
-Suports Training Set (TS) edition.
-Suports TS CRUD.
-Suports multiple TS per NN.
-Suports TS Types (TTS).
-Suports pre-defined Domains(DOMp).
-Suports user-defined Domains (DOMu).
-Suports NN-defined Domains (DOMn).
-Suports DOMx CRUD.
-Suports persistece of NNGR (including NN), TS and DOMn in a Document (DOC).
-
-
 NNGR suports Neuron CRUD.
 NNGR suports Synapse CRUD.
 NNGR suports Neuron Group CRUD.
 NNGR suports infinity undo/redo operation.
+Suports Training Set edition.
+Suports Training Set CRUD.
+Suports multiple Training Sets per NN.
+Suports pre-defined Domains(DOMp).
+Suports user-defined Domains (DOMu).
+Suports NN-defined Domains (DOMn).
+Suports DOMx CRUD.
+Suports persistence of NNGR (including NN), TS and DOMn in a Document (DOC).
+Suports exports a trained NN as a .Net assembly.
+Suports a plugin architecture to extends the behavior of the IDE.
+Suports total configuration of IDE aspects.
+Suports total configuration of NNGR (and their sub-items) overriding IDE configuration.
 
 
 
 
-The TS.
-
-Suports
 
 
-Suports data persistence via file system.
-Suports multiple documents.
-Suports multiple traning sets per document.
+pNeuron IDE from Scratch
+
+As vezes mesmo uma razão radical tem motivos simples. Documentação não costuma ser o ponto forte de muitos projetos de software. Mas foi quando fui distribuir as tarefas entre os novos membros da equipe sem a ajuda de documentos e artefatos auxiliares que eu percebi que eu teria que escrevê-la logo ou seria impossível continuar. 
+
+Nesse ponto eu poderia apenas ter documentado a IDE extamente como estava, mas ao inves disso decidi documentá-la melhor do que era e depois reescrevê-la reaproveitando da melhor forma possível os diversos componentes já criados. 
+
+Assim os próximos posts serão sobre o processo de desenvolvimento usando o processo unificado numa versão espartana dimensionada ao tamanho do projeto.
+
+Além de tudo estou de férias o que me proporcionará tempo livre suficiente pra me dedicar a essa tarefa.
 
 
+--
 
+Publicação dos documentos e glossário
 
-Qual o melhor processo de desenvolvimento para um projeto open-source com um time de um programador?
-
-
-    * Waterfall model
-    
-		The Waterfall model is widely used, including by such large software development houses as those employed by the U.S. Department of Defense and NASA and upon many large government projects (see "the standard waterfall model" on the Internet Archive). Those who use such methods do not always formally distinguish between the "pure" waterfall model and the various modified waterfall models, so it can be difficult to discern exactly which models are being used to what extent.
-  
-    
-    
-    * Spiral model
-    * Model driven development
-    * User experience
-    * Top-down and bottom-up design
-    * Chaos model
-    * Evolutionary prototyping
-    * Prototyping
-    * ICONIX Process (UML-based object modeling with use cases)
-    * Unified Process
-    * V-model
-    * Extreme Programming
-    * Software Development Rhythms
-    * Incremental funding methodology
+A documentação do projeto será 
