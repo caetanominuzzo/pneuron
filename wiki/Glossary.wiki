@@ -1,4 +1,4 @@
-#summary The project glossary.
+#summary Glossary.
 #labels Phase-Requirements
 
 = Introduction =
