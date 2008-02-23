@@ -1,4 +1,5 @@
 #summary The project glossary.
+#labels Phase-Requirements
 
 = Introduction =
 
@@ -9,16 +10,26 @@ It's supposed to grow during architecture phase.
 
 = Glossary =
 
-===Neuron=== The node of a Neural Network model. Has a graphic representation in NNGR.
-----
-=== Synapse === A link between two Neurons. Has a graphic representation on NNGR.
-----
-=== Neural Network (NN) === A collection of Neurons linked by Synapses. It's represented by NNGR.
-----
-=== Neuron Group === A group of Neurons. Don't represents any NN entity. It's only in the NNGR. Used to organize neurons.
-----
-=== Neural Network Graphic Representation (NNGR or NN Model) === It's a graphical tool to manipulate NN (Neurons and Synapses) and Neuron Groups.
-----
-=== Training Set (TS) === Tabular data. Column represents Neurons. Rows represents Training Cases.
-----
-=== Domains (DTp, DTu, DTn) === Converions tables between an name and a float value.
+  *===Neuron===
+The node of a Neural Network model. Has a graphic representation in NNGR.
+
+  *=== Synapse ===
+A link between two Neurons. Has a graphic representation on NNGR.
+
+  *=== Neural Network (NN) ===
+A collection of Neurons linked by Synapses. It's represented by NNGR.
+
+  *=== Neuron Group ===
+A group of Neurons. Don't represents any NN entity. It's only in the NNGR. Used to organize neurons.
+
+  *=== Neural Network Graphic Representation (NNGR or NN Model) ===
+
+It's a graphical tool to manipulate NN (Neurons and Synapses) and Neuron Groups.
+
+  *=== Training Set (TS) ===
+
+Tabular data. Column represents Neurons. Rows represents Training Cases.
+
+  *=== Domains (DTp, DTu, DTn) ===
+
+Converions tables between an name and a float value.
