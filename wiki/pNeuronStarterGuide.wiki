@@ -1,4 +1,5 @@
 #summary Do iniciante ao avançado em três capítulos.
+#labels Phase-Deploy
 
 O objetivo desse guia é cobrir os principais recursos da pNeuron IDE e apresentar os conceitos necessários para a implementação de uma rede neural. Ele está dividido em três partes, cada uma delas explica passo-a-passo como resolver um problema específico de redes neurais. Além disso é interessante olhar o prólogo onde a interface é apresentada. 
 
