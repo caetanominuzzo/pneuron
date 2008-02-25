@@ -1,6 +1,12 @@
 #summary Functional Requirements
 #labels Phase-Requirements
 
+= Introduction =
+
+This document lists all functional requeriments of the project with a minimum level of detail.
+
+Should be used with the [Glossary].
+
 = pNeuron IDE Functional Requirements =
 
   # Suports training Neural Network using pNeuron.Core.
