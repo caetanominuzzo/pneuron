@@ -54,6 +54,8 @@ Além de tudo estou de férias o que me proporcionará tempo livre suficiente pra m
 
 --
 
-Publicação dos documentos e glossário
+Publicação dos documentos, glossário e requisitos funcionais
 
-A documentação do projeto será 
+A documentação do projeto será publicada no wiki do projeto no Google Code nesse link http://code.google.com/p/pneuron/w/list.
+
+Já estão lá o glossário, os requisitos funcionais e o esboço de alguns documentos da fase de entrega.
