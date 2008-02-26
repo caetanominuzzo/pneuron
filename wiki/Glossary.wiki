@@ -20,7 +20,7 @@ A link between two Neurons. Has a graphic representation on NNGR.
 A collection of Neurons linked by Synapses. It's represented by NNGR.
 
   *=== Neuron Group ===
-A group of Neurons. Don't represents any NN entity. It's only in the NNGR. Used to organize neurons.
+A group of Neurons. Don't represents any NN entity. It's only in the graphical representation. Used to organize neurons.
 
   *=== Neural Network Graphic Representation (NNGR or NN Model) ===
 
@@ -30,6 +30,6 @@ It's a graphical tool to manipulate NN (Neurons and Synapses) and Neuron Groups.
 
 Tabular data. Column represents Neurons. Rows represents Training Cases.
 
-  *=== Domains (DTp, DTu, DTn) ===
+  *=== Domains (DOMp, DOMu, DOMn) ===
 
-Converions tables between an name and a float value.
+Converions tables between an name and a float value. Could be stored on the pre-defined domains, as a user-domain or in within the NN document.
