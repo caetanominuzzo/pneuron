@@ -24,7 +24,7 @@ Should be used with the [Glossary].
   # Suports NN-defined Domains (DOMn).
   # Suports DOMx CRUD.
   # Suports persistence of NNGR (including NN), TS and DOMn in a Document (DOC).
-  # Suports generate NN source code base on specific NN model used and language template chose.
+  # Suports generate NN source code based on specific the NN model used and the language template chose.
   # Suports export a trained NN as a .Net assembly.
   # Suports a plugin architecture to extends the behavior of the IDE.
   # Suports total configuration of IDE aspects.
