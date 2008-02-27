@@ -3,7 +3,7 @@
 
 = Introduction =
 
-This document lists all functional requeriments of the project with a minimum level of detail.
+This document lists all functional requirements of the project with a minimum level of detail.
 
 Should be used with the [Glossary].
 
@@ -15,7 +15,7 @@ Should be used with the [Glossary].
   # NNGR suports Neuron CRUD.
   # NNGR suports Synapse CRUD.
   # NNGR suports Neuron Group CRUD.
-  # NNGR suports infinity undo/redo operation.
+  # NNGR suports infinite undo/redo operation.
   # Suports Training Set edition.
   # Suports Training Set CRUD.
   # Suports multiple Training Sets per NN.
@@ -24,8 +24,8 @@ Should be used with the [Glossary].
   # Suports NN-defined Domains (DOMn).
   # Suports DOMx CRUD.
   # Suports persistence of NNGR (including NN), TS and DOMn in a Document (DOC).
-  # Suports generate NN source code based on specific the NN model used and the language template chose.
+  # Suports generate NN source code based on the specific NN model used and the language template choosen.
   # Suports export a trained NN as a .Net assembly.
-  # Suports a plugin architecture to extends the behavior of the IDE.
+  # Suports a plugin architecture to extend the behavior of the IDE.
   # Suports total configuration of IDE aspects.
   # Suports total configuration of NNGR (and their sub-items) overriding IDE configuration.
