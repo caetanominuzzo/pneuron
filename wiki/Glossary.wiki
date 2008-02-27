@@ -5,13 +5,13 @@
 
 This document was provided to define all terms and concepts utilized in the project documentation.
 
-It's supposed to grow during architecture phase.
+It's supposed to grow up during architecture phase.
 
 
 = Glossary =
 
   *===Neuron===
-The node of a Neural Network model. Has a graphic representation in NNGR.
+The node of a Neural Network model. Has a graphic representation on NNGR.
 
   *=== Synapse ===
 A link between two Neurons. Has a graphic representation on NNGR.
@@ -20,7 +20,7 @@ A link between two Neurons. Has a graphic representation on NNGR.
 A collection of Neurons linked by Synapses. It's represented by NNGR.
 
   *=== Neuron Group ===
-A group of Neurons. Don't represents any NN entity. It's only in the graphical representation. Used to organize neurons.
+A group of Neurons. Doesn't represent any NN entity. It's only on the graphical representation. Used to organize neurons.
 
   *=== Neural Network Graphic Representation (NNGR or NN Model) ===
 
@@ -32,4 +32,4 @@ Tabular data. Column represents Neurons. Rows represents Training Cases.
 
   *=== Domains (DOMp, DOMu, DOMn) ===
 
-Converions tables between an name and a float value. Could be stored on the pre-defined domains, as a user-domain or in within the NN document.
+Conversion tables between a name and a float value. Could be stored as pre-defined domains, as a user-domain or in the NN document.
