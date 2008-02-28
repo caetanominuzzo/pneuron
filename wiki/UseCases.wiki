@@ -1,9 +1,8 @@
 #summary Uses Cases
 #labels Phase-Requirements
 
-[Glossary asdasd]
 
-= Use Cases by Functional Requirement =
+= Use Cases by [FunctionalRequirements Functional Requirement] =
 
   # * Training Neural Network *
     # Start Training
