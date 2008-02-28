@@ -28,7 +28,7 @@
   # Suports total configuration of IDE aspects.
   # Suports total configuration of NNGR (and their sub-items) overriding IDE configuration.
 
-= Details =
+= Detailed Use Cases =
 
   # * Training Neural Network *
     # Start Training
