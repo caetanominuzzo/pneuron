@@ -3,7 +3,7 @@
 
 = Introduction =
 
-  # Suports training Neural Network using pNeuron.Core.
+  # * Suports training Neural Network using pNeuron.Core.*
     # Pre-conditions
     # Start Training
     # Pause/Resume Training
