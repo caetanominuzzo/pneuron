@@ -1,7 +1,7 @@
 #summary Uses Cases
 #labels Phase-Requirements
 
-= Use Cases by [Function Requirement] =
+= Use Cases by [FunctionRequirement] =
 
   # * Training Neural Network *
     # Start Training
