@@ -1,7 +1,7 @@
 #summary Uses Cases
 #labels Phase-Requirements
 
-[asdasd Glossary]
+[Glossary asdasd]
 
 = Use Cases by Functional Requirement =
 
