@@ -4,11 +4,9 @@
 = Introduction =
 
   # * Training Neural Network *
-    # Pre-conditions
     # Start Training
     # Pause/Resume Training
     # Stop Training
-    # Pos-condition
   # Suports graphical NN representation (NNGR).
   # Suports NNGR edition.
   # NNGR suports Neuron CRUD.
@@ -32,9 +30,9 @@
 = Details =
 
   # * Training Neural Network *
-    # Pre-conditions
-      asda sd asdas d
     # Start Training
+     * Pre-Conditions: * A NN model loaded on NNGR and at least one TS.
+     * Description: * The user click on "start training" and informs the TS to be used.
     # Pause/Resume Training
     # Stop Training
     # Pos-condition
