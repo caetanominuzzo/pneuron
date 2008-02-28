@@ -4,8 +4,12 @@
 = Introduction =
 
   # Suports training Neural Network using pNeuron.Core.
-    # Teste a
-    # Teste b
+    # Pre-conditions
+    # Start Training
+    # Pause/Resume Training
+    # Stop Training
+    # Pos-condition
+
   # Suports graphical NN representation (NNGR).
   # Suports NNGR edition.
   # NNGR suports Neuron CRUD.
