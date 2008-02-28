@@ -35,11 +35,14 @@
      * * Description: * The user click on "start training" and informs the TS to be used.
      * * Pos-Condition: * The NN state is "training".
     # Pause/Resume Training
-     * * Pre-Conditions: * A NN model loaded on NNGR and at least one TS.
-     * * Description: * The user click on "start training" and informs the TS to be used.
-     * * Pos-Condition: * The NN state is "training".
+     * * Pre-Conditions: * A NN in "training" or "paused" state.
+     * * Description: * The user click on "pause/resume".
+     * * Pos-Condition: * The NN state toogle between "paused" and "training".
     # Stop Training
-    # Pos-condition
+     * * Pre-Conditions: * A NN in "training" or "paused" state.
+     * * Description: * The user click on "stop training".
+     * * Pos-Condition: * The NN state is "idle".
+
   # Suports graphical NN representation (NNGR).
   # Suports NNGR edition.
   # NNGR suports Neuron CRUD.
