@@ -3,7 +3,7 @@
 
 = Introduction =
 
-||*Use Case*||*Requirement*||
+|| * Use Case * || * Requirement * ||
 ||Train neural network||F1||
 
 
