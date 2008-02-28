@@ -31,9 +31,13 @@
 
   # * Training Neural Network *
     # Start Training
-     * Pre-Conditions: * A NN model loaded on NNGR and at least one TS.
-     * Description: * The user click on "start training" and informs the TS to be used.
+     * * Pre-Conditions: * A NN model loaded on NNGR and at least one TS.
+     * * Description: * The user click on "start training" and informs the TS to be used.
+     * * Pos-Condition: * The NN state is "training".
     # Pause/Resume Training
+     * * Pre-Conditions: * A NN model loaded on NNGR and at least one TS.
+     * * Description: * The user click on "start training" and informs the TS to be used.
+     * * Pos-Condition: * The NN state is "training".
     # Stop Training
     # Pos-condition
   # Suports graphical NN representation (NNGR).
