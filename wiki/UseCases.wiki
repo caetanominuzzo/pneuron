@@ -27,38 +27,3 @@
   # Suports a plugin architecture to extend the behavior of the IDE.
   # Suports total configuration of IDE aspects.
   # Suports total configuration of NNGR (and their sub-items) overriding IDE configuration.
-
-= Detailed Use Cases =
-
-  # * Training Neural Network *
-    # Start Training
-     * * Pre-Conditions: * A NN model loaded on NNGR and at least one TS.
-     * * Description: * The user click on "start training" and informs the TS to be used.
-     * * Pos-Condition: * The NN state is "training".
-    # Pause/Resume Training
-     * * Pre-Conditions: * A NN in "training" or "paused" state.
-     * * Description: * The user click on "pause/resume".
-     * * Pos-Condition: * The NN state toogle between "paused" and "training".
-    # Stop Training
-     * * Pre-Conditions: * A NN in "training" or "paused" state.
-     * * Description: * The user click on "stop training".
-     * * Pos-Condition: * The NN state is "idle".
-  # Suports graphical NN representation (NNGR).
-  # Suports NNGR edition.
-  # NNGR suports Neuron CRUD.
-  # NNGR suports Synapse CRUD.
-  # NNGR suports Neuron Group CRUD.
-  # NNGR suports infinite undo/redo operation.
-  # Suports Training Set edition.
-  # Suports Training Set CRUD.
-  # Suports multiple Training Sets per NN.
-  # Suports pre-defined Domains(DOMp).
-  # Suports user-defined Domains (DOMu).
-  # Suports NN-defined Domains (DOMn).
-  # Suports DOMx CRUD.
-  # Suports persistence of NNGR (including NN), TS and DOMn in a Document (DOC).
-  # Suports generate NN source code based on the specific NN model used and the language template choosen.
-  # Suports export a trained NN as a .Net assembly.
-  # Suports a plugin architecture to extend the behavior of the IDE.
-  # Suports total configuration of IDE aspects.
-  # Suports total configuration of NNGR (and their sub-items) overriding IDE configuration.
