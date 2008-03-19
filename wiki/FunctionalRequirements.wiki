@@ -10,6 +10,7 @@ Should be used with the [Glossary].
 = pNeuron IDE Functional Requirements =
 
   # Suports training Neural Network using pNeuron.Core.
+  # Suports configure and persist training parameters.
   # Suports graphical NN representation (NNGR).
   # Suports NNGR edition.
   # NNGR suports Neuron CRUD.
