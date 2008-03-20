@@ -1,32 +1,4 @@
 #summary Uses Cases
 #labels Phase-Requirements
 
-= Introduction =
-
-This page is under construction.
-
-= Use Cases by [FunctionalRequirements Functional Requirement] =
-
-  # * Training Neural Network *
-    # Start Training
-    # Pause/Resume Training
-    # Stop Training
-  # Suports graphical NN representation (NNGR).
-  # Suports NNGR edition.
-  # NNGR suports Neuron CRUD.
-  # NNGR suports Synapse CRUD.
-  # NNGR suports Neuron Group CRUD.
-  # NNGR suports infinite undo/redo operation.
-  # Suports Training Set edition.
-  # Suports Training Set CRUD.
-  # Suports multiple Training Sets per NN.
-  # Suports pre-defined Domains(DOMp).
-  # Suports user-defined Domains (DOMu).
-  # Suports NN-defined Domains (DOMn).
-  # Suports DOMx CRUD.
-  # Suports persistence of NNGR (including NN), TS and DOMn in a Document (DOC).
-  # Suports generate NN source code based on the specific NN model used and the language template choosen.
-  # Suports export a trained NN as a .Net assembly.
-  # Suports a plugin architecture to extend the behavior of the IDE.
-  # Suports total configuration of IDE aspects.
-  # Suports total configuration of NNGR (and their sub-items) overriding IDE configuration.
+Due the limitations of this tool the project documentation was moved to Google Docs and are published here http://docs.google.com/Doc?id=d49dnft_34hc4zcfgr
