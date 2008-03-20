@@ -1,34 +1,4 @@
 #summary Glossary.
 #labels Phase-Requirements
 
-= Introduction =
-
-This document was provided to define all terms and concepts utilized in the project documentation.
-
-It's supposed to grow up during architecture phase.
-
-
-= Glossary =
-
-
-  *=== Domains (DOMp, DOMu, DOMn) ===
-Conversion tables between a name and a float value. Could be stored as pre-defined domains, as a user-domain or in the NN document.
-
-  *=== Neural Network (NN) ===
-A collection of Neurons linked by Synapses. It's represented by NNGR.
-
-  *=== Neural Network Graphic Representation (NNGR or NN Model) ===
-
-It's a graphical tool to manipulate NN (Neurons and Synapses) and Neuron Groups.
-
-  *===Neuron===
-The node of a Neural Network model. Has a graphic representation on NNGR.
-
-  *=== Neuron Group ===
-A group of Neurons. Doesn't represent any NN entity. It's only on the graphical representation. Used to organize neurons.
-
-  *=== Synapse ===
-A link between two Neurons. Has a graphic representation on NNGR.
-
-  *=== Training Set (TS) ===
-Tabular data. Column represents Neurons. Rows represents Training Cases.
+Due the limitations of this tool the project documentation was moved to http://docs.google.com/Doc?id=d49dnft_36cd2m26gw.
