@@ -1,4 +1,4 @@
 #summary Glossary.
 #labels Phase-Requirements
 
-Due the limitations of this tool the project documentation was moved to http://docs.google.com/Doc?id=d49dnft_36cd2m26gw.
+Due the limitations of this tool the project documentation was moved to Google Docs and are published here http://docs.google.com/Doc?id=d49dnft_36cd2m26gw.
