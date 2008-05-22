@@ -1,20 +1,9 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual Studio 2005
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pNeuronIDE", "pNeuronIDE\pNeuronIDE.csproj", "{EFBE0B77-0E3D-42CF-9D09-97998BB45A5D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pPanel", "pPanel\pPanel.csproj", "{D3847E8B-A4C3-49BB-B119-3F2B981C9154}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pNeuron", "pNeuron\pNeuron.csproj", "{464378C1-CF56-486D-84F0-DC564A99901D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinFormsUI", "WinFormsUI\WinFormsUI.csproj", "{C75532C4-765B-418E-B09B-46D36B2ABDB1}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pDisplay", "pDisplay\pDisplay.csproj", "{35DD3087-E395-4D33-950F-F807AE4BDED0}"
-EndProject
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{90AA91D6-14A9-4E44-97D7-F46678C32B1D}"
 	ProjectSection(SolutionItems) = preProject
 		Non-Functional Requeriments.txt = Non-Functional Requeriments.txt
-		pNeuronIDE.jude = pNeuronIDE.jude
 		Solution Items\teste.xml = Solution Items\teste.xml
 		Solution Items\tictac2.xml = Solution Items\tictac2.xml
 		Solution Items\TicTacToy.pne = Solution Items\TicTacToy.pne
@@ -25,13 +14,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Solution Items\XOR.xml = Solution Items\XOR.xml
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Third Party", "Third Party", "{F9E12859-C7EF-4E73-89DE-945780542DFD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pNeuronIDE", "pNeuronIDE\pNeuronIDE.csproj", "{EFBE0B77-0E3D-42CF-9D09-97998BB45A5D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pPanel", "pPanel\pPanel.csproj", "{D3847E8B-A4C3-49BB-B119-3F2B981C9154}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pNeuron", "pNeuron\pNeuron.csproj", "{464378C1-CF56-486D-84F0-DC564A99901D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinFormsUI", "WinFormsUI\WinFormsUI.csproj", "{C75532C4-765B-418E-B09B-46D36B2ABDB1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pDisplay", "pDisplay\pDisplay.csproj", "{35DD3087-E395-4D33-950F-F807AE4BDED0}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pShortcutManager", "pShortcutManager\pShortcutManager.csproj", "{2B504E3B-8A90-4DB0-9AD3-49C2C2D844C7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pRandom", "pRandom\pRandom.csproj", "{2152137D-D8FD-4E9C-8732-D8C1F2E03156}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pTests", "pShortcutManagerTest\pTests.csproj", "{93F66C3D-CB0A-452F-B996-EC75EC80C3AE}"
-EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "pNeuronIDE-Installer", "pNeuronIDE-Installer\pNeuronIDE-Installer.vdproj", "{58CA1961-624A-4FF2-9BEF-C46F310D2608}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtendedWebBrowser2", "ExtendedWebBrowser2\ExtendedWebBrowser2.csproj", "{2BB5EE82-0735-40B7-B376-D5F6103C4B1B}"
 EndProject
@@ -42,8 +41,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pHistory", "pHistory\pHistory.csproj", "{A001ABE2-7186-4CEB-B86D-4C4A16E55787}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemCompressor", "MemCompressor\MemCompressor.csproj", "{A9552C3C-7106-4000-8A3B-74C811D4E55F}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Third Party", "Third Party", "{F9E12859-C7EF-4E73-89DE-945780542DFD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -82,9 +79,6 @@ Global
 		{93F66C3D-CB0A-452F-B996-EC75EC80C3AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93F66C3D-CB0A-452F-B996-EC75EC80C3AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93F66C3D-CB0A-452F-B996-EC75EC80C3AE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{58CA1961-624A-4FF2-9BEF-C46F310D2608}.Debug|Any CPU.ActiveCfg = Debug
-		{58CA1961-624A-4FF2-9BEF-C46F310D2608}.Release|Any CPU.ActiveCfg = Release
-		{58CA1961-624A-4FF2-9BEF-C46F310D2608}.Release|Any CPU.Build.0 = Release
 		{2BB5EE82-0735-40B7-B376-D5F6103C4B1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2BB5EE82-0735-40B7-B376-D5F6103C4B1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2BB5EE82-0735-40B7-B376-D5F6103C4B1B}.Release|Any CPU.Build.0 = Release|Any CPU
@@ -109,9 +103,9 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{C75532C4-765B-418E-B09B-46D36B2ABDB1} = {F9E12859-C7EF-4E73-89DE-945780542DFD}
 		{2BB5EE82-0735-40B7-B376-D5F6103C4B1B} = {F9E12859-C7EF-4E73-89DE-945780542DFD}
 		{A9552C3C-7106-4000-8A3B-74C811D4E55F} = {F9E12859-C7EF-4E73-89DE-945780542DFD}
-		{C75532C4-765B-418E-B09B-46D36B2ABDB1} = {F9E12859-C7EF-4E73-89DE-945780542DFD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		VisualSVNWorkingCopyRoot = 
