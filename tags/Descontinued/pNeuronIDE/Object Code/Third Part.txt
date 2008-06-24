@@ -1,0 +1,14 @@
+DockPanel Suite for .Net 2.0 
+	.Net Docking Library for Windows Forms
+	Copyright © Weifen Luo 2007
+	2.0.2.0
+
+Fast In-Memory Compression Engine for .NET
+	Provides simple classes for lossless data compression.
+	© 2005 by Andrey Dryazgov
+	1.0.0.3
+
+ExtendedWebBrowser2
+	Copyright © The Wheel Automatisering 2006
+	1.0.0.0
+	
