@@ -1,0 +1,44 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pNeuron.Imagining", "pNeuron.Imagining\pNeuron.Imagining.csproj", "{D04299AD-72EE-45C7-9702-B5483A2253E6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pNeuron.Imagining.Test", "pNeuron.Imagining.Test\pNeuron.Imagining.Test.csproj", "{23572EEC-F81D-44F9-BCEA-56DE7B5655AD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pNeuron.Imagining.ObjectDetection", "pNeuron.Imagining.ObjectDetection\pNeuron.Imagining.ObjectDetection.csproj", "{9F71FE04-1256-44D2-8B76-F7E761CFB377}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pNeuron.Imagining.ObjectDetection.Test", "pNeuron.Imagining.ObjectDetection.Test\pNeuron.Imagining.ObjectDetection.Test.csproj", "{4647EB54-961D-4805-B91A-E82C8E6334C6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pNeuron.Imagining.Common", "pNeuron.Imagining.Common\pNeuron.Imagining.Common.csproj", "{E7E84C11-219A-492E-92AD-0BF79DB4E505}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D04299AD-72EE-45C7-9702-B5483A2253E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D04299AD-72EE-45C7-9702-B5483A2253E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D04299AD-72EE-45C7-9702-B5483A2253E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D04299AD-72EE-45C7-9702-B5483A2253E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23572EEC-F81D-44F9-BCEA-56DE7B5655AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23572EEC-F81D-44F9-BCEA-56DE7B5655AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23572EEC-F81D-44F9-BCEA-56DE7B5655AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23572EEC-F81D-44F9-BCEA-56DE7B5655AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F71FE04-1256-44D2-8B76-F7E761CFB377}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F71FE04-1256-44D2-8B76-F7E761CFB377}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F71FE04-1256-44D2-8B76-F7E761CFB377}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F71FE04-1256-44D2-8B76-F7E761CFB377}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4647EB54-961D-4805-B91A-E82C8E6334C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4647EB54-961D-4805-B91A-E82C8E6334C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4647EB54-961D-4805-B91A-E82C8E6334C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4647EB54-961D-4805-B91A-E82C8E6334C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7E84C11-219A-492E-92AD-0BF79DB4E505}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7E84C11-219A-492E-92AD-0BF79DB4E505}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7E84C11-219A-492E-92AD-0BF79DB4E505}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7E84C11-219A-492E-92AD-0BF79DB4E505}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

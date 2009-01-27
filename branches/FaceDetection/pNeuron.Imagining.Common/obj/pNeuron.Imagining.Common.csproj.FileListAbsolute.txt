@@ -1,0 +1,5 @@
+C:\Desenv\nn\pNeuron.Imagining\pNeuron.Imagining.Common\obj\Debug\ResolveAssemblyReference.cache
+C:\Desenv\nn\pNeuron.Imagining\pNeuron.Imagining.Common\bin\Debug\pNeuron.Imagining.Common.dll
+C:\Desenv\nn\pNeuron.Imagining\pNeuron.Imagining.Common\bin\Debug\pNeuron.Imagining.Common.pdb
+C:\Desenv\nn\pNeuron.Imagining\pNeuron.Imagining.Common\obj\Debug\pNeuron.Imagining.Common.dll
+C:\Desenv\nn\pNeuron.Imagining\pNeuron.Imagining.Common\obj\Debug\pNeuron.Imagining.Common.pdb
