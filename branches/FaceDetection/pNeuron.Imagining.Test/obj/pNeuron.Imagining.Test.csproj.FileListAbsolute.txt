@@ -1,0 +1,7 @@
+C:\Desenv\nn\pNeuron.Imagining\pNeuron.Imagining.Test\bin\Debug\pNeuron.Imagining.Test.exe
+C:\Desenv\nn\pNeuron.Imagining\pNeuron.Imagining.Test\bin\Debug\pNeuron.Imagining.Test.pdb
+C:\Desenv\nn\pNeuron.Imagining\pNeuron.Imagining.Test\obj\Debug\ResolveAssemblyReference.cache
+C:\Desenv\nn\pNeuron.Imagining\pNeuron.Imagining.Test\obj\Debug\pNeuron.Imagining.Test.Properties.Resources.resources
+C:\Desenv\nn\pNeuron.Imagining\pNeuron.Imagining.Test\obj\Debug\pNeuron.Imagining.Test.csproj.GenerateResource.Cache
+C:\Desenv\nn\pNeuron.Imagining\pNeuron.Imagining.Test\obj\Debug\pNeuron.Imagining.Test.exe
+C:\Desenv\nn\pNeuron.Imagining\pNeuron.Imagining.Test\obj\Debug\pNeuron.Imagining.Test.pdb

@@ -1,0 +1,14 @@
+C:\Desenv\nn\pNeuron.Imagining\pNeuron.Imagining.ObjectDetection\bin\Debug\pNeuron.Imagining.ObjectDetection.dll
+C:\Desenv\nn\pNeuron.Imagining\pNeuron.Imagining.ObjectDetection\bin\Debug\pNeuron.Imagining.ObjectDetection.pdb
+C:\Desenv\nn\pNeuron.Imagining\pNeuron.Imagining.ObjectDetection\obj\Debug\ResolveAssemblyReference.cache
+C:\Desenv\nn\pNeuron.Imagining\pNeuron.Imagining.ObjectDetection\obj\Debug\pNeuron.Imagining.ObjectDetection.dll
+C:\Desenv\nn\pNeuron.Imagining\pNeuron.Imagining.ObjectDetection\obj\Debug\pNeuron.Imagining.ObjectDetection.pdb
+C:\Desenv\nn\pNeuron.Imagining\pNeuron.Imagining.ObjectDetection\bin\Debug\AForge.dll
+C:\Desenv\nn\pNeuron.Imagining\pNeuron.Imagining.ObjectDetection\bin\Debug\AForge.Imaging.dll
+C:\Desenv\nn\pNeuron.Imagining\pNeuron.Imagining.ObjectDetection\bin\Debug\AForge.Video.DirectShow.dll
+C:\Desenv\nn\pNeuron.Imagining\pNeuron.Imagining.ObjectDetection\bin\Debug\pNeuron.Imagining.Common.dll
+C:\Desenv\nn\pNeuron.Imagining\pNeuron.Imagining.ObjectDetection\bin\Debug\pNeuron.Imagining.dll
+C:\Desenv\nn\pNeuron.Imagining\pNeuron.Imagining.ObjectDetection\bin\Debug\AForge.Math.dll
+C:\Desenv\nn\pNeuron.Imagining\pNeuron.Imagining.ObjectDetection\bin\Debug\AForge.Video.dll
+C:\Desenv\nn\pNeuron.Imagining\pNeuron.Imagining.ObjectDetection\bin\Debug\pNeuron.Imagining.pdb
+C:\Desenv\nn\pNeuron.Imagining\pNeuron.Imagining.ObjectDetection\bin\Debug\pNeuron.Imagining.Common.pdb
