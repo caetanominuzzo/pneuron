@@ -1,3 +1,5 @@
+#define USE_MOMENTUM
+
 using System;
 using System.Text;
 using System.Collections.Generic;
@@ -43,6 +45,8 @@ namespace primeira.pNeuron.Core
         void PulseBack(double[] desiredResults);
         
         double LearningRate { get; }
+
+        double Momentum { get; }
 
         List<Neuron> Neuron { get; }
     }
@@ -124,9 +128,26 @@ namespace primeira.pNeuron.Core
         /// After PulseBack calculates the error CalculateDelta appends it on this synapse or bias delta.
         /// </summary>
         /// <param name="Error"></param>
-        public void CalculateDelta(double Error)
+        public void CalculateDelta(double Error, double Momentum)
         {
-            Delta += Neuron.Value * Error;
+            //Delta of the Bias
+            if(this.Neuron.Bias == this)
+            {
+#if USE_MOMENTUM
+                Delta = Momentum * Delta + (1.0 - Momentum) * Error;
+#else
+                Delta += Weight * Error;
+#endif
+
+            }
+            else
+            {
+#if USE_MOMENTUM
+                Delta = Momentum * Delta + (1.0 - Momentum) * Error * Neuron.Value;
+#else
+                Delta += Neuron.Value * Error;
+#endif
+            }
         }
 
         /// <summary>
@@ -539,16 +560,17 @@ namespace primeira.pNeuron.Core
         /// <summary>
         /// Call CalculateDelta of neuron bias and all input synapses.
         /// </summary>
-        public void CalculateDelta()
+        public void CalculateDelta(double Momentum)
         {
             NeuralNetwork.Log(1, "Start Neuron {0} CalculateDelta.", this.ToString());
 
             foreach (Neuron n in this.Input.Keys)
             {
-                this.Input[n].CalculateDelta(this.Error);
+                this.Input[n].CalculateDelta(this.Error, Momentum);
             }
 
-            this.Bias.Delta += this.Error * this.Bias.Weight;
+            //this.Bias.Delta += this.Error * this.Bias.Weight;
+            this.Bias.CalculateDelta(this.Error, Momentum);
 
             NeuralNetwork.Log(1, "End Neuron {0} CalculateDelta.", this.ToString());
 
@@ -721,6 +743,7 @@ namespace primeira.pNeuron.Core
         public NeuralNetwork()
         {
             m_learningRate = DEFAULT_LEARNING_RATE;
+            m_momentum = DEFAULT_MOMENTUM;
             m_neuron = new List<Neuron>();
         }
 
@@ -728,9 +751,10 @@ namespace primeira.pNeuron.Core
 
         #region Constants
 
-        double DEFAULT_LEARNING_RATE = 5;
+        private double DEFAULT_LEARNING_RATE = 1;
+        private double DEFAULT_MOMENTUM = 0.5;
         
-        int INNER_TRAINING_TIMES = 100;
+        private int INNER_TRAINING_TIMES = 100;
 
         public static int CMD_NOTHING = 0;
         public static int CMD_RESET_MEMORY_AND_NO_PULSE = 1;
@@ -741,6 +765,7 @@ namespace primeira.pNeuron.Core
         #region Fields
 
         private double m_learningRate;
+        private double m_momentum;
         private List<Neuron> m_neuron;
         private int m_inputNeuronCount = 0;
         private int m_outputNeuronCount = 0;
@@ -767,6 +792,15 @@ namespace primeira.pNeuron.Core
         }
 
         /// <summary>
+        /// Gets the global Momentum.
+        /// </summary>
+        public double Momentum
+        {
+            get { return m_momentum; }
+            set { m_momentum = value; }
+        }
+
+        /// <summary>
         /// Gets all neurons.
         /// </summary>
         public List<Neuron> Neuron
@@ -781,18 +815,17 @@ namespace primeira.pNeuron.Core
         {
             get
             {
-                double dGlobalTemp = 0;
-                int iNoPerception = Neuron.Count - InputNeuronCount;
+                double dGlobalTemp = 0d;
 
                 foreach (Neuron n in Neuron)
                 {
-                    if (n.NeuronType != NeuronTypes.Input)
+                    if (n.NeuronType == NeuronTypes.Output)
                     {
-                        dGlobalTemp += Math.Abs(n.Error);
+                        dGlobalTemp += n.Error * n.Error;
                     }
                 }
 
-                m_lastCalculatedGlobalError = dGlobalTemp / (double)iNoPerception;
+                m_lastCalculatedGlobalError = dGlobalTemp / (double)OutputNeuronCount;
 
                 return m_lastCalculatedGlobalError;
             }
@@ -1009,7 +1042,7 @@ namespace primeira.pNeuron.Core
         {
             Log("Network CalculateDelta.");
             foreach (Neuron n in this.Neuron)
-                n.CalculateDelta();
+                n.CalculateDelta(this.Momentum);
         }
 
         /// <summary>
@@ -1079,21 +1112,16 @@ namespace primeira.pNeuron.Core
                 OnStartTraing();
             int i, j;
 
-            for (i = 0; i < input.Length; i++)
-                for (j = 0; j < input[i].Length; j++)
-                    input[i][j] = Util.Sigmoid(input[i][j]);
+            //for (i = 0; i < input.Length; i++)
+            //    for (j = 0; j < input[i].Length; j++)
+            //        input[i][j] = Util.Sigmoid(input[i][j]);
 
-            for (i = 0; i < output.Length; i++)
-                for (j = 0; j < output[i].Length; j++)
-                    output[i][j] = Util.Sigmoid(output[i][j]);
-          
-
-
+            //for (i = 0; i < output.Length; i++)
+            //    for (j = 0; j < output[i].Length; j++)
+            //        output[i][j] = Util.Sigmoid(output[i][j]);
 
             int count = 0;
             double dGlobalError = 1;
-
-
            
             double[][] sortedInputs = new double[input.Length][];
             double[][] sortedOutputs = new double[output.Length][];
@@ -1124,13 +1152,13 @@ namespace primeira.pNeuron.Core
 
                 count++;
 
-                TrainSession(sortedInputs, sortedOutputs, INNER_TRAINING_TIMES);
+                dGlobalError = TrainSession(sortedInputs, sortedOutputs, INNER_TRAINING_TIMES);
 
                 if (count % INNER_TRAINING_TIMES == 0)
                     if (OnRefreshCyclesSec != null)
                         OnRefreshCyclesSec(count * INNER_TRAINING_TIMES);
 
-                dGlobalError = GlobalError;
+                //dGlobalError = GlobalError;
 
                 if (dGlobalError < 0.00000000000000000001)
                     m_stopOnNextCycle = true;
@@ -1146,13 +1174,15 @@ namespace primeira.pNeuron.Core
         /// <param name="inputs">Array of input values.</param>
         /// <param name="outputs">Array of desired results.</param>
         /// <param name="iterations">Number of internal cycles.</param>
-        public void TrainSession(double[][] inputs, double[][] outputs, int iterations)
+        public double TrainSession(double[][] inputs, double[][] outputs, int iterations)
         {
            
 
 
             lock (this)
             {
+
+                double dErrorSum = 0d;
 
                 for (int i = 0; i < iterations; i++)
                 {
@@ -1174,8 +1204,12 @@ namespace primeira.pNeuron.Core
                         }
                     }
 
+                    dErrorSum += GlobalError;
+
                     ApplyLearning();
                 }
+
+                return dErrorSum;
 
             }
 
@@ -1273,7 +1307,6 @@ namespace primeira.pNeuron.Core
         public event OnResetKnowledgementDelegate OnResetKnowledgement;
 
         #endregion
-
     }
 
     /// <summary>
