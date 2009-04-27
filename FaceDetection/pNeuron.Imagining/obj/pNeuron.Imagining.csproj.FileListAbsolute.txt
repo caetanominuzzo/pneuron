@@ -1,0 +1,11 @@
+C:\desenv\nn\pNeuron.Imagining\pNeuron.Imagining\obj\Debug\ResolveAssemblyReference.cache
+C:\desenv\nn\pNeuron.Imagining\pNeuron.Imagining\bin\Debug\pNeuron.Imagining.dll
+C:\desenv\nn\pNeuron.Imagining\pNeuron.Imagining\bin\Debug\pNeuron.Imagining.pdb
+C:\desenv\nn\pNeuron.Imagining\pNeuron.Imagining\bin\Debug\AForge.dll
+C:\desenv\nn\pNeuron.Imagining\pNeuron.Imagining\bin\Debug\AForge.Imaging.dll
+C:\desenv\nn\pNeuron.Imagining\pNeuron.Imagining\bin\Debug\AForge.Math.dll
+C:\desenv\nn\pNeuron.Imagining\pNeuron.Imagining\bin\Debug\AForge.Video.DirectShow.dll
+C:\desenv\nn\pNeuron.Imagining\pNeuron.Imagining\bin\Debug\AForge.Video.dll
+C:\desenv\nn\pNeuron.Imagining\pNeuron.Imagining\bin\Debug\AForge.Vision.dll
+C:\desenv\nn\pNeuron.Imagining\pNeuron.Imagining\obj\Debug\pNeuron.Imagining.dll
+C:\desenv\nn\pNeuron.Imagining\pNeuron.Imagining\obj\Debug\pNeuron.Imagining.pdb

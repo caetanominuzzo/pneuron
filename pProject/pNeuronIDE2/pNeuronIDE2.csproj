@@ -1,0 +1,141 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{BE381299-F325-423D-88D2-E3EAB63D9D1D}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>primeira.pNeuron.pNeuronIDE</RootNamespace>
+    <AssemblyName>pNeuronIDE2</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="pNeuronIDE.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="pNeuronIDE.Designer.cs">
+      <DependentUpon>pNeuronIDE.cs</DependentUpon>
+    </Compile>
+    <Compile Include="pProject\IpProjectItem.cs" />
+    <Compile Include="pProject\pNeuralNertwork.cs" />
+    <Compile Include="pProject\pProject.cs" />
+    <Compile Include="pProject\pTrainningSet.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="pNeuronIDE.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>pNeuronIDE.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tools\pGroupExplorer.resx">
+      <DependentUpon>pGroupExplorer.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tools\pNetworkExplorer.resx">
+      <DependentUpon>pNetworkExplorer.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tools\pPlotter.resx">
+      <DependentUpon>pPlotter.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tools\pProperty.resx">
+      <DependentUpon>pProperty.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tools\pToolbox.resx">
+      <DependentUpon>pToolbox.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Tools\IpDocks.cs" />
+    <Compile Include="Tools\pGroupExplorer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Tools\pNetworkExplorer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Tools\pPlotter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Tools\pProperty.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Tools\pToolbox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\pDisplay\pDisplay.csproj">
+      <Project>{35DD3087-E395-4D33-950F-F807AE4BDED0}</Project>
+      <Name>pDisplay</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\pExternal\pExternal.csproj">
+      <Project>{C29ECEF4-786D-43C7-BA68-DBCD648B93F5}</Project>
+      <Name>pExternal</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\pNeuron\pNeuron.csproj">
+      <Project>{464378C1-CF56-486D-84F0-DC564A99901D}</Project>
+      <Name>pNeuron</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\pPanel\pPanel.csproj">
+      <Project>{D3847E8B-A4C3-49BB-B119-3F2B981C9154}</Project>
+      <Name>pPanel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WinFormsUI\WinFormsUI.csproj">
+      <Project>{C75532C4-765B-418E-B09B-46D36B2ABDB1}</Project>
+      <Name>WinFormsUI</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
