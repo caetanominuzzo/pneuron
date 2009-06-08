@@ -152,6 +152,15 @@ namespace primeira.pNeuron
         }
 
         [Browsable(true)]
+        public double Value2
+        {
+            get
+            {
+                return SigmoidUtils.UnSigmoid(Neuron.Value);
+            }
+        }
+
+        [Browsable(true)]
         public double Command
         {
             get
@@ -160,19 +169,7 @@ namespace primeira.pNeuron
             }
         }
 
-        [Browsable(true)]
-        public DataTypes DataType
-        {
-            get
-            {
-                return Neuron.DataType;
-            }
-            set 
-            {
-                Neuron.DataType = value;
-            }
-        }
-      
+     
 
         #endregion
 

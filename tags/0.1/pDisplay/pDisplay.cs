@@ -36,6 +36,7 @@ namespace primeira.pNeuron
         public NeuralNetwork Net
         {
             get { return m_net; }
+             //set { m_net = value; }
         }
 
         #region events
@@ -55,7 +56,27 @@ namespace primeira.pNeuron
         public delegate void NewDomainDelegate();
         public event NewDomainDelegate OnNewDomain;
 
+
         #endregion
+
+        #region Network Events
+
+        public event NeuralNetwork.OnPulseDelegate OnPulse;
+
+        public event NeuralNetwork.OnPulseBackDelegate OnPulseBack;
+
+        public event NeuralNetwork.OnRefreshCyclesSecDelegate OnRefreshCyclesSec;
+
+        public event NeuralNetwork.OnStartTraingDelegate OnStartTraing;
+
+        public event NeuralNetwork.OnStopTraingDelegate OnStopTraing;
+
+        public event NeuralNetwork.OnResetLearningDelegate OnResetLearning;
+
+        public event NeuralNetwork.OnResetKnowledgementDelegate OnResetKnowledgement;
+
+        #endregion
+
 
         #region Enums
 
@@ -207,7 +228,7 @@ namespace primeira.pNeuron
                 m_groups[i] = new List<pPanel>();
 
             //Initialize NeuralNet
-            m_net = new NeuralNetwork();
+            SetNeuralNetwork(new NeuralNetwork());
 
 
         }
@@ -1167,10 +1188,14 @@ namespace primeira.pNeuron
             Pen p = ((pPanel)c).GetPenStyle();
             
             p.Width = 1;
-            if (d.Neuron != null)
-                if(c.Neuron.GetSynapseTo(d.Neuron) != null)
-                    p.Width = Convert.ToInt32(Math.Max(1, Math.Abs(c.Neuron.GetSynapseTo(d.Neuron).Weight) * dZoom));
-            
+            try
+            {
+                if (d.Neuron != null)
+                    if (c.Neuron.GetSynapseTo(d.Neuron) != null)
+                        p.Width = Convert.ToInt32(Math.Max(1, Math.Abs(c.Neuron.GetSynapseTo(d.Neuron).Weight) * dZoom));
+            }
+            catch { }
+
             SolidBrush b = new SolidBrush(Color.Red);
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
 
@@ -1245,6 +1270,85 @@ namespace primeira.pNeuron
             //            g.RotateTransform(50);
             //            g.DrawLine(p, new Point(10,10), new Point(100,100));
 
+        }
+
+        #endregion
+
+        public void SetNeuralNetwork(NeuralNetwork aNet)
+        {
+            if (m_net != null)
+                this.m_net.Dispose();
+
+            this.m_net = aNet;
+
+            foreach (pPanel p in pPanels)
+            {
+                foreach (Neuron n in aNet.Neuron)
+                    if (p.Neuron.ID == n.ID)
+                        p.Neuron = n;
+            }
+
+            #region Network Events
+
+            this.Net.OnPulse += new NeuralNetwork.OnPulseDelegate(Net_OnPulse);
+
+            this.Net.OnPulseBack += new NeuralNetwork.OnPulseBackDelegate(Net_OnPulseBack);
+            
+            this.Net.OnRefreshCyclesSec += new NeuralNetwork.OnRefreshCyclesSecDelegate(Net_OnRefreshCyclesSec);
+
+            this.Net.OnStartTraing += new NeuralNetwork.OnStartTraingDelegate(Net_OnStartTraing);
+
+            this.Net.OnStopTraing += new NeuralNetwork.OnStopTraingDelegate(Net_OnStopTraing);
+
+            this.Net.OnResetLearning += new NeuralNetwork.OnResetLearningDelegate(Net_OnResetLearning);
+
+            this.Net.OnResetKnowledgement += new NeuralNetwork.OnResetKnowledgementDelegate(Net_OnResetKnowledgement);
+
+            #endregion
+        }
+
+        #region Network Events
+
+        void Net_OnResetKnowledgement()
+        {
+            if (OnResetKnowledgement != null)
+                OnResetKnowledgement();
+        }
+
+        void Net_OnResetLearning()
+        {
+            if (OnResetLearning != null)
+                OnResetLearning();
+        }
+
+        void Net_OnStopTraing()
+        {
+            if (OnStopTraing != null)
+                OnStopTraing();
+        }
+
+        void Net_OnStartTraing()
+        {
+            if (OnStartTraing != null)
+                OnStartTraing();
+        }
+
+        void Net_OnRefreshCyclesSec(int Times)
+        {
+            if (OnRefreshCyclesSec != null)
+                OnRefreshCyclesSec(Times);
+        }
+
+        void Net_OnPulseBack()
+        {
+            if (OnPulseBack != null)
+                OnPulseBack();
+        }
+
+        void Net_OnPulse()
+        {
+            if (OnPulse != null)
+                OnPulse();
         }
 
         #endregion
