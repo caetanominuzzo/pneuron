@@ -9,7 +9,7 @@ using WeifenLuo.WinFormsUI.Docking;
 using primeira.pNeuron.Core;
 using System.IO;
 using primeira.pRandom;
-using primeira.pNeuron;
+using primeira.pNeuron.Core;
 using System.Diagnostics;
 
 namespace primeira.pNeuron
@@ -18,7 +18,7 @@ namespace primeira.pNeuron
 
     public partial class pNeuronIDE : Form
     {
-        static int TRUE_RANDOM_GENERATOR_CACHE = 20;
+        
 
         #region Fields
 
@@ -31,7 +31,6 @@ namespace primeira.pNeuron
         private List<pDocument> fmDocuments = new List<pDocument>();
         private pDocument fActiveDocument;
 
-        private pTrueRandomGenerator m_cache = new pTrueRandomGenerator(TRUE_RANDOM_GENERATOR_CACHE);
 
         private Stopwatch m_refreshCycleTimer;
 
@@ -180,7 +179,7 @@ namespace primeira.pNeuron
                      i++;
              }
 
-            pDocument d = new pDocument(m_cache, "NeuralNetwork " + i.ToString());
+            pDocument d = new pDocument("NeuralNetwork " + i.ToString());
             AddDocument(d);
 
             return d;
@@ -188,7 +187,7 @@ namespace primeira.pNeuron
 
         private void OpenDocument()
         {
-            pDocument p = new pDocument(this.m_cache);
+            pDocument p = new pDocument();
 
             if (p.Load() != DialogResult.OK)
             {
@@ -265,7 +264,7 @@ namespace primeira.pNeuron
                     {
                         if (c is TextBox)
                         {
-                                input.Add(Util.Sigmoid(double.Parse(c.Text, System.Globalization.CultureInfo.InvariantCulture)));
+                                input.Add(SigmoidUtils.Sigmoid(double.Parse(c.Text, System.Globalization.CultureInfo.InvariantCulture)));
                                 iInput++;
                         }
                     }
@@ -304,9 +303,6 @@ namespace primeira.pNeuron
         private void pNeuronIDE_FormClosing(object sender, FormClosingEventArgs e)
         {
             
-
-            //To save non used cache
-            m_cache.Dispose();
         }
 
         #endregion
@@ -356,6 +352,8 @@ namespace primeira.pNeuron
         private void learninRate_MouseHover(object sender, EventArgs e)
         {
             pnTrackBar.Top = status.Top - pnTrackBar.Height;
+            trackLR.Value = (int)ActiveDocument.MainDisplay.Net.LearningRate;
+            learninRate.Text = "Learning Rate: " + trackLR.Value;
             pnTrackBar.Visible = true;
             pnTrackBar.BringToFront();
         }
@@ -363,12 +361,33 @@ namespace primeira.pNeuron
         private void trackLR_MouseLeave(object sender, EventArgs e)
         {
             pnTrackBar.Visible = false;
+            
+        }
+
+        private void trackMomentum_MouseLeave(object sender, EventArgs e)
+        {
+            pnlMomentum.Visible = false;
         }
 
         private void trackLR_Scroll(object sender, EventArgs e)
         {
             learninRate.Text = "Learning Rate: " + trackLR.Value;
             ActiveDocument.MainDisplay.Net.LearningRate = trackLR.Value;
+        }
+
+        private void statusMomentum_MouseHover(object sender, EventArgs e)
+        {
+            pnlMomentum.Top = status.Top - pnlMomentum.Height;
+            pnlMomentum.Visible = true;
+            trackMomentum.Value = (int)(ActiveDocument.MainDisplay.Net.Momentum * 100);
+            statusMomentum.Text = "Momentum: " + (double)trackMomentum.Value / (double)100;
+            pnlMomentum.BringToFront();
+        }
+
+        private void trackMomentum_Scroll(object sender, EventArgs e)
+        {
+            statusMomentum.Text = "Momentum: " + (double)trackMomentum.Value / (double)100;
+            ActiveDocument.MainDisplay.Net.Momentum = (double)trackMomentum.Value / (double)100;
         }
 
 

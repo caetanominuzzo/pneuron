@@ -115,20 +115,20 @@ namespace primeira.pNeuron
 
         #region Constructors
 
-        public pDocument(pTrueRandomGenerator cache, string sFileName) : this(cache)
+        public pDocument(string sFileName) : this()
         {
             Filename = sFileName;
         }
 
-        public pDocument(pTrueRandomGenerator cache)
+        public pDocument()
         {
             InitializeComponent();
-            MainDisplay.Net.SetRandomGenerator(cache);
-            MainDisplay.Net.OnStartTraing += new NeuralNetwork.OnStartTraingDelegate(Net_OnStartTraing);
-            MainDisplay.Net.OnStopTraing += new NeuralNetwork.OnStopTraingDelegate(Net_OnStopTraing);
-            MainDisplay.Net.OnRefreshCyclesSec += new NeuralNetwork.OnRefreshCyclesSecDelegate(Net_OnRefreshCyclesSec);
-            MainDisplay.Net.OnResetLearning += new NeuralNetwork.OnResetLearningDelegate(Net_OnResetLearning);
-            MainDisplay.Net.OnResetKnowledgement += new NeuralNetwork.OnResetKnowledgementDelegate(Net_OnResetKnowledgement);
+
+            MainDisplay.OnStartTraing += new NeuralNetwork.OnStartTraingDelegate(Net_OnStartTraing);
+            MainDisplay.OnStopTraing += new NeuralNetwork.OnStopTraingDelegate(Net_OnStopTraing);
+            MainDisplay.OnRefreshCyclesSec += new NeuralNetwork.OnRefreshCyclesSecDelegate(Net_OnRefreshCyclesSec);
+            MainDisplay.OnResetLearning += new NeuralNetwork.OnResetLearningDelegate(Net_OnResetLearning);
+            MainDisplay.OnResetKnowledgement += new NeuralNetwork.OnResetKnowledgementDelegate(Net_OnResetKnowledgement);
         }
 
         
@@ -508,6 +508,15 @@ namespace primeira.pNeuron
 
             ds.WriteXml(Filename);
 
+            MainDisplay.Net.ToXml(Path.GetDirectoryName(Filename) + "\\_" + Path.GetFileName(Filename));
+
+
+            MainDisplay.SetNeuralNetwork(NeuralNetwork.ToObject(Path.GetDirectoryName(Filename) + "\\_" + Path.GetFileName(Filename)));
+
+            //Stream ms = File.Create(
+            //System.Xml.Serialization.XmlSerializer ser = new System.Xml.Serialization.XmlSerializer(typeof(Neuron));
+            //ser.Serialize(ms, MainDisplay.Net.Neuron[0]);
+            //ms.Close();
            
         }
 
@@ -574,13 +583,14 @@ namespace primeira.pNeuron
                 }
             }
 
+            cbTrainingSets.Items.Clear();
             foreach(DataTable dt in ds.Tables)
             {
                 if (dt.TableName == "pSynapse" || dt.TableName == "pNeuron")
                     continue;
 
                 fpTrainingSet.Add(new pTrainingSet(this.MainDisplay.pPanels, dt.TableName, this.Filename));
-                cbTrainingSets.Items.Clear();
+                
                 cbTrainingSets.Items.Add(dt.TableName);
 
                 fpTrainingSet[fpTrainingSet.Count - 1].LoadDataTable();
@@ -654,6 +664,7 @@ namespace primeira.pNeuron
                     output[iXPosition++] = dOut;
 
                 }
+
 
                 ThreadStart starter2 = delegate { MainDisplay.Net.Train(input, output); };
                 new Thread(starter2).Start();
