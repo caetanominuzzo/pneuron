@@ -1,0 +1,65 @@
+Hello world!
+
+Isso é sobre a Primeira e sobre o prefixo p em uma pequena coleção de applicativos e ferramentas.
+
+Primeiramente eu sou um programador artesanal e acredito na alta qualidade que um projeto de software pode alcançar quando todas as partes são sólidamente planejadas e construidas por apenas uma pessoa. 
+Também não quero fazer uma guerra sobre isso porque obviamente um software não é ruim 
+por ter sido feito por uma equipe muito menos é bom por ter sido feito por uma pessoa. 
+Eu apenas disse que valorizo o trabalho artesanal e amador. Todo conteudo do blog é livre, incluindo artigos, código-fonte, sob a GPL 2.0.
+
+Além disso trabalho em uma fábrica de software mas talvez eu não queira falar disso hoje.
+
+Atualmente tenho trabalhado em uma IDE para redes neurais chamada pNeuronIDE [não mais] disponível em code.google.com/p/pneuron/. Mas depois de um ano de trabalho duro eu finalmente desisti. Uma IDE robusta é algo fudido de se fazer. E a principal lição foi: Ela tem que começar pela linha de comando. Então os próximos posts serão sobre essa tentativa no tópico Como Fazer uma IDE.
+
+
+Como fazer uma IDE
+
+Então começamos nossa IDE. 
+
+Eu não quero falar sobre conceitos abstratos que envolvem mas na prática como estruturar de maneira eficiente e escalável uma IDE
+
+Hello World and Prehistory
+
+
+It's about primeira and the prefix p in one small colection of tools and applications.
+First of all: I'm a softwarecrafter and I believe in the high quality a software project can reach when all its parts are solidly planned and developed by just one person.
+I don't want to start a war with it. Obviously, a software isn't bad by have been developed within a team. Nevertheless, it's also not good (or better) because it has been created by just one person. I just prize the "craftwork" and the "amateur-work".
+Besides I work in a softwarehouse but maybe I'm not in the mood for talking about it today.
+
+I've been working in one IDE for Neural networks called pNeuronIDE and it's [no longer] avaiable on code.google.com/p/pneuron/. But after a year of hard work I finally give up. An robust IDE its really a hard stuff to do. And the main lesson was: It must start with a command line interface. So the next posts will be about this effort on How to make an IDE topic.
+
+How to make an IDE
+Why begins with a command line interface (CLI)?
+
+I'm beggining with approximately two thousands ideias to the new IDE. All that stuff are a cloud of smoke I have to inspire and organize. So, let's start "as-is".
+
+1. CLI are robust and easy to codeficate.
+2. I can write a complete CLI to my pNeuron.Core in about two months. So I can release it soon.
+3. I can reutilize the CLI on GUI keeping it as an interface to pNeuron.Core.
+4. Writing a CLI will make me write all pNeuron.Core interface and let me test any function of it without spend time with graphic mode.
+
+
+
+1. It's quick to make an efficient CLI in about a mounth. So we can test and release any module
+2. With a CLI we can separate the final project as follow
+	a. CLI
+		Parses user input and execute actions on IPO.
+	b. GUI
+		Provides visual tools, execute actions on IPO and listen events from IPO.
+	c. PO Interface (IPO)
+		Provides public method and events. Execute actions on PO.
+	d. PO
+		Is the IDE document, represents a file.
+		Just one PO can be opened at the same time.
+		It holds all artefacts needed on a project.
+		
+		
+		(Any PO artefact can be exported with its undo historic.)?
+		Any change made on it is automatically saved.
+		Keep a historic with every change made on it, so you can always undo. This historic are saved on PO file.
+		 
+    
+
+How to make an IDE
+
+So let's start our IDE. I will assume we have no knowledgment on software arquiteture. Been an open source project lets listen what the comunnity tell us
