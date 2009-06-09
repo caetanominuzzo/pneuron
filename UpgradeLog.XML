@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="pNeuron">
+</Property><Property Name="Solution File" Value="D:\pNeuron_tag\pNeuron.sln">
+</Property><Property Name="Date" Value="terça-feira, 28 de abril de 2009">
+</Property><Property Name="Time" Value="14:47">
+</Property></Properties><Event ErrorLevel="0" Project="pNeuronIDE" Source="pNeuronIDE\pNeuronIDE.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="pNeuronIDE" Source="pNeuronIDE\pNeuronIDE.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="pPanel" Source="pPanel\pPanel.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="pPanel" Source="pPanel\pPanel.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="pNeuron" Source="pNeuron\pNeuron.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="pNeuron" Source="pNeuron\pNeuron.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="WinFormsUI" Source="WinFormsUI\WinFormsUI.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="WinFormsUI" Source="WinFormsUI\WinFormsUI.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="pDisplay" Source="pDisplay\pDisplay.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="pDisplay" Source="pDisplay\pDisplay.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="pShortcutManager" Source="pShortcutManager\pShortcutManager.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="pShortcutManager" Source="pShortcutManager\pShortcutManager.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="pXMLEditor" Source="pXMLEditor\pXMLEditor.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="pXMLEditor" Source="pXMLEditor\pXMLEditor.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="pRandom" Source="pRandom\pRandom.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="pRandom" Source="pRandom\pRandom.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="pShortcutManagerTest" Source="pShortcutManagerTest\pShortcutManagerTest.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="pShortcutManagerTest" Source="pShortcutManagerTest\pShortcutManagerTest.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="" Source="pNeuron.sln" Description="Solution converted successfully">
+</Event><Event ErrorLevel="3" Project="" Source="pNeuron.sln" Description="Converted">
+</Event><Event ErrorLevel="0" Project="pNeuronIDE" Source="pNeuronIDE\pNeuronIDE.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event><Event ErrorLevel="0" Project="pPanel" Source="pPanel\pPanel.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event><Event ErrorLevel="0" Project="pNeuron" Source="pNeuron\pNeuron.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event><Event ErrorLevel="0" Project="WinFormsUI" Source="WinFormsUI\WinFormsUI.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event><Event ErrorLevel="0" Project="pDisplay" Source="pDisplay\pDisplay.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event><Event ErrorLevel="0" Project="pShortcutManager" Source="pShortcutManager\pShortcutManager.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event><Event ErrorLevel="0" Project="pXMLEditor" Source="pXMLEditor\pXMLEditor.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event><Event ErrorLevel="0" Project="pRandom" Source="pRandom\pRandom.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event><Event ErrorLevel="0" Project="pShortcutManagerTest" Source="pShortcutManagerTest\pShortcutManagerTest.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event></UpgradeLog>
