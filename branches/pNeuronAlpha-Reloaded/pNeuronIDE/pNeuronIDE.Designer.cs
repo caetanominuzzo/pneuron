@@ -233,21 +233,21 @@ namespace primeira.pNeuron
             // toolBoxToolStripMenuItem
             // 
             this.toolBoxToolStripMenuItem.Name = "toolBoxToolStripMenuItem";
-            this.toolBoxToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
+            this.toolBoxToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
             this.toolBoxToolStripMenuItem.Text = "ToolBox";
             this.toolBoxToolStripMenuItem.Click += new System.EventHandler(this.toolBoxToolStripMenuItem_Click);
             // 
             // networkExplorerToolStripMenuItem
             // 
             this.networkExplorerToolStripMenuItem.Name = "networkExplorerToolStripMenuItem";
-            this.networkExplorerToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
+            this.networkExplorerToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
             this.networkExplorerToolStripMenuItem.Text = "Network Explorer";
             this.networkExplorerToolStripMenuItem.Click += new System.EventHandler(this.networkExplorerToolStripMenuItem_Click);
             // 
             // propertyWindowToolStripMenuItem
             // 
             this.propertyWindowToolStripMenuItem.Name = "propertyWindowToolStripMenuItem";
-            this.propertyWindowToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
+            this.propertyWindowToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
             this.propertyWindowToolStripMenuItem.Text = "Property Window";
             this.propertyWindowToolStripMenuItem.Click += new System.EventHandler(this.propertyWindowToolStripMenuItem_Click);
             // 
@@ -273,39 +273,39 @@ namespace primeira.pNeuron
             this.saveToolStripMenuItem1,
             this.saveAsToolStripMenuItem});
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(37, 20);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(35, 20);
             this.toolStripMenuItem1.Text = "File";
             // 
             // newNetworkToolStripMenuItem
             // 
             this.newNetworkToolStripMenuItem.Name = "newNetworkToolStripMenuItem";
-            this.newNetworkToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.newNetworkToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.newNetworkToolStripMenuItem.Text = "New Network";
             this.newNetworkToolStripMenuItem.Click += new System.EventHandler(this.newNetworkToolStripMenuItem_Click);
             // 
             // openNetworkToolStripMenuItem
             // 
             this.openNetworkToolStripMenuItem.Name = "openNetworkToolStripMenuItem";
-            this.openNetworkToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.openNetworkToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.openNetworkToolStripMenuItem.Text = "Open Network";
             this.openNetworkToolStripMenuItem.Click += new System.EventHandler(this.openNetworkToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(148, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(140, 6);
             // 
             // saveToolStripMenuItem1
             // 
             this.saveToolStripMenuItem1.Name = "saveToolStripMenuItem1";
-            this.saveToolStripMenuItem1.Size = new System.Drawing.Size(151, 22);
+            this.saveToolStripMenuItem1.Size = new System.Drawing.Size(143, 22);
             this.saveToolStripMenuItem1.Text = "Save";
             this.saveToolStripMenuItem1.Click += new System.EventHandler(this.saveToolStripMenuItem1_Click);
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.saveAsToolStripMenuItem.Text = "Save as";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
@@ -317,34 +317,34 @@ namespace primeira.pNeuron
             this.tspViewPropertyWindow,
             this.domainEditToolStripMenuItem});
             this.viewToolStripMenuItem1.Name = "viewToolStripMenuItem1";
-            this.viewToolStripMenuItem1.Size = new System.Drawing.Size(44, 20);
+            this.viewToolStripMenuItem1.Size = new System.Drawing.Size(41, 20);
             this.viewToolStripMenuItem1.Text = "View";
             // 
             // tspViewToolbox
             // 
             this.tspViewToolbox.Name = "tspViewToolbox";
-            this.tspViewToolbox.Size = new System.Drawing.Size(202, 22);
+            this.tspViewToolbox.Size = new System.Drawing.Size(191, 22);
             this.tspViewToolbox.Text = "Toolbox";
             this.tspViewToolbox.Click += new System.EventHandler(this.toolBoxToolStripMenuItem_Click);
             // 
             // tspViewNetworkExplorer
             // 
             this.tspViewNetworkExplorer.Name = "tspViewNetworkExplorer";
-            this.tspViewNetworkExplorer.Size = new System.Drawing.Size(202, 22);
+            this.tspViewNetworkExplorer.Size = new System.Drawing.Size(191, 22);
             this.tspViewNetworkExplorer.Text = "Neural Network Explorer";
             this.tspViewNetworkExplorer.Click += new System.EventHandler(this.networkExplorerToolStripMenuItem_Click);
             // 
             // tspViewPropertyWindow
             // 
             this.tspViewPropertyWindow.Name = "tspViewPropertyWindow";
-            this.tspViewPropertyWindow.Size = new System.Drawing.Size(202, 22);
+            this.tspViewPropertyWindow.Size = new System.Drawing.Size(191, 22);
             this.tspViewPropertyWindow.Text = "Property Window";
             this.tspViewPropertyWindow.Click += new System.EventHandler(this.propertyWindowToolStripMenuItem_Click);
             // 
             // domainEditToolStripMenuItem
             // 
             this.domainEditToolStripMenuItem.Name = "domainEditToolStripMenuItem";
-            this.domainEditToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.domainEditToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
             this.domainEditToolStripMenuItem.Text = "Domain Edit";
             this.domainEditToolStripMenuItem.Click += new System.EventHandler(this.domainEditToolStripMenuItem_Click);
             // 
@@ -353,7 +353,7 @@ namespace primeira.pNeuron
             this.nNToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tspTrain});
             this.nNToolStripMenuItem.Name = "nNToolStripMenuItem";
-            this.nNToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.nNToolStripMenuItem.Size = new System.Drawing.Size(33, 20);
             this.nNToolStripMenuItem.Text = "NN";
             // 
             // tspTrain
@@ -379,7 +379,7 @@ namespace primeira.pNeuron
             this.tspStartTrain.Image = ((System.Drawing.Image)(resources.GetObject("tspStartTrain.Image")));
             this.tspStartTrain.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tspStartTrain.Name = "tspStartTrain";
-            this.tspStartTrain.Size = new System.Drawing.Size(81, 22);
+            this.tspStartTrain.Size = new System.Drawing.Size(78, 22);
             this.tspStartTrain.Text = "Start Train";
             this.tspStartTrain.Click += new System.EventHandler(this.tspStartTrain_Click);
             // 
@@ -388,7 +388,7 @@ namespace primeira.pNeuron
             this.tspKnowledgement.Image = ((System.Drawing.Image)(resources.GetObject("tspKnowledgement.Image")));
             this.tspKnowledgement.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tspKnowledgement.Name = "tspKnowledgement";
-            this.tspKnowledgement.Size = new System.Drawing.Size(148, 22);
+            this.tspKnowledgement.Size = new System.Drawing.Size(137, 22);
             this.tspKnowledgement.Text = "Reset Knowledgement ";
             this.tspKnowledgement.Click += new System.EventHandler(this.tspResetKnowledgement_Click);
             // 
@@ -397,7 +397,7 @@ namespace primeira.pNeuron
             this.tspResetMemory.Image = ((System.Drawing.Image)(resources.GetObject("tspResetMemory.Image")));
             this.tspResetMemory.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tspResetMemory.Name = "tspResetMemory";
-            this.tspResetMemory.Size = new System.Drawing.Size(103, 22);
+            this.tspResetMemory.Size = new System.Drawing.Size(96, 22);
             this.tspResetMemory.Text = "Reset Memory";
             this.tspResetMemory.Click += new System.EventHandler(this.tspResetMemory_Click);
             // 
@@ -406,7 +406,7 @@ namespace primeira.pNeuron
             this.tspPulse.Image = ((System.Drawing.Image)(resources.GetObject("tspPulse.Image")));
             this.tspPulse.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tspPulse.Name = "tspPulse";
-            this.tspPulse.Size = new System.Drawing.Size(58, 22);
+            this.tspPulse.Size = new System.Drawing.Size(56, 22);
             this.tspPulse.Text = "Pulse!";
             this.tspPulse.Click += new System.EventHandler(this.tspPulse_Click);
             // 

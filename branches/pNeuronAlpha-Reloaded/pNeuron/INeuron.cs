@@ -22,7 +22,7 @@ namespace primeira.pNeuron.Core
 
         NeuralNetwork NeuralNetwork { get; }
 
-        int ID { get; }
+        Guid ID { get; }
 
         int Command { get; }
     }

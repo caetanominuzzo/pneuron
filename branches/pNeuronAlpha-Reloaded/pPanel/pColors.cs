@@ -8,64 +8,55 @@ namespace primeira.pNeuron
     public class pColorBase
     {
         private Color Color;
+        private Pen _pen;
+        private Pen _selectedPen;
+        private Brush _brush;
+        private Brush _selectedBrush;
 
-        public const byte COLOR_RGB_MARGIN = 10; //0 - 255
+
         public const byte SELECTED_PEN_WIDTH = 2;
-
 
         public pColorBase(Color c)
         {
-            Color = SetRGBMinMax(c);
+            Color = c;
+            this._pen = new Pen(SetAlpha(AddRGB(Color, -20), 100), 1);
+            this._selectedPen = new Pen(SetAlpha(AddRGB(Color, -20), 100), SELECTED_PEN_WIDTH);
+            this._brush = new SolidBrush(SetAlpha(AddRGB(Color, 50), 20));
+            this._selectedBrush = new SolidBrush(SetAlpha(AddRGB(Color, 0), 30));
         }
 
         #region Static Color Transformation
 
         private static Color AddRGB(Color c, int Value)
         {
-            return Color.FromArgb(c.A, mm(c.R + Value), mm(c.G + Value), mm(c.B + Value));
+            return Color.FromArgb(c.A, (byte)(c.R + Value), (byte)(c.G + Value), (byte)(c.B + Value));
         }
 
-        private static Color SetAlpha(Color c, int Value)
+        private static Color SetAlpha(Color c, byte Value)
         {
             return Color.FromArgb(Value, c.R, c.G, c.B);
-        }
-
-        private static Color SetRGBMinMax(Color c)
-        {
-            return Color.FromArgb(c.A, mm(c.R), mm(c.G), mm(c.B));
-        }
-
-        private static int mm(int i1)
-        {
-            //The COLOR_RGB_MARGIN will avoid defaul use of mm() to set the max value to RGB colors
-            return mm(i1, 0 + COLOR_RGB_MARGIN, 255 - COLOR_RGB_MARGIN);
-        }
-
-        private static int mm(int i1, int i2, int i3)
-        {
-            return Math.Max(Math.Min(i1, i3), i2);
         }
 
         #endregion
 
         public Pen Pen
         {
-            get { return new Pen(SetAlpha(AddRGB(Color, -20), 100), 1); }
+            get { return this._pen; }
         }
 
         public Pen SelectedPen
         {
-            get { return new Pen(SetAlpha(AddRGB(Color, -20), 100), SELECTED_PEN_WIDTH); }
+            get { return this._selectedPen; }
         }
 
         public Brush Brush
         {
-            get { return new SolidBrush(SetAlpha(AddRGB(Color, 50), 20)); }
+            get { return this._brush; }
         }
 
         public Brush SelectedBrush
         {
-            get { return new SolidBrush( SetAlpha(AddRGB( Color, 0 ), 30) ); }
+            get { return this._selectedBrush; }
         }
 
         

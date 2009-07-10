@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{A50453C1-748D-4D4F-87F5-7A985F2D081E}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <ProjectGuid>{FBCA0D6A-8646-4C73-A757-E4FB8A080B0A}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Temp</RootNamespace>
-    <AssemblyName>Temp</AssemblyName>
+    <RootNamespace>pDataSource</RootNamespace>
+    <AssemblyName>pDataSource</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -42,55 +42,15 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Program.cs" />
+    <Compile Include="IntToDouble.cs" />
+    <Compile Include="IntToNeuronData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\pDisplay\pDisplay.csproj">
-      <Project>{35DD3087-E395-4D33-950F-F807AE4BDED0}</Project>
-      <Name>pDisplay</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\pNeuron\pNeuron.csproj">
-      <Project>{464378C1-CF56-486D-84F0-DC564A99901D}</Project>
-      <Name>pNeuron</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\pPanel\pPanel.csproj">
-      <Project>{D3847E8B-A4C3-49BB-B119-3F2B981C9154}</Project>
-      <Name>pPanel</Name>
-    </ProjectReference>
+    <Compile Include="StringToDomain.cs" />
+    <Compile Include="StringToNeuronData.cs" />
+    <Compile Include="TextFileToInputOutput.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

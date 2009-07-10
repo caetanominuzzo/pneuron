@@ -70,8 +70,7 @@ namespace primeira.pNeuron.Core
 
         private NeuronTypes m_neuronType = NeuronTypes.Hidden;
 
-
-        private int m_id = 0;
+        private Guid m_id = Guid.Empty;
 
         private int m_command = NeuralNetwork.CMD_NOTHING;
 
@@ -182,10 +181,10 @@ namespace primeira.pNeuron.Core
         /// Gets the neuron ID.
         /// </summary>
         [DataMember()]
-        public int ID
+        public Guid ID
         {
             get { return m_id; }
-            set { m_id = value; }
+            internal set { m_id = value; }
         }
 
         /// <summary>
@@ -361,6 +360,7 @@ namespace primeira.pNeuron.Core
             }
             else
             {
+
                 this.Error = (desiredResult) * SigmoidUtils.DerivativeSigmoid(this.Value);
             }
 
@@ -575,6 +575,16 @@ namespace primeira.pNeuron.Core
 
         //   internal delegate void OnNeuronPulseBackDelegate(Neuron sender);
         //   internal event OnNeuronPulseBackDelegate OnNeuronPulseBack;
+
+        #endregion
+
+        #region Location for Display
+
+        [DataMember()]
+        public int Left { get; set; }
+
+        [DataMember()]
+        public int Top { get; set; }
 
         #endregion
     }

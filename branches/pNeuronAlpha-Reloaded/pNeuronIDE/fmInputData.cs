@@ -25,7 +25,7 @@ namespace primeira.pNeuron
             InitializeComponent();
         }
 
-        public fmInputData(int InputCount)
+        public fmInputData(int InputCount /*, DataTable dt */)
         {
             DialogResult = DialogResult.Cancel;
             m_inputCount = InputCount;

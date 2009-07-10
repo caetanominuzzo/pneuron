@@ -189,7 +189,7 @@ namespace primeira.pNeuron
         {
             pDocument p = new pDocument();
 
-            if (p.Load() != DialogResult.OK)
+            if (p.LoadFile() != DialogResult.OK)
             {
                 p.Close();
             }
@@ -254,8 +254,29 @@ namespace primeira.pNeuron
 
         private void tspPulse_Click(object sender, EventArgs e)
         {
-            List<double> input = new List<double>();
+            
 
+            //DataTable dt = (DataTable)ActiveDocument. dgTrainingSet.DataSource;
+            //double[][] input = new double[dt.Rows.Count][];
+            //int iPerceptionNeuronCount = MainDisplay.Net.InputNeuronCount;
+            //int iXPosition = 0;
+            //foreach (DataRow r in dt.Rows)
+            //{
+
+            //    int iYPosition = 0;
+            //    double[] dIn = new double[iPerceptionNeuronCount];
+            //    foreach (DataColumn c in dt.Columns)
+            //    {
+            //        if (iYPosition >= iPerceptionNeuronCount)
+            //            continue;
+            //        dIn[iYPosition++] = Convert.ToDouble(r[c], System.Globalization.CultureInfo.InvariantCulture);
+            //    }
+
+            //    input[iXPosition++] = dIn;
+
+            //}
+
+            List<double> input = new List<double>();
             using (fmInputData f = new fmInputData(ActiveDocument.MainDisplay.Net.InputNeuronCount))
             {
                 int iInput = 0;
