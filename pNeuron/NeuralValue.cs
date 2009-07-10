@@ -22,7 +22,7 @@ namespace primeira.pNeuron.Core
         /// </summary>
         /// <param name="neuron">Neuron parent.</param>
         /// <param name="value">Initial value.</param>
-        public NeuralValue(INeuron neuron, double value)
+        public NeuralValue(INeuron neuron, double value) : this()
         {
             m_neuron = (Neuron)neuron;
             m_weight = value;
@@ -34,7 +34,7 @@ namespace primeira.pNeuron.Core
         /// </summary>
         public NeuralValue()
         {
-
+           
         }
 
         #endregion
@@ -44,6 +44,8 @@ namespace primeira.pNeuron.Core
         private double m_weight, m_delta;
 
         private Neuron m_neuron;
+
+        
 
         #endregion
 
@@ -89,6 +91,9 @@ namespace primeira.pNeuron.Core
         /// <param name="Error"></param>
         public void CalculateDelta(double Error, double Momentum)
         {
+
+
+
             //Delta of the Bias
             if (this.Neuron.Bias == this)
             {

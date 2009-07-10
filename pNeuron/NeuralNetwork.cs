@@ -51,6 +51,18 @@ namespace primeira.pNeuron.Core
 
         public NeuralNetwork()
         {
+            dt = new System.Data.DataTable();
+            dt.Columns.Add("si1", typeof(double));
+            dt.Columns.Add("si2", typeof(double));
+            dt.Columns.Add("si3", typeof(double));
+            dt.Columns.Add("si4", typeof(double));
+            dt.Columns.Add("si5", typeof(double));
+            dt.Columns.Add("si6", typeof(double));
+            dt.Columns.Add("i1", typeof(double));
+            dt.Columns.Add("i2", typeof(double));
+            dt.Columns.Add("o1", typeof(double));
+
+
             m_learningRate = DEFAULT_LEARNING_RATE;
             m_momentum = DEFAULT_MOMENTUM;
             m_innerTrainingTimes = DEFAULT_INNER_TRAINING_TIMES;
@@ -207,12 +219,11 @@ namespace primeira.pNeuron.Core
         /// <summary>
         /// Gets a new ID.
         /// </summary>
-        public int GeneratorID
+        public Guid GeneratorID
         {
             get
             {
-                m_generatorID++;
-                return m_generatorID;
+                return Guid.NewGuid();
             }
         }
 
@@ -405,7 +416,7 @@ namespace primeira.pNeuron.Core
             if (OnStartTraing != null)
                 OnStartTraing();
             int i, j;
-
+           
             for (i = 0; i < input.Length; i++)
                 for (j = 0; j < input[i].Length; j++)
                     input[i][j] = SigmoidUtils.Sigmoid(input[i][j]);
@@ -453,15 +464,18 @@ namespace primeira.pNeuron.Core
                     if (OnRefreshCyclesSec != null)
                         OnRefreshCyclesSec(count * m_innerTrainingTimes);
 
-                //dGlobalError = GlobalError;
-
-                if (dGlobalError < 0.000000000000000001)
+                if (dGlobalError < 0.0000000000001)
                     m_stopOnNextCycle = true;
             }
 
             if (OnStopTraing != null)
                 OnStopTraing();
+
+            if (OnMinimumReach != null)
+                OnMinimumReach();
+
         }
+        System.Data.DataTable dt;
 
         /// <summary>
         /// Trains the Neural Network.
@@ -471,6 +485,8 @@ namespace primeira.pNeuron.Core
         /// <param name="iterations">Number of internal cycles.</param>
         public double TrainSession(double[][] inputs, double[][] outputs, int iterations)
         {
+
+            
 
 
 
@@ -496,12 +512,27 @@ namespace primeira.pNeuron.Core
                         {
                             SetInputData(inputs[j]);
                             Pulse();
+                            //dt.Rows.Add(new object[]
+                            //    {
+                            //        this.Neuron[0].GetSynapseTo(this.Neuron[2]).Weight,
+                            //        this.Neuron[0].GetSynapseTo(this.Neuron[3]).Weight,
+                            //        this.Neuron[1].GetSynapseTo(this.Neuron[2]).Weight,
+                            //        this.Neuron[1].GetSynapseTo(this.Neuron[3]).Weight,
+                            //        this.Neuron[2].GetSynapseTo(this.Neuron[4]).Weight,
+                            //        this.Neuron[3].GetSynapseTo(this.Neuron[4]).Weight,
+                            //        this.Neuron[0].Value,
+                            //        this.Neuron[1].Value,
+                            //        this.Neuron[4].Value
+                            //    });
                             PulseBack(outputs[j]);
                             CalculateDelta();
                         }
                     }
 
-                    dErrorSum += GlobalError;
+                    //if (dt.Rows.Count > 100)
+                    //    dErrorSum = 0;
+                    //else
+                        dErrorSum += GlobalError;
 
                     ApplyLearning();
                 }
@@ -621,6 +652,9 @@ namespace primeira.pNeuron.Core
 
         public delegate void OnStopTraingDelegate();
         public event OnStopTraingDelegate OnStopTraing;
+
+        public delegate void OnMinimumReachDelegate();
+        public event OnMinimumReachDelegate OnMinimumReach;
 
         public delegate void OnResetLearningDelegate();
         public event OnResetLearningDelegate OnResetLearning;

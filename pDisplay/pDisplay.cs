@@ -9,34 +9,18 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Collections;
 using primeira.pRandom;
+using System.Linq;
 
 namespace primeira.pNeuron
 {
-    #region Enums
-
-    public enum pTreeviewRefresh
-    {
-        pPanelAdd,
-        pPanelRemove,
-        pPanelGroupRemove,
-        pGroupClear,
-        pFullRefreh
-    }
-
-    #endregion
-
-    public partial class pDisplay : Panel, primeira.pNeuron.IpPanels
+    public partial class pDisplay : Panel, IpPanels
     {
         
-        [DllImport("Kernel32.dll")]
-        public static extern bool Beep(UInt32 frequency, UInt32 duration);
-
         NeuralNetwork m_net ;
 
         public NeuralNetwork Net
         {
             get { return m_net; }
-             //set { m_net = value; }
         }
 
         #region events
@@ -47,36 +31,10 @@ namespace primeira.pNeuron
         public delegate void DisplayStatusChangeDelegate();
         public event DisplayStatusChangeDelegate OnDisplayStatusChange;
 
-        public delegate void TreeViewChangeDelegate(object o, pTreeviewRefresh mode);
-        public event TreeViewChangeDelegate OnTreeViewChange;
-
         public delegate void NetworkChangeDelegate();
         public event NetworkChangeDelegate OnNetworkChange;
 
-        public delegate void NewDomainDelegate();
-        public event NewDomainDelegate OnNewDomain;
-
-
         #endregion
-
-        #region Network Events
-
-        public event NeuralNetwork.OnPulseDelegate OnPulse;
-
-        public event NeuralNetwork.OnPulseBackDelegate OnPulseBack;
-
-        public event NeuralNetwork.OnRefreshCyclesSecDelegate OnRefreshCyclesSec;
-
-        public event NeuralNetwork.OnStartTraingDelegate OnStartTraing;
-
-        public event NeuralNetwork.OnStopTraingDelegate OnStopTraing;
-
-        public event NeuralNetwork.OnResetLearningDelegate OnResetLearning;
-
-        public event NeuralNetwork.OnResetKnowledgementDelegate OnResetKnowledgement;
-
-        #endregion
-
 
         #region Enums
 
@@ -122,34 +80,9 @@ namespace primeira.pNeuron
         /// </summary>
         private bool m_allignToGrid = false;
 
-        /// <summary>
-        /// Grid Color.
-        /// </summary>
-        private Color m_gridLineColor = Color.LightGray;
-
-        /// <summary>
-        /// Indicates to draw grid at onPaint.
-        /// </summary>
-        private bool m_gridShow = false;
-
-        /// <summary>
-        /// Indicates Bezier mode enabled. Has a get/set on Bezier.
-        /// </summary>
-        private bool m_bezier = true;
-
         #endregion
 
         #region Status/Flags/Pressed Keys
-
-        /// <summary>
-        /// Indicates shift key is pressed. Has a get/set on Shiftkey.
-        /// </summary>
-        private bool m_shiftKey = false;
-
-        /// <summary>
-        /// Indicates ctrl key is pressed. Has a get/set on Ctrlkey.
-        /// </summary>
-        private bool m_ctrlKey = false;
 
         /// <summary>
         /// Keep initial point of the select rectangle otherwise null.
@@ -174,26 +107,7 @@ namespace primeira.pNeuron
         #endregion
 
         #region Groups. Implemented on pDisplayControls
-
-        /// <summary>
-        /// Neuron groups. Has a public get on Groups.
-        /// </summary>
-        private List<pPanel>[] m_groups;
-        private System.ComponentModel.IContainer components;
-        private ContextMenuStrip pPanelMenu;
-        private ToolStripMenuItem tspNeuronType;
-        private ToolStripMenuItem tspDataType;
-        private ContextMenuStrip mspNeuronType;
-        private ToolStripMenuItem tspNeuronTypeInput;
-        private ToolStripMenuItem tspNeuronTypeHidden;
-        private ToolStripMenuItem tspNeuronTypeOutput;
-        private ContextMenuStrip mspDataType;
-        private ToolStripMenuItem toolStripMenuItem5;
-        private ToolStripMenuItem toolStripMenuItem6;
-        private ToolStripMenuItem toolStripMenuItem7;
-        private ToolStripSeparator toolStripSeparator1;
-        private ToolStripMenuItem tspNewDomain;
-
+        
         /// <summary>
         /// All pPanels on pDisplay. Has a get on pPanels.
         /// </summary>
@@ -208,7 +122,7 @@ namespace primeira.pNeuron
         public pDisplay()
         {
             InitializeComponent();
-
+            
             //Makes all this stuff slow =(
             DoubleBuffered = true;
 
@@ -218,14 +132,7 @@ namespace primeira.pNeuron
             //Initialize with no neurons selected
             m_lastSelectItems = new List<pPanel>();
 
-            //Initialize with pColors.Colors.Length
-            m_groups = new List<pPanel>[pColors.Colors.Length];
-
             m_graphics = CreateGraphics();
-
-            //Initialize all groups
-            for (int i = 0; i < m_groups.Length; i++)
-                m_groups[i] = new List<pPanel>();
 
             //Initialize NeuralNet
             SetNeuralNetwork(new NeuralNetwork());
@@ -233,170 +140,15 @@ namespace primeira.pNeuron
 
         }
 
-        private void InitializeComponent()
-        {
-            this.components = new System.ComponentModel.Container();
-            this.pPanelMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.tspNeuronType = new System.Windows.Forms.ToolStripMenuItem();
-            this.tspDataType = new System.Windows.Forms.ToolStripMenuItem();
-            this.mspNeuronType = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.mspDataType = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.tspNeuronTypeInput = new System.Windows.Forms.ToolStripMenuItem();
-            this.tspNeuronTypeHidden = new System.Windows.Forms.ToolStripMenuItem();
-            this.tspNeuronTypeOutput = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.tspNewDomain = new System.Windows.Forms.ToolStripMenuItem();
-            this.pPanelMenu.SuspendLayout();
-            this.mspNeuronType.SuspendLayout();
-            this.mspDataType.SuspendLayout();
-            this.SuspendLayout();
-            // 
-            // pPanelMenu
-            // 
-            this.pPanelMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tspNeuronType,
-            this.tspDataType});
-            this.pPanelMenu.Name = "contextMenuStrip1";
-            this.pPanelMenu.Size = new System.Drawing.Size(148, 48);
-            this.pPanelMenu.Opening += new System.ComponentModel.CancelEventHandler(this.pPanelMenu_Opening);
-            this.pPanelMenu.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.pPanelMenu_ItemClicked);
-            // 
-            // tspNeuronType
-            // 
-            this.tspNeuronType.DropDown = this.mspNeuronType;
-            this.tspNeuronType.Name = "tspNeuronType";
-            this.tspNeuronType.Size = new System.Drawing.Size(147, 22);
-            this.tspNeuronType.Text = "NeuronType";
-            // 
-            // tspDataType
-            // 
-            this.tspDataType.DropDown = this.mspDataType;
-            this.tspDataType.Name = "tspDataType";
-            this.tspDataType.Size = new System.Drawing.Size(147, 22);
-            this.tspDataType.Text = "tspDataType";
-            // 
-            // mspNeuronType
-            // 
-            this.mspNeuronType.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tspNeuronTypeInput,
-            this.tspNeuronTypeHidden,
-            this.tspNeuronTypeOutput});
-            this.mspNeuronType.Name = "mspNeuronType";
-            this.mspNeuronType.Size = new System.Drawing.Size(120, 70);
-            // 
-            // mspDataType
-            // 
-            this.mspDataType.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem5,
-            this.toolStripMenuItem6,
-            this.toolStripMenuItem7,
-            this.toolStripSeparator1,
-            this.tspNewDomain});
-            this.mspDataType.Name = "mspDataType";
-            this.mspDataType.Size = new System.Drawing.Size(180, 98);
-            this.mspDataType.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.mspDataType_ItemClicked);
-            // 
-            // tspNeuronTypeInput
-            // 
-            this.tspNeuronTypeInput.Name = "tspNeuronTypeInput";
-            this.tspNeuronTypeInput.Size = new System.Drawing.Size(119, 22);
-            this.tspNeuronTypeInput.Text = "Input";
-            // 
-            // tspNeuronTypeHidden
-            // 
-            this.tspNeuronTypeHidden.Name = "tspNeuronTypeHidden";
-            this.tspNeuronTypeHidden.Size = new System.Drawing.Size(119, 22);
-            this.tspNeuronTypeHidden.Text = "Hidden";
-            // 
-            // tspNeuronTypeOutput
-            // 
-            this.tspNeuronTypeOutput.Name = "tspNeuronTypeOutput";
-            this.tspNeuronTypeOutput.Size = new System.Drawing.Size(119, 22);
-            this.tspNeuronTypeOutput.Text = "Output";
-            // 
-            // toolStripMenuItem5
-            // 
-            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(179, 22);
-            this.toolStripMenuItem5.Text = "toolStripMenuItem5";
-            // 
-            // toolStripMenuItem6
-            // 
-            this.toolStripMenuItem6.Name = "toolStripMenuItem6";
-            this.toolStripMenuItem6.Size = new System.Drawing.Size(179, 22);
-            this.toolStripMenuItem6.Text = "toolStripMenuItem6";
-            // 
-            // toolStripMenuItem7
-            // 
-            this.toolStripMenuItem7.Name = "toolStripMenuItem7";
-            this.toolStripMenuItem7.Size = new System.Drawing.Size(179, 22);
-            this.toolStripMenuItem7.Text = "toolStripMenuItem7";
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(176, 6);
-            // 
-            // tspNewDomain
-            // 
-            this.tspNewDomain.Name = "tspNewDomain";
-            this.tspNewDomain.Size = new System.Drawing.Size(179, 22);
-            this.tspNewDomain.Text = "New Domain";
-            this.pPanelMenu.ResumeLayout(false);
-            this.mspNeuronType.ResumeLayout(false);
-            this.mspDataType.ResumeLayout(false);
-            this.ResumeLayout(false);
-
-        }
-
         #endregion
 
         #region Properties
-
-        #region Enviroment Options
-
-        /// <summary>
-        /// Get or set if synapse draw will do bezier.
-        /// </summary>
-        public bool Bezier
-        {
-            get { return m_bezier; }
-            set { m_bezier = value; }
-        }
-
-        #endregion
-
-        #region Status/Flags/Pressed Keys
-
-        public bool ShiftKey
-        {
-            get { return m_shiftKey; }
-            set { m_shiftKey = value; }
-        }
-
-        public bool CtrlKey
-        {
-            get { return m_ctrlKey; }
-            set
-            {
-                m_ctrlKey = value;
-                RefreshHighlight();
-                Invalidate();
-            }
-        }
 
         public Point DisplayMousePosition
         {
             get
             {
-                return new Point(
-                    PointToClient(
-                        MousePosition).X,
-                    PointToClient(
-                        MousePosition).Y);
+                return PointToClient(MousePosition);
             }
         }
 
@@ -407,8 +159,8 @@ namespace primeira.pNeuron
             set
             {
 
-//                if (m_displayStatus == value)
-//                    return;
+                //if (m_displayStatus == value)
+                //    return;
 
                 if (m_displayStatus == pDisplayStatus.Training && (value != pDisplayStatus.Training && value != pDisplayStatus.Idle) && m_displayStatus != value)
                 {
@@ -424,6 +176,8 @@ namespace primeira.pNeuron
                             break;
                         case pDisplayStatus.Linking: Cursor = Cursors.Cross;
                             break;
+                        case pDisplayStatus.Linking_Paused: if (SelectedpPanels.Count() > 0) DisplayStatus = pDisplayStatus.Linking;
+                            break;
                         default: this.Invoke(new Assinc(SetCursorDefaultCrossThread));
                             break;
 
@@ -438,14 +192,6 @@ namespace primeira.pNeuron
         {
             Cursor = Cursors.Default;
         }
-
-        #endregion
-
-        /// <summary>
-        /// Output logger.
-        /// TODO: Create a fmLogger dockable window
-        /// </summary>
-        public TextBox Logger = new TextBox();
 
         #endregion
 
@@ -617,8 +363,6 @@ namespace primeira.pNeuron
         protected override void OnMouseMove(MouseEventArgs e)
         {
 
-            RefreshHighlight();
-
             if (DisplayStatus == pDisplayStatus.Selecting)
             {
 
@@ -727,70 +471,35 @@ namespace primeira.pNeuron
                     Invalidate();
 
                 }
-                else if (DisplayStatus == pDisplayStatus.Linking || DisplayStatus == pDisplayStatus.Linking_Paused)
-                {
-                    if (SelectedpPanels.Length > 0)
-                    {
-                        DisplayStatus = pDisplayStatus.Linking;
-                        if (Contains(HighlightedpPanels, SelectedpPanels) > 0)
-                        {
-                            Cursor = Cursors.No;
-                        }
-
-                        Invalidate();
-
-                    }
-                }
                 else if (DisplayStatus == pDisplayStatus.Idle)
                 {
                     if (MouseButtons == MouseButtons.Left && SelectedpPanels.Length > 0)
                     {
                         DisplayStatus = pDisplayStatus.Moving;
                     }
-                    else
-                    {
-
-                        RefreshHighlight();
-                    }
 
                 }
-
+                else if (DisplayStatus == pDisplayStatus.Linking)
+                {
+                    Invalidate();
+                }
+                
         }
 
         protected override void OnMouseDown(MouseEventArgs e)
         {
-            if(e.Button == MouseButtons.Right)
-            {
-                if (HighlightedpPanels.Length > 0)
-                    pPanelMenu.Show(PointToScreen(e.Location));
-
-                return;
-            }
-
             Point p = DisplayMousePosition;
-
-            if (Cursor == Cursors.No)
-            {
-                Beep(456, 100);
-                return;
-            }
 
             #region Add Neuron
 
             if (DisplayStatus == pDisplayStatus.Add_Neuron)
             {
-                pPanel pp = this.Add( );
-                int x, y;
-                x = pp.Location.X;
-                y = pp.Location.Y;
-                pp.Location = new Point((((DisplayMousePosition.X - pp.Width / 2) / m_gridDistance) * m_gridDistance),
-                                        ((DisplayMousePosition.Y - pp.Height / 2) / m_gridDistance) * m_gridDistance);
+                Neuron n = this.Net.AddNeuron();
+                
+                n.Left = (DisplayMousePosition.X/m_gridDistance) * m_gridDistance;
+                n.Top = (DisplayMousePosition.Y/m_gridDistance) * m_gridDistance;
 
-                pp.Location = new Point(
-                    (pp.Location.X + pp.Width / 2 < x) ? pp.Location.X : pp.Location.X + pp.Width / 2,
-                    (pp.Location.Y + pp.Height / 2 < y) ? pp.Location.Y : pp.Location.Y + pp.Height / 2);
-
-
+                pPanel pp = this.Add(n);
 
                 Invalidate(pp.Bounds);
 
@@ -804,14 +513,13 @@ namespace primeira.pNeuron
 
             bool bFound = false;
 
+            pPanel[] HighlightedpPanels = (from x in this.pPanels where Contains(x.Bounds, new Rectangle(p, new Size(1, 1)), true) select x).ToArray();
+
             if (DisplayStatus != pDisplayStatus.Selecting)
             {
                 if (HighlightedpPanels.Length > 0)
                 {
-
-                    //TODO:TargetpPanel.BringToFront();
                     bFound = true;
-
 
                     switch (DisplayStatus)
                     {
@@ -822,10 +530,10 @@ namespace primeira.pNeuron
                             if (DisplayStatus == pDisplayStatus.Linking_Paused)
                             {
                                 Select(HighlightedpPanels);
+                                DisplayStatus = pDisplayStatus.Linking;
+                                Invalidate();
                                 return;
                             }
-
-
 
                             if (SelectedpPanels.Length > 0)
                             {
@@ -858,14 +566,16 @@ namespace primeira.pNeuron
                                         }
                                     }
                                 }
+                                else
+                                {
+
+                                    //DrawSynapse(
+                                }
                             }
 
                             break;
 
                         case pDisplayStatus.Idle:
-
-                            if (!ShiftKey && Contains(HighlightedpPanels, SelectedpPanels) != HighlightedpPanels.Length)
-                                UnSelect();
 
                             Select(HighlightedpPanels);
 
@@ -897,11 +607,8 @@ namespace primeira.pNeuron
                     m_selectSourcePoint = DisplayMousePosition;
                     DisplayStatus = pDisplayStatus.Selecting;
                 }
-
-                if (!ShiftKey)
-                    UnSelect();
-
-                UnHighLight();
+                
+                UnSelect();
             }
             Invalidate();
         }
@@ -953,7 +660,6 @@ namespace primeira.pNeuron
         {
             e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
             base.OnPaint(e);
-            DrawLines(e);
 
             if(DisplayStatus == pDisplayStatus.Training && false)
             {
@@ -1016,6 +722,7 @@ namespace primeira.pNeuron
 
                 foreach (pPanel p in SelectedpPanels)
                 {
+                    pPanel[] HighlightedpPanels = (from x in this.pPanels where Contains(x.Bounds, new Rectangle(DisplayMousePosition, new Size(1, 1)), true) select x).ToArray();
 
                     if (HighlightedpPanels.Length > 0)
                     {
@@ -1070,48 +777,6 @@ namespace primeira.pNeuron
 
         }
 
-        private void DrawLines(PaintEventArgs e)
-        {
-            if (m_gridShow)
-            {
-                Pen pp = pColors.Red.Pen;
-
-                Pen p = new Pen(m_gridLineColor);
-                int w = e.ClipRectangle.Width;
-                int h = e.ClipRectangle.Height;
-
-                Graphics g = e.Graphics;
-
-                for (int i = w / 2; i < w; i += m_gridDistance)
-                {
-                    g.DrawLine(p, i, 0, i, Height);
-
-                    g.DrawLine(p, w / 2 - i + w / 2, 0, w / 2 - i + w / 2, Height);
-                }
-
-
-                for (int j = 0; j < h; j += m_gridDistance)
-                {
-
-                    g.DrawLine(p, 0, j, Width, j);
-                }
-
-                DrawCentralLines(g);  
-            }
-
-
-        }
-
-        private void DrawCentralLines(Graphics g)
-        {
-
-            Pen p = new Pen(Color.Red);
-            int w = Width;
-            int h = Height;
-            g.DrawLine(p, w / 2, 0, w / 2, Height);
-            g.DrawLine(p, 0, h / 2, Width, h / 2);
-        }
-
         public void DrawSelect(Rectangle cBounds, Graphics gg)
         {
             m_lastSelectRectangleDrow = cBounds;
@@ -1128,7 +793,11 @@ namespace primeira.pNeuron
         public void DrawSynapse(pPanel c, Point d, Graphics g)
         {
             pPanel dd = new pPanel(g);
+
+            //just to keep the location data
+            dd.Neuron = new Neuron();
             dd.Location = new Point(d.X - AutoScrollPosition.X, d.Y - AutoScrollPosition.Y);
+
             DrawSynapse(dd, c, g);
         }
 
@@ -1208,23 +877,18 @@ namespace primeira.pNeuron
             int signX = d.Bounds.Left + (d.Bounds.Width / 2) > c.Bounds.Left + (c.Bounds.Width / 2) ? 1 : -1;
             int signY = d.Bounds.Top + (d.Bounds.Height / 2) > c.Bounds.Top + (c.Bounds.Height / 2) ? 1 : -1;
 
-            catA = c.Top - d.Top;
-            catB = c.Left - d.Left;
+            catA = c.Location.Y - d.Location.Y;
+            catB = c.Location.X - d.Location.X;
             hyp = Convert.ToInt32(Math.Sqrt(Math.Pow(catA, 2) + Math.Pow(catB, 2)));
 
             double cos = -catA / hyp;
             double sen = -catB / hyp;
 
-            double radXC = c.Bounds.Left + (c.Bounds.Width / 2) + (sen * c.Width / 2);
-            double radYC = c.Bounds.Top + (c.Bounds.Height / 2) + (cos * c.Width / 2);
+            double radXC = c.Bounds.Left + (c.Bounds.Width / 2) + (sen * c.Size.Width / 2);
+            double radYC = c.Bounds.Top + (c.Bounds.Height / 2) + (cos * c.Size.Width / 2);
 
-            double radXD = d.Bounds.Left + (d.Bounds.Width / 2) + (sen * d.Width / 2);
-            double radYD = d.Bounds.Top + (d.Bounds.Height / 2) + (cos * d.Width / 2);
-
-            if (m_bezier)
-            {
-
-
+            double radXD = d.Bounds.Left + (d.Bounds.Width / 2) + (sen * d.Size.Width / 2);
+            double radYD = d.Bounds.Top + (d.Bounds.Height / 2) + (cos * d.Size.Width / 2);
 
 
                 g.DrawBezier(p,
@@ -1235,14 +899,6 @@ namespace primeira.pNeuron
                     new Point(d.Bounds.Left + (d.Bounds.Width / 2), d.Bounds.Top + (d.Bounds.Height / 2))
 
                     );
-            }
-            else
-            {
-                g.DrawLine(p,
-                    new Point((int)radXC, (int)radYC),
-                    new Point(d.Bounds.Left + (d.Bounds.Width / 2), d.Bounds.Top + (d.Bounds.Height / 2))
-                    );
-            }
 
 
 
@@ -1281,111 +937,13 @@ namespace primeira.pNeuron
 
             this.m_net = aNet;
 
-            foreach (pPanel p in pPanels)
-            {
-                foreach (Neuron n in aNet.Neuron)
-                    if (p.Neuron.ID == n.ID)
-                        p.Neuron = n;
-            }
+            pPanels.Clear();
 
-            #region Network Events
+            foreach (Neuron n in aNet.Neuron)
+                Add(n);
 
-            this.Net.OnPulse += new NeuralNetwork.OnPulseDelegate(Net_OnPulse);
-
-            this.Net.OnPulseBack += new NeuralNetwork.OnPulseBackDelegate(Net_OnPulseBack);
-            
-            this.Net.OnRefreshCyclesSec += new NeuralNetwork.OnRefreshCyclesSecDelegate(Net_OnRefreshCyclesSec);
-
-            this.Net.OnStartTraing += new NeuralNetwork.OnStartTraingDelegate(Net_OnStartTraing);
-
-            this.Net.OnStopTraing += new NeuralNetwork.OnStopTraingDelegate(Net_OnStopTraing);
-
-            this.Net.OnResetLearning += new NeuralNetwork.OnResetLearningDelegate(Net_OnResetLearning);
-
-            this.Net.OnResetKnowledgement += new NeuralNetwork.OnResetKnowledgementDelegate(Net_OnResetKnowledgement);
-
-            #endregion
+            Invalidate();
         }
-
-        #region Network Events
-
-        void Net_OnResetKnowledgement()
-        {
-            if (OnResetKnowledgement != null)
-                OnResetKnowledgement();
-        }
-
-        void Net_OnResetLearning()
-        {
-            if (OnResetLearning != null)
-                OnResetLearning();
-        }
-
-        void Net_OnStopTraing()
-        {
-            if (OnStopTraing != null)
-                OnStopTraing();
-        }
-
-        void Net_OnStartTraing()
-        {
-            if (OnStartTraing != null)
-                OnStartTraing();
-        }
-
-        void Net_OnRefreshCyclesSec(int Times)
-        {
-            if (OnRefreshCyclesSec != null)
-                OnRefreshCyclesSec(Times);
-        }
-
-        void Net_OnPulseBack()
-        {
-            if (OnPulseBack != null)
-                OnPulseBack();
-        }
-
-        void Net_OnPulse()
-        {
-            if (OnPulse != null)
-                OnPulse();
-        }
-
-        #endregion
-
-        private void pPanelMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            if(HighlightedpPanels.Length == 1)
-            {
-            }
-            else 
-            {
-                foreach(pPanel p in HighlightedpPanels)
-                {
-                  //  if(p.DataType != DataTypes.List)
-                }
-            }
-        }
-
-        private void pPanelMenu_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-            //if(sender == tspNewDomain)
-            //{
-            //    fmDomainEdit f = new fmDomainEdit();
-            //    f.ShowDialog();
-            //}
-        }
-
-        private void mspDataType_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-            if (e.ClickedItem == tspNewDomain)
-            {
-                if (OnNewDomain!=null)
-                    OnNewDomain();
-                
-            }
-        }
-
 
     }
 }
