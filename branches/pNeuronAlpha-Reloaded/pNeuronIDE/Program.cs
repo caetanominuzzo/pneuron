@@ -19,6 +19,7 @@ namespace primeira.pNeuron
             #if RELEASE
                 Splasher.ShowSplashScreen();
             #endif
+
             Application.Run(new pNeuronIDE());
         }
     }
