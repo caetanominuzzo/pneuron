@@ -95,11 +95,6 @@ namespace primeira.pNeuron
         private Nullable<Rectangle> m_lastSelectRectangleDrow;
 
         /// <summary>
-        /// Store the neurons selected til previous action.
-        /// </summary>
-        private List<pPanel> m_lastSelectItems;
-
-        /// <summary>
         /// Main status of pDisplay. Has a get/set on DisplayStatus.
         /// </summary>
         private pDisplayStatus m_displayStatus = pDisplayStatus.Idle;
@@ -129,15 +124,10 @@ namespace primeira.pNeuron
             //Initialize neuron list
             m_pPanels = new List<pPanel>();
 
-            //Initialize with no neurons selected
-            m_lastSelectItems = new List<pPanel>();
-
             m_graphics = CreateGraphics();
 
             //Initialize NeuralNet
             SetNeuralNetwork(new NeuralNetwork());
-
-
         }
 
         #endregion
@@ -372,9 +362,6 @@ namespace primeira.pNeuron
                     foreach (pPanel p in m_pPanels)
                     {
 
-                        if (m_lastSelectItems.Contains(p))
-                            continue;
-
                         if (p.Selected)
                             continue;
 
@@ -389,24 +376,6 @@ namespace primeira.pNeuron
                             Select(p);
                         }
                     }
-                }
-
-                if (m_lastSelectItems.Count > 0)
-                {
-                    foreach (pPanel p in m_pPanels)
-                    {
-                        if (!Contains(MakeRectanglePossible(new Rectangle(m_selectSourcePoint.Value,
-                                    new Size(
-                                    DisplayMousePosition.X - m_selectSourcePoint.Value.X,
-                                    DisplayMousePosition.Y - m_selectSourcePoint.Value.Y)
-
-                                    )), p.Bounds, true) && m_lastSelectItems.Contains(p))
-                        {
-                            UnSelect(p);
-                            m_lastSelectItems.Remove(p);
-                        }
-                    }
-
                 }
 
                 if (m_selectSourcePoint.HasValue)
@@ -440,7 +409,7 @@ namespace primeira.pNeuron
                         foreach (pPanel pp in SelectedpPanels)
                         {
                             Rectangle r = pp.Bounds;
-                            //                            r.Inflate(10, 10);
+
                             Point tempP = new Point(Convert.ToInt32(Math.Round(((double)p.X - ((double)pp.MousePositionOnDown.X)) / (double)iGridDistance)) * iGridDistance, Convert.ToInt32(Math.Round(((double)p.Y - ((double)pp.MousePositionOnDown.Y)) / (double)iGridDistance)) * iGridDistance);
 
                             if (pp.Location != tempP)
@@ -566,11 +535,6 @@ namespace primeira.pNeuron
                                         }
                                     }
                                 }
-                                else
-                                {
-
-                                    //DrawSynapse(
-                                }
                             }
 
                             break;
@@ -599,6 +563,8 @@ namespace primeira.pNeuron
 
             if (!bFound)
             {
+                UnSelect();
+
                 if (DisplayStatus == pDisplayStatus.Linking)
                     DisplayStatus = pDisplayStatus.Linking_Paused;
 
@@ -608,8 +574,9 @@ namespace primeira.pNeuron
                     DisplayStatus = pDisplayStatus.Selecting;
                 }
                 
-                UnSelect();
+                
             }
+
             Invalidate();
         }
 
@@ -637,7 +604,6 @@ namespace primeira.pNeuron
                     }
 
                     m_selectSourcePoint = null;
-                    m_lastSelectItems.Clear();
 
                     DisplayStatus = pDisplayStatus.Idle;
                 }

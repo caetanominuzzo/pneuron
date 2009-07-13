@@ -13,14 +13,13 @@ namespace primeira.pNeuron
         private Brush _brush;
         private Brush _selectedBrush;
 
-
-        public const byte SELECTED_PEN_WIDTH = 2;
+        public const float SELECTED_PEN_WIDTH = 2.0f;
 
         public pColorBase(Color c)
         {
             Color = c;
             this._pen = new Pen(SetAlpha(AddRGB(Color, -20), 100), 1);
-            this._selectedPen = new Pen(SetAlpha(AddRGB(Color, -20), 100), SELECTED_PEN_WIDTH);
+            this._selectedPen = new Pen(SetAlpha(AddRGB(Color, -20), 100), 4.0f);
             this._brush = new SolidBrush(SetAlpha(AddRGB(Color, 50), 20));
             this._selectedBrush = new SolidBrush(SetAlpha(AddRGB(Color, 0), 30));
         }

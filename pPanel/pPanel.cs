@@ -29,6 +29,7 @@ namespace primeira.pNeuron
         //Its 20% quickly to store the bounds in a rectabgle than do a "new Rectangle" every time get_Bounds is called.
         private Rectangle _bounds;
 
+        [Browsable(false)]
         public Rectangle Bounds
         {
             get {
@@ -41,6 +42,7 @@ namespace primeira.pNeuron
                 }
         }
 
+        [Browsable(false)]
         public Point Location
         {
             get { return _bounds.Location; }
@@ -51,6 +53,7 @@ namespace primeira.pNeuron
                 }
         }
 
+        [Browsable(false)]
         public Size Size
         {
             get { return _bounds.Size; }
@@ -61,10 +64,10 @@ namespace primeira.pNeuron
 
         #region Browsable
 
-        [Browsable(true)]
-        public INeuron[] Input { get { return Neuron.GetInputNeurons(); } } 
+        [Browsable(false)]
+        public INeuron[] Input { get { return Neuron.GetInputNeurons(); } }
 
-        [Browsable(true)]
+        [Browsable(false)]
         public INeuron[] Output { get { return Neuron.GetOutputNeurons(); } }
 
         [Browsable(true)]
@@ -134,7 +137,7 @@ namespace primeira.pNeuron
         }
 
         [Browsable(true)]
-        public double Value2
+        public double UnsigmoidValue
         {
             get
             {
@@ -142,7 +145,7 @@ namespace primeira.pNeuron
             }
         }
 
-        [Browsable(true)]
+        [Browsable(false)]
         public double Command
         {
             get
@@ -155,18 +158,21 @@ namespace primeira.pNeuron
 
         #endregion
 
+        [Browsable(true)]
         public NeuronTypes NeuronType
         {
             get { return Neuron.NeuronType; }
             set { Neuron.NeuronType = value; }
         }
 
+        [Browsable(false)]
         public Control Parent
         {
             get { return m_parent; }
             set { m_parent = value; }
         }
 
+        [Browsable(false)]
         public Neuron Neuron
         {
             get { return m_neuron; }
@@ -179,29 +185,38 @@ namespace primeira.pNeuron
         private bool m_highlighed = false;
         private bool m_selected = false;
 
+        [Browsable(false)]
         public pPanel(Graphics g)
         {
             m_groups = 0;
             m_graphics = g;
         }
 
+        [Browsable(false)]
         public Pen GetPenStyle()
         {
             if (Selected)
             {
-                return pColors.Colors[0].SelectedPen;
+                return _selectedPen;
             }
             else
             {
-                return pColors.Colors[0].Pen;
+                return _pen;
             }
         }
-
+        [Browsable(false)]
         public Brush GetBrushtyle()
         {
-            return pColors.Colors[0].Brush;
+            return _brush;
         }
 
+        private static SolidBrush _brush = new SolidBrush(Color.FromArgb(50, Color.Gray));
+
+        private static Pen _pen = new Pen(Color.FromArgb(100, Color.Gray), 1.0f); //pColors.Colors[0].SelectedPen;
+        private static Pen _selectedPen = new Pen(Color.FromArgb(100, Color.Gray), 2.0f); //pColors.Colors[0].SelectedPen;
+
+
+        [Browsable(false)]
         public void Draw()
         {
             Draw(m_graphics);
