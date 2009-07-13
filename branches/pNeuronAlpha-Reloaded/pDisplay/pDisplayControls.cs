@@ -1,11 +1,9 @@
-using System;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Collections.Generic;
-using System.Text;
-using System.Windows.Forms;
 using System.Drawing;
 using primeira.pNeuron.Core;
-using System.Drawing.Imaging;
-using System.Reflection;
+
 
 namespace primeira.pNeuron
 {
@@ -21,12 +19,7 @@ namespace primeira.pNeuron
         {
             get
             {
-                List<pPanel> t = new List<pPanel>();
-                foreach (pPanel p in m_pPanels)
-                    if(p.Selected)
-                        t.Add(p);
-
-                return t.ToArray();
+                return (from x in m_pPanels where x.Selected select x).ToArray();
             }
         }
 
@@ -52,6 +45,8 @@ namespace primeira.pNeuron
 
             if (old != p.Selected && OnSelectedPanelsChange!=null)
                 OnSelectedPanelsChange();
+
+            Invalidate(p.Bounds);
         }
 
         /// <summary>
@@ -72,10 +67,8 @@ namespace primeira.pNeuron
         {
 
             SelectCore(p);
-
-            if (DisplayStatus == pDisplayStatus.Selecting)
-                m_lastSelectItems.Add(p);
-            Invalidate(p.Bounds);
+            
+            
         }
 
         /// <summary>
@@ -95,7 +88,13 @@ namespace primeira.pNeuron
         /// <param name="p">pPanel to unselect.</param>
         public void UnSelect(pPanel p)
         {
+            bool old = p.Selected;
+
             p.Selected = false;
+
+            if (old != p.Selected && OnSelectedPanelsChange != null)
+                OnSelectedPanelsChange();
+
             Invalidate(p.Bounds);
         }
 

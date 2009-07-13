@@ -183,7 +183,7 @@ namespace primeira.pNeuron.Core
         //[DataMember()]
         public int InputNeuronCount
         {
-            get { return m_neuron.Count(p => p.NeuronType == NeuronTypes.Input); }
+            get { return m_neuron == null ? 0 : m_neuron.Count(p => p.NeuronType == NeuronTypes.Input); }
         }
 
         /// <summary>
@@ -192,7 +192,7 @@ namespace primeira.pNeuron.Core
         //[DataMember()]
         public int OutputNeuronCount
         {
-            get { return m_neuron.Count(p => p.NeuronType == NeuronTypes.Output); }
+            get { return m_neuron == null ? 0 : m_neuron.Count(p => p.NeuronType == NeuronTypes.Output); }
         }
 
         /// <summary>
@@ -201,7 +201,7 @@ namespace primeira.pNeuron.Core
         //[DataMember()]
         public int MemoryNeuronCount
         {
-            get { return m_neuron.Count(p => p.NeuronType == NeuronTypes.Memory); }
+            get { return m_neuron == null ? 0 : m_neuron.Count(p => p.NeuronType == NeuronTypes.Memory); }
         }
 
         /// <summary>
