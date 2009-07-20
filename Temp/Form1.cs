@@ -19,8 +19,8 @@ namespace Temp
 
         private void button1_Click(object sender, EventArgs e)
         {
-            NeuralNetwork net = NeuralNetwork.ToObject(@"c:\_5.pne");
-            pDisplay1.SetNeuralNetwork(net);
+            //NeuralNetwork net = NeuralNetwork.ToObject(@"c:\_5.pne");
+            //pDisplay1.SetNeuralNetwork(net);
             //net.to
         }
 
