@@ -11,6 +11,10 @@ namespace primeira.pNeuron
 {
     public class pGraphicPlotter : Control
     {
+
+        private delegate void Assinc();
+        private delegate void AssincP(object o);
+
         private List<Double> fData;
 
         private Double fZoom = 1;

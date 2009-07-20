@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("pNeuronIDE")]
+[assembly: AssemblyTitle("pNeuron Editor")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Primeira.net")]
-[assembly: AssemblyProduct("pNeuronIDE")]
-[assembly: AssemblyCopyright("Copyright © Primeira.net 2007")]
+[assembly: AssemblyProduct("pNeuron Editor")]
+[assembly: AssemblyCopyright("Copyright © Agencia Primeira.net, 2007-09 ")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

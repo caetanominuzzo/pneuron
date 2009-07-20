@@ -7,7 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Threading;
 
-namespace primeira.pNeuron
+namespace primeira.pNeuron.Editor
 {
     
 
@@ -44,9 +44,10 @@ namespace primeira.pNeuron
             // Make sure it is only launched once.
             if (m_splash != null)
                 return;
+
             m_thread = new Thread(new ThreadStart(ShowSplash));
             m_thread.IsBackground = true;
-            m_thread.ApartmentState = ApartmentState.STA;
+            m_thread.SetApartmentState(ApartmentState.STA);
             m_thread.Start();
         }
     }
