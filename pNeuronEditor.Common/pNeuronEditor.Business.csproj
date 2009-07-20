@@ -8,8 +8,8 @@
     <ProjectGuid>{B6C9E22A-6018-45E6-A240-599C683E6203}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>pNeuronEditor.Common</RootNamespace>
-    <AssemblyName>pNeuronEditor.Common</AssemblyName>
+    <RootNamespace>primeira.pNeuron.Editor.Business</RootNamespace>
+    <AssemblyName>pNeuronEditor.Business</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -50,35 +50,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Business\DocumentBase.cs" />
-    <Compile Include="Business\DocumentDefinition.cs" />
-    <Compile Include="Business\DocumentManager.cs" />
-    <Compile Include="Components\EditorBase.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Business\EditorManager.cs" />
-    <Compile Include="Business\FileManager.cs" />
-    <Compile Include="Components\ImageButton.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="DocumentBase.cs" />
+    <Compile Include="DocumentDefinition.cs" />
+    <Compile Include="DocumentManager.cs" />
+    <Compile Include="EditorManager.cs" />
+    <Compile Include="FileManager.cs" />
+    <Compile Include="IRecentFileManager.cs" />
+    <Compile Include="IFileOpenManager.cs" />
+    <Compile Include="ITabControl.cs" />
+    <Compile Include="TabManager.cs" />
+    <Compile Include="IEditorBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Components\TabButton.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Components\TabControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Components\TabControl.Designer.cs">
-      <DependentUpon>TabControl.cs</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Components\TabButton.resx">
-      <DependentUpon>TabButton.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Components\TabControl.resx">
-      <DependentUpon>TabControl.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
