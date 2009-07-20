@@ -46,8 +46,7 @@ namespace primeira.pNeuron
             Linking_Paused,
             Selecting,
             Add_Neuron,
-            Remove_Neuron,
-            Training
+            Remove_Neuron
         }
 
         #endregion
@@ -149,38 +148,27 @@ namespace primeira.pNeuron
             set
             {
 
-                //if (m_displayStatus == value)
-                //    return;
+                if (m_displayStatus == value)
+                    return;
 
-                if (m_displayStatus == pDisplayStatus.Training && (value != pDisplayStatus.Training && value != pDisplayStatus.Idle) && m_displayStatus != value)
+                m_displayStatus = value;
+
+                switch (m_displayStatus)
                 {
-                    pMessage.Error("This operation is not valid at Training Status");
-                }
-                else
-                {
-                    m_displayStatus = value;
+                    case pDisplayStatus.Moving: Cursor = Cursors.SizeAll;
+                        break;
+                    case pDisplayStatus.Linking: Cursor = Cursors.Cross;
+                        break;
+                    case pDisplayStatus.Linking_Paused: if (SelectedpPanels.Count() > 0) DisplayStatus = pDisplayStatus.Linking;
+                        break;
+                    default: Cursor = Cursors.Default;
+                        break;
 
-                    switch (m_displayStatus)
-                    {
-                        case pDisplayStatus.Moving: Cursor = Cursors.SizeAll;
-                            break;
-                        case pDisplayStatus.Linking: Cursor = Cursors.Cross;
-                            break;
-                        case pDisplayStatus.Linking_Paused: if (SelectedpPanels.Count() > 0) DisplayStatus = pDisplayStatus.Linking;
-                            break;
-                        default: this.Invoke(new Assinc(SetCursorDefaultCrossThread));
-                            break;
-
-                    }
                 }
+                
                 if (OnDisplayStatusChange != null)
                     OnDisplayStatusChange();
             }
-        }
-
-        private void SetCursorDefaultCrossThread()
-        {
-            Cursor = Cursors.Default;
         }
 
         #endregion
@@ -627,42 +615,7 @@ namespace primeira.pNeuron
             e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
             base.OnPaint(e);
 
-            if(DisplayStatus == pDisplayStatus.Training && false)
-            {
-
-                double dZoom = 1;
-                double dMaxY = 50;
-
-                double dMaxV = double.NegativeInfinity;
-
-                foreach (pPanel p in pPanels)
-                {
-                    if (p.Neuron.Value > dMaxV)
-                        dMaxV = p.Neuron.Value;
-                }
-
-                dZoom = dMaxY / dMaxV;
-
-                if (double.IsInfinity(dZoom))
-                {
-                    dZoom = 1;
-                }
-
-                foreach (pPanel p in pPanels)
-                    p.Size = new Size(
-                                Convert.ToInt32(Math.Max(1, Math.Abs(p.Neuron.Value) * dZoom)),
-                                Convert.ToInt32(Math.Max(1, Math.Abs(p.Neuron.Value) * dZoom)));
-            }
-
-
-            //g.FillRectangle(Brushes.White, 0, 0, 200, 30);
-
-            //g.DrawString(DisplayMousePosition.X.ToString() + ":" + DisplayMousePosition.Y.ToString(), SystemFonts.DefaultFont, Brushes.Black, 0, 0);
-            //if (m_selectSourcePoint.HasValue)
-            //    g.DrawString(m_selectSourcePoint.Value.X.ToString() + ":" + m_selectSourcePoint.Value.Y.ToString(), SystemFonts.DefaultFont, Brushes.Black, 100, 0);
-
             Rectangle r = e.ClipRectangle;
-
 
             foreach (pPanel p in m_pPanels)
             {
@@ -680,8 +633,6 @@ namespace primeira.pNeuron
                 }
 
             }
-
-
 
             if (DisplayStatus == pDisplayStatus.Linking)
             {
@@ -780,29 +731,31 @@ namespace primeira.pNeuron
 
             double dZoom = 1;
 
-            if (DisplayStatus == pDisplayStatus.Training)
-            {
+            #region Draw Large Synapses
+
+            //if (DisplayStatus == pDisplayStatus.Training)
+            //{
                 
-                double dMaxY = 10;
+            //    double dMaxY = 10;
 
-                double dMaxV = double.NegativeInfinity;
+            //    double dMaxV = double.NegativeInfinity;
 
-                foreach (pPanel pp in pPanels)
-                    foreach (double dd in pp.SynapseIN)
-                    {
-                        if (dd > dMaxV)
-                            dMaxV = dd;
-                    }
+            //    foreach (pPanel pp in pPanels)
+            //        foreach (double dd in pp.SynapseIN)
+            //        {
+            //            if (dd > dMaxV)
+            //                dMaxV = dd;
+            //        }
 
-                dZoom = dMaxY / dMaxV;
+            //    dZoom = dMaxY / dMaxV;
 
-                if (double.IsInfinity(dZoom))
-                {
-                    dZoom = 1;
-                }
+            //    if (double.IsInfinity(dZoom))
+            //    {
+            //        dZoom = 1;
+            //    }
+            //}
 
-
-            }
+            #endregion
 
             Rectangle cBounds = c.Bounds;
 

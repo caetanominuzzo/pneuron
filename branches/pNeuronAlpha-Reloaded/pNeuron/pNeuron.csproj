@@ -54,7 +54,6 @@
     <Compile Include="NeuralNetwork.cs" />
     <Compile Include="NeuralValue.cs" />
     <Compile Include="Neuron.cs" />
-    <Compile Include="pNeuron2.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sigmoid.cs" />
   </ItemGroup>

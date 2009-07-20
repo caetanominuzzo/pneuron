@@ -16,36 +16,7 @@ namespace primeira.pNeuron.Core
     [DataContract()]
     public class NeuralNetwork : INeuralNetwork, IDisposable
     {
-        public void ToXml(string filepath)
-        {
-            Stream sm = File.Create(filepath);
-
-            DataContractSerializer ser = new DataContractSerializer(typeof(NeuralNetwork),
-                new Type[]{
-                    typeof(NeuralNetwork),
-                    typeof(Neuron),
-                    typeof(NeuralValue)                
-                }, 10000000, false, true, null);
-            ser.WriteObject(sm, this);
-            sm.Close();
-        }
-
-        public static NeuralNetwork ToObject(string filepath)
-        {
-            Stream sm = File.OpenRead(filepath);
-
-            DataContractSerializer ser = new DataContractSerializer(typeof(NeuralNetwork),
-                new Type[]{
-                    typeof(NeuralNetwork),
-                    typeof(Neuron),
-                    typeof(NeuralValue)                
-                }, 10000000, false, true, null);
-
-            NeuralNetwork res = (NeuralNetwork)ser.ReadObject(sm);
-            sm.Close();
-            return res;
-        }
-
+        
 
         #region Constructors
 
@@ -610,6 +581,7 @@ namespace primeira.pNeuron.Core
         public void Log(int Indent, string msg)
         {
             return;
+
             for (int i = 0; i < Indent; i++)
                 m_logger.Append("\t");
 

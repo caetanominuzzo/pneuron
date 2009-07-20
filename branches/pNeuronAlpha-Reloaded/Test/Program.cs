@@ -26,7 +26,7 @@ namespace Test
             Console.WriteLine(StringToNeuronData.Untransform(iiInput, dInputDomain, ilogBase));
             Console.ReadKey();
 
-            net = primeira.pNeuron.Core.NeuralNetwork.ToObject(args[1]);
+           // net = primeira.pNeuron.Core.NeuralNetwork.ToObject(args[1]);
 
             double[][] i = (from x in iiInput select (from y in x select y == 0 ? -.9d : .9d).ToArray()).ToArray();
 

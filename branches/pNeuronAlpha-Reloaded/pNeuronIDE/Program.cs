@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using primeira.pNeuron.Editor.Business;
 
 
-namespace primeira.pNeuron
+namespace primeira.pNeuron.Editor
 {
     static class Program
     {
@@ -16,11 +17,13 @@ namespace primeira.pNeuron
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            #if RELEASE
-                Splasher.ShowSplashScreen();
-            #endif
+            EditorManager.RegisterEditors();
 
-            Application.Run(new pNeuronIDE());
+            //#if RELEASE
+            //    Splasher.ShowSplashScreen();
+            //#endif
+
+            Application.Run(new pNeuronEditor());
         }
     }
 }
