@@ -11,13 +11,11 @@ using primeira.pNeuron.Editor.Business;
 
 namespace primeira.pNeuron.Editor
 {
-    public partial class FileBrowserEditor :  EditorBase
+    public partial class FileBrowserEditor :  EditorBase, IRecentFileManager
     {
         #region Fields
 
         private Image m_file;
-
-        private TabControl ParentTabControl;
 
         #endregion
 
@@ -51,6 +49,17 @@ namespace primeira.pNeuron.Editor
                     dgQuickLauch.Rows.Add(
                             new object[] { m_file, 
                             string.Format("Scratch {0} File ", def.Name),
+                            "scratch", 0, "", def });
+                }
+            }
+
+            foreach (DocumentDefinition def in defs)
+            {
+                if ((def.Options & DocumentDefinitionOptions.Virtual) != DocumentDefinitionOptions.Virtual)
+                {
+                    dgQuickLauch.Rows.Add(
+                            new object[] { m_file, 
+                            string.Format("Create or Open {0} File ", def.Name),
                             "", 0, "", def });
                 }
             }
@@ -63,7 +72,7 @@ namespace primeira.pNeuron.Editor
         {
             dgRecentFiles.Rows.Clear();
 
-            string[] files = ((FileBrowserDocument)Data).Recent;
+            string[] files = ((FileBrowserDocument)Document).Recent;
 
             Size s = new Size(dgRecentFiles.Columns[1].Width, dgRecentFiles.RowTemplate.Height);
             Font f = dgRecentFiles.DefaultCellStyle.Font;
@@ -73,9 +82,9 @@ namespace primeira.pNeuron.Editor
             {
                 if (File.Exists(file))
                 {
-                    //TimeSpan t = d.Subtract(File.GetLastWriteTime(file));
-                    //dgRecentFiles.Rows.Add(
-                    //new object[] { m_file, file, FileManager.LastWrite(t), (int)t.TotalSeconds, file, NeuralNetworkDocument.DocumentDefinition });
+                    TimeSpan t = d.Subtract(File.GetLastWriteTime(file));
+                    dgRecentFiles.Rows.Add(
+                    new object[] { m_file, file, FileManager.LastWrite(t), (int)t.TotalSeconds, file, null });
                 }
             }
 
@@ -89,8 +98,7 @@ namespace primeira.pNeuron.Editor
 
         #region Event Handlers
 
-
-        private void FileBrowser_OnSelected(EditorBase sender)
+        private void FileBrowser_OnSelected(IEditorBase sender)
         {
             createQuickLaunch();
 
@@ -114,18 +122,18 @@ namespace primeira.pNeuron.Editor
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (sender == dgRecentFiles)
-                ParentTabControl.LoadDocument(dgRecentFiles.Rows[e.RowIndex].Cells[4].Value.ToString());
+                DocumentManager.LoadDocument(dgRecentFiles.Rows[e.RowIndex].Cells[4].Value.ToString());
             else
             {
-                if (e.RowIndex == 0 || e.RowIndex == 1)
+                if(dgQuickLauch.Rows[e.RowIndex].Cells[2].Value == "scratch")
                 {
-                    string s = FileManager.GetNewFile((DocumentDefinition)dgQuickLauch.Rows[e.RowIndex].Cells[5].Value, ParentTabControl.PublicBaseDir);
+                    string s = FileManager.GetNewFile((DocumentDefinition)dgQuickLauch.Rows[e.RowIndex].Cells[5].Value, DocumentManager.BaseDir);
                     File.Create(s).Close();
-                    ParentTabControl.LoadDocument(s);
+                    DocumentManager.LoadDocument(s);
                 }
                 else
                 {
-                    ParentTabControl.NewDocument((DocumentDefinition)dgQuickLauch.Rows[e.RowIndex].Cells[5].Value);
+                    DocumentManager.NewDocument((DocumentDefinition)dgQuickLauch.Rows[e.RowIndex].Cells[5].Value);
                 }
             }
         }
@@ -134,16 +142,16 @@ namespace primeira.pNeuron.Editor
 
         #region Methods
 
-        public void SetParentTabControl(TabControl parent)
-        {
-            ParentTabControl = parent;
-        }
-
         public void AddRecent(string filename)
         {
-            ((FileBrowserDocument)Data).AddRecent(filename);
+            ((FileBrowserDocument)Document).AddRecent(filename);
 
             Changed();
+        }
+
+        public string[] GetRecent()
+        {
+            return ((FileBrowserDocument)Document).Recent;
         }
 
         #endregion

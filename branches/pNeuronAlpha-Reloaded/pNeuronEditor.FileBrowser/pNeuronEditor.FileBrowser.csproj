@@ -72,12 +72,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\pNeuronEditor.Common\pNeuronEditor.Common.csproj">
-      <Project>{B6C9E22A-6018-45E6-A240-599C683E6203}</Project>
-      <Name>pNeuronEditor.Common</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="BorderTextBox.resx">
       <DependentUpon>BorderTextBox.cs</DependentUpon>
     </EmbeddedResource>
@@ -87,6 +81,16 @@
     <EmbeddedResource Include="FolderBrowser.resx">
       <DependentUpon>FolderBrowser.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\pNeuronEditor.Common\pNeuronEditor.Business.csproj">
+      <Project>{B6C9E22A-6018-45E6-A240-599C683E6203}</Project>
+      <Name>pNeuronEditor.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\pNeuronEditor.Components\pNeuronEditor.Components.csproj">
+      <Project>{E2ADA5FC-2123-4F79-B710-8A25A0029E92}</Project>
+      <Name>pNeuronEditor.Components</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

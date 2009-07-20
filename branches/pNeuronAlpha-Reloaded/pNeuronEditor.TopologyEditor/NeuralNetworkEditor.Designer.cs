@@ -219,8 +219,6 @@ namespace pNeuronEditor.TopologyEditor
         private Label label1;
         private Panel panel1;
         private Panel pnBottom;
-        private TabControl tabControl2;
-        private TabControl tabControl1;
         private Panel panel2;
         private Panel pnRight;
         private Label label2;

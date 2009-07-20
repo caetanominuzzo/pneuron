@@ -57,7 +57,7 @@ namespace primeira.pNeuron.Editor
 
 
         #endregion
-
+        
         private TabControl tbMain;
     }
 }
