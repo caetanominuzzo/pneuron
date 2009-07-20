@@ -9,6 +9,15 @@ namespace primeira.pNeuron.Editor.Business
 {
     public static class EditorManager
     {
+
+        private static Type[] _defaultEditorCtor = new Type[2] { typeof(string), typeof(DocumentBase) };
+
+        internal static Type[] DefaultEditorCtor
+        {
+            get { return _defaultEditorCtor; }
+        }
+
+
         private static List<DocumentDefinition> _knownDocumentDefinition = new List<DocumentDefinition>();
 
         public static void RegisterEditors()
@@ -47,15 +56,15 @@ namespace primeira.pNeuron.Editor.Business
                 return t.DefaultEditor;
         }
 
-        public static EditorBase GetEditorByFilename(string filename)
+        public static IEditorBase GetEditorByFilename(string filename)
         {
-            EditorBase res = null;
+            IEditorBase res = null;
 
-            DocumentBase d = EditorBase.ToObject(filename);
+            DocumentBase d = DocumentManager.ToObject(filename);
 
             if (d != null)
             {
-                res = (EditorBase)d.GetDefinition.DefaultEditor.GetConstructor(EditorBase.DefaultEditorCtor).Invoke(new object[2] { filename, d });
+                res = (IEditorBase)d.GetDefinition.DefaultEditor.GetConstructor(DefaultEditorCtor).Invoke(new object[2] { filename, d });
             }
             else
             //new file
@@ -67,12 +76,10 @@ namespace primeira.pNeuron.Editor.Business
                 if (tt == null)
                     return null;
 
-                res = (EditorBase)tt.GetConstructor(EditorBase.DefaultEditorCtor).Invoke(new object[2] { filename, d });
+                res = (IEditorBase)tt.GetConstructor(DefaultEditorCtor).Invoke(new object[2] { filename, d });
             }
 
-
-
-            return (EditorBase)res;
+            return (IEditorBase)res;
         }
 
         public static string GetDialogFilterString()
