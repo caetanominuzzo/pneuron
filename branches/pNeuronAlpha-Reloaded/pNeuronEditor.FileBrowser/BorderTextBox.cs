@@ -16,6 +16,12 @@ namespace primeira.pNeuron.Editor.Editors.FileBrowser
             InitializeComponent();
         }
 
+        public new string Text
+        {
+            get { return textBox1.Text; }
+            set { textBox1.Text = value; }
+        }
+
         private void textBox1_Resize(object sender, EventArgs e)
         {
             this.Height = textBox1.Height + 2;

@@ -1,4 +1,6 @@
-﻿namespace primeira.pNeuron.Editor.Editors.FileBrowser
+﻿using primeira.pNeuron.Editor.Components;
+
+namespace primeira.pNeuron.Editor.Editors.FileBrowser
 {
     partial class FolderBrowser
     {
@@ -29,19 +31,9 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FolderBrowser));
+            this.editorBaseButton1 = new primeira.pNeuron.Editor.Components.EditorBaseButton();
             this.borderTextBox1 = new primeira.pNeuron.Editor.Editors.FileBrowser.BorderTextBox();
-            this.editorBaseButton1 = new primeira.pNeuron.Editor.EditorBaseButton();
             this.SuspendLayout();
-            // 
-            // borderTextBox1
-            // 
-            this.borderTextBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.borderTextBox1.Location = new System.Drawing.Point(50, 10);
-            this.borderTextBox1.Name = "borderTextBox1";
-            this.borderTextBox1.Padding = new System.Windows.Forms.Padding(1);
-            this.borderTextBox1.Size = new System.Drawing.Size(260, 15);
-            this.borderTextBox1.TabIndex = 2;
             // 
             // editorBaseButton1
             // 
@@ -54,6 +46,16 @@
             this.editorBaseButton1.TabIndex = 0;
             this.editorBaseButton1.Text = "editorBaseButton1";
             this.editorBaseButton1.UseVisualStyleBackColor = true;
+            // 
+            // borderTextBox1
+            // 
+            this.borderTextBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.borderTextBox1.Location = new System.Drawing.Point(50, 15);
+            this.borderTextBox1.Name = "borderTextBox1";
+            this.borderTextBox1.Padding = new System.Windows.Forms.Padding(1);
+            this.borderTextBox1.Size = new System.Drawing.Size(260, 15);
+            this.borderTextBox1.TabIndex = 2;
             // 
             // FolderBrowser
             // 

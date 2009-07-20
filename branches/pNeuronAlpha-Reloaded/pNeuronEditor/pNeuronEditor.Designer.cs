@@ -1,3 +1,4 @@
+using primeira.pNeuron.Editor.Components;
 namespace primeira.pNeuron.Editor
 {
     partial class pNeuronEditor
@@ -29,7 +30,7 @@ namespace primeira.pNeuron.Editor
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(pNeuronEditor));
-            this.tbMain = new primeira.pNeuron.Editor.TabControl();
+            this.tbMain = new primeira.pNeuron.Editor.Components.TabControl();
             this.SuspendLayout();
             // 
             // tbMain
