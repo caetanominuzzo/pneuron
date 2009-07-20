@@ -55,11 +55,11 @@
     <Compile Include="DocumentManager.cs" />
     <Compile Include="EditorManager.cs" />
     <Compile Include="FileManager.cs" />
-    <Compile Include="IRecentFileManager.cs" />
-    <Compile Include="IFileOpenManager.cs" />
-    <Compile Include="ITabControl.cs" />
+    <Compile Include="Interface\IRecentFileManager.cs" />
+    <Compile Include="Interface\ITabButton.cs" />
+    <Compile Include="Interface\ITabControl.cs" />
     <Compile Include="TabManager.cs" />
-    <Compile Include="IEditorBase.cs" />
+    <Compile Include="Interface\IEditorBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

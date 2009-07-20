@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using primeira.pNeuron.Editor.Business;
+using primeira.pNeuron.Editor.Components;
 
 namespace primeira.pNeuron.Editor
 {
@@ -26,11 +27,14 @@ namespace primeira.pNeuron.Editor
         {
             InitializeComponent();
 
-            this.TabButton.Size = new Size(40, 40);
+            ((TabButton)this.TabButton).Size = new Size(40, 40);
 
             this.ShowCloseButton = false;
 
             this.OnSelected += new SelectedDelegate(FileBrowser_OnSelected);
+
+            this.TabButton.SelectedImage = Image.FromFile(@"C:\Users\caetano.CWIPOA\Pictures\tab_selected_N.png");
+            this.TabButton.UnselectedImage = Image.FromFile(@"C:\Users\caetano.CWIPOA\Pictures\tab_unselected_N.png");
             
             m_file = Image.FromFile(@"C:\Users\caetano.CWIPOA\Pictures\New.png");
 
@@ -46,10 +50,12 @@ namespace primeira.pNeuron.Editor
             {
                 if ((def.Options & DocumentDefinitionOptions.Virtual) != DocumentDefinitionOptions.Virtual)
                 {
-                    dgQuickLauch.Rows.Add(
+                    int i = dgQuickLauch.Rows.Add(
                             new object[] { m_file, 
                             string.Format("Scratch {0} File ", def.Name),
                             "scratch", 0, "", def });
+
+                    dgQuickLauch.Rows[i].Selected = false;
                 }
             }
 
@@ -57,15 +63,17 @@ namespace primeira.pNeuron.Editor
             {
                 if ((def.Options & DocumentDefinitionOptions.Virtual) != DocumentDefinitionOptions.Virtual)
                 {
-                    dgQuickLauch.Rows.Add(
+                    int i = dgQuickLauch.Rows.Add(
                             new object[] { m_file, 
                             string.Format("Create or Open {0} File ", def.Name),
                             "", 0, "", def });
+
+                    dgQuickLauch.Rows[i].Selected = false;
                 }
             }
 
-            if (dgQuickLauch.SelectedRows.Count == 1)
-                dgQuickLauch.SelectedRows[0].Selected = false;
+            //if (dgQuickLauch.SelectedRows.Count == 1)
+            //    dgQuickLauch.SelectedRows[0].Selected = false;
         }
 
         private void createRecent()

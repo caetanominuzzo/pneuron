@@ -123,7 +123,7 @@
       <Project>{35DD3087-E395-4D33-950F-F807AE4BDED0}</Project>
       <Name>pDisplay</Name>
     </ProjectReference>
-    <ProjectReference Include="..\pNeuronEditor.Common\pNeuronEditor.Business.csproj">
+    <ProjectReference Include="..\pNeuronEditor.Business\pNeuronEditor.Business.csproj">
       <Project>{B6C9E22A-6018-45E6-A240-599C683E6203}</Project>
       <Name>pNeuronEditor.Business</Name>
     </ProjectReference>
@@ -190,11 +190,6 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Editors\FileBrowser\" />
-    <Folder Include="Editors\TopologyEditor\" />
-    <Folder Include="Editors\Training.cs\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

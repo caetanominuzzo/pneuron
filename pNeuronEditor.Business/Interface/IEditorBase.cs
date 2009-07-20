@@ -10,7 +10,7 @@ namespace primeira.pNeuron.Editor.Business
 
     public interface IEditorBase
     {
-        Button TabButton { get; }
+        ITabButton TabButton { get; }
 
         DocumentBase Document { get; }
 

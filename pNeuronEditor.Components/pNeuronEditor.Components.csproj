@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{BBE127C0-A968-4CC9-935F-DAF9FDA7CE21}</ProjectGuid>
+    <ProjectGuid>{E2ADA5FC-2123-4F79-B710-8A25A0029E92}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>pNeuronEditor.TopologyEditor</RootNamespace>
-    <AssemblyName>pNeuronEditor.TopologyEditor</AssemblyName>
+    <RootNamespace>primeira.pNeuron.Editor.Components</RootNamespace>
+    <AssemblyName>pNeuronEditor.Components</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -36,9 +36,6 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Runtime.Serialization">
-      <RequiredTargetFramework>3.0</RequiredTargetFramework>
-    </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -50,64 +47,36 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Components\TopologyPropertyGrid.cs">
+    <Compile Include="EditorBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Components\TopologyPropertyGrid.Designer.cs">
-      <DependentUpon>TopologyPropertyGrid.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Components\TopologyToolbox.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Components\TopologyToolbox.Designer.cs">
-      <DependentUpon>TopologyToolbox.cs</DependentUpon>
-    </Compile>
-    <Compile Include="NeuralNetworkDocument.cs" />
-    <Compile Include="NeuralNetworkEditor.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="NeuralNetworkEditor.Designer.cs">
-      <DependentUpon>NeuralNetworkEditor.cs</DependentUpon>
+    <Compile Include="EditorBaseButton.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TabButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TabControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TabControl.Designer.cs">
+      <DependentUpon>TabControl.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\pDisplay\pDisplay.csproj">
-      <Project>{35DD3087-E395-4D33-950F-F807AE4BDED0}</Project>
-      <Name>pDisplay</Name>
-    </ProjectReference>
+    <EmbeddedResource Include="TabButton.resx">
+      <DependentUpon>TabButton.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TabControl.resx">
+      <DependentUpon>TabControl.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\pNeuronEditor.Business\pNeuronEditor.Business.csproj">
       <Project>{B6C9E22A-6018-45E6-A240-599C683E6203}</Project>
       <Name>pNeuronEditor.Business</Name>
     </ProjectReference>
-    <ProjectReference Include="..\pNeuronEditor.Components\pNeuronEditor.Components.csproj">
-      <Project>{E2ADA5FC-2123-4F79-B710-8A25A0029E92}</Project>
-      <Name>pNeuronEditor.Components</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\pNeuron\pNeuron.csproj">
-      <Project>{464378C1-CF56-486D-84F0-DC564A99901D}</Project>
-      <Name>pNeuron</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\pPanel\pPanel.csproj">
-      <Project>{D3847E8B-A4C3-49BB-B119-3F2B981C9154}</Project>
-      <Name>pPanel</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\pRandom\pRandom.csproj">
-      <Project>{2152137D-D8FD-4E9C-8732-D8C1F2E03156}</Project>
-      <Name>pRandom</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Components\TopologyPropertyGrid.resx">
-      <DependentUpon>TopologyPropertyGrid.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Components\TopologyToolbox.resx">
-      <DependentUpon>TopologyToolbox.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="NeuralNetworkEditor.resx">
-      <DependentUpon>NeuralNetworkEditor.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

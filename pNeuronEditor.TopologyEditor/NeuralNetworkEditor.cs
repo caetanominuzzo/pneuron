@@ -1,18 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
-using primeira.pNeuron.Core;
-using System.IO;
-using System.Threading;
-using primeira.pRandom;
-using Timer = System.Windows.Forms.Timer;
-using primeira.pNeuron.Editor.Business;
-using primeira.pNeuron.Editor;
 using primeira.pNeuron;
+using primeira.pNeuron.Core;
+using primeira.pNeuron.Editor.Business;
+using primeira.pNeuron.Editor.Components;
 
 
 namespace pNeuronEditor.TopologyEditor
