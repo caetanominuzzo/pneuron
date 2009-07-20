@@ -12,10 +12,19 @@
     <ApplicationIcon>Resources\pNeuronIDE2.ico</ApplicationIcon>
     <ManifestCertificateThumbprint>0FA851308D52BBF11230F756F059210BF5347B74</ManifestCertificateThumbprint>
     <ManifestKeyFile>pNeuronIDE_TemporaryKey.pfx</ManifestKeyFile>
-    <GenerateManifests>true</GenerateManifests>
+    <GenerateManifests>false</GenerateManifests>
     <SignManifests>false</SignManifests>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>C:\primeira\pNeuronIDE\</PublishUrl>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetZone>LocalIntranet</TargetZone>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+    <SignAssembly>false</SignAssembly>
+    <PublishUrl>C:\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -25,15 +34,10 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>false</MapFileExtensions>
-    <CreateWebPageOnPublish>false</CreateWebPageOnPublish>
+    <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <OldToolsVersion>2.0</OldToolsVersion>
-    <UpgradeBackupLocation>
-    </UpgradeBackupLocation>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -43,6 +47,7 @@
     <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -118,13 +123,13 @@
       <Project>{35DD3087-E395-4D33-950F-F807AE4BDED0}</Project>
       <Name>pDisplay</Name>
     </ProjectReference>
-    <ProjectReference Include="..\pNeuronEditor.Common\pNeuronEditor.Common.csproj">
+    <ProjectReference Include="..\pNeuronEditor.Common\pNeuronEditor.Business.csproj">
       <Project>{B6C9E22A-6018-45E6-A240-599C683E6203}</Project>
-      <Name>pNeuronEditor.Common</Name>
+      <Name>pNeuronEditor.Business</Name>
     </ProjectReference>
-    <ProjectReference Include="..\pNeuronEditor.EditorTemplate\pNeuronEditor.EditorTemplate.csproj">
-      <Project>{48212C39-21E5-4A5D-AC07-BF659337F469}</Project>
-      <Name>pNeuronEditor.EditorTemplate</Name>
+    <ProjectReference Include="..\pNeuronEditor.Components\pNeuronEditor.Components.csproj">
+      <Project>{E2ADA5FC-2123-4F79-B710-8A25A0029E92}</Project>
+      <Name>pNeuronEditor.Components</Name>
     </ProjectReference>
     <ProjectReference Include="..\pNeuronEditor.FileBrowser\pNeuronEditor.FileBrowser.csproj">
       <Project>{DF4C71D4-BC90-483C-8EA6-D88AA93E0F62}</Project>
@@ -148,6 +153,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Properties\app.manifest" />
     <None Include="Resources\folder_noborder.gif" />
     <Content Include="Resources\pNeuronIDE2.ico" />
     <None Include="Resources\recent.txt">
@@ -159,10 +165,30 @@
     <None Include="Resources\new.bmp" />
   </ItemGroup>
   <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
       <Visible>False</Visible>
-      <ProductName>.NET Framework 2.0</ProductName>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
       <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>

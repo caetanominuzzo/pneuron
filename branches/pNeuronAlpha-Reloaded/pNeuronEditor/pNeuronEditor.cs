@@ -9,11 +9,15 @@ namespace primeira.pNeuron.Editor
         {
             InitializeComponent();
 
-            tbMain.LoadDocument("default.filebrowser");
+            TabManager.GetInstance().SetTabControl(this.tbMain);
 
-            tbMain.LoadDocument(@"c:\topology 23.pne");
+            IRecentFileManager i = (IRecentFileManager)DocumentManager.LoadDocument("default.filebrowser");
 
+            FileManager.SetRecentManager(i);
 
+            //FileManager.SetOpenManager(tbMain);
+
+            //DocumentManager.LoadDocument(@"c:\topology 23.pne");
         }
     }
 }

@@ -52,7 +52,6 @@
   <ItemGroup>
     <Compile Include="EditorDocumentName.cs" />
     <Compile Include="EditorName.cs">
-      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="EditorName.Designer.cs">
       <DependentUpon>EditorName.cs</DependentUpon>
