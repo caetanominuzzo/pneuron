@@ -17,7 +17,7 @@ namespace primeira.pNeuron.Editor
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            EditorManager.RegisterEditors();
+
 
             //#if RELEASE
             //    Splasher.ShowSplashScreen();

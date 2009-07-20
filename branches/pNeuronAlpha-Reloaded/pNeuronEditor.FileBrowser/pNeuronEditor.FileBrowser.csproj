@@ -83,7 +83,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\pNeuronEditor.Common\pNeuronEditor.Business.csproj">
+    <ProjectReference Include="..\pNeuronEditor.Business\pNeuronEditor.Business.csproj">
       <Project>{B6C9E22A-6018-45E6-A240-599C683E6203}</Project>
       <Name>pNeuronEditor.Business</Name>
     </ProjectReference>

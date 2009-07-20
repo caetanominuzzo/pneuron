@@ -1,5 +1,6 @@
 using System.Windows.Forms;
 using primeira.pNeuron.Editor.Business;
+using primeira.pNeuron.Editor.Components;
 
 namespace primeira.pNeuron.Editor
 {
@@ -8,6 +9,8 @@ namespace primeira.pNeuron.Editor
         public pNeuronEditor()
         {
             InitializeComponent();
+
+            EditorManager.RegisterEditors();
 
             TabManager.GetInstance().SetTabControl(this.tbMain);
 
