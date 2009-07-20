@@ -42,10 +42,10 @@ namespace pNeuronEditor.TopologyEditor
             p.Dock = DockStyle.Fill;
             panel4.Controls.Add(p);
 
-            if (((NeuralNetworkDocument)Data).NeuralNetwork == null)
-                ((NeuralNetworkDocument)Data).NeuralNetwork = new NeuralNetwork();
+            if (((NeuralNetworkDocument)Document).NeuralNetwork == null)
+                ((NeuralNetworkDocument)Document).NeuralNetwork = new NeuralNetwork();
 
-            MainDisplay.SetNeuralNetwork(((NeuralNetworkDocument)Data).NeuralNetwork);
+            MainDisplay.SetNeuralNetwork(((NeuralNetworkDocument)Document).NeuralNetwork);
 
         }
 

@@ -76,9 +76,13 @@
       <Project>{35DD3087-E395-4D33-950F-F807AE4BDED0}</Project>
       <Name>pDisplay</Name>
     </ProjectReference>
-    <ProjectReference Include="..\pNeuronEditor.Common\pNeuronEditor.Common.csproj">
+    <ProjectReference Include="..\pNeuronEditor.Common\pNeuronEditor.Business.csproj">
       <Project>{B6C9E22A-6018-45E6-A240-599C683E6203}</Project>
-      <Name>pNeuronEditor.Common</Name>
+      <Name>pNeuronEditor.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\pNeuronEditor.Components\pNeuronEditor.Components.csproj">
+      <Project>{E2ADA5FC-2123-4F79-B710-8A25A0029E92}</Project>
+      <Name>pNeuronEditor.Components</Name>
     </ProjectReference>
     <ProjectReference Include="..\pNeuron\pNeuron.csproj">
       <Project>{464378C1-CF56-486D-84F0-DC564A99901D}</Project>
