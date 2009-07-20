@@ -25,7 +25,7 @@ namespace primeira.pNeuron.Editor.Business
                 return "recently saved";
         }
 
-        public static string GetNewFile(DocumentDefinition fileVersion, string filename)
+        public static string GetNewFile(DocumentDefinition fileVersion, string basedir)
         {
             string result = string.Empty;
 
@@ -33,7 +33,7 @@ namespace primeira.pNeuron.Editor.Business
             {
                 string name = string.Format(fileVersion.DefaultName, i);
 
-                if (!File.Exists(string.Format("{0}{1}{2}", filename, name, fileVersion.Extension)))
+                if (!File.Exists(string.Format("{0}{1}{2}", basedir, name, fileVersion.Extension)))
                 {
                     result = string.Format("{0}{1}", name, fileVersion.Extension);
                     break;
@@ -55,5 +55,17 @@ namespace primeira.pNeuron.Editor.Business
 
             return s;
         }
+
+        #region Recent file
+
+        public static IRecentFileManager Recent { get; private set; }
+
+        public static void SetRecentManager(IRecentFileManager recentManager)
+        {
+            Recent = recentManager;
+        }
+
+        #endregion
+
     }
 }
