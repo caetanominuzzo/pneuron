@@ -12,7 +12,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms.Layout;
 using primeira.pNeuron.Core;
 
-namespace primeira.pNeuron
+namespace pNeuronEditor.TopologyEditor
 {
 
     public class pPanel

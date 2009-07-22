@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 
-namespace primeira.pNeuron.Editor.Business
+namespace pNeuronEditor.Business
 {
         
     public class DocumentDefinition

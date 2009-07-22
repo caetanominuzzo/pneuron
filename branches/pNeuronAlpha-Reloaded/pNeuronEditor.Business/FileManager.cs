@@ -3,7 +3,7 @@ using System.IO;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace primeira.pNeuron.Editor.Business
+namespace pNeuronEditor.Business
 {
     public static partial class FileManager
     {
@@ -48,15 +48,14 @@ namespace primeira.pNeuron.Editor.Business
 
             Font f = button.Font;
             Size Size = new Size(
-                        button.Width - (button.Padding.Left + button.Padding.Right),
+                        button.Width - (button.Padding.Left + button.Padding.Right - 25),
                         button.Height - (button.Padding.Top+ button.Padding.Bottom));
 
             char[] ss = new char[value.Length];
 
             value.CopyTo(0, ss, 0, value.Length);
 
-            ToolTip tip = new ToolTip();
-            tip.SetToolTip(button, button.Text);
+            
 
             string s = new string(ss);
 
@@ -68,11 +67,8 @@ namespace primeira.pNeuron.Editor.Business
             if (i > -1)
                 s = s.Substring(0, i);
 
-            button.Text = s;
 
-
-
-
+            button.Text = s.Replace(Path.GetExtension(s), "");
         }
 
         public static string MeasureFolderPath(string value, Font f, Size Size)

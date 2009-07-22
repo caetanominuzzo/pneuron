@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace pNeuronEditor.Properties {
+namespace pNeuronEditor.Components.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace pNeuronEditor.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("pNeuronEditor.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("pNeuronEditor.Components.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -57,41 +57,6 @@ namespace pNeuronEditor.Properties {
             }
             set {
                 resourceCulture = value;
-            }
-        }
-        
-        internal static System.Drawing.Bitmap button {
-            get {
-                object obj = ResourceManager.GetObject("button", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap folder_noborder {
-            get {
-                object obj = ResourceManager.GetObject("folder_noborder", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap folder2 {
-            get {
-                object obj = ResourceManager.GetObject("folder2", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap new1 {
-            get {
-                object obj = ResourceManager.GetObject("new1", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap new3 {
-            get {
-                object obj = ResourceManager.GetObject("new3", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
             }
         }
     }

@@ -7,8 +7,8 @@
     <ProjectGuid>{D3847E8B-A4C3-49BB-B119-3F2B981C9154}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>pPanel</RootNamespace>
-    <AssemblyName>pPanel</AssemblyName>
+    <RootNamespace>pNeuronEditor.TopologyEditor</RootNamespace>
+    <AssemblyName>pNeuronEditor.TopologyEditor.pPanel</AssemblyName>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>2.0</OldToolsVersion>
@@ -45,7 +45,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IpPanels.cs" />
-    <Compile Include="pColors.cs" />
     <Compile Include="pPanel.cs">
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Linq;
 
-namespace primeira.pNeuron.Editor.Business
+namespace pNeuronEditor.Business
 {
     public static class EditorManager
     {

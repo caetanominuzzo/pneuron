@@ -1,11 +1,17 @@
+using System;
 using System.Windows.Forms;
-using primeira.pNeuron.Editor.Business;
-using primeira.pNeuron.Editor.Components;
+using pNeuronEditor.Business;
+using pNeuronEditor.Components;
+using pShortcutManager.Business;
 
-namespace primeira.pNeuron.Editor
+namespace pNeuronEditor
 {
-    public partial class pNeuronEditor : Form
+    public partial class pNeuronEditor : Form, IpShorcutEscopeProvider
     {
+        FileBrowserEditor  _fileBrowser;
+
+        pShortcutManager.pShortcutManager _shortcutManager;
+
         public pNeuronEditor()
         {
             InitializeComponent();
@@ -14,13 +20,53 @@ namespace primeira.pNeuron.Editor
 
             TabManager.GetInstance().SetTabControl(this.tbMain);
 
-            IRecentFileManager i = (IRecentFileManager)DocumentManager.LoadDocument("default.filebrowser");
+            _fileBrowser = (FileBrowserEditor)DocumentManager.LoadDocument("default.filebrowser");
 
-            FileManager.SetRecentManager(i);
+            FileManager.SetRecentManager(_fileBrowser);
 
-            //FileManager.SetOpenManager(tbMain);
+            _shortcutManager = new pShortcutManager.pShortcutManager();
 
-            //DocumentManager.LoadDocument(@"c:\topology 23.pne");
+            _shortcutManager.LoadFromForm(this);
+
+            _shortcutManager.Provider = this;
         }
+
+        [pShortcutManagerVisible("ShowFileTab", "Show the File tab", "Main", Keys.T, KeyModifiers.Control)]
+        public void ShowFileTab()
+        {
+            _fileBrowser.Selected = true;
+        }
+        
+        [pShortcutManagerVisible("CloseTab", "Close the current tab", "Main", Keys.F4, KeyModifiers.Control)]
+        public void CloseTab()
+        {
+            TabManager.GetInstance().CloseEditor();
+        }
+
+        [pShortcutManagerVisible("NextTab", "Show the next tab", "Main", Keys.Tab, KeyModifiers.Control)]
+        public void NextTab()
+        {
+            TabManager.GetInstance().SelectNext();
+        }
+
+        [pShortcutManagerVisible("PreviousTab", "Show the previous tab", "Main", Keys.Tab, KeyModifiers.Control | KeyModifiers.Shift)]
+        public void PreviousTab()
+        {
+            TabManager.GetInstance().SelectPrior();
+        }
+
+        #region IpShorcutEscopeProvider Members
+
+        public bool IsAtiveByControl(string controlName)
+        {
+            return true;
+        }
+
+        public bool IsAtiveByEscope(string escope)
+        {
+            return true;
+        }
+
+        #endregion
     }
 }

@@ -6,8 +6,9 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using primeira.pNeuron.Editor;
-using primeira.pNeuron.Editor.Business;
+using pNeuronEditor.Business;
+using pNeuronEditor.Components;
+
 
 namespace pNeuronEditor.EditorTemplate
 {

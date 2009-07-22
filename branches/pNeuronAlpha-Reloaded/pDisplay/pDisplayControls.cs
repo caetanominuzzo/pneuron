@@ -5,7 +5,7 @@ using System.Drawing;
 using primeira.pNeuron.Core;
 
 
-namespace primeira.pNeuron
+namespace pNeuronEditor.TopologyEditor
 {
     partial class  pDisplay
     {
@@ -153,7 +153,7 @@ namespace primeira.pNeuron
         /// <returns></returns>
         public pPanel Add(Neuron n)
         {
-            primeira.pNeuron.pPanel p = new primeira.pNeuron.pPanel(m_graphics);
+            pPanel p = new pPanel(m_graphics);
 
             p.Size = new Size(m_gridDistance, m_gridDistance);
             

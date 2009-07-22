@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace primeira.pNeuron
+namespace pNeuronEditor.TopologyEditor
 {
     public interface IpPanels
     {

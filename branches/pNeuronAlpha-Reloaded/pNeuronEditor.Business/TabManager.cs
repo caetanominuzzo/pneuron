@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace primeira.pNeuron.Editor.Business
+namespace pNeuronEditor.Business
 {
     public class TabManager
     {
@@ -53,7 +53,7 @@ namespace primeira.pNeuron.Editor.Business
             {
                 return _activeEditor;
             }
-            set
+            internal set
             {
                 if (!_openEditors.Contains(value))
                     _openEditors.Insert(0, value);
@@ -67,7 +67,6 @@ namespace primeira.pNeuron.Editor.Business
                 iChangeEditorIndex = _openEditors.IndexOf(ActiveEditor);
 
                 _activeEditor = value;
-                //fActiveDocument.Selected = true;
 
                 if (iChangeEditorIndex != -1)
                     _openEditors[iChangeEditorIndex].Selected = false;
@@ -77,11 +76,11 @@ namespace primeira.pNeuron.Editor.Business
 
         #endregion
 
-        #region Open & Close
+        #region Open, Close & Select
 
         public void CloseEditor()
         {
-            if (ActiveEditor != null)
+            if (ActiveEditor != null && ActiveEditor.ShowCloseButton)
             {
                 _tabcontrol.HideTab(ActiveEditor);
                 DocumentManager.ToXml(ActiveEditor.Document, ActiveEditor.Filename);
@@ -89,8 +88,35 @@ namespace primeira.pNeuron.Editor.Business
 
                 _openEditors.Remove(ActiveEditor);
 
-                _openEditors[0].Selected = true;
+                //One more than filebrowser
+                if (_openEditors.Count > 1)
+                    _openEditors[1].Selected = true;
+                else
+                    _openEditors[0].Selected = true;
             }
+        }
+
+        public void SelectNext()
+        {
+            if (_openEditors.Count > 1)
+                _openEditors[1].Selected = true;
+        }
+        
+        public void SelectPrior()
+        {
+            if (_openEditors.Count > 1)
+                _openEditors[_openEditors.Count-1].Selected = true;
+        }
+
+        public IEditorBase GetDocumentByFilename(string filename)
+        {
+            foreach (IEditorBase d in _openEditors)
+            {
+                if (d.Filename.Equals(filename))
+                    return d;
+            }
+
+            return null;
         }
 
         #endregion

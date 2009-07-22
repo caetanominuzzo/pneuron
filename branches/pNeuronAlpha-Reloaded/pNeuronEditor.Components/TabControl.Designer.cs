@@ -1,4 +1,4 @@
-﻿namespace primeira.pNeuron.Editor.Components
+﻿namespace pNeuronEditor.Components
 {
     partial class TabControl
     {
@@ -33,7 +33,7 @@
             this.pnDocArea = new System.Windows.Forms.Panel();
             this.pnTop = new System.Windows.Forms.Panel();
             this.pnCloseArea = new System.Windows.Forms.Panel();
-            this.btnClose = new primeira.pNeuron.Editor.Components.EditorBaseButton();
+            this.btnClose = new pNeuronEditor.Components.EditorBaseButton();
             this.pnTop.SuspendLayout();
             this.pnCloseArea.SuspendLayout();
             this.SuspendLayout();

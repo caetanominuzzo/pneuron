@@ -1,8 +1,8 @@
 using System.Windows.Forms;
 using primeira.pNeuron;
 using primeira.pNeuron.Core;
-using primeira.pNeuron.Editor.Business;
-using primeira.pNeuron.Editor.Components;
+using pNeuronEditor.Business;
+using pNeuronEditor.Components;
 
 
 namespace pNeuronEditor.TopologyEditor
