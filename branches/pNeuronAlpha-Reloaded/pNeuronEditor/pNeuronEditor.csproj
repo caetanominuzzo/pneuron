@@ -119,10 +119,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\pDisplay\pNeuronEditor.TopologyEditor.pDisplay.csproj">
-      <Project>{35DD3087-E395-4D33-950F-F807AE4BDED0}</Project>
-      <Name>pNeuronEditor.TopologyEditor.pDisplay</Name>
-    </ProjectReference>
     <ProjectReference Include="..\pNeuronEditor.Business\pNeuronEditor.Business.csproj">
       <Project>{B6C9E22A-6018-45E6-A240-599C683E6203}</Project>
       <Name>pNeuronEditor.Business</Name>
@@ -142,10 +138,6 @@
     <ProjectReference Include="..\pNeuron\pNeuron.csproj">
       <Project>{464378C1-CF56-486D-84F0-DC564A99901D}</Project>
       <Name>pNeuron</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\pPanel\pNeuronEditor.TopologyEditor.pPanel.csproj">
-      <Project>{D3847E8B-A4C3-49BB-B119-3F2B981C9154}</Project>
-      <Name>pNeuronEditor.TopologyEditor.pPanel</Name>
     </ProjectReference>
     <ProjectReference Include="..\pRandom\pNeuron.pRandom.csproj">
       <Project>{2152137D-D8FD-4E9C-8732-D8C1F2E03156}</Project>

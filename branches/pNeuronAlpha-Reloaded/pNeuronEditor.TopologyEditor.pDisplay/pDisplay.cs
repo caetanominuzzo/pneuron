@@ -10,7 +10,6 @@ using System.Runtime.InteropServices;
 using System.Collections;
 using primeira.pRandom;
 using System.Linq;
-using pNeuronEditor.TopologyEditor;
 
 namespace pNeuronEditor.TopologyEditor
 {
