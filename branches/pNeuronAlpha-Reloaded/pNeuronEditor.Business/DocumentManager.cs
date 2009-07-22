@@ -4,7 +4,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Windows.Forms;
 
-namespace primeira.pNeuron.Editor.Business
+namespace pNeuronEditor.Business
 {
     public static class DocumentManager
     {
@@ -23,40 +23,12 @@ namespace primeira.pNeuron.Editor.Business
 
         public static DocumentBase ToObject(string filename)
         {
-            if (!File.Exists(filename))
-                File.Create(filename).Close();
-
-            //todo:shit
-            string s = File.ReadAllText(filename);
-
-            if (s.Length > 0)
-            {
-
-                Stream sm = File.OpenRead(filename);
-
-                DataContractSerializer ser = new DataContractSerializer(typeof(DocumentBase),
-                    DocumentManager.GetKnownDocumenTypes(),
-                    10000000, false, true, null);
-
-                DocumentBase res = (DocumentBase)ser.ReadObject(sm);
-                sm.Close();
-
-                return res;
-            }
-            else
-                return null;
+            return DocumentBase.ToObject(filename);
         }
 
         public static void ToXml(DocumentBase document, string filename)
         {
-            Stream sm = File.Create(filename);
-
-            DataContractSerializer ser = new DataContractSerializer(typeof(DocumentBase),
-                 DocumentManager.GetKnownDocumenTypes(),
-                10000000, false, true, null);
-            ser.WriteObject(sm, document);
-
-            sm.Close();
+            document.ToXml(filename);
         }
 
 
@@ -64,11 +36,15 @@ namespace primeira.pNeuron.Editor.Business
 
         private static void AddDocument(IEditorBase editor)
         {
-            TabManager.GetInstance().TabControl.AddTab(editor);
+            if(TabManager.GetInstance().TabControl != null)
+                TabManager.GetInstance().TabControl.AddTab(editor);
 
-            //If not virtual add in recents
+            //If not virtual add in recents list
             if ((editor.Document.GetDefinition.Options & DocumentDefinitionOptions.Virtual) != DocumentDefinitionOptions.Virtual)
-                FileManager.Recent.AddRecent(editor.Filename);
+            {
+                    if(FileManager.Recent != null)
+                        FileManager.Recent.AddRecent(editor.Filename);
+            }
 
             editor.OnSelected += new SelectedDelegate(TabControl_OnSelected);
 
@@ -122,7 +98,7 @@ namespace primeira.pNeuron.Editor.Business
             }
         }
 
-        private static string _baseDir = @"c:\";
+        private static string _baseDir = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
         public static string BaseDir
         {
@@ -132,13 +108,19 @@ namespace primeira.pNeuron.Editor.Business
 
         public static IEditorBase LoadDocument(string FileName)
         {
-            IEditorBase res = EditorManager.GetEditorByFilename(FileName);
+            IEditorBase res = TabManager.GetInstance().GetDocumentByFilename(FileName);
 
-            if (res != null)
-                AddDocument(res);
+            if (res == null)
+            {
+                res = EditorManager.GetEditorByFilename(FileName);
+                
+                if (res != null)
+                    AddDocument(res);
+            }
+
+            res.Selected = true;
 
             return res;
-         
         }
 
         #endregion

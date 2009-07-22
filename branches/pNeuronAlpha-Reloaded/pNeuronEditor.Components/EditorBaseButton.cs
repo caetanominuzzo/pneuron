@@ -7,7 +7,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.ComponentModel;
 
-namespace primeira.pNeuron.Editor.Components
+namespace pNeuronEditor.Components
 {
     public class EditorBaseButton : Button
     {

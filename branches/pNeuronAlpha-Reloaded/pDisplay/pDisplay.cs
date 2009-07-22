@@ -10,8 +10,9 @@ using System.Runtime.InteropServices;
 using System.Collections;
 using primeira.pRandom;
 using System.Linq;
+using pNeuronEditor.TopologyEditor;
 
-namespace primeira.pNeuron
+namespace pNeuronEditor.TopologyEditor
 {
     public partial class pDisplay : Panel, IpPanels
     {

@@ -7,10 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
-using primeira.pNeuron.Editor.Business;
-using primeira.pNeuron.Editor.Components;
+using pNeuronEditor.Business;
+using pNeuronEditor.Components;
 
-namespace primeira.pNeuron.Editor
+namespace pNeuronEditor
 {
     public partial class FileBrowserEditor :  EditorBase, IRecentFileManager
     {
@@ -23,7 +23,7 @@ namespace primeira.pNeuron.Editor
         #region Ctor
 
         public FileBrowserEditor(string filename, DocumentBase data)
-            : base(filename, data, typeof(FileBrowserDocument))
+            : base("File Tab", data, typeof(FileBrowserDocument))
         {
             InitializeComponent();
 
@@ -36,7 +36,7 @@ namespace primeira.pNeuron.Editor
             this.TabButton.SelectedImage = Image.FromFile(@"C:\Users\caetano.CWIPOA\Pictures\tab_selected_N.png");
             this.TabButton.UnselectedImage = Image.FromFile(@"C:\Users\caetano.CWIPOA\Pictures\tab_unselected_N.png");
             
-            m_file = Image.FromFile(@"C:\Users\caetano.CWIPOA\Pictures\New.png");
+            m_file = Image.FromFile(@"C:\Users\caetano.CWIPOA\Pictures\New24.png");
 
         }
 
@@ -52,8 +52,8 @@ namespace primeira.pNeuron.Editor
                 {
                     int i = dgQuickLauch.Rows.Add(
                             new object[] { m_file, 
-                            string.Format("Scratch {0} File ", def.Name),
-                            "scratch", 0, "", def });
+                            string.Format("Draft {0} File ", def.Name),
+                            "draft", 0, "", def });
 
                     dgQuickLauch.Rows[i].Selected = false;
                 }
@@ -65,15 +65,14 @@ namespace primeira.pNeuron.Editor
                 {
                     int i = dgQuickLauch.Rows.Add(
                             new object[] { m_file, 
-                            string.Format("Create or Open {0} File ", def.Name),
+                            string.Format("Open or Create {0} File ", def.Name),
                             "", 0, "", def });
 
                     dgQuickLauch.Rows[i].Selected = false;
                 }
             }
 
-            //if (dgQuickLauch.SelectedRows.Count == 1)
-            //    dgQuickLauch.SelectedRows[0].Selected = false;
+
         }
 
         private void createRecent()
@@ -98,8 +97,7 @@ namespace primeira.pNeuron.Editor
 
             dgRecentFiles.Sort(ColOrder, ListSortDirection.Ascending);
 
-            if (dgRecentFiles.SelectedRows.Count == 1)
-                dgRecentFiles.SelectedRows[0].Selected = false;
+          
         }
 
         #endregion
@@ -128,12 +126,16 @@ namespace primeira.pNeuron.Editor
         }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (sender == dgRecentFiles)
+        {   
+            if(sender == dgDirFiles)
+            {
+                DocumentManager.LoadDocument(dgDirFiles.Rows[e.RowIndex].Cells[4].Value.ToString());
+            }
+            else if (sender == dgRecentFiles)
                 DocumentManager.LoadDocument(dgRecentFiles.Rows[e.RowIndex].Cells[4].Value.ToString());
             else
             {
-                if(dgQuickLauch.Rows[e.RowIndex].Cells[2].Value == "scratch")
+                if(dgQuickLauch.Rows[e.RowIndex].Cells[2].Value.ToString() == "draft")
                 {
                     string s = FileManager.GetNewFile((DocumentDefinition)dgQuickLauch.Rows[e.RowIndex].Cells[5].Value, DocumentManager.BaseDir);
                     File.Create(s).Close();
@@ -163,5 +165,39 @@ namespace primeira.pNeuron.Editor
         }
 
         #endregion
+
+        private void folderBrowser1_OnDirectoryChange(string directoryPath)
+        {
+            dgDirFiles.Rows.Clear();
+
+            DocumentDefinition[] defs = EditorManager.GetAllDocumentDefinition();
+            string[] files;
+            DateTime d = DateTime.Now;
+
+            foreach(DocumentDefinition def in defs)
+            {
+                files = Directory.GetFiles(directoryPath,"*"+ def.Extension);
+
+                foreach (string file in files)
+                {
+
+                    TimeSpan t = d.Subtract(File.GetLastWriteTime(file));
+                    dgDirFiles.Rows.Add(
+                    new object[] { m_file, file, FileManager.LastWrite(t), (int)t.TotalSeconds, file, null });
+                }
+
+            }
+
+
+        }
+
+        private void FileBrowserEditor_Load(object sender, EventArgs e)
+        {
+            if (dgRecentFiles.SelectedRows.Count == 1)
+                dgRecentFiles.SelectedRows[0].Selected = false;
+
+            if (dgQuickLauch.SelectedRows.Count == 1)
+                dgQuickLauch.SelectedRows[0].Selected = false;
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace primeira.pNeuron.Editor.Editors.FileBrowser
+﻿namespace pNeuronEditor.Editors.FileBrowser
 {
     partial class BorderTextBox
     {
@@ -37,20 +37,21 @@
             this.textBox1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.FileSystemDirectories;
             this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox1.ForeColor = System.Drawing.Color.Gray;
             this.textBox1.Location = new System.Drawing.Point(1, 1);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(295, 13);
+            this.textBox1.Size = new System.Drawing.Size(295, 19);
             this.textBox1.TabIndex = 0;
             this.textBox1.Resize += new System.EventHandler(this.textBox1_Resize);
             // 
             // BorderTextBox
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.textBox1);
             this.Name = "BorderTextBox";
             this.Padding = new System.Windows.Forms.Padding(1);
-            this.Size = new System.Drawing.Size(297, 35);
+            this.Size = new System.Drawing.Size(297, 24);
             this.Leave += new System.EventHandler(this.BorderTextBox_Leave);
             this.Enter += new System.EventHandler(this.BorderTextBox_Enter);
             this.ResumeLayout(false);

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace primeira.pNeuron.Editor.Business
+namespace pNeuronEditor.Business
 {
     public interface ITabControl
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
-using primeira.pNeuron.Editor.Business;
+using pNeuronEditor.Business;
 
 namespace pNeuronEditor.EditorTemplate
 {
@@ -19,8 +19,7 @@ namespace pNeuronEditor.EditorTemplate
                 Extension = ".xxx",
                 Id = new Guid("513ff96c-0d23-44f4-82ab-0dea5a62dcd3"),
                 //Icon = Image.FromFile(@"C:\Users\caetano.CWIPOA\Pictures\folder_noborder.gif"),
-                DefaultEditor = typeof(EditorName),
-                Options = (DocumentDefinitionOptions.DontShowLabel | DocumentDefinitionOptions.Virtual)
+                DefaultEditor = typeof(EditorName)
             };
 
         public static DocumentDefinition DocumentDefinition

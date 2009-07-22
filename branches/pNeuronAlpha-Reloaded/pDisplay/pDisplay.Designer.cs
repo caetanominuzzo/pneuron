@@ -1,7 +1,7 @@
 ﻿using System.Windows.Forms;
 
 
-namespace primeira.pNeuron
+namespace pNeuronEditor.TopologyEditor
 {
     partial class pDisplay
     {

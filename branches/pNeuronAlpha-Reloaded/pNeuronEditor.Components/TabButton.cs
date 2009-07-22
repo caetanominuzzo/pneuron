@@ -6,9 +6,9 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.ComponentModel;
-using primeira.pNeuron.Editor.Business;
+using pNeuronEditor.Business;
 
-namespace primeira.pNeuron.Editor.Components
+namespace pNeuronEditor.Components
 {
     public class TabButton : Button, ITabButton
     {
@@ -46,7 +46,7 @@ namespace primeira.pNeuron.Editor.Components
             this.MaximumSize = new Size(150, 40);
             this.BackgroundImage = Unselectedimage;
             this.BackgroundImageLayout = ImageLayout.Stretch;
-            this.Font = new Font(SystemFonts.CaptionFont.FontFamily, 9);
+            this.Font = new Font(SystemFonts.CaptionFont.FontFamily, 10);
             this.ForeColor = Color.Gray;
             this.UseCompatibleTextRendering = false;
         }

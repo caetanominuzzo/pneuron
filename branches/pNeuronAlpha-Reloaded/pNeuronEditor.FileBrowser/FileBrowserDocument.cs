@@ -3,9 +3,9 @@ using System.Drawing;
 using System.Runtime.Serialization;
 using System.IO;
 using System.Collections.Generic;
-using primeira.pNeuron.Editor.Business;
+using pNeuronEditor.Business;
 
-namespace primeira.pNeuron.Editor
+namespace pNeuronEditor
 {
     [DataContract()]
     public class FileBrowserDocument : DocumentBase
