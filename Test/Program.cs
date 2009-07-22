@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using pDataSource;
+using primeira.pNeuron.Core;
+using pNeuronEditor.TopologyEditor;
 
 namespace Test
 {
@@ -26,7 +28,12 @@ namespace Test
             Console.WriteLine(StringToNeuronData.Untransform(iiInput, dInputDomain, ilogBase));
             Console.ReadKey();
 
-           // net = primeira.pNeuron.Core.NeuralNetwork.ToObject(args[1]);
+
+            pNeuronEditor.Business.EditorManager.RegisterEditors();
+
+            net = ((NeuralNetworkDocument)NeuralNetworkDocument.ToObject(args[1])).NeuralNetwork;
+
+            
 
             double[][] i = (from x in iiInput select (from y in x select y == 0 ? -.9d : .9d).ToArray()).ToArray();
 
@@ -36,6 +43,8 @@ namespace Test
 
             net.Train(i, o);
 
+
+
         }
 
         static void net_OnRefreshCyclesSec(int Times)
@@ -43,7 +52,27 @@ namespace Test
             Console.WriteLine(net.LastCalculatedGlobalError);
 
             if (net.LastCalculatedGlobalError < 0.00000001)
+            {
+
                 net.StopOnNextCycle();
+
+                double[] i = new double[] { -0.9d, -0.9d };
+
+                net.SetInputData(i);
+
+                net.Pulse();
+
+                Console.WriteLine(net.Neuron[net.Neuron.Count - 1].Value);
+
+                Console.WriteLine(net.Neuron[net.Neuron.Count - 2].Value);
+
+                Console.ReadKey();
+
+                
+
+            }
+
+
         }
     }
 }

@@ -1,4 +1,4 @@
-namespace primeira.pNeuron.Editor
+namespace pNeuronEditor
 {
     partial class fmSplash
     {

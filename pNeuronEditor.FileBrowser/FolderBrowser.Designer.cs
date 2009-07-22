@@ -1,6 +1,6 @@
-﻿using primeira.pNeuron.Editor.Components;
+﻿using pNeuronEditor.Components;
 
-namespace primeira.pNeuron.Editor.Editors.FileBrowser
+namespace pNeuronEditor.Editors.FileBrowser
 {
     partial class FolderBrowser
     {
@@ -31,8 +31,8 @@ namespace primeira.pNeuron.Editor.Editors.FileBrowser
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FolderBrowser));
-            this.editorBaseButton1 = new primeira.pNeuron.Editor.Components.EditorBaseButton();
-            this.borderTextBox1 = new primeira.pNeuron.Editor.Editors.FileBrowser.BorderTextBox();
+            this.editorBaseButton1 = new pNeuronEditor.Components.EditorBaseButton();
+            this.borderTextBox1 = new pNeuronEditor.Editors.FileBrowser.BorderTextBox();
             this.SuspendLayout();
             // 
             // editorBaseButton1

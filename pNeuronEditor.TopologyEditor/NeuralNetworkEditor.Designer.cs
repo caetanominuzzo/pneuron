@@ -17,7 +17,7 @@ namespace pNeuronEditor.TopologyEditor
     {
         private void InitializeComponent()
         {
-            this.MainDisplay = new primeira.pNeuron.pDisplay();
+            this.MainDisplay = new pNeuronEditor.TopologyEditor.pDisplay();
             this.lblStatus = new System.Windows.Forms.Label();
             this.flowStatus = new System.Windows.Forms.FlowLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
@@ -44,7 +44,7 @@ namespace pNeuronEditor.TopologyEditor
             this.MainDisplay.AutoScroll = true;
             this.MainDisplay.BackColor = System.Drawing.Color.White;
             this.MainDisplay.Cursor = System.Windows.Forms.Cursors.Default;
-            this.MainDisplay.DisplayStatus = primeira.pNeuron.pDisplay.pDisplayStatus.Idle;
+            this.MainDisplay.DisplayStatus = pNeuronEditor.TopologyEditor.pDisplay.pDisplayStatus.Idle;
             this.MainDisplay.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MainDisplay.Location = new System.Drawing.Point(0, 0);
             this.MainDisplay.Name = "MainDisplay";

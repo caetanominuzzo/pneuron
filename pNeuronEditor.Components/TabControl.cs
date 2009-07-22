@@ -7,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
-using primeira.pNeuron.Editor.Business;
+using pNeuronEditor.Business;
 
-namespace primeira.pNeuron.Editor.Components
+namespace pNeuronEditor.Components
 {
     public partial class TabControl : UserControl, ITabControl
     {

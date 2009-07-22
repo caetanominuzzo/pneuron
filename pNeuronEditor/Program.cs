@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using primeira.pNeuron.Editor.Business;
+using pNeuronEditor.Business;
 
 
-namespace primeira.pNeuron.Editor
+namespace pNeuronEditor
 {
     static class Program
     {

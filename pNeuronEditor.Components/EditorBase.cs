@@ -10,9 +10,9 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using System.Runtime.Serialization;
-using primeira.pNeuron.Editor.Business;
+using pNeuronEditor.Business;
 
-namespace primeira.pNeuron.Editor.Components
+namespace pNeuronEditor.Components
 {
 
 #if DESIGNER
@@ -100,7 +100,7 @@ namespace primeira.pNeuron.Editor.Components
         private void InitializeComponent()
         {
             _saveTimer = new Timer();
-            _saveTimer.Interval = 5000;
+            _saveTimer.Interval = 1000;
             _saveTimer.Tick += new EventHandler(_saveTimer_Tick);
 
             TabButton = new TabButton();
@@ -111,12 +111,16 @@ namespace primeira.pNeuron.Editor.Components
             if ((this.Document.GetDefinition.Options & DocumentDefinitionOptions.DontShowLabel) != DocumentDefinitionOptions.DontShowLabel)
             {
                  ((TabButton)this.TabButton).Text = this.Filename;
+
                 FileManager.MeasureFromIDC((Button)this.TabButton);
             }
             else
             {
                  ((TabButton)this.TabButton).ImageAlign = ContentAlignment.MiddleCenter;
             }
+
+            ToolTip tip = new ToolTip();
+            tip.SetToolTip((Control)this.TabButton, this.Filename);
 
              ((TabButton)TabButton).Click += new EventHandler(TabButton_Click);
         }

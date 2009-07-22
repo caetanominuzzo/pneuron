@@ -53,6 +53,14 @@
       <Project>{FBCA0D6A-8646-4C73-A757-E4FB8A080B0A}</Project>
       <Name>pDataSource</Name>
     </ProjectReference>
+    <ProjectReference Include="..\pNeuronEditor.Business\pNeuronEditor.Business.csproj">
+      <Project>{B6C9E22A-6018-45E6-A240-599C683E6203}</Project>
+      <Name>pNeuronEditor.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\pNeuronEditor.TopologyEditor\pNeuronEditor.TopologyEditor.csproj">
+      <Project>{BBE127C0-A968-4CC9-935F-DAF9FDA7CE21}</Project>
+      <Name>pNeuronEditor.TopologyEditor</Name>
+    </ProjectReference>
     <ProjectReference Include="..\pNeuron\pNeuron.csproj">
       <Project>{464378C1-CF56-486D-84F0-DC564A99901D}</Project>
       <Name>pNeuron</Name>

@@ -7,8 +7,8 @@
     <ProjectGuid>{464378C1-CF56-486D-84F0-DC564A99901D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>primeira.pNeuron</RootNamespace>
-    <AssemblyName>pNeuron</AssemblyName>
+    <RootNamespace>primeira.pNeuron.Core</RootNamespace>
+    <AssemblyName>pNeuron.Core</AssemblyName>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>2.0</OldToolsVersion>
@@ -61,9 +61,9 @@
     <None Include="ClassDiagram2.cd" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\pRandom\pRandom.csproj">
+    <ProjectReference Include="..\pRandom\pNeuron.pRandom.csproj">
       <Project>{2152137D-D8FD-4E9C-8732-D8C1F2E03156}</Project>
-      <Name>pRandom</Name>
+      <Name>pNeuron.pRandom</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

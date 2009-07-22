@@ -1,5 +1,5 @@
-﻿using primeira.pNeuron.Editor;
-using primeira.pNeuron.Editor.Components;
+﻿using pNeuronEditor;
+using pNeuronEditor.Components;
 namespace pNeuronEditor.TopologyEditor
 {
     partial class TopologyToolbox
@@ -31,10 +31,10 @@ namespace pNeuronEditor.TopologyEditor
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TopologyToolbox));
-            this.btDelNeuron = new primeira.pNeuron.Editor.Components.EditorBaseButton();
-            this.btAddSynapse = new primeira.pNeuron.Editor.Components.EditorBaseButton();
-            this.btAddNeuron = new primeira.pNeuron.Editor.Components.EditorBaseButton();
-            this.btCursor = new primeira.pNeuron.Editor.Components.EditorBaseButton();
+            this.btDelNeuron = new pNeuronEditor.Components.EditorBaseButton();
+            this.btAddSynapse = new pNeuronEditor.Components.EditorBaseButton();
+            this.btAddNeuron = new pNeuronEditor.Components.EditorBaseButton();
+            this.btCursor = new pNeuronEditor.Components.EditorBaseButton();
             this.SuspendLayout();
             // 
             // btDelNeuron

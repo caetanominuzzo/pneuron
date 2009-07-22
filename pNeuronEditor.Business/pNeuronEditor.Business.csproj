@@ -8,7 +8,7 @@
     <ProjectGuid>{B6C9E22A-6018-45E6-A240-599C683E6203}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>primeira.pNeuron.Editor.Business</RootNamespace>
+    <RootNamespace>pNeuronEditor.Business</RootNamespace>
     <AssemblyName>pNeuronEditor.Business</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

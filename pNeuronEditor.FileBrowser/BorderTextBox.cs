@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace primeira.pNeuron.Editor.Editors.FileBrowser
+namespace pNeuronEditor.Editors.FileBrowser
 {
     public partial class BorderTextBox : UserControl
     {
