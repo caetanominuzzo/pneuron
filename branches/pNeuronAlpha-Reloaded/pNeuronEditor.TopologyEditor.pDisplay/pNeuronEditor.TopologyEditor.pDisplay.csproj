@@ -66,7 +66,7 @@
       <Project>{464378C1-CF56-486D-84F0-DC564A99901D}</Project>
       <Name>pNeuron</Name>
     </ProjectReference>
-    <ProjectReference Include="..\pPanel\pNeuronEditor.TopologyEditor.pPanel.csproj">
+    <ProjectReference Include="..\pNeuronEditor.TopologyEditor.pPanel\pNeuronEditor.TopologyEditor.pPanel.csproj">
       <Project>{D3847E8B-A4C3-49BB-B119-3F2B981C9154}</Project>
       <Name>pNeuronEditor.TopologyEditor.pPanel</Name>
     </ProjectReference>

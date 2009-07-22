@@ -30,7 +30,7 @@ namespace pNeuronEditor
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(pNeuronEditor));
-            this.tbMain = new Components.TabControl();
+            this.tbMain = new TabControl();
             this.SuspendLayout();
             // 
             // tbMain
@@ -50,7 +50,7 @@ namespace pNeuronEditor
             this.Controls.Add(this.tbMain);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "pNeuronEditor";
-            this.Text = "pNeuronIDE";
+            this.Text = "pNeuron Editor";
             this.ResumeLayout(false);
 
         }
