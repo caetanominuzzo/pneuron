@@ -57,9 +57,9 @@
       <Project>{B6C9E22A-6018-45E6-A240-599C683E6203}</Project>
       <Name>pNeuronEditor.Business</Name>
     </ProjectReference>
-    <ProjectReference Include="..\pNeuronEditor.TopologyEditor\pNeuronEditor.TopologyEditor.csproj">
+    <ProjectReference Include="..\pNeuronEditor.Topology\pNeuronEditor.Topology.csproj">
       <Project>{BBE127C0-A968-4CC9-935F-DAF9FDA7CE21}</Project>
-      <Name>pNeuronEditor.TopologyEditor</Name>
+      <Name>pNeuronEditor.Topology</Name>
     </ProjectReference>
     <ProjectReference Include="..\pNeuron\pNeuron.csproj">
       <Project>{464378C1-CF56-486D-84F0-DC564A99901D}</Project>
