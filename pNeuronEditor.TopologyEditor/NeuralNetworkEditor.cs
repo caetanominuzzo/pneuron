@@ -37,6 +37,12 @@ namespace pNeuronEditor.TopologyEditor
 
             MainDisplay.SetNeuralNetwork(((NeuralNetworkDocument)Document).NeuralNetwork);
 
+            this.OnSelected += new SelectedDelegate(NeuralNetworkEditor_OnSelected);
+        }
+
+        void NeuralNetworkEditor_OnSelected(IEditorBase sender)
+        {
+            //MainDisplay.SetNeuralNetwork(((NeuralNetworkDocument)this.Document).NeuralNetwork);
         }
 
         #endregion

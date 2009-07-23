@@ -23,7 +23,7 @@ namespace pNeuronEditor.Business
 
         public static DocumentBase ToObject(string filename)
         {
-            return DocumentBase.ToObject(filename);
+            return DocumentBase.ToObject(filename, null);
         }
 
         public static void ToXml(DocumentBase document, string filename)
@@ -31,16 +31,14 @@ namespace pNeuronEditor.Business
             document.ToXml(filename);
         }
 
-
         #region New/Open/Save Document
 
-        private static void AddDocument(IEditorBase editor)
+        internal static void AddDocument(IEditorBase editor)
         {
             if(TabManager.GetInstance().TabControl != null)
                 TabManager.GetInstance().TabControl.AddTab(editor);
 
-            //If not virtual add in recents list
-            if ((editor.Document.GetDefinition.Options & DocumentDefinitionOptions.Virtual) != DocumentDefinitionOptions.Virtual)
+            if ((editor.Document.GetDefinition.Options & DocumentDefinitionOptions.ShowInRecent) == DocumentDefinitionOptions.ShowInRecent)
             {
                     if(FileManager.Recent != null)
                         FileManager.Recent.AddRecent(editor.Filename);
@@ -49,7 +47,6 @@ namespace pNeuronEditor.Business
             editor.OnSelected += new SelectedDelegate(TabControl_OnSelected);
 
             editor.Selected = true;
-
         }
 
         static void TabControl_OnSelected(IEditorBase sender)
@@ -58,17 +55,7 @@ namespace pNeuronEditor.Business
         }
 
 
-        public static void OpenDocument(DocumentDefinition FileVersion)
-        {
-            openOrNewDocument(false, FileVersion);
-        }
-
-        public static void NewDocument(DocumentDefinition FileVersion)
-        {
-            openOrNewDocument(true, FileVersion);
-        }
-
-        private static void openOrNewDocument(bool NewFile, DocumentDefinition FileVersion)
+        public static void OpenOrCreateDocument(bool NewFile, DocumentDefinition FileVersion)
         {
             OpenFileDialog s = new OpenFileDialog();
 
@@ -106,21 +93,9 @@ namespace pNeuronEditor.Business
             private set { _baseDir = value; }
         }
 
-        public static IEditorBase LoadDocument(string FileName)
+        internal static DocumentBase LoadDocument(string filename)
         {
-            IEditorBase res = TabManager.GetInstance().GetDocumentByFilename(FileName);
-
-            if (res == null)
-            {
-                res = EditorManager.GetEditorByFilename(FileName);
-                
-                if (res != null)
-                    AddDocument(res);
-            }
-
-            res.Selected = true;
-
-            return res;
+            return EditorManager.LoadEditor(filename).Document;
         }
 
         #endregion

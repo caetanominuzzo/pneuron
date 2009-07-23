@@ -8,6 +8,8 @@ namespace pNeuronEditor
 {
     public partial class pNeuronEditor : Form, IpShorcutEscopeProvider
     {
+        TabControl.TabControlEditor _tabControl;
+
         FileBrowserEditor  _fileBrowser;
 
         pShortcutManager.pShortcutManager _shortcutManager;
@@ -15,12 +17,17 @@ namespace pNeuronEditor
         public pNeuronEditor()
         {
             InitializeComponent();
-
+            
             EditorManager.RegisterEditors();
+            
+            
+            _tabControl = (TabControl.TabControlEditor)EditorManager.LoadEditor("default.tabcontrol");
 
-            TabManager.GetInstance().SetTabControl(this.tbMain);
+            this.Controls.Add(_tabControl);
 
-            _fileBrowser = (FileBrowserEditor)DocumentManager.LoadDocument("default.filebrowser");
+            TabManager.GetInstance().SetTabControl(_tabControl);
+            
+            _fileBrowser = (FileBrowserEditor)EditorManager.LoadEditor("default.filebrowser");
 
             FileManager.SetRecentManager(_fileBrowser);
 
@@ -28,8 +35,10 @@ namespace pNeuronEditor
 
             _shortcutManager.LoadFromForm(this);
 
-            _shortcutManager.Provider = this;
+            _shortcutManager.EscopeProvider = this;
         }
+
+        #region Shortcuts
 
         [pShortcutManagerVisible("ShowFileTab", "Show the File tab", "Main", Keys.T, KeyModifiers.Control)]
         public void ShowFileTab()
@@ -55,6 +64,8 @@ namespace pNeuronEditor
             TabManager.GetInstance().SelectPrior();
         }
 
+        #endregion
+
         #region IpShorcutEscopeProvider Members
 
         public bool IsAtiveByControl(string controlName)
@@ -68,5 +79,15 @@ namespace pNeuronEditor
         }
 
         #endregion
+
+        #region Event Handlers
+
+        private void pNeuronEditor_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            _tabControl.Document.ToXml(_tabControl.Filename);
+        }
+
+        #endregion
+
     }
 }

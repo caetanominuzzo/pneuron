@@ -37,7 +37,7 @@ namespace pShortcutManager
 
         private List<pShortcutCommand> _commands = new List<pShortcutCommand>();
 
-        public IpShorcutEscopeProvider Provider { get; set; }
+        public IpShorcutEscopeProvider EscopeProvider { get; set; }
 
         internal pShortcutCommand[] Commands
         {
@@ -56,7 +56,7 @@ namespace pShortcutManager
                 case WM_HOTKEY:
                     foreach (pShortcut p in _shortcuts)
                     {
-                        if (p.AtomID == (int)m.WParam && Provider != null && Provider.IsAtiveByEscope(p.Escope))
+                        if (p.AtomID == (int)m.WParam && EscopeProvider != null && EscopeProvider.IsAtiveByEscope(p.Escope))
                         {
                             p.Command.Method.Invoke(p.Command.Object, new object[0]);
                             return true;

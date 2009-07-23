@@ -88,7 +88,7 @@ namespace pNeuronEditor.Business
 
             foreach (DocumentDefinition d in _knownDocumentDefinition)
             {
-                if ((d.Options & DocumentDefinitionOptions.Virtual) != DocumentDefinitionOptions.Virtual)
+                if ((d.Options & DocumentDefinitionOptions.ShowInOpen) == DocumentDefinitionOptions.ShowInOpen)
                     sb.Append(string.Format("{0} (*{1})|*{1}|", d.Name, d.Extension));
             }
 
@@ -102,7 +102,7 @@ namespace pNeuronEditor.Business
             int i = 0;
             foreach (DocumentDefinition d in _knownDocumentDefinition)
             {
-                if ((d.Options & DocumentDefinitionOptions.Virtual) == DocumentDefinitionOptions.Virtual)
+                if ((d.Options & DocumentDefinitionOptions.ShowInOpen) == DocumentDefinitionOptions.ShowInOpen)
                     continue;
                 else i++;
 
@@ -116,6 +116,28 @@ namespace pNeuronEditor.Business
         public static DocumentDefinition[] GetAllDocumentDefinition()
         {
             return _knownDocumentDefinition.ToArray();
+        }
+
+        public static IEditorBase LoadEditor(string FileName)
+        {
+            IEditorBase res = TabManager.GetInstance().GetDocumentByFilename(FileName);
+
+            if (res != null)
+            {
+                res.Selected = true;
+                return res;
+            }
+
+            if (res == null)
+            {
+                res = EditorManager.GetEditorByFilename(FileName);
+
+                if (res != null && (res.Document.GetDefinition.Options & DocumentDefinitionOptions.Virtual) != DocumentDefinitionOptions.Virtual)
+                    DocumentManager.AddDocument(res);
+
+            }
+
+            return res;
         }
 
     }

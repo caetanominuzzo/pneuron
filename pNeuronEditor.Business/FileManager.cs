@@ -33,7 +33,7 @@ namespace pNeuronEditor.Business
             {
                 string name = string.Format(fileVersion.DefaultName, i);
 
-                if (!File.Exists(string.Format("{0}{1}{2}", basedir, name, fileVersion.Extension)))
+                if (!File.Exists(string.Format("{0}{1}", Path.Combine(basedir, name), fileVersion.Extension)))
                 {
                     result = string.Format("{0}{1}", name, fileVersion.Extension);
                     break;

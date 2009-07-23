@@ -23,11 +23,11 @@ namespace pNeuronEditor
         #region Ctor
 
         public FileBrowserEditor(string filename, DocumentBase data)
-            : base("File Tab", data, typeof(FileBrowserDocument))
+            : base(filename, data, typeof(FileBrowserDocument))
         {
             InitializeComponent();
 
-            ((TabButton)this.TabButton).Size = new Size(40, 40);
+            ((Button)this.TabButton).Size = new Size(40, 40);
 
             this.ShowCloseButton = false;
 
@@ -40,6 +40,7 @@ namespace pNeuronEditor
 
         }
 
+
         private void createQuickLaunch()
         {
             dgQuickLauch.Rows.Clear();
@@ -48,7 +49,7 @@ namespace pNeuronEditor
 
             foreach (DocumentDefinition def in defs)
             {
-                if ((def.Options & DocumentDefinitionOptions.Virtual) != DocumentDefinitionOptions.Virtual)
+                if ((def.Options & DocumentDefinitionOptions.ShowDraft) == DocumentDefinitionOptions.ShowDraft)
                 {
                     int i = dgQuickLauch.Rows.Add(
                             new object[] { m_file, 
@@ -61,7 +62,7 @@ namespace pNeuronEditor
 
             foreach (DocumentDefinition def in defs)
             {
-                if ((def.Options & DocumentDefinitionOptions.Virtual) != DocumentDefinitionOptions.Virtual)
+                if ((def.Options & DocumentDefinitionOptions.ShowInOpen) == DocumentDefinitionOptions.ShowInOpen)
                 {
                     int i = dgQuickLauch.Rows.Add(
                             new object[] { m_file, 
@@ -129,21 +130,22 @@ namespace pNeuronEditor
         {   
             if(sender == dgDirFiles)
             {
-                DocumentManager.LoadDocument(dgDirFiles.Rows[e.RowIndex].Cells[4].Value.ToString());
+                EditorManager.LoadEditor(dgDirFiles.Rows[e.RowIndex].Cells[4].Value.ToString());
             }
             else if (sender == dgRecentFiles)
-                DocumentManager.LoadDocument(dgRecentFiles.Rows[e.RowIndex].Cells[4].Value.ToString());
+                EditorManager.LoadEditor(dgRecentFiles.Rows[e.RowIndex].Cells[4].Value.ToString());
             else
             {
                 if(dgQuickLauch.Rows[e.RowIndex].Cells[2].Value.ToString() == "draft")
                 {
                     string s = FileManager.GetNewFile((DocumentDefinition)dgQuickLauch.Rows[e.RowIndex].Cells[5].Value, DocumentManager.BaseDir);
+                    s = Path.Combine(DocumentManager.BaseDir, s);
                     File.Create(s).Close();
-                    DocumentManager.LoadDocument(s);
+                    EditorManager.LoadEditor(s);
                 }
                 else
                 {
-                    DocumentManager.NewDocument((DocumentDefinition)dgQuickLauch.Rows[e.RowIndex].Cells[5].Value);
+                    DocumentManager.OpenOrCreateDocument(true, (DocumentDefinition)dgQuickLauch.Rows[e.RowIndex].Cells[5].Value);
                 }
             }
         }
