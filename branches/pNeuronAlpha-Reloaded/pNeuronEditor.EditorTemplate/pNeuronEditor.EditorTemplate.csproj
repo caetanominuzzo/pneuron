@@ -62,7 +62,7 @@
   <ItemGroup>
     <ProjectReference Include="..\pNeuronEditor.Business\pNeuronEditor.Business.csproj">
       <Project>{B6C9E22A-6018-45E6-A240-599C683E6203}</Project>
-      <Name>pNeuronEditor.Common</Name>
+      <Name>pNeuronEditor.Business</Name>
     </ProjectReference>
     <ProjectReference Include="..\pNeuronEditor.Components\pNeuronEditor.Components.csproj">
       <Project>{E2ADA5FC-2123-4F79-B710-8A25A0029E92}</Project>
