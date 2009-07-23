@@ -1,6 +1,4 @@
-﻿#define DESIGNER
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -15,17 +13,12 @@ using pNeuronEditor.Business;
 namespace pNeuronEditor.Components
 {
 
-#if DESIGNER
-    public class EditorBase : UserControl, IEditorBase
+    public abstract class EditorBase : UserControl, IEditorBase
     {
-#else
-        public abstract class EditorBase : UserControl
-    {
-#endif
 
         #region Fields
 
-        
+
 
         private bool _selected = false;
 
@@ -62,7 +55,8 @@ namespace pNeuronEditor.Components
                 if (value)
                     BringToFront();
 
-                ((TabButton)TabButton).BackgroundImage = value ? ((TabButton)TabButton).SelectedImage : ((TabButton)TabButton).UnselectedImage;
+                if (TabButton != null)
+                    ((Button)TabButton).BackgroundImage = value ? TabButton.SelectedImage : TabButton.UnselectedImage;
 
                 if (_selected && OnSelected != null)
                     OnSelected(this);
@@ -72,12 +66,7 @@ namespace pNeuronEditor.Components
         #endregion
 
         #region Ctor
-
-#if DESIGNER
-        public EditorBase()
-        {
-        }
-#endif
+      
         public EditorBase(string filename, DocumentBase data, Type documentType)
         {
             if (data == null)
@@ -93,36 +82,48 @@ namespace pNeuronEditor.Components
 
             this.OnChanged += new ChangedDelegate(EditorBase_OnChanged);
 
+            this.TimeOPen = DateTime.Now;
+
             InitializeComponent();
 
         }
 
         private void InitializeComponent()
         {
-            _saveTimer = new Timer();
-            _saveTimer.Interval = 1000;
-            _saveTimer.Tick += new EventHandler(_saveTimer_Tick);
-
-            TabButton = new TabButton();
-            ((TabButton)TabButton).Tag = this;
-            
-            ((TabButton)TabButton).Image = Document.GetDefinition.Icon;
-
-            if ((this.Document.GetDefinition.Options & DocumentDefinitionOptions.DontShowLabel) != DocumentDefinitionOptions.DontShowLabel)
+            if ((Document.GetDefinition.Options & DocumentDefinitionOptions.TimerSaver) == DocumentDefinitionOptions.TimerSaver)
             {
-                 ((TabButton)this.TabButton).Text = this.Filename;
-
-                FileManager.MeasureFromIDC((Button)this.TabButton);
-            }
-            else
-            {
-                 ((TabButton)this.TabButton).ImageAlign = ContentAlignment.MiddleCenter;
+                _saveTimer = new Timer();
+                _saveTimer.Interval = 1000;
+                _saveTimer.Tick += new EventHandler(_saveTimer_Tick);
             }
 
-            ToolTip tip = new ToolTip();
-            tip.SetToolTip((Control)this.TabButton, this.Filename);
 
-             ((TabButton)TabButton).Click += new EventHandler(TabButton_Click);
+
+            if (TabManager.GetInstance().TabControl != null)
+            {
+                TabButton = TabManager.GetInstance().CreateTabButton();
+
+                ((Button)TabButton).Tag = this;
+
+                ((Button)TabButton).Image = Document.GetDefinition.Icon;
+
+                if ((this.Document.GetDefinition.Options & DocumentDefinitionOptions.DontShowLabel) != DocumentDefinitionOptions.DontShowLabel)
+                {
+                    ((Button)this.TabButton).Text = this.Filename;
+
+                    FileManager.MeasureFromIDC((Button)this.TabButton);
+                }
+                else
+                {
+                    ((Button)this.TabButton).ImageAlign = ContentAlignment.MiddleCenter;
+                }
+
+                ToolTip tip = new ToolTip();
+
+                tip.SetToolTip((Control)this.TabButton, this.Filename);
+
+                ((Button)TabButton).Click += new EventHandler(TabButton_Click);
+            }
         }
 
         #endregion
@@ -131,7 +132,11 @@ namespace pNeuronEditor.Components
 
         public void PrepareToClose()
         {
-            _saveTimer.Stop();
+
+            //Since if !DocumentDefinitionOptions.Virtual there is not _timer set;
+            if (_saveTimer != null)
+                _saveTimer.Stop();
+
             DocumentManager.ToXml(this.Document, this.Filename);
         }
 
@@ -141,7 +146,10 @@ namespace pNeuronEditor.Components
 
         private void _saveTimer_Tick(object sender, EventArgs e)
         {
-            _saveTimer.Stop();
+            //Since if !DocumentDefinitionOptions.Virtual there is not _timer set;
+            if (_saveTimer != null)
+                _saveTimer.Stop();
+
             DocumentManager.ToXml(this.Document, this.Filename);
         }
 
@@ -152,8 +160,12 @@ namespace pNeuronEditor.Components
 
         private void EditorBase_OnChanged()
         {
-            _saveTimer.Stop();
-            _saveTimer.Start();
+            //Since if !DocumentDefinitionOptions.Virtual there is not _timer set;
+            if (_saveTimer != null)
+            {
+                _saveTimer.Stop();
+                _saveTimer.Start();
+            }
         }
 
         #endregion
@@ -172,5 +184,11 @@ namespace pNeuronEditor.Components
         }
 
         #endregion
+
+        public DateTime TimeOPen
+        {
+            get;
+            private set;
+        }
     }
 }

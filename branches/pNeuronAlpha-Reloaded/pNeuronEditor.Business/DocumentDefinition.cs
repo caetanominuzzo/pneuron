@@ -21,8 +21,14 @@ namespace pNeuronEditor.Business
     [Flags()]
     public enum DocumentDefinitionOptions
     {
-        None = 0x0,
-        Virtual = 0x1,
-        DontShowLabel = 0x2,
+        None = 0,
+        DontShowLabel =1,
+        TimerSaver = 2,
+        KeepOnCloseTabs =4,
+        ShowInRecent = 8,
+        ShowDraft = 16,
+        ShowInOpen = 32,
+        Virtual = 64,
+        UserFile = KeepOnCloseTabs | TimerSaver | ShowInRecent | ShowDraft | ShowInOpen,
     }
 }

@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{E2ADA5FC-2123-4F79-B710-8A25A0029E92}</ProjectGuid>
+    <ProjectGuid>{A76B7D8B-12F6-4598-91A0-C98408D6A93A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>pNeuronEditor.Components</RootNamespace>
-    <AssemblyName>pNeuronEditor.Components</AssemblyName>
+    <RootNamespace>pNeuronEditor.TabControl</RootNamespace>
+    <AssemblyName>pNeuronEditor.TabControl</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -36,6 +36,9 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -47,33 +50,40 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EditorBase.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="EditorBaseButton.cs">
+    <Compile Include="TabButton.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="TabControlDocument.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
+    <Compile Include="TabControlEditor.cs">
+      <SubType>UserControl</SubType>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
+    <Compile Include="TabControlEditor.Designer.cs">
+      <DependentUpon>TabControlEditor.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\pNeuronEditor.Business\pNeuronEditor.Business.csproj">
       <Project>{B6C9E22A-6018-45E6-A240-599C683E6203}</Project>
       <Name>pNeuronEditor.Business</Name>
     </ProjectReference>
+    <ProjectReference Include="..\pNeuronEditor.Components\pNeuronEditor.Components.csproj">
+      <Project>{E2ADA5FC-2123-4F79-B710-8A25A0029E92}</Project>
+      <Name>pNeuronEditor.Components</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\line_tab.png" />
+    <EmbeddedResource Include="TabButton.resx">
+      <DependentUpon>TabButton.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TabControlEditor.resx">
+      <DependentUpon>TabControlEditor.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="default.tabcontrol">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

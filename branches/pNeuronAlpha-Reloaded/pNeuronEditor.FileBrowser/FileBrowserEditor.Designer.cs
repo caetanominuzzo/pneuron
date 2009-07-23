@@ -60,7 +60,7 @@
             this.ColOrder = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColHardFilename = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColFileVersion = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tabButton1 = new pNeuronEditor.Components.TabButton();
+            //this.tabButton1 = new pNeuronEditor.Components.TabButton();
             this.folderBrowser1 = new pNeuronEditor.Editors.FileBrowser.FolderBrowser();
             this.panel4.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -136,7 +136,7 @@
             this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(219)))), ((int)(((byte)(225)))), ((int)(((byte)(255)))));
-            this.panel2.Controls.Add(this.tabButton1);
+            //this.panel2.Controls.Add(this.tabButton1);
             this.panel2.Location = new System.Drawing.Point(10, 273);
             this.panel2.Name = "panel2";
             this.panel2.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
@@ -421,27 +421,27 @@
             // 
             // tabButton1
             // 
-            this.tabButton1.AutoEllipsis = true;
-            this.tabButton1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("tabButton1.BackgroundImage")));
-            this.tabButton1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.tabButton1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.tabButton1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.tabButton1.FlatAppearance.BorderSize = 0;
-            this.tabButton1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.tabButton1.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tabButton1.ForeColor = System.Drawing.Color.DarkGray;
-            this.tabButton1.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.tabButton1.Location = new System.Drawing.Point(-80, 0);
-            this.tabButton1.MaximumSize = new System.Drawing.Size(200, 40);
-            this.tabButton1.Name = "tabButton1";
-            this.tabButton1.Padding = new System.Windows.Forms.Padding(10, 5, 5, 5);
-            this.tabButton1.SelectedImage = ((System.Drawing.Image)(resources.GetObject("tabButton1.SelectedImage")));
-            this.tabButton1.Size = new System.Drawing.Size(75, 40);
-            this.tabButton1.TabIndex = 10;
-            this.tabButton1.Text = "Open";
-            this.tabButton1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.tabButton1.UnselectedImage = ((System.Drawing.Image)(resources.GetObject("tabButton1.UnselectedImage")));
-            this.tabButton1.UseVisualStyleBackColor = true;
+            //this.tabButton1.AutoEllipsis = true;
+            //this.tabButton1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("tabButton1.BackgroundImage")));
+            //this.tabButton1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            //this.tabButton1.Cursor = System.Windows.Forms.Cursors.Hand;
+            //this.tabButton1.Dock = System.Windows.Forms.DockStyle.Right;
+            //this.tabButton1.FlatAppearance.BorderSize = 0;
+            //this.tabButton1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            //this.tabButton1.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            //this.tabButton1.ForeColor = System.Drawing.Color.DarkGray;
+            //this.tabButton1.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            //this.tabButton1.Location = new System.Drawing.Point(-80, 0);
+            //this.tabButton1.MaximumSize = new System.Drawing.Size(200, 40);
+            //this.tabButton1.Name = "tabButton1";
+            //this.tabButton1.Padding = new System.Windows.Forms.Padding(10, 5, 5, 5);
+            //this.tabButton1.SelectedImage = ((System.Drawing.Image)(resources.GetObject("tabButton1.SelectedImage")));
+            //this.tabButton1.Size = new System.Drawing.Size(75, 40);
+            //this.tabButton1.TabIndex = 10;
+            //this.tabButton1.Text = "Open";
+            //this.tabButton1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            //this.tabButton1.UnselectedImage = ((System.Drawing.Image)(resources.GetObject("tabButton1.UnselectedImage")));
+            //this.tabButton1.UseVisualStyleBackColor = true;
             // 
             // folderBrowser1
             // 
@@ -504,7 +504,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn8;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn9;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn10;
-        private pNeuronEditor.Components.TabButton tabButton1;
+        //private pNeuronEditor.Components.TabButton tabButton1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Panel panel4;

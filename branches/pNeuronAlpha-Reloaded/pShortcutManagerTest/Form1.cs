@@ -20,7 +20,7 @@ namespace pShortcutManagerTest
              
             p.LoadFromForm(this);
 
-            p.Provider = this;
+            p.EscopeProvider = this;
         }
 
         [pShortcutManagerVisible("Main.ShowA", "Show an 'A' MessageBox", "Main", Keys.A, KeyModifiers.Control)]

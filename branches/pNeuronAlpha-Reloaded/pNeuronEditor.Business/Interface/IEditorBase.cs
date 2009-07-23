@@ -22,6 +22,8 @@ namespace pNeuronEditor.Business
 
         event SelectedDelegate OnSelected;
 
+        DateTime TimeOPen { get; }
+
     }
 
 }

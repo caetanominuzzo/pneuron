@@ -8,15 +8,18 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using pNeuronEditor.Business;
+using pNeuronEditor.Components;
 
-namespace pNeuronEditor.Components
+namespace pNeuronEditor.TabControl
 {
-    public partial class TabControl : UserControl, ITabControl
+    public partial class TabControlEditor : EditorBase, ITabControl
     {
-        public TabControl()
+        public TabControlEditor(string filename, DocumentBase data)
+            : base(filename, data, typeof(TabControlDocument))
         {
             InitializeComponent();
         }
+
 
         public void AddTab(IEditorBase editor)
         {
@@ -29,8 +32,6 @@ namespace pNeuronEditor.Components
             //Firsts to the left
             ((TabButton)editor.TabButton).BringToFront();
 
-            ((Control)editor).BringToFront();
-            
             this.ResumeLayout();
         }
 
@@ -61,10 +62,23 @@ namespace pNeuronEditor.Components
                     break;
                 }
             }
-
-
         }
 
+        public ITabButton CreateTabButton()
+        {
+            return new TabButton();
+        }
 
+        private void TabControlEditor_Load(object sender, EventArgs e)
+        {
+            foreach (string file in ((TabControl.TabControlDocument)Document).GetOpenTabsFilename())
+            {
+                EditorManager.LoadEditor(file);
+            }
+
+            string selectedTab = ((TabControl.TabControlDocument)Document).GetSelectedTab();
+            if(selectedTab!=null)
+                EditorManager.LoadEditor(selectedTab);
+        }
     }
 }
