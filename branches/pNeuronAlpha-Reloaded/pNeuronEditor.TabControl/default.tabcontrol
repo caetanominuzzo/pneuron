@@ -1,0 +1,5 @@
+﻿<DocumentBase z:Id="1" i:type="a:TabControlDocument" xmlns="http://schemas.datacontract.org/2004/07/pNeuronEditor.Business" xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns:z="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:a="http://schemas.datacontract.org/2004/07/pNeuronEditor.TabControl">
+  <a:OpenTabs z:Id="2" z:Size="1" xmlns:b="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
+    <b:string z:Id="3">default.filebrowser</b:string>
+  </a:OpenTabs>
+</DocumentBase>

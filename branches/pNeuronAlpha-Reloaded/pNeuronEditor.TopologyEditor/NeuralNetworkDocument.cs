@@ -21,7 +21,8 @@ namespace pNeuronEditor.TopologyEditor
                 Extension = ".pne",
                 Id = new Guid("513ff96c-0d23-44f4-82ab-0dea5a62dcd3"),
                 Icon = Image.FromFile(@"C:\Users\caetano.CWIPOA\Pictures\file_noborder.gif"),
-                DefaultEditor = typeof(NeuralNetworkEditor)
+                DefaultEditor = typeof(NeuralNetworkEditor),
+                Options = DocumentDefinitionOptions.UserFile
             };
 
         public static DocumentDefinition DocumentDefinition
@@ -36,5 +37,11 @@ namespace pNeuronEditor.TopologyEditor
 
         [DataMember()]
         public NeuralNetwork NeuralNetwork { get; set; }
+
+        public static DocumentBase ToObject(string filename)
+        {
+            return DocumentBase.ToObject(filename, typeof(NeuralNetworkDocument));
+        }
+
     }
 }

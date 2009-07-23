@@ -37,6 +37,16 @@ namespace pNeuronEditor.Business
             get { return _tabcontrol; }
         }
 
+        public ITabButton CreateTabButton()
+        {
+            if (_tabcontrol != null)
+            {
+                return _tabcontrol.CreateTabButton();
+            }
+
+            return null;
+        }
+
         #endregion
 
         #region ActiveDocument
@@ -117,6 +127,12 @@ namespace pNeuronEditor.Business
             }
 
             return null;
+        }
+
+        public IEnumerable<IEditorBase> GetEditorByOptions(DocumentDefinitionOptions options)
+        {
+            var x = (from c in this._openEditors where (c.Document.GetDefinition.Options & options) == options select (IEditorBase)c); 
+            return x;
         }
 
         #endregion

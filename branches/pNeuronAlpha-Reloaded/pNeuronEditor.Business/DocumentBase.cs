@@ -15,15 +15,21 @@ namespace pNeuronEditor.Business
         {
             Stream sm = File.Create(filename);
 
+            Type[] knownTypes = DocumentManager.GetKnownDocumenTypes();
+
+            Array.Resize(ref knownTypes, knownTypes.Length + 1);
+
+            knownTypes[knownTypes.Length - 1] = this.GetType();
+
             DataContractSerializer ser = new DataContractSerializer(typeof(DocumentBase),
-                 DocumentManager.GetKnownDocumenTypes(),
+                knownTypes,
                 10000000, false, true, null);
             ser.WriteObject(sm, this);
 
             sm.Close();
         }
 
-        public static DocumentBase ToObject(string filename)
+        public static DocumentBase ToObject(string filename, Type type)
         {
             if (!File.Exists(filename))
                 File.Create(filename).Close();
@@ -35,6 +41,12 @@ namespace pNeuronEditor.Business
             {
 
                 Stream sm = File.OpenRead(filename);
+
+                Type[] knownTypes = DocumentManager.GetKnownDocumenTypes();
+
+                Array.Resize(ref knownTypes, knownTypes.Length + 1);
+
+                knownTypes[knownTypes.Length - 1] = type;
 
                 DataContractSerializer ser = new DataContractSerializer(typeof(DocumentBase),
                     DocumentManager.GetKnownDocumenTypes(),

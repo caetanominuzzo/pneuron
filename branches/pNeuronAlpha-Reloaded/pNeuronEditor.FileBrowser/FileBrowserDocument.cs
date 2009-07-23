@@ -13,14 +13,14 @@ namespace pNeuronEditor
         private static DocumentDefinition _definition =
             new DocumentDefinition()
             {
-                Name = "File Browser Configuration File",
+                Name = "File Browser Configuration",
                 DefaultName = "default",
-                Description = "pNeuron Topology File",
+                Description = "File & Tab Operations",
                 Extension = ".filebrowser",
                 Id = new Guid("513ff96c-0d23-44f4-82ab-0dea5a62dcd3"),
                 Icon = Image.FromFile(@"C:\Users\caetano.CWIPOA\Pictures\folder_noborder.gif"),
                 DefaultEditor = typeof(FileBrowserEditor),
-                Options = (DocumentDefinitionOptions.DontShowLabel | DocumentDefinitionOptions.Virtual)
+                Options = (DocumentDefinitionOptions.DontShowLabel | DocumentDefinitionOptions.TimerSaver | DocumentDefinitionOptions.KeepOnCloseTabs)
             };
 
         public static DocumentDefinition DocumentDefinition
@@ -33,11 +33,13 @@ namespace pNeuronEditor
             get { return _definition; }
         }
 
+        #region Data
+
         private List<string> _recent = new List<string>();
 
         public void AddRecent(string filename)
         {
-            if(!_recent.Contains(filename))
+            if (!_recent.Contains(filename))
                 _recent.Add(filename);
         }
 
@@ -56,5 +58,13 @@ namespace pNeuronEditor
             }
 
         }
+
+        #endregion
+
+        public static DocumentBase ToObject(string filename)
+        {
+            return DocumentBase.ToObject(filename, typeof(FileBrowserDocument));
+        }
+
     }
 }

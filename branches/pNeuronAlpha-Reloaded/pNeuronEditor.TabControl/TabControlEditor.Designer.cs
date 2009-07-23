@@ -1,6 +1,7 @@
-﻿namespace pNeuronEditor.Components
+﻿using pNeuronEditor.Components;
+namespace pNeuronEditor.TabControl
 {
-    partial class TabControl
+    partial class TabControlEditor
     {
         /// <summary> 
         /// Required designer variable.
@@ -28,7 +29,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TabControl));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TabControlEditor));
             this.pnTabArea = new System.Windows.Forms.Panel();
             this.pnDocArea = new System.Windows.Forms.Panel();
             this.pnTop = new System.Windows.Forms.Panel();
@@ -88,12 +89,13 @@
             this.btnClose.UseVisualStyleBackColor = true;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
-            // TabControl
+            // TabControlEditor
             // 
             this.Controls.Add(this.pnDocArea);
             this.Controls.Add(this.pnTop);
-            this.Name = "TabControl";
+            this.Name = "TabControlEditor";
             this.Size = new System.Drawing.Size(400, 400);
+            this.Load += new System.EventHandler(this.TabControlEditor_Load);
             this.pnTop.ResumeLayout(false);
             this.pnCloseArea.ResumeLayout(false);
             this.ResumeLayout(false);

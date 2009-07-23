@@ -1,4 +1,5 @@
 using pNeuronEditor.Components;
+using pNeuronEditor.TabControl;
 namespace pNeuronEditor
 {
     partial class pNeuronEditor
@@ -30,16 +31,7 @@ namespace pNeuronEditor
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(pNeuronEditor));
-            this.tbMain = new TabControl();
             this.SuspendLayout();
-            // 
-            // tbMain
-            // 
-            this.tbMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbMain.Location = new System.Drawing.Point(0, 0);
-            this.tbMain.Name = "tbMain";
-            this.tbMain.Size = new System.Drawing.Size(635, 394);
-            this.tbMain.TabIndex = 11;
             // 
             // pNeuronEditor
             // 
@@ -47,10 +39,10 @@ namespace pNeuronEditor
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(635, 394);
-            this.Controls.Add(this.tbMain);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "pNeuronEditor";
             this.Text = "pNeuron Editor";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.pNeuronEditor_FormClosing);
             this.ResumeLayout(false);
 
         }
@@ -58,7 +50,5 @@ namespace pNeuronEditor
 
 
         #endregion
-        
-        private TabControl tbMain;
     }
 }
