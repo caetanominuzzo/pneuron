@@ -56,7 +56,7 @@ namespace pNeuronEditor.Components
                     BringToFront();
 
                 if (TabButton != null)
-                    ((Button)TabButton).BackgroundImage = value ? TabButton.SelectedImage : TabButton.UnselectedImage;
+                    TabButton.BackgroundImage = value ? TabButton.SelectedImage : TabButton.UnselectedImage;
 
                 if (_selected && OnSelected != null)
                     OnSelected(this);
@@ -101,28 +101,26 @@ namespace pNeuronEditor.Components
 
             if (TabManager.GetInstance().TabControl != null)
             {
-                TabButton = TabManager.GetInstance().CreateTabButton();
+                TabButton = (TabButton)TabManager.GetInstance().CreateTabButton();
 
-                ((Button)TabButton).Tag = this;
+                TabButton.Tag = this;
 
-                ((Button)TabButton).Image = Document.GetDefinition.Icon;
+                TabButton.Image = Document.GetDefinition.Icon;
 
                 if ((this.Document.GetDefinition.Options & DocumentDefinitionOptions.DontShowLabel) != DocumentDefinitionOptions.DontShowLabel)
                 {
-                    ((Button)this.TabButton).Text = this.Filename;
+                    this.TabButton.Text = this.Filename;
 
                     FileManager.MeasureFromIDC((Button)this.TabButton);
                 }
                 else
                 {
-                    ((Button)this.TabButton).ImageAlign = ContentAlignment.MiddleCenter;
+                    this.TabButton.ImageAlign = ContentAlignment.MiddleCenter;
                 }
 
-                ToolTip tip = new ToolTip();
+                this.TabButton.SetToolTip(this.Filename);
 
-                tip.SetToolTip((Control)this.TabButton, this.Filename);
-
-                ((Button)TabButton).Click += new EventHandler(TabButton_Click);
+                TabButton.Click += new EventHandler(TabButton_Click);
             }
         }
 

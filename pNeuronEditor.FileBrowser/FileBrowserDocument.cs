@@ -18,7 +18,7 @@ namespace pNeuronEditor
                 Description = "File & Tab Operations",
                 Extension = ".filebrowser",
                 Id = new Guid("513ff96c-0d23-44f4-82ab-0dea5a62dcd3"),
-                Icon = Image.FromFile(@"C:\Users\caetano.CWIPOA\Pictures\folder_noborder.gif"),
+                Icon = Image.FromFile(@"D:\Media\Icons\24x24\folder_noborder.png"),
                 DefaultEditor = typeof(FileBrowserEditor),
                 Options = (DocumentDefinitionOptions.DontShowLabel | DocumentDefinitionOptions.TimerSaver | DocumentDefinitionOptions.KeepOnCloseTabs)
             };

@@ -15,6 +15,5 @@ namespace pNeuronEditor.Business
         void AddTab(IEditorBase tab);
 
         ITabButton CreateTabButton();
-
     }
 }

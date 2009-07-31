@@ -5,7 +5,7 @@ using System.Drawing;
 using primeira.pNeuron.Core;
 
 
-namespace pNeuronEditor.TopologyEditor
+namespace pNeuronEditor.Topology
 {
     partial class  pDisplay
     {

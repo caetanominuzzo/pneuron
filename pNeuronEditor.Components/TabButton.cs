@@ -34,8 +34,6 @@ namespace pNeuronEditor.Components
             set { _unselectedImage = value; }
         }
 
-
-
         public TabButton() : base()
         {
             InitializeComponent();
@@ -69,6 +67,15 @@ namespace pNeuronEditor.Components
             this.TextAlign = ContentAlignment.MiddleCenter;
             this.AutoEllipsis = false;
             this.ResumeLayout(false);
+
+            _toolTip = new ToolTip();
+        }
+
+        private ToolTip _toolTip;
+
+        public void SetToolTip(string tooltip)
+        {
+            _toolTip.SetToolTip(this, tooltip);
 
         }
 

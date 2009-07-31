@@ -11,7 +11,7 @@ using System.Collections;
 using primeira.pRandom;
 using System.Linq;
 
-namespace pNeuronEditor.TopologyEditor
+namespace pNeuronEditor.Topology
 {
     public partial class pDisplay : Panel, IpPanels
     {
@@ -125,8 +125,15 @@ namespace pNeuronEditor.TopologyEditor
 
             m_graphics = CreateGraphics();
 
+            this.Scroll += new ScrollEventHandler(pDisplay_Scroll);
+
             //Initialize NeuralNet
             SetNeuralNetwork(new NeuralNetwork());
+        }
+
+        void pDisplay_Scroll(object sender, ScrollEventArgs e)
+        {
+            Invalidate();
         }
 
         #endregion
@@ -137,7 +144,7 @@ namespace pNeuronEditor.TopologyEditor
         {
             get
             {
-                return PointToClient(MousePosition);
+                return Point.Subtract(PointToClient(MousePosition), (Size)AutoScrollPosition);
             }
         }
 
@@ -355,8 +362,8 @@ namespace pNeuronEditor.TopologyEditor
 
                         if (Contains(MakeRectanglePossible(new Rectangle(m_selectSourcePoint.Value,
                             new Size(
-                            DisplayMousePosition.X - m_selectSourcePoint.Value.X,
-                            DisplayMousePosition.Y - m_selectSourcePoint.Value.Y)
+                            PointToClient(MousePosition).X - m_selectSourcePoint.Value.X,
+                            PointToClient(MousePosition).Y - m_selectSourcePoint.Value.Y)
 
                             )), p.Bounds, true))
                         {
@@ -368,7 +375,7 @@ namespace pNeuronEditor.TopologyEditor
 
                 if (m_selectSourcePoint.HasValue)
                 {
-                    Point p = DisplayMousePosition;
+                    Point p = PointToClient(MousePosition);
 
                     Rectangle cBounds = new Rectangle(m_selectSourcePoint.Value, (Size)p);
 
@@ -377,7 +384,10 @@ namespace pNeuronEditor.TopologyEditor
                         cBounds.Width - cBounds.X,
                         cBounds.Height - cBounds.Y);
 
-                    Invalidate(cBounds);
+                    //Invalidate(cBounds);
+
+                    //todo:shit
+                    Invalidate();
                 }
 
             }
@@ -558,7 +568,8 @@ namespace pNeuronEditor.TopologyEditor
 
                 if (DisplayStatus == pDisplayStatus.Idle)
                 {
-                    m_selectSourcePoint = DisplayMousePosition;
+                    //just here dont use DisplayMosuePOsition
+                    m_selectSourcePoint = PointToClient(MousePosition);
                     DisplayStatus = pDisplayStatus.Selecting;
                 }
                 
@@ -657,15 +668,15 @@ namespace pNeuronEditor.TopologyEditor
             foreach (pPanel c in m_pPanels)
             {
                 if (Contains(r, c.Bounds, true))
-                    c.Draw(e.Graphics);
+                    c.Draw(e.Graphics, AutoScrollPosition);
             }
 
             if (m_selectSourcePoint.HasValue)
             {
 
                 Point p = new Point(
-                        DisplayMousePosition.X - m_selectSourcePoint.Value.X,
-                        DisplayMousePosition.Y - m_selectSourcePoint.Value.Y);
+                        PointToClient(MousePosition).X - m_selectSourcePoint.Value.X,
+                        PointToClient(MousePosition).Y - m_selectSourcePoint.Value.Y);
 
                 Rectangle xBounds = MakeRectanglePossible(new Rectangle(m_selectSourcePoint.Value, (Size)p));
 
@@ -793,8 +804,8 @@ namespace pNeuronEditor.TopologyEditor
             double catB;
             double hyp;
 
-            int signX = d.Bounds.Left + (d.Bounds.Width / 2) > c.Bounds.Left + (c.Bounds.Width / 2) ? 1 : -1;
-            int signY = d.Bounds.Top + (d.Bounds.Height / 2) > c.Bounds.Top + (c.Bounds.Height / 2) ? 1 : -1;
+            int signX = dBounds.Left + (dBounds.Width / 2) > cBounds.Left + (cBounds.Width / 2) ? 1 : -1;
+            int signY = dBounds.Top + (dBounds.Height / 2) > cBounds.Top + (cBounds.Height / 2) ? 1 : -1;
 
             catA = c.Location.Y - d.Location.Y;
             catB = c.Location.X - d.Location.X;
@@ -803,19 +814,19 @@ namespace pNeuronEditor.TopologyEditor
             double cos = -catA / hyp;
             double sen = -catB / hyp;
 
-            double radXC = c.Bounds.Left + (c.Bounds.Width / 2) + (sen * c.Size.Width / 2);
-            double radYC = c.Bounds.Top + (c.Bounds.Height / 2) + (cos * c.Size.Width / 2);
+            double radXC = cBounds.Left + (cBounds.Width / 2) + (sen * c.Size.Width / 2);
+            double radYC = cBounds.Top + (cBounds.Height / 2) + (cos * c.Size.Width / 2);
 
-            double radXD = d.Bounds.Left + (d.Bounds.Width / 2) + (sen * d.Size.Width / 2);
-            double radYD = d.Bounds.Top + (d.Bounds.Height / 2) + (cos * d.Size.Width / 2);
+            double radXD = dBounds.Left + (dBounds.Width / 2) + (sen * d.Size.Width / 2);
+            double radYD = dBounds.Top + (dBounds.Height / 2) + (cos * d.Size.Width / 2);
 
 
                 g.DrawBezier(p,
                     new Point((int)radXC + (-1 * signX), (int)radYC + (-1 * signY)),
-                    new Point(c.Bounds.Left + (c.Bounds.Width) * signX, c.Bounds.Top + (c.Bounds.Height) * signY),
+                    new Point(cBounds.Left + (cBounds.Width) * signX, cBounds.Top + (cBounds.Height) * signY),
 
-                    new Point(d.Bounds.Left + (d.Bounds.Width / 2) * -signX, d.Bounds.Top + (d.Bounds.Height / 2) * -signY),
-                    new Point(d.Bounds.Left + (d.Bounds.Width / 2), d.Bounds.Top + (d.Bounds.Height / 2))
+                    new Point(dBounds.Left + (dBounds.Width / 2) * -signX, dBounds.Top + (dBounds.Height / 2) * -signY),
+                    new Point(dBounds.Left + (dBounds.Width / 2), dBounds.Top + (dBounds.Height / 2))
 
                     );
 

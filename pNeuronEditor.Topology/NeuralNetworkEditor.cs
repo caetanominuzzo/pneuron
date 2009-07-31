@@ -3,9 +3,10 @@ using primeira.pNeuron;
 using primeira.pNeuron.Core;
 using pNeuronEditor.Business;
 using pNeuronEditor.Components;
+using System;
 
 
-namespace pNeuronEditor.TopologyEditor
+namespace pNeuronEditor.Topology
 {
     public partial class NeuralNetworkEditor : EditorBase
     {

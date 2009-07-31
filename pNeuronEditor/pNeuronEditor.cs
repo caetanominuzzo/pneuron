@@ -17,9 +17,10 @@ namespace pNeuronEditor
         public pNeuronEditor()
         {
             InitializeComponent();
+
+            MessageManager.SetMessageManager(new MessageControl());
             
             EditorManager.RegisterEditors();
-            
             
             _tabControl = (TabControl.TabControlEditor)EditorManager.LoadEditor("default.tabcontrol");
 
@@ -30,6 +31,8 @@ namespace pNeuronEditor
             _fileBrowser = (FileBrowserEditor)EditorManager.LoadEditor("default.filebrowser");
 
             FileManager.SetRecentManager(_fileBrowser);
+
+            
 
             _shortcutManager = new pShortcutManager.pShortcutManager();
 

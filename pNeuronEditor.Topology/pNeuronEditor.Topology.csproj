@@ -8,8 +8,8 @@
     <ProjectGuid>{BBE127C0-A968-4CC9-935F-DAF9FDA7CE21}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>pNeuronEditor.TopologyEditor</RootNamespace>
-    <AssemblyName>pNeuronEditor.TopologyEditor</AssemblyName>
+    <RootNamespace>pNeuronEditor.Topology</RootNamespace>
+    <AssemblyName>pNeuronEditor.Topology</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -80,13 +80,9 @@
       <Project>{E2ADA5FC-2123-4F79-B710-8A25A0029E92}</Project>
       <Name>pNeuronEditor.Components</Name>
     </ProjectReference>
-    <ProjectReference Include="..\pNeuronEditor.TopologyEditor.pDisplay\pNeuronEditor.TopologyEditor.pDisplay.csproj">
+    <ProjectReference Include="..\pNeuronEditor.Topology.pDisplay\pNeuronEditor.Topology.pDisplay.csproj">
       <Project>{35DD3087-E395-4D33-950F-F807AE4BDED0}</Project>
-      <Name>pNeuronEditor.TopologyEditor.pDisplay</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\pNeuronEditor.TopologyEditor.pPanel\pNeuronEditor.TopologyEditor.pPanel.csproj">
-      <Project>{D3847E8B-A4C3-49BB-B119-3F2B981C9154}</Project>
-      <Name>pNeuronEditor.TopologyEditor.pPanel</Name>
+      <Name>pNeuronEditor.Topology.pDisplay</Name>
     </ProjectReference>
     <ProjectReference Include="..\pNeuron\pNeuron.csproj">
       <Project>{464378C1-CF56-486D-84F0-DC564A99901D}</Project>

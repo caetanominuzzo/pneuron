@@ -7,7 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using primeira.pNeuron.Core;
 
-namespace pNeuronEditor.TopologyEditor
+namespace pNeuronEditor.Topology
 {
     public class pGraphicPlotter : Control
     {

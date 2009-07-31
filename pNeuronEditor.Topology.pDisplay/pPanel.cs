@@ -12,7 +12,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms.Layout;
 using primeira.pNeuron.Core;
 
-namespace pNeuronEditor.TopologyEditor
+namespace pNeuronEditor.Topology
 {
 
     public class pPanel
@@ -217,12 +217,12 @@ namespace pNeuronEditor.TopologyEditor
 
 
         [Browsable(false)]
-        public void Draw()
+        public void Draw(Point AutoScrollPosition)
         {
-            Draw(m_graphics);
+            Draw(m_graphics, AutoScrollPosition);
         }
 
-        public void Draw(Graphics g)
+        public void Draw(Graphics g, Point AutoScrollPosition)
         {
 
             Brush brush = GetBrushtyle();
@@ -248,15 +248,20 @@ namespace pNeuronEditor.TopologyEditor
 
             //return;
 
-                g.DrawEllipse(pen, Bounds.Left + (pen.Width),
-                                 Bounds.Top + (pen.Width),
-                                 Bounds.Width - (pen.Width * 2),
-                                 Bounds.Height - (pen.Width * 2));
+            Rectangle cBounds = new Rectangle(Bounds.X + AutoScrollPosition.X,
+                Bounds.Y + AutoScrollPosition.Y,
+                Bounds.Width,
+                Bounds.Height);
 
-                g.DrawEllipse(pen, Bounds.Left + (pen.Width),
-                     Bounds.Top + (pen.Width),
-                     Bounds.Width - (pen.Width * 2),
-                     Bounds.Height - (pen.Width * 2));
+                g.DrawEllipse(pen, cBounds.Left + (pen.Width),
+                                 cBounds.Top + (pen.Width),
+                                 cBounds.Width - (pen.Width * 2),
+                                 cBounds.Height - (pen.Width * 2));
+
+                g.DrawEllipse(pen, cBounds.Left + (pen.Width),
+                     cBounds.Top + (pen.Width),
+                     cBounds.Width - (pen.Width * 2),
+                     cBounds.Height - (pen.Width * 2));
 
 
 
@@ -268,10 +273,10 @@ namespace pNeuronEditor.TopologyEditor
 
 
                 g.FillPie(brush,
-                           Bounds.Left,
-                           Bounds.Top,
-                           Bounds.Width,
-                           Bounds.Height,
+                           cBounds.Left,
+                           cBounds.Top,
+                           cBounds.Width,
+                           cBounds.Height,
                            0,
                            iRad);
 
@@ -281,8 +286,8 @@ namespace pNeuronEditor.TopologyEditor
 
             //g.TextContrast = 5;
             g.DrawString(s, f, new SolidBrush(Color.Black),
-                -(g.MeasureString(s, f).Width / 2) + Bounds.Left + Bounds.Width / 2 + 2,
-                -(g.MeasureString(s, f).Height / 2) + Bounds.Top + Bounds.Height / 2);
+                -(g.MeasureString(s, f).Width / 2) + cBounds.Left + cBounds.Width / 2 + 2,
+                -(g.MeasureString(s, f).Height / 2) + cBounds.Top + cBounds.Height / 2);
 
 
         }

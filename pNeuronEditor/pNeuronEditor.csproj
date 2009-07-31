@@ -135,6 +135,10 @@
       <Project>{A76B7D8B-12F6-4598-91A0-C98408D6A93A}</Project>
       <Name>pNeuronEditor.TabControl</Name>
     </ProjectReference>
+    <ProjectReference Include="..\pNeuronEditor.Topology\pNeuronEditor.Topology.csproj">
+      <Project>{BBE127C0-A968-4CC9-935F-DAF9FDA7CE21}</Project>
+      <Name>pNeuronEditor.Topology</Name>
+    </ProjectReference>
     <ProjectReference Include="..\pNeuron\pNeuron.csproj">
       <Project>{464378C1-CF56-486D-84F0-DC564A99901D}</Project>
       <Name>pNeuron</Name>
