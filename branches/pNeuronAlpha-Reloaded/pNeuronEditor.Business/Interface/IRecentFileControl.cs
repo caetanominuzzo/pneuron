@@ -5,7 +5,7 @@ using System.Text;
 
 namespace pNeuronEditor.Business
 {
-    public interface IRecentFileManager
+    public interface IRecentFileControl
     {
         void AddRecent(string filename);
 

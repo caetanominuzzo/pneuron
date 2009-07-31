@@ -1,4 +1,4 @@
-﻿namespace pNeuronEditor.TopologyEditor
+﻿namespace pNeuronEditor.Topology
 {
     partial class TopologyPropertyGrid
     {

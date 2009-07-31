@@ -17,9 +17,6 @@ namespace pNeuronEditor.Business
             get { return _defaultEditorCtor; }
         }
 
-
-        private static List<DocumentDefinition> _knownDocumentDefinition = new List<DocumentDefinition>();
-
         public static void RegisterEditors()
         {
             string[] dlls = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "*.dll");
@@ -33,89 +30,52 @@ namespace pNeuronEditor.Business
                 foreach (Type type in types)
                 {
                     if (type.BaseType == typeof(DocumentBase))
-                    {
-                        //Register the Editor
-                        PropertyInfo p = type.GetProperty("DocumentDefinition");
-                        _knownDocumentDefinition.Add((DocumentDefinition)p.GetValue(null, null));
-
-                        //Register the type document
                         DocumentManager.RegisterKnownDocumentType(type);
-                    }
                 }
                 
             }
         }
 
-        public static Type GetEditorByFileVersionExtension(string extension)
+        public static Type GetEditorTypeByFileVersionExtension(string extension)
         {
-            DocumentDefinition t = (from x in _knownDocumentDefinition where x.Extension == extension select (DocumentDefinition)x).FirstOrDefault();
+            DocumentDefinition t = DocumentManager.GetDocumentDefinitionByFileExtension(extension);
 
-            if (t == null)
-                return null;
-            else
+            if (t != null)
                 return t.DefaultEditor;
+            
+            return null;
         }
 
-        public static IEditorBase GetEditorByFilename(string filename)
+        public static IEditorBase CreateEditorByFilename(string filename)
         {
             IEditorBase res = null;
+            DocumentBase doc = null;
 
-            DocumentBase d = DocumentManager.ToObject(filename);
+            FileInfo f = new FileInfo(filename);
 
-            if (d != null)
-            {
-                res = (IEditorBase)d.GetDefinition.DefaultEditor.GetConstructor(DefaultEditorCtor).Invoke(new object[2] { filename, d });
-            }
-            else
-            //new file
+            if (!f.Exists)
+                f.Create();
+
+            if (f.Length == 0)
             {
                 string ext = Path.GetExtension(filename);
 
-                Type tt = EditorManager.GetEditorByFileVersionExtension(ext);
+                Type tt = EditorManager.GetEditorTypeByFileVersionExtension(ext);
 
                 if (tt == null)
                     return null;
 
-                res = (IEditorBase)tt.GetConstructor(DefaultEditorCtor).Invoke(new object[2] { filename, d });
+                res = (IEditorBase)tt.GetConstructor(DefaultEditorCtor).Invoke(new object[2] { filename, doc });
+            }
+            else
+            {
+                doc = DocumentManager.ToObject(filename);
+
+                if(doc != null)
+                    res = (IEditorBase)doc.GetDefinition.DefaultEditor.GetConstructor(DefaultEditorCtor).Invoke(new object[2] { filename, doc });
             }
 
             return (IEditorBase)res;
-        }
-
-        public static string GetDialogFilterString()
-        {
-            StringBuilder sb = new StringBuilder();
-
-            foreach (DocumentDefinition d in _knownDocumentDefinition)
-            {
-                if ((d.Options & DocumentDefinitionOptions.ShowInOpen) == DocumentDefinitionOptions.ShowInOpen)
-                    sb.Append(string.Format("{0} (*{1})|*{1}|", d.Name, d.Extension));
-            }
-
-            sb.Append("All files (*.*)|*.*");
-
-            return sb.ToString();
-        }
-
-        public static int GetDialogFilterIndex(DocumentDefinition FileVersion)
-        {
-            int i = 0;
-            foreach (DocumentDefinition d in _knownDocumentDefinition)
-            {
-                if ((d.Options & DocumentDefinitionOptions.ShowInOpen) == DocumentDefinitionOptions.ShowInOpen)
-                    continue;
-                else i++;
-
-                if (d == FileVersion)
-                    return i;
-            }
-
-            return 1;
-        }
-
-        public static DocumentDefinition[] GetAllDocumentDefinition()
-        {
-            return _knownDocumentDefinition.ToArray();
         }
 
         public static IEditorBase LoadEditor(string FileName)
@@ -130,11 +90,10 @@ namespace pNeuronEditor.Business
 
             if (res == null)
             {
-                res = EditorManager.GetEditorByFilename(FileName);
+                res = EditorManager.CreateEditorByFilename(FileName);
 
                 if (res != null && (res.Document.GetDefinition.Options & DocumentDefinitionOptions.Virtual) != DocumentDefinitionOptions.Virtual)
                     DocumentManager.AddDocument(res);
-
             }
 
             return res;

@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pNeuronEditor.TabControl", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pNeuronEditor.Topology", "pNeuronEditor.Topology\pNeuronEditor.Topology.csproj", "{BBE127C0-A968-4CC9-935F-DAF9FDA7CE21}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pNeuronEditor.Topology.pDisplay", "pNeuronEditor.Topology.pDisplay\pNeuronEditor.Topology.pDisplay.csproj", "{35DD3087-E395-4D33-950F-F807AE4BDED0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -85,6 +87,10 @@ Global
 		{BBE127C0-A968-4CC9-935F-DAF9FDA7CE21}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BBE127C0-A968-4CC9-935F-DAF9FDA7CE21}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BBE127C0-A968-4CC9-935F-DAF9FDA7CE21}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35DD3087-E395-4D33-950F-F807AE4BDED0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35DD3087-E395-4D33-950F-F807AE4BDED0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35DD3087-E395-4D33-950F-F807AE4BDED0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35DD3087-E395-4D33-950F-F807AE4BDED0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

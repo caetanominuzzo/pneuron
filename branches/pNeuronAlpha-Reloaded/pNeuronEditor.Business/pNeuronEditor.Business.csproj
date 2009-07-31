@@ -55,9 +55,11 @@
     <Compile Include="DocumentManager.cs" />
     <Compile Include="EditorManager.cs" />
     <Compile Include="FileManager.cs" />
-    <Compile Include="Interface\IRecentFileManager.cs" />
+    <Compile Include="Interface\IMessageControl.cs" />
+    <Compile Include="Interface\IRecentFileControl.cs" />
     <Compile Include="Interface\ITabButton.cs" />
     <Compile Include="Interface\ITabControl.cs" />
+    <Compile Include="MessageManager.cs" />
     <Compile Include="TabManager.cs" />
     <Compile Include="Interface\IEditorBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

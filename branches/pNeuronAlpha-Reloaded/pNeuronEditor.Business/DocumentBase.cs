@@ -31,13 +31,7 @@ namespace pNeuronEditor.Business
 
         public static DocumentBase ToObject(string filename, Type type)
         {
-            if (!File.Exists(filename))
-                File.Create(filename).Close();
-
-            //todo:shit
-            string s = File.ReadAllText(filename);
-
-            if (s.Length > 0)
+            try
             {
 
                 Stream sm = File.OpenRead(filename);
@@ -57,8 +51,12 @@ namespace pNeuronEditor.Business
 
                 return res;
             }
-            else
-                return null;
+            catch
+            {
+                MessageManager.Alert("File ", filename, " cannot be open.");
+            }
+            
+            return null;
         }
 
     }

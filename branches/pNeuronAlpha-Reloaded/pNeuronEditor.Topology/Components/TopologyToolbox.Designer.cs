@@ -1,6 +1,7 @@
 ﻿using pNeuronEditor;
 using pNeuronEditor.Components;
-namespace pNeuronEditor.TopologyEditor
+
+namespace pNeuronEditor.Topology
 {
     partial class TopologyToolbox
     {
