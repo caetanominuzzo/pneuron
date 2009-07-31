@@ -8,7 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using primeira.pNeuron;
 
-namespace pNeuronEditor.TopologyEditor
+namespace pNeuronEditor.Topology
 {
     public partial class TopologyToolbox : UserControl
     {

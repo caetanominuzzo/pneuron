@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using pDataSource;
 using primeira.pNeuron.Core;
-using pNeuronEditor.TopologyEditor;
+using pNeuronEditor.Topology;
 
 namespace Test
 {

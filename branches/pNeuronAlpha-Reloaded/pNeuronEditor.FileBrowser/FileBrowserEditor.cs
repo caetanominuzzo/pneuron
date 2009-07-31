@@ -12,7 +12,7 @@ using pNeuronEditor.Components;
 
 namespace pNeuronEditor
 {
-    public partial class FileBrowserEditor :  EditorBase, IRecentFileManager
+    public partial class FileBrowserEditor :  EditorBase, IRecentFileControl
     {
         #region Fields
 
@@ -27,7 +27,9 @@ namespace pNeuronEditor
         {
             InitializeComponent();
 
-            ((Button)this.TabButton).Size = new Size(40, 40);
+            this.TabButton.Size = new Size(40, 40);
+
+            this.TabButton.SetToolTip("File Tab");
 
             this.ShowCloseButton = false;
 
@@ -45,14 +47,14 @@ namespace pNeuronEditor
         {
             dgQuickLauch.Rows.Clear();
 
-            DocumentDefinition[] defs = EditorManager.GetAllDocumentDefinition();
+            DocumentDefinition[] defs = DocumentManager.GetKnowDocumentDefinition();
 
             foreach (DocumentDefinition def in defs)
             {
                 if ((def.Options & DocumentDefinitionOptions.ShowDraft) == DocumentDefinitionOptions.ShowDraft)
                 {
                     int i = dgQuickLauch.Rows.Add(
-                            new object[] { m_file, 
+                            new object[] { def.Icon, 
                             string.Format("Draft {0} File ", def.Name),
                             "draft", 0, "", def });
 
@@ -65,7 +67,7 @@ namespace pNeuronEditor
                 if ((def.Options & DocumentDefinitionOptions.ShowInOpen) == DocumentDefinitionOptions.ShowInOpen)
                 {
                     int i = dgQuickLauch.Rows.Add(
-                            new object[] { m_file, 
+                            new object[] { def.Icon, 
                             string.Format("Open or Create {0} File ", def.Name),
                             "", 0, "", def });
 
@@ -85,20 +87,25 @@ namespace pNeuronEditor
             Size s = new Size(dgRecentFiles.Columns[1].Width, dgRecentFiles.RowTemplate.Height);
             Font f = dgRecentFiles.DefaultCellStyle.Font;
             DateTime d = DateTime.Now;
+            DocumentDefinition docDef;
+            TimeSpan lastWrite;
 
             foreach (string file in files)
             {
                 if (File.Exists(file))
                 {
-                    TimeSpan t = d.Subtract(File.GetLastWriteTime(file));
+                    docDef = DocumentManager.GetDocumentDefinitionByFilename(file);
+
+                    lastWrite = d.Subtract(File.GetLastWriteTime(file));
+
                     dgRecentFiles.Rows.Add(
-                    new object[] { m_file, file, FileManager.LastWrite(t), (int)t.TotalSeconds, file, null });
+                    new object[] { 
+                        docDef==null? m_file : docDef.Icon,
+                        file, FileManager.LastWrite(lastWrite), (int)lastWrite.TotalSeconds, file, null });
                 }
             }
 
             dgRecentFiles.Sort(ColOrder, ListSortDirection.Ascending);
-
-          
         }
 
         #endregion
@@ -172,7 +179,7 @@ namespace pNeuronEditor
         {
             dgDirFiles.Rows.Clear();
 
-            DocumentDefinition[] defs = EditorManager.GetAllDocumentDefinition();
+            DocumentDefinition[] defs = DocumentManager.GetKnowDocumentDefinition();
             string[] files;
             DateTime d = DateTime.Now;
 

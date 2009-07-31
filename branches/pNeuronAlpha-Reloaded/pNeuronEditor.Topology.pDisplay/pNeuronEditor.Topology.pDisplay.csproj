@@ -7,8 +7,8 @@
     <ProjectGuid>{35DD3087-E395-4D33-950F-F807AE4BDED0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>pNeuronEditor.TopologyEditor</RootNamespace>
-    <AssemblyName>pNeuronEditor.TopologyEditor.pDisplay</AssemblyName>
+    <RootNamespace>pNeuronEditor.Topology</RootNamespace>
+    <AssemblyName>pNeuronEditor.Topology.pDisplay</AssemblyName>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>2.0</OldToolsVersion>
@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IpPanels.cs" />
     <Compile Include="pDisplay.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -59,16 +60,13 @@
     <Compile Include="pGraphicPlotter.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="pPanel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\pNeuron\pNeuron.csproj">
       <Project>{464378C1-CF56-486D-84F0-DC564A99901D}</Project>
       <Name>pNeuron</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\pNeuronEditor.TopologyEditor.pPanel\pNeuronEditor.Topology.pPanel.csproj">
-      <Project>{D3847E8B-A4C3-49BB-B119-3F2B981C9154}</Project>
-      <Name>pNeuronEditor.Topology.pPanel</Name>
     </ProjectReference>
     <ProjectReference Include="..\pRandom\pNeuron.pRandom.csproj">
       <Project>{2152137D-D8FD-4E9C-8732-D8C1F2E03156}</Project>
