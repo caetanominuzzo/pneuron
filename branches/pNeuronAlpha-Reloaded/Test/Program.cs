@@ -5,6 +5,7 @@ using System.Text;
 using pDataSource;
 using primeira.pNeuron.Core;
 using pNeuronEditor.Topology;
+using primeira.Editor.Business;
 
 namespace Test
 {
@@ -40,7 +41,7 @@ static int ologBase;
             Console.ReadKey();
 
 
-            pNeuronEditor.Business.EditorManager.RegisterEditors();
+            EditorManager.RegisterEditors();
 
             net = ((NeuralNetworkDocument)NeuralNetworkDocument.ToObject(args[1])).NeuralNetwork;
 
