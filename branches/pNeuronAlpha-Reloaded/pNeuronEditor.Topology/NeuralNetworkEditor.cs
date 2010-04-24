@@ -1,13 +1,15 @@
 using System.Windows.Forms;
 using primeira.pNeuron;
 using primeira.pNeuron.Core;
-using pNeuronEditor.Business;
-using pNeuronEditor.Components;
+using primeira.Editor;
+using primeira.Editor.Components;
 using System;
 
 
 namespace pNeuronEditor.Topology
 {
+    [EditorDefinition(DocumentType=typeof(NeuralNetworkDocument))]
+    [AddonDefinition(AddonDefinitions.UserAddon)]
     public partial class NeuralNetworkEditor : EditorBase
     {
         #region Ctor
@@ -38,13 +40,15 @@ namespace pNeuronEditor.Topology
 
             MainDisplay.SetNeuralNetwork(((NeuralNetworkDocument)Document).NeuralNetwork);
 
-            this.OnSelected += new SelectedDelegate(NeuralNetworkEditor_OnSelected);
         }
 
-        void NeuralNetworkEditor_OnSelected(IEditorBase sender)
+
+        [AddonInitialize()]
+        public static void AddonInitialize()
         {
-            //MainDisplay.SetNeuralNetwork(((NeuralNetworkDocument)this.Document).NeuralNetwork);
+            EditorManager.RegisterEditor(typeof(NeuralNetworkEditor));
         }
+    
 
         #endregion
 

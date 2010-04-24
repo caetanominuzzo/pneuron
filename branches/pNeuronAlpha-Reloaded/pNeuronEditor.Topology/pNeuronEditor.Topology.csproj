@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\..\..\..\..\Ockham\branches\1\primeira.Editor.Application\bin\Debug\Addons\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -31,6 +31,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="primeira.Editor, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Ockham\branches\1\primeira.Editor.Components\bin\Debug\primeira.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="primeira.Editor.Components, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Ockham\branches\1\primeira.Editor.Components\bin\Debug\primeira.Editor.Components.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -72,14 +80,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\pNeuronEditor.Business\pNeuronEditor.Business.csproj">
-      <Project>{B6C9E22A-6018-45E6-A240-599C683E6203}</Project>
-      <Name>pNeuronEditor.Business</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\pNeuronEditor.Components\pNeuronEditor.Components.csproj">
-      <Project>{E2ADA5FC-2123-4F79-B710-8A25A0029E92}</Project>
-      <Name>pNeuronEditor.Components</Name>
-    </ProjectReference>
     <ProjectReference Include="..\pNeuronEditor.Topology.pDisplay\pNeuronEditor.Topology.pDisplay.csproj">
       <Project>{35DD3087-E395-4D33-950F-F807AE4BDED0}</Project>
       <Name>pNeuronEditor.Topology.pDisplay</Name>
@@ -105,6 +105,9 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\File.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -113,4 +116,8 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
 </Project>
