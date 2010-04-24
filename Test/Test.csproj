@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="primeira.Editor.Business, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Ockham\branches\1\primeira.Editor.Business\bin\Debug\primeira.Editor.Business.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -52,10 +56,6 @@
     <ProjectReference Include="..\pDataSource\pDataSource.csproj">
       <Project>{FBCA0D6A-8646-4C73-A757-E4FB8A080B0A}</Project>
       <Name>pDataSource</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\pNeuronEditor.Business\pNeuronEditor.Business.csproj">
-      <Project>{B6C9E22A-6018-45E6-A240-599C683E6203}</Project>
-      <Name>pNeuronEditor.Business</Name>
     </ProjectReference>
     <ProjectReference Include="..\pNeuronEditor.Topology\pNeuronEditor.Topology.csproj">
       <Project>{BBE127C0-A968-4CC9-935F-DAF9FDA7CE21}</Project>
