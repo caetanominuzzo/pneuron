@@ -14,8 +14,8 @@ namespace pNeuronEditor.Topology
     {
         #region Ctor
 
-        public NeuralNetworkEditor(string filename, DocumentBase data)
-            : base(filename, data, typeof(NeuralNetworkDocument))
+        public NeuralNetworkEditor(string filename)
+            : base(filename)
         {
 
             InitializeComponent();
