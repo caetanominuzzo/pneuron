@@ -1,0 +1,1 @@
+Due the limitations of this tool the project documentation was moved to Google Docs and are published here http://docs.google.com/Doc?id=d49dnft_37htvf4bcj.

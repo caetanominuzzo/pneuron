@@ -1,0 +1,144 @@
+XOR é um bem conhecido problema de redes neurais. Consiste em ensinar uma rede neural a calcular o XOR de dois valores booleanos dados. Existem inúmeros artigos disponíveis na internet que analisam vários aspectos teóricos da implementação de uma rede neural para o XOR, entretanto vamos nos ater aos conceitos práticos relacionados com a implementação na pNeuronIDE.
+
+The XOR is a well-know neural network problem. The goal is to train a neural network to calculate the XOR between two given booleans. There is so much articles and books which analize lots of theorichal aspects about a neural network XOR, here we will just see the pragmatics concepts about the implmentation on pNeuronIDE.
+
+Esse exemplo é dividido em três partes. A primeira parte trata do projeto da rede neural e dos domínios utilizados. Na segunda parte vamos importar um trainning set e aplicá-lo em nossa rede. Na terceira parte a rede será exportada e então utilizada em um projeto Windows Forms no Visual Studio 2005.
+
+This example is splited in three parts. The first one are about the neural network design and the domains used. On second we will fill a training set and apply it on our network. The third part explain how to consume a trained neural network as an .Net assembly on Visual Studio 2005.
+
+**First Part**
+
+Ao iniciar uma rede neural devemos responder as seguintes perguntas: 1. Quantos entradas a rede deve ter? 2. Que tipo de dados são esperados nas entradas? 3. Quantos dados a rede deve retornar como resultado?
+
+To begin a neural network the minimum knowledgement we must have are: 1. How many inputs and in what domain; 2. How many outputs and in what domain our network must have.
+
+Todas essas perguntas podem ser respondidas simplificadamente pelo próprio enunciado do problema: A rede deve retornar o XOR entre dois booleanos. Assim ela precisará de duas entradas (uma para cada valor booleano), o tipo de dado de entrada é booleano e como resultado precisamos de um booleano. Com isso em mente vamos começar a desenhar nossa rede.
+
+As the XOR problem are to give two boolean (two inputs of Boolean domain) and return one boolean (one output of Boolean domain too). So lets start designing a network like this.
+
+1.1 Clique em Arquivo\Nova Rede Neural. Abaixo você pode ver como deve estar a IDE nesse ponto.
+
+1.1 Click on File\New Neural Network. Above you can see how the IDE must be at this time.
+
+http://www.agenciaprimeira.com.br/wiki/img/pNeuronIDE_1_1.JPG _Image 1.1_
+
+1.2 No toolbox clique em Novo Neurônio e clique na área de design da rede neural. Adicione cinco neurônios dessa forma
+
+1.2 On the toolbox click at Add Neuron, thus click on the design area. Add five neurons as:
+
+http://www.agenciaprimeira.com.br/wiki/img/pNeuronIDE_1_2.JPG _Imagem 1.2_
+
+1.3 Selecione os dois neurônios da esquerda. Na janela de propriedades altere o NeuronType pra Input.
+
+1.3 Select the two neurons on left of design. On properties window change the NeuronType to Input.
+
+1.4 Com os dois neurônios ainda selecionados altere a propriedade _DataType_ para boolean.
+
+1.4 With the two neuron yet selected change the DataType to Boolean.
+
+1.5 Selecione o neurônio da direita, altere o _NeuronType_ pra Output e a _DataType_ para boolean.
+
+1.5 Select the neuron on right of design, change the NeuronType to Output and the DataType to Boolean.
+
+1.6 Agora vamos definir as sinapses entre os neurônios. Na toolbox clique em Adicionar Sinapse. Selecione os dois neurônios de entrada (a esquerda), agora clique em cada um dos dois neurônios ocultos (no centro). Agora repita a operação ligando os neurônios ocultos ao neurônio de saida. Você deve ter algo parecido com isso
+
+1.6 Now lets add the synapses between the neurons. On the toolbox click em Add Synapse. Select the two input neuron (on left) and click on each hidden neuron (on center). Thus repeat linking the hidden neurons to the output neuron. You must have something like:
+
+http://www.agenciaprimeira.com.br/wiki/img/pNeuronIDE_1_6.JPG _Image 1.6_
+
+
+**Second Part**
+
+Antes de iniciar o processo de treinamento é necessário salvar a rede neural. Clique em Arquivo\Salvar.
+
+Before start the training process we must save or neural network. Click on File\Save.
+
+2.1 Logo abaixo a área de design existem duas abas: "Network Design" e "Trainig Sets". Clique em "Training Sets".
+
+2.1 Above the design area there is two tabs called Network Design and Training Sets. Clique on Training Sets.
+
+http://www.agenciaprimeira.com.br/wiki/img/pNeuronIDE_2_1.JPG _Image 2.1_
+
+
+2.2 No menu superior, dentro da aba de Training Sets, clique em "Novo". Isso irá adicionar um novo training set compatível com o layout especificado na primeira parte.
+
+2.2 On top menu inside the Training Sets tab click in New and give a name to the new training set. It will add a training set compatible with the neural network design of part one.
+
+http://www.agenciaprimeira.com.br/wiki/img/pNeuronIDE_2_2.JPG _Image 2.2_
+
+
+Repare que o novo training set tem três colunas chamadas 1, 2 e 5. As colunas representam os neurônios de entrada/saída e são nomeadas conforme os nomes dos neurônios. Não se preocupe com os neurônios ocultos por enquanto.
+
+As you see the tew training set has three columns calld 1, 2 and 5. The columns reprets the input/output neurons and are named as the neuron names. Don't care about hidden neurons for now.
+
+As linhas, inicialmente vazias, do training set representam os casos de treinamento que precisam ser fornecidas à rede. Uma vez que definimos o DataType? para boolean tanto nos neurônios de entrada quanto no de saída temos então uma lista com as opções para o preechimento de cada campo (no caso, verdadeiro ou falso).
+
+The empty rows represents the trainig cases we need to give to the network. On time we set the DataType to Boolean on inputs and output neurons we have a list with the domain Boolean options (true or false).
+
+2.3 Temos quatro casos possíveis para o XOR, são esses dados que devemos fornecer à nossa rede.
+
+2.3 We have four XOR cases which we must to give to our network.
+
+|false|false|false|
+|:----|:----|:----|
+|true|true|false|
+|true|false|true|
+|false|true|true|
+
+É importante entender que fornecendo apenas três dos quatro casos a rede neural não é capaz de deduzir por mágica o caso faltante. Todo o conhecimento de uma rede neural é baseada nos dados apresentados no training set. Uma boa escolha dos casos é fundamental para o sucesso do projeto.
+
+It's important to see giving just three of four training cases to the neural network ain't enough. The network can not deduct the four case with three given.
+
+Temos então o seguinte cenário.
+
+We have so.
+
+http://www.agenciaprimeira.com.br/wiki/img/pNeuronIDE_2_3.JPG _Image 2.3_
+
+Agora você pode salvar novamente sua rede neural.
+
+Now you can save your network again.
+
+2.4 Então não há mais nada a fazer senão clicar no botão "Start Train". A IDE oferece muitos recursos que otimizam o treinamento e facilitam a análise do progresso. Por enquanto repare apenas na janela Global Error Plotter, se tudo deu certo após alguns segundos o plotter deve apresentar um gráfico parecido com este.
+
+2.4 And there is nothing more to do else click on Start Train button. The IDE gives some tools to optimize and make easy to analize the training process. By now just look the Plotter window where the Global Error are shown. If all works well in some seconds you must have:
+
+http://www.agenciaprimeira.com.br/wiki/img/pNeuronIDE_2_4.JPG _Image 2.4_
+
+Obs.: O conhecimento inicial de uma rede neural é gerada randomicamente, portanto inúmeras possibilidades se apresentam para o decaimento do erro global, inclusive o não decaimento. Neste caso clique em "Reset knowledgement" para resetar o conhecimento da rede e reinicar o treinamento.
+
+Obs.: The initial knowledgement of a neural network are randomized, so there is lots of possibilities to the Global error decaiment, even the no decaiment. On this case click on Reset Knowledgement and start the trainig again.
+
+Após algum tempo a rede automaticamente interrompe o treinamento e volta para o status Idle, entretanto a qualquer momento você pode clicar em "Stop training" para interrompê-lo.
+
+After some time the IDE stops the training and back to Idle state. You can at any time stop the training by clicking on Stop Training button.
+
+Então é hora de usarmos esses dados em nossa aplicação.
+
+So it's time to use our network on a Windows Forms Application.
+
+Terceira parte
+
+3.1 No menu superior clique em "File\Publis Neural Network", defina onde o arquivo será salvo e clique em Ok.
+
+A partir de agora vamos utilizar apenas o Visual Studio 2005.
+
+3.2 Abra o Visual Studio 2005 e abra um novo projeto Windows Forms em C#.
+
+3.3 Clique com o botão direito em References, vá na aba "Browser" e procure pelo arquivo com a extensão .dll gerado no passo 3.1.
+
+3.4 Adicione dois checkbox e um botão conforme a imagem.
+
+(Imagem do form com os objetos acima)
+
+3.5 Clique duas vezes no botão e cole o seguinte código:
+
+`  MessageBox.Show((primeira.pNeuron.[Nome da sua rede].Pulse(checkBox1.Checked, checkBox2.Checked));`
+
+3.6 Execute o programa. Se tudo deu certo ao clicar no botão você deve receber uma mensagem conforme a tabela
+|checkBox1|checkBox2|MessageBox Result|
+|:--------|:--------|:----------------|
+|false|false|false|
+|true|true|false|
+|true|false|true|
+|false|true|true|
